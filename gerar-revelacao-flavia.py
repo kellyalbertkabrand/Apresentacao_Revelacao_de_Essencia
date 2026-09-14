@@ -15,6 +15,8 @@ from pptx import Presentation
 from pptx.dml.color import RGBColor
 from pptx.enum.shapes import MSO_SHAPE
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
+from pptx.oxml.ns import qn
+from pptx.oxml.xmlchemy import OxmlElement
 from pptx.util import Emu, Pt
 
 # ---------------------------------------------------------------- caminhos
@@ -96,8 +98,30 @@ def slide(textura=False):
     return s
 
 
-def rect(s, x, y, w, h, cor, linha=None):
-    sp = s.shapes.add_shape(MSO_SHAPE.RECTANGLE, E(x), E(y), E(w), E(h))
+# Raio padrao dos cantos, em polegadas. Toda a geometria do deck e arredondada:
+# blocos e fotos com este raio; filetes e conectores viram pilulas (raio = metade
+# do lado menor); pontos de convergencia viram circulos.
+RAIO = 0.24
+RAIO_FOTO = 0.36   # fotos pedem um raio maior para nao parecerem "quase retas"
+
+
+def _arredonda(sp, w, h, raio):
+    """Converte a forma em roundRect com raio ABSOLUTO (nao proporcional).
+
+    No OOXML o adj de roundRect e uma fracao do menor lado, entao formas de
+    tamanhos diferentes precisam de adj diferentes para fechar o mesmo raio.
+    """
+    menor = min(w, h)
+    sp.adjustments[0] = min(0.5, raio / menor) if menor else 0.5
+
+
+def rect(s, x, y, w, h, cor, linha=None, raio=None):
+    """Bloco de cantos arredondados. Formas finas (filetes, conectores,
+    marcadores) fecham em pilula."""
+    if raio is None:
+        raio = min(RAIO, min(w, h) / 2)
+    sp = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, E(x), E(y), E(w), E(h))
+    _arredonda(sp, w, h, raio)
     sp.fill.solid()
     sp.fill.fore_color.rgb = cor
     if linha is None:
@@ -109,8 +133,8 @@ def rect(s, x, y, w, h, cor, linha=None):
     return sp
 
 
-def oval(s, x, y, d, cor):
-    sp = s.shapes.add_shape(MSO_SHAPE.OVAL, E(x), E(y), E(d), E(d))
+def oval(s, x, y, d, cor, h=None):
+    sp = s.shapes.add_shape(MSO_SHAPE.OVAL, E(x), E(y), E(d), E(h or d))
     sp.fill.solid()
     sp.fill.fore_color.rgb = cor
     sp.line.fill.background()
@@ -119,9 +143,24 @@ def oval(s, x, y, d, cor):
 
 
 def card(s, x, y, w, h, cor=CARD_B):
-    """Cartao do padrao SABRE: hairline BORDA atras + preenchimento."""
-    rect(s, x, y, w, h, BORDA)
-    return rect(s, x + 0.012, y + 0.012, w - 0.024, h - 0.024, cor)
+    """Cartao do padrao SABRE: hairline BORDA atras + preenchimento,
+    os dois com o MESMO raio absoluto para a borda ficar uniforme."""
+    rect(s, x, y, w, h, BORDA, raio=RAIO)
+    return rect(s, x + 0.012, y + 0.012, w - 0.024, h - 0.024, cor,
+                raio=RAIO - 0.012)
+
+
+def aba(s, x, y, w, cor=GRAFITE, esp=0.08):
+    """Marcador do topo do cartao. O filete de ponta a ponta do padrao original
+    brigava com o canto arredondado, entao virou uma pilula curta centrada —
+    serve igual de ritmo e nao endurece o bloco. `w` e a largura do cartao."""
+    comp = min(1.25, w * 0.34)
+    return rect(s, x + (w - comp) / 2, y + 0.22, comp, esp, cor)
+
+
+def lombada(s, x, y, h, cor=GRAFITE, esp=0.10):
+    """Filete da lateral esquerda em pilula. `h` e a altura do cartao."""
+    return rect(s, x + 0.012, y + RAIO, esp, h - 2 * RAIO, cor)
 
 
 def caixa(s, x, y, w, h, anchor=MSO_ANCHOR.TOP):
@@ -167,8 +206,9 @@ def linhas(s, x, y, w, itens, tam, cor, fonte=F1, bold=False, italic=False,
     return tf
 
 
-def foto(s, x, y, w, h, caminho):
-    """Insere a imagem cobrindo a caixa (center-crop, sem distorcer)."""
+def foto(s, x, y, w, h, caminho, raio=None):
+    """Insere a imagem cobrindo a caixa (center-crop, sem distorcer) e
+    arredonda os cantos trocando a geometria do quadro para roundRect."""
     iw, ih = Image.open(caminho).size
     alvo, orig = w / h, iw / ih
     pic = s.shapes.add_picture(caminho, E(x), E(y), E(w), E(h))
@@ -178,6 +218,21 @@ def foto(s, x, y, w, h, caminho):
     elif orig < alvo:                     # imagem mais alta: corta topo/base
         corte = (1 - orig / alvo) / 2
         pic.crop_top = pic.crop_bottom = corte
+
+    raio = RAIO_FOTO if raio is None else raio
+    geom = pic._element.spPr.find(qn("a:prstGeom"))
+    if geom is not None:
+        geom.set("prst", "roundRect")
+        av = geom.find(qn("a:avLst"))
+        if av is None:
+            av = OxmlElement("a:avLst")
+            geom.append(av)
+        for filho in list(av):
+            av.remove(filho)
+        gd = OxmlElement("a:gd")
+        gd.set("name", "adj")
+        gd.set("fmla", "val %d" % int(min(0.5, raio / min(w, h)) * 100000))
+        av.append(gd)
     return pic
 
 
@@ -206,7 +261,7 @@ def barra(s, x, y, w, h, rotulo, texto, cor_fundo=CARD_B, tam_rot=18, tam=24,
           largura_rot=5.7, align_txt=PP_ALIGN.CENTER):
     """Linha da 'cadeia': fundo + filete escuro a esquerda + rotulo + texto."""
     rect(s, x, y, w, h, cor_fundo)
-    rect(s, x, y, 0.09, h, GRAFITE)
+    lombada(s, x, y, h)
     tf = caixa(s, x + 0.53, y, largura_rot, h, MSO_ANCHOR.MIDDLE)
     txt(par(tf, True), rotulo, tam_rot, GRAFITE, F1B, bold=True, spc=1.0)
     if isinstance(texto, str):
@@ -290,7 +345,7 @@ linhas(s, 1.40, 3.35, 15.6,
        30, NEUTRO, F1, espaco=1.3, h=2.2)
 
 card(s, 1.40, 5.70, 17.20, 1.55)
-rect(s, 1.40, 5.70, 0.10, 1.55, GRAFITE)
+lombada(s, 1.40, 5.70, 1.55)
 tf = caixa(s, 2.05, 5.70, 16.0, 1.55, MSO_ANCHOR.MIDDLE)
 txt(par(tf, True), "Não estamos fazendo uma análise psicológica.",
     30, NEUTRO, F1, italic=True)
@@ -313,7 +368,7 @@ x0, largura, gap = 1.40, 4.03, 0.29
 for i, (num, tit, desc) in enumerate(etapas):
     x = x0 + i * (largura + gap)
     card(s, x, 3.65, largura, 4.05, CARD_B if i % 2 == 0 else CARD_G)
-    rect(s, x, 3.65, largura, 0.08, GRAFITE)
+    aba(s, x, 3.65, largura)
     linhas(s, x + 0.45, 4.05, largura - 0.9, num, 48, GRAFITE, F1B, bold=True)
     linhas(s, x + 0.45, 5.05, largura - 0.9, tit, 22, TINTA, F1B, bold=True)
     linhas(s, x + 0.45, 5.70, largura - 0.9, desc, 25, NEUTRO, F1, espaco=1.25,
@@ -333,21 +388,23 @@ rodape(s)
 # =====================================================================
 s = conteudo("MODELO", "COMO CHEGAMOS À REVELAÇÃO", 52, 1.60, 1.95)
 blocos = ["HISTÓRIA", "IKIGAI", ["PADRÕES", "RECORRENTES"]]
-bx, bl = 1.40, 3.75
+bx, bl = 1.30, 3.70
 for i, b in enumerate(blocos):
-    x = bx + i * (bl + 1.30)
+    x = bx + i * (bl + 1.25)
     card(s, x, 4.20, bl, 2.60, CARD_B if i % 2 == 0 else CARD_G)
-    rect(s, x, 4.20, bl, 0.08, GRAFITE)
+    aba(s, x, 4.20, bl)
     tf = caixa(s, x + 0.22, 4.28, bl - 0.44, 2.52, MSO_ANCHOR.MIDDLE)
     for j, t in enumerate(b if isinstance(b, list) else [b]):
         txt(par(tf, primeiro=(j == 0), align=PP_ALIGN.CENTER, espaco=1.12),
             t, 23, TINTA, F1B, bold=True)
+    # operador dentro de um disco, para amarrar a sequencia
     sinal = "+" if i < 2 else "="
-    tf = caixa(s, x + bl + 0.25, 4.20, 0.80, 2.60, MSO_ANCHOR.MIDDLE)
-    txt(par(tf, True, align=PP_ALIGN.CENTER), sinal, 44, GRAFITE, F1B, bold=True)
+    oval(s, x + bl + 0.30, 5.13, 0.74, BORDA)
+    tf = caixa(s, x + bl + 0.30, 5.13, 0.74, 0.74, MSO_ANCHOR.MIDDLE)
+    txt(par(tf, True, align=PP_ALIGN.CENTER), sinal, 30, GRAFITE, F1B, bold=True)
 
-rect(s, 15.85, 4.20, 2.75, 2.60, GRAFITE)
-tf = caixa(s, 15.95, 4.20, 2.55, 2.60, MSO_ANCHOR.MIDDLE)
+rect(s, 16.20, 4.20, 2.40, 2.60, GRAFITE)
+tf = caixa(s, 16.30, 4.20, 2.20, 2.60, MSO_ANCHOR.MIDDLE)
 for j, t in enumerate(["HIPÓTESE", "DE ESSÊNCIA"]):
     txt(par(tf, primeiro=(j == 0), align=PP_ALIGN.CENTER, espaco=1.15),
         t, 23, BRANCO, F1B, bold=True)
@@ -373,7 +430,7 @@ itens = [
 for i, (rot, desc) in enumerate(itens):
     y = 3.30 + i * 2.20
     card(s, 1.40, y, 9.60, 2.00, CARD_B if i % 2 == 0 else CARD_G)
-    rect(s, 1.40, y, 0.09, 2.00, GRAFITE)
+    lombada(s, 1.40, y, 2.00)
     linhas(s, 1.95, y + 0.32, 8.6, rot, 18, GRAFITE, F1B, bold=True)
     linhas(s, 1.95, y + 0.76, 8.6, desc, 24, NEUTRO, F1, espaco=1.25, h=1.1)
 rodape(s)
@@ -395,7 +452,7 @@ linhas(s, 1.40, 6.35, 9.40,
 for i, t in enumerate(["DESEJO DE CRESCER", "IMAGINAÇÃO DE FUTURO",
                        "INCONFORMISMO COM A CONDIÇÃO DADA"]):
     y = 8.35 + i * 0.52
-    rect(s, 1.40, y + 0.09, 0.30, 0.05, GRAFITE)
+    oval(s, 1.44, y + 0.07, 0.16, GRAFITE)
     linhas(s, 1.95, y, 8.80, t, 17, GRAFITE, F1B, bold=True)
 rodape(s)
 
@@ -445,7 +502,7 @@ tensoes = [
 for i, (rot, fala, resp) in enumerate(tensoes):
     y = 3.60 + i * 1.55
     rect(s, 1.40, y, 17.20, 1.32, CARD_B if i % 2 == 0 else CARD_G)
-    rect(s, 1.40, y, 0.09, 1.32, GRAFITE)
+    lombada(s, 1.40, y, 1.32)
     tf = caixa(s, 1.95, y, 5.4, 1.32, MSO_ANCHOR.MIDDLE)
     txt(par(tf, True), rot, 18, GRAFITE, F1B, bold=True, spc=0.8)
     tf = caixa(s, 7.55, y, 5.5, 1.32, MSO_ANCHOR.MIDDLE)
@@ -471,8 +528,9 @@ viradas = [
 ]
 for i, (num, rot, desc) in enumerate(viradas):
     x = 1.40 + i * (4.03 + 0.29)
+    # aqui o marcador do topo e o proprio disco numerado — dois
+    # marcadores no mesmo cartao poluiriam
     card(s, x, 3.90, 4.03, 5.10, CARD_B if i % 2 == 0 else CARD_G)
-    rect(s, x, 3.90, 4.03, 0.08, GRAFITE)
     oval(s, x + 1.65, 4.50, 0.72, GRAFITE if i == 3 else BORDA)
     tf = caixa(s, x + 1.65, 4.50, 0.72, 0.72, MSO_ANCHOR.MIDDLE)
     txt(par(tf, True, align=PP_ALIGN.CENTER), num, 18,
@@ -482,7 +540,7 @@ for i, (num, rot, desc) in enumerate(viradas):
     linhas(s, x + 0.30, 6.55, 3.43, desc, 24, NEUTRO, F1,
            align=PP_ALIGN.CENTER, espaco=1.25, h=2.2)
     if i < 3:
-        rect(s, x + 4.09, 6.42, 0.17, 0.05, GRAFITE)
+        oval(s, x + 4.12, 6.36, 0.16, GRAFITE)
 rodape(s)
 
 # =====================================================================
@@ -500,7 +558,7 @@ for i, (rot, desc) in enumerate(pares):
     x = 1.40 + (i % 2) * 5.25
     y = 3.35 + (i // 2) * 2.40
     card(s, x, y, 4.95, 2.20, CARD_B if i % 2 == 0 else CARD_G)
-    rect(s, x, y, 4.95, 0.08, GRAFITE)
+    aba(s, x, y, 4.95)
     linhas(s, x + 0.40, y + 0.48, 4.15, rot, 18, GRAFITE, F1B, bold=True)
     linhas(s, x + 0.40, y + 0.95, 4.15, desc, 24, NEUTRO, F1, espaco=1.25, h=1.1)
 
@@ -524,13 +582,13 @@ for i, blk in enumerate(passos):
         rect(s, x, 4.10, lp, 2.60, GRAFITE)
     else:
         card(s, x, 4.10, lp, 2.60, CARD_B if i % 2 == 0 else CARD_G)
-        rect(s, x, 4.10, lp, 0.08, GRAFITE)
+        aba(s, x, 4.10, lp)
     tf = caixa(s, x + 0.12, 4.18, lp - 0.24, 2.52, MSO_ANCHOR.MIDDLE)
     for j, t in enumerate(blk):
         txt(par(tf, primeiro=(j == 0), align=PP_ALIGN.CENTER, espaco=1.15),
             t, 18, BRANCO if ultimo else TINTA, F1B, bold=True)
     if not ultimo:
-        rect(s, x + lp + 0.10, 5.37, 0.24, 0.05, GRAFITE)
+        oval(s, x + lp + 0.14, 5.31, 0.16, GRAFITE)
 
 faixa(s, 1.40, 7.60, 17.20, 1.50,
       "A MUDANÇA NÃO NASCE DE UM IMPULSO ISOLADO. ELA SEGUE UMA SEQUÊNCIA "
@@ -562,7 +620,7 @@ h1(s, ["O QUE MOVE", "A TRAJETÓRIA"], 1.40, 2.25, 10.0, 60)
 rect(s, 1.40, 5.05, 1.60, 0.07, GRAFITE)
 foto(s, 10.60, 1.85, 8.00, 7.60, FOTO["C"])
 card(s, 1.40, 5.60, 8.60, 3.85, CARD_B)
-rect(s, 1.40, 5.60, 0.09, 3.85, GRAFITE)
+lombada(s, 1.40, 5.60, 3.85)
 linhas(s, 2.00, 6.05, 7.55,
        ["A história mostra como Flávia se formou e como age diante da vida."],
        27, NEUTRO, F1, espaco=1.28, h=1.6)
@@ -587,14 +645,15 @@ for i, (rot, desc) in enumerate(quad):
     x = 1.40 + (i % 2) * 7.60
     y = 3.35 + (i // 2) * 3.25
     card(s, x, y, 4.10, 2.90, CARD_B if i % 2 == 0 else CARD_G)
-    rect(s, x, y, 4.10, 0.08, GRAFITE)
+    aba(s, x, y, 4.10)
     linhas(s, x + 0.30, y + 0.50, 3.50, rot, 18, GRAFITE, F1B, bold=True,
            align=PP_ALIGN.CENTER)
     linhas(s, x + 0.30, y + 1.10, 3.50, desc, 23, NEUTRO, F1,
            align=PP_ALIGN.CENTER, espaco=1.25, h=1.6)
 
-rect(s, 5.90, 4.85, 2.70, 2.90, GRAFITE)
-tf = caixa(s, 6.00, 4.85, 2.50, 2.90, MSO_ANCHOR.MIDDLE)
+# centro do Ikigai: circulo, nao bloco — e o ponto onde os quatro se cruzam
+oval(s, 5.72, 4.90, 3.05, GRAFITE)
+tf = caixa(s, 5.82, 4.90, 2.85, 3.05, MSO_ANCHOR.MIDDLE)
 for j, t in enumerate(["SENTIDO", "E", "REALIZAÇÃO"]):
     txt(par(tf, primeiro=(j == 0), align=PP_ALIGN.CENTER, espaco=1.15),
         t, 19, BRANCO, F1B, bold=True)
@@ -614,7 +673,7 @@ for i, t in enumerate(["TRANSFORMAR POSSIBILIDADES EM",
     txt(par(tf, primeiro=(i == 0), espaco=1.08), t, 48, TINTA, F1B, bold=True)
 foto(s, 1.40, 5.65, 17.20, 2.65, FOTO["E"])
 card(s, 1.40, 8.55, 17.20, 1.35, CARD_G)
-rect(s, 1.40, 8.55, 0.09, 1.35, GRAFITE)
+lombada(s, 1.40, 8.55, 1.35)
 tf = caixa(s, 2.05, 8.55, 16.0, 1.35, MSO_ANCHOR.MIDDLE)
 txt(par(tf, True),
     "A satisfação não termina nela: ganha força quando o que constrói também "
@@ -634,17 +693,18 @@ enc = [
 ]
 for i, (rot, desc, x, y) in enumerate(enc):
     card(s, x, y, 4.95, 2.55, CARD_B if i % 2 == 0 else CARD_G)
-    rect(s, x, y, 4.95, 0.08, GRAFITE)
+    aba(s, x, y, 4.95)
     linhas(s, x + 0.40, y + 0.48, 4.15, rot, 18, GRAFITE, F1B, bold=True)
     linhas(s, x + 0.40, y + 0.98, 4.15, desc, 23, NEUTRO, F1, espaco=1.25, h=1.5)
 
-rect(s, 7.35, 4.30, 5.30, 3.55, GRAFITE)
-tf = caixa(s, 7.55, 4.30, 4.90, 3.55, MSO_ANCHOR.MIDDLE)
-txt(par(tf, True, align=PP_ALIGN.CENTER), "CONVERGÊNCIA", 26, BRANCO, F1B,
+# convergencia: circulo no centro dos quatro cartoes
+oval(s, 7.85, 3.95, 4.30, GRAFITE)
+tf = caixa(s, 8.05, 3.95, 3.90, 4.30, MSO_ANCHOR.MIDDLE)
+txt(par(tf, True, align=PP_ALIGN.CENTER), "CONVERGÊNCIA", 24, BRANCO, F1B,
     bold=True)
-for x1, x2, y in [(6.35, 7.35, 4.60), (12.65, 13.65, 4.60),
-                  (6.35, 7.35, 7.45), (12.65, 13.65, 7.45)]:
-    rect(s, x1, y, x2 - x1, 0.04, FILETE)
+for x1, x2, y in [(6.35, 7.95, 4.60), (12.05, 13.65, 4.60),
+                  (6.35, 7.95, 7.45), (12.05, 13.65, 7.45)]:
+    rect(s, x1, y, x2 - x1, 0.05, FILETE)
 
 faixa(s, 1.40, 9.00, 17.20, 1.05,
       "HISTÓRIA MOSTRA O MOVIMENTO. IKIGAI REVELA O SENTIDO. "
@@ -670,7 +730,7 @@ cols = [
 for i, (rot, desc) in enumerate(cols):
     x = 1.40 + i * (4.03 + 0.29)
     card(s, x, 5.90, 4.03, 3.65, CARD_B if i % 2 == 0 else CARD_G)
-    rect(s, x, 5.90, 4.03, 0.08, GRAFITE)
+    aba(s, x, 5.90, 4.03)
     linhas(s, x + 0.40, 6.35, 3.23, rot, 18, GRAFITE, F1B, bold=True)
     linhas(s, x + 0.40, 6.95, 3.23, desc, 25, NEUTRO, F1, espaco=1.25, h=2.3)
 rodape(s)
@@ -688,10 +748,10 @@ txt(par(tf, True),
     "Enxerga além do que está posto e faz existir o que ainda é possibilidade.",
     28, BRANCO, F1B, bold=True)
 
-rect(s, 9.98, 5.10, 0.04, 0.35, GRAFITE)
-rect(s, 5.45, 5.45, 9.10, 0.04, GRAFITE)
-rect(s, 5.45, 5.45, 0.04, 0.35, GRAFITE)
-rect(s, 14.51, 5.45, 0.04, 0.35, GRAFITE)
+rect(s, 9.97, 5.10, 0.06, 0.40, GRAFITE)
+rect(s, 5.45, 5.44, 9.10, 0.06, GRAFITE)
+rect(s, 5.45, 5.44, 0.06, 0.38, GRAFITE)
+rect(s, 14.49, 5.44, 0.06, 0.38, GRAFITE)
 
 marcas = [
     ("FORMA", "Dar forma a possibilidades.",
@@ -703,8 +763,8 @@ marcas = [
 ]
 for rot, tit, desc, x, cor in marcas:
     card(s, x, 5.95, 8.40, 2.75, cor)
-    rect(s, x, 5.95, 8.40, 0.08, GRAFITE)
-    linhas(s, x + 0.45, 6.30, 7.5, rot, 18, GRAFITE, F1B, bold=True)
+    aba(s, x, 5.95, 8.40)
+    linhas(s, x + 0.45, 6.38, 7.5, rot, 18, GRAFITE, F1B, bold=True)
     linhas(s, x + 0.45, 6.75, 7.5, tit, 28, TINTA, F1B, bold=True)
     linhas(s, x + 0.45, 7.45, 7.5, desc, 23, NEUTRO, F1, espaco=1.25, h=1.2)
 
