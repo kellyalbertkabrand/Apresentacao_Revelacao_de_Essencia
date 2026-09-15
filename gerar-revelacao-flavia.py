@@ -7,7 +7,6 @@ Conteudo e imagens da apresentacao original, rediagramados no layout
 
 Base: SABRE_odonto.pptx (para herdar tema + fontes Outfit incorporadas).
 """
-import copy
 import os
 
 from PIL import Image
@@ -36,36 +35,40 @@ FOTO = {k: os.path.join(ASSETS, "foto_%s.jpg" % k) for k in "ABCDE"}
 
 # ---------------------------------------------------------------- paleta
 FUNDO = RGBColor(0xF8, 0xF7, 0xF2)      # gelo dos slides de conteudo
-FUNDO_DIV = RGBColor(0xF6, 0xF5, 0xF0)  # gelo dos divisores/capa
-TINTA = RGBColor(0x1A, 0x1A, 0x1A)      # titulos
+FUNDO_DIV = RGBColor(0xF6, 0xF5, 0xF0)  # gelo da capa / sumario / divisores
+TINTA = RGBColor(0x1A, 0x1A, 0x1A)      # titulos e frases de impacto
 PRETO = RGBColor(0x00, 0x00, 0x00)      # capa / divisores
 NEUTRO = RGBColor(0xB5, 0xB5, 0xAD)     # corpo secundario e eyebrow
 GRAFITE = RGBColor(0x2E, 0x2E, 0x2A)    # numeros, filetes, rotulos fortes
 CARD_B = RGBColor(0xFF, 0xFF, 0xFF)     # cartao claro
 CARD_G = RGBColor(0xED, 0xED, 0xDD)     # cartao alternado
-BORDA = RGBColor(0xE5, 0xE4, 0xDF)      # hairline dos cartoes / faixa
-FILETE = RGBColor(0xDC, 0xDB, 0xD5)     # divisores finos
+BORDA = RGBColor(0xE5, 0xE4, 0xDF)      # hairline dos cartoes
+FILETE = RGBColor(0xDC, 0xDB, 0xD5)     # divisorias finas
 BRANCO = RGBColor(0xFF, 0xFF, 0xFF)
 
-# ---------------------------------------------------------------- fontes
+# ------------------------------------------------- tipografia (so Outfit)
 F1 = "Outfit 1"
 F1B = "Outfit 1 Bold"
 F1H = "Outfit 1 Heavy"
+F1U = "Outfit 1 Ultra-Bold"
 F2 = "Outfit 2"
 F2L = "Outfit 2 Light"
 F2SB = "Outfit 2 Semi-Bold"
-FPLEX = "IBM Plex Sans Thai"
-FPLAY = "Playfair Display"
 
 EMU = 914400
 LARG, ALT = 20.0, 11.25
 MARCA = "FLÁVIA PEREIRA MUCCELIN"
 DOC = "REVELAÇÃO DE ESSÊNCIA"
 
+# Raio dos cantos, em polegadas. Blocos e fotos arredondados; filetes e
+# conectores fecham em pilula; pontos de convergencia viram circulos.
+RAIO = 0.24
+RAIO_FOTO = 0.36
+
 # ---------------------------------------------------------------- base
 prs = Presentation(MODELO)
 
-# remove os slides do modelo, preservando tema, layouts e fontes incorporadas.
+# Remove os slides do modelo preservando tema, layouts e fontes incorporadas.
 # O export do Canva pendura os notesSlides tambem em presentation.xml; sem
 # derrubar essas relacoes os slides antigos continuam alcancaveis e o pacote
 # sai com partes duplicadas.
@@ -98,26 +101,16 @@ def slide(textura=False):
     return s
 
 
-# Raio padrao dos cantos, em polegadas. Toda a geometria do deck e arredondada:
-# blocos e fotos com este raio; filetes e conectores viram pilulas (raio = metade
-# do lado menor); pontos de convergencia viram circulos.
-RAIO = 0.24
-RAIO_FOTO = 0.36   # fotos pedem um raio maior para nao parecerem "quase retas"
-
-
 def _arredonda(sp, w, h, raio):
-    """Converte a forma em roundRect com raio ABSOLUTO (nao proporcional).
-
-    No OOXML o adj de roundRect e uma fracao do menor lado, entao formas de
-    tamanhos diferentes precisam de adj diferentes para fechar o mesmo raio.
-    """
+    """roundRect com raio ABSOLUTO: no OOXML o adj e uma fracao do menor lado,
+    entao formas de tamanhos diferentes precisam de adj diferentes para fechar
+    o mesmo raio."""
     menor = min(w, h)
     sp.adjustments[0] = min(0.5, raio / menor) if menor else 0.5
 
 
 def rect(s, x, y, w, h, cor, linha=None, raio=None):
-    """Bloco de cantos arredondados. Formas finas (filetes, conectores,
-    marcadores) fecham em pilula."""
+    """Bloco de cantos arredondados. Formas finas fecham em pilula."""
     if raio is None:
         raio = min(RAIO, min(w, h) / 2)
     sp = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, E(x), E(y), E(w), E(h))
@@ -143,23 +136,21 @@ def oval(s, x, y, d, cor, h=None):
 
 
 def card(s, x, y, w, h, cor=CARD_B):
-    """Cartao do padrao SABRE: hairline BORDA atras + preenchimento,
-    os dois com o MESMO raio absoluto para a borda ficar uniforme."""
+    """Hairline BORDA atras + preenchimento, os dois com o MESMO raio absoluto
+    para a borda ficar uniforme na curva."""
     rect(s, x, y, w, h, BORDA, raio=RAIO)
     return rect(s, x + 0.012, y + 0.012, w - 0.024, h - 0.024, cor,
                 raio=RAIO - 0.012)
 
 
 def aba(s, x, y, w, cor=GRAFITE, esp=0.08):
-    """Marcador do topo do cartao. O filete de ponta a ponta do padrao original
-    brigava com o canto arredondado, entao virou uma pilula curta centrada —
-    serve igual de ritmo e nao endurece o bloco. `w` e a largura do cartao."""
+    """Marcador do topo do cartao: pilula curta centrada."""
     comp = min(1.25, w * 0.34)
     return rect(s, x + (w - comp) / 2, y + 0.22, comp, esp, cor)
 
 
 def lombada(s, x, y, h, cor=GRAFITE, esp=0.10):
-    """Filete da lateral esquerda em pilula. `h` e a altura do cartao."""
+    """Marcador vertical da lateral esquerda do cartao."""
     return rect(s, x + 0.012, y + RAIO, esp, h - 2 * RAIO, cor)
 
 
@@ -196,7 +187,6 @@ def txt(p, texto, tam, cor, fonte=F1, bold=False, italic=False, spc=None):
 
 def linhas(s, x, y, w, itens, tam, cor, fonte=F1, bold=False, italic=False,
            align=PP_ALIGN.LEFT, espaco=1.18, h=None):
-    """Bloco de texto com uma ou varias linhas/paragrafos."""
     if isinstance(itens, str):
         itens = [itens]
     tf = caixa(s, x, y, w, h or (len(itens) * tam / 72.0 * espaco + 0.2))
@@ -207,15 +197,14 @@ def linhas(s, x, y, w, itens, tam, cor, fonte=F1, bold=False, italic=False,
 
 
 def foto(s, x, y, w, h, caminho, raio=None):
-    """Insere a imagem cobrindo a caixa (center-crop, sem distorcer) e
-    arredonda os cantos trocando a geometria do quadro para roundRect."""
+    """Imagem cobrindo a caixa (center-crop) com cantos arredondados."""
     iw, ih = Image.open(caminho).size
     alvo, orig = w / h, iw / ih
     pic = s.shapes.add_picture(caminho, E(x), E(y), E(w), E(h))
-    if orig > alvo:                       # imagem mais larga: corta laterais
+    if orig > alvo:
         corte = (1 - alvo / orig) / 2
         pic.crop_left = pic.crop_right = corte
-    elif orig < alvo:                     # imagem mais alta: corta topo/base
+    elif orig < alvo:
         corte = (1 - orig / alvo) / 2
         pic.crop_top = pic.crop_bottom = corte
 
@@ -236,9 +225,9 @@ def foto(s, x, y, w, h, caminho, raio=None):
     return pic
 
 
-def eyebrow(s, texto, x=1.40, y=1.45):
+def eyebrow(s, texto, x=1.40, y=1.45, cor=NEUTRO):
     tf = caixa(s, x, y, 14.0, 0.45)
-    txt(par(tf, True), texto.upper(), 17, NEUTRO, F1B, bold=True, spc=1.2)
+    txt(par(tf, True), texto.upper(), 17, cor, F1B, bold=True, spc=1.2)
 
 
 def h1(s, texto, x=1.40, y=1.78, w=17.2, tam=48, cor=TINTA):
@@ -250,27 +239,25 @@ def h1(s, texto, x=1.40, y=1.78, w=17.2, tam=48, cor=TINTA):
     return tf
 
 
-def faixa(s, x, y, w, h, texto, tam=26, cor=TINTA, italic=True, fundo=BORDA):
-    rect(s, x, y, w, h, fundo)
-    tf = caixa(s, x + 0.4, y, w - 0.8, h, MSO_ANCHOR.MIDDLE)
-    txt(par(tf, True, align=PP_ALIGN.CENTER, espaco=1.12),
-        texto, tam, cor, F1B, bold=True, italic=italic)
-
-
-def barra(s, x, y, w, h, rotulo, texto, cor_fundo=CARD_B, tam_rot=18, tam=24,
-          largura_rot=5.7, align_txt=PP_ALIGN.CENTER):
-    """Linha da 'cadeia': fundo + filete escuro a esquerda + rotulo + texto."""
-    rect(s, x, y, w, h, cor_fundo)
-    lombada(s, x, y, h)
-    tf = caixa(s, x + 0.53, y, largura_rot, h, MSO_ANCHOR.MIDDLE)
-    txt(par(tf, True), rotulo, tam_rot, GRAFITE, F1B, bold=True, spc=1.0)
-    if isinstance(texto, str):
-        texto = [texto]
-    tf2 = caixa(s, x + largura_rot + 0.9, y, w - largura_rot - 1.4, h,
-                MSO_ANCHOR.MIDDLE)
-    for i, t in enumerate(texto):
-        txt(par(tf2, primeiro=(i == 0), align=align_txt, espaco=1.2),
-            t, tam, NEUTRO, F1)
+def destaque(s, x, y, w, partes, tam=32, rotulo=None, espaco=1.28, traco=True):
+    """Frase de impacto. Em vez da antiga faixa cinza com texto em caixa alta,
+    italico e centralizado, a frase vira uma AFIRMACAO TIPOGRAFICA: um traco
+    curto, um rotulo opcional e o texto em caixa baixa, alinhado a esquerda,
+    com a parte que carrega o sentido em Semi-Bold."""
+    if traco:
+        rect(s, x, y, 1.20, 0.07, GRAFITE)
+    dy = 0.40
+    if rotulo:
+        tf = caixa(s, x, y + dy, w, 0.40)
+        txt(par(tf, True), rotulo.upper(), 17, GRAFITE, F1B, bold=True, spc=1.2)
+        dy += 0.55
+    tf = caixa(s, x, y + dy, w, 3.0)
+    p = par(tf, True, espaco=espaco)
+    if isinstance(partes, str):
+        partes = [(partes, False)]
+    for t, forte in partes:
+        txt(p, t, tam, TINTA, F2SB if forte else F2, bold=forte)
+    return tf
 
 
 def rodape(s):
@@ -289,9 +276,15 @@ def conteudo(rot, titulo, tam_tit=48, y_eye=1.45, y_tit=1.78, x=1.40, w=17.2):
     return s
 
 
-def divisor(titulo_linhas, tam=100):
+def divisor(numero, titulo_linhas, tam=100):
+    """Pagina que marca a virada de tema: fundo texturizado, numero da secao e
+    o titulo do tema em caixa alta. Nada alem disso."""
     s = slide(textura=True)
-    tf = caixa(s, 3.78, 4.31, 15.10, len(titulo_linhas) * tam / 72.0 * 1.1 + 0.3)
+    tf = caixa(s, 3.78, 3.55, 15.10, 0.5)
+    txt(par(tf, True, align=PP_ALIGN.RIGHT), numero, 26, GRAFITE, F1B,
+        bold=True, spc=2.0)
+    tf = caixa(s, 2.20, 4.20, 16.68,
+               len(titulo_linhas) * tam / 72.0 * 1.1 + 0.3)
     for i, t in enumerate(titulo_linhas):
         txt(par(tf, primeiro=(i == 0), align=PP_ALIGN.RIGHT, espaco=1.02),
             t, tam, PRETO, F1B, bold=True)
@@ -326,104 +319,152 @@ txt(p, "Método ", 26.8, PRETO, F2L)
 txt(p, "Marca", 26.8, PRETO, F2SB, bold=True)
 p = par(tf, espaco=1.12)
 txt(p, "com Essência", 26.8, PRETO, F2SB, bold=True)
-txt(p, " ©", 14.7, PRETO, FPLAY, bold=True)
+txt(p, " ©", 15, PRETO, F2SB, bold=True)
 
 rect(s, 6.90, 8.52, 0.02, 1.30, GRAFITE)
 tf = caixa(s, 7.30, 8.52, 5.0, 1.30, MSO_ANCHOR.MIDDLE)
-txt(par(tf, True), "FORMA  ·  MY HOME", 19.5, PRETO, FPLEX, spc=2.0)
+txt(par(tf, True), "FORMA  ·  MY HOME", 19.5, PRETO, F2, spc=2.0)
 
 s.shapes.add_picture(LOGO, E(16.72), E(10.34), E(2.00), E(2.00 * 183 / 777))
 
 # =====================================================================
-# 02 — Por que começamos pela essência
+# 02 — SUMÁRIO
 # =====================================================================
-s = conteudo("CONCEITO", "POR QUE COMEÇAMOS PELA ESSÊNCIA", 52, 1.60, 1.95)
-linhas(s, 1.40, 3.35, 15.6,
-       ["Em marcas fortemente ligadas à fundadora, compreender sua história "
-        "ajuda a identificar crenças, padrões e princípios que podem ter "
-        "influenciado a criação, a cultura e a expressão das marcas."],
-       30, NEUTRO, F1, espaco=1.3, h=2.2)
+SECOES = [
+    ("01", "Metodologia"),
+    ("02", "História"),
+    ("03", "A linha-mestra da história"),
+    ("04", "Ikigai"),
+    ("05", "A essência"),
+]
 
-card(s, 1.40, 5.70, 17.20, 1.55)
-lombada(s, 1.40, 5.70, 1.55)
-tf = caixa(s, 2.05, 5.70, 16.0, 1.55, MSO_ANCHOR.MIDDLE)
-txt(par(tf, True), "Não estamos fazendo uma análise psicológica.",
-    30, NEUTRO, F1, italic=True)
+s = slide(textura=True)
+tf = caixa(s, 1.90, 1.60, 10.0, 1.6)
+txt(par(tf, True), "SUMÁRIO", 78, PRETO, F1U, bold=True)
+rect(s, 1.90, 3.35, 1.60, 0.08, GRAFITE)
 
-faixa(s, 1.40, 7.75, 17.20, 1.55,
-      "ESTAMOS INVESTIGANDO A ORIGEM IDENTITÁRIA DA FORMA E DA MY HOME.", 25)
+for i, (num, nome) in enumerate(SECOES):
+    y = 4.00 + i * 1.22
+    tf = caixa(s, 1.90, y, 1.4, 0.7)
+    txt(par(tf, True), num, 26, GRAFITE, F1B, bold=True)
+    tf = caixa(s, 3.45, y - 0.12, 13.0, 0.9)
+    txt(par(tf, True), nome, 36, PRETO, F2, bold=False)
+    if i < len(SECOES) - 1:
+        rect(s, 1.90, y + 0.92, 15.0, 0.04, FILETE)
 rodape(s)
 
 # =====================================================================
-# 03 — Como essa etapa contribui para o branding
+# 03 — A PERGUNTA QUE NOS GUIA
 # =====================================================================
-s = conteudo("MÉTODO", "COMO ESSA ETAPA CONTRIBUI PARA O BRANDING", 44, 1.60, 1.95)
+s = slide()
+rect(s, 1.40, 3.30, 1.60, 0.08, GRAFITE)
+eyebrow(s, "A pergunta que nos guia", 1.40, 3.75)
+tf = caixa(s, 1.40, 4.55, 17.2, 4.2)
+for i, t in enumerate(["O QUE EXISTE EM FLÁVIA",
+                       "ANTES MESMO DE EXISTIREM",
+                       "A FORMA E A MY HOME?"]):
+    txt(par(tf, primeiro=(i == 0), espaco=1.08), t, 62, TINTA, F1B, bold=True)
+rodape(s)
+
+# =====================================================================
+# 04 — DIVISOR: METODOLOGIA
+# =====================================================================
+divisor("01", ["METODOLOGIA"])
+
+# =====================================================================
+# 05 — Por que começamos pela essência
+# =====================================================================
+s = conteudo("CONCEITO", "POR QUE COMEÇAMOS PELA ESSÊNCIA", 52, 1.60, 1.95)
+linhas(s, 1.40, 3.35, 15.6,
+       ["Em marcas fortemente ligadas à fundadora, compreender a sua história "
+        "ajuda a identificar as crenças, os padrões e os princípios que podem "
+        "ter influenciado a criação, a cultura e a expressão das marcas."],
+       30, NEUTRO, F1, espaco=1.3, h=2.2)
+
+card(s, 1.40, 5.85, 17.20, 1.45)
+lombada(s, 1.40, 5.85, 1.45)
+tf = caixa(s, 2.05, 5.85, 16.0, 1.45, MSO_ANCHOR.MIDDLE)
+txt(par(tf, True), "Não estamos fazendo uma análise psicológica.",
+    30, NEUTRO, F1, italic=True)
+
+destaque(s, 1.40, 7.85, 16.0,
+         [("Estamos investigando a ", False),
+          ("origem identitária da Forma e da My Home", True), (".", False)], 34)
+rodape(s)
+
+# =====================================================================
+# 06 — Como essa etapa contribui para o branding
+# =====================================================================
+s = conteudo("MÉTODO", "COMO ESSA ETAPA CONTRIBUI PARA O BRANDING", 44, 1.60,
+             1.95)
 etapas = [
-    ("01", "HISTÓRIA", "Revela referências e crenças de origem."),
-    ("02", "IKIGAI", "Revela motivações e razão de ser."),
-    ("03", "PADRÕES", "Revela formas recorrentes de agir e decidir."),
+    ("01", "HISTÓRIA", "Revela as referências e as crenças de origem."),
+    ("02", "IKIGAI", "Revela as motivações e a razão de ser."),
+    ("03", "PADRÕES", "Revela as formas recorrentes de agir e de decidir."),
     ("04", "ESSÊNCIA", "Sintetiza aquilo que pode estar na raiz das marcas."),
 ]
 x0, largura, gap = 1.40, 4.03, 0.29
 for i, (num, tit, desc) in enumerate(etapas):
     x = x0 + i * (largura + gap)
-    card(s, x, 3.65, largura, 4.05, CARD_B if i % 2 == 0 else CARD_G)
-    aba(s, x, 3.65, largura)
-    linhas(s, x + 0.45, 4.05, largura - 0.9, num, 48, GRAFITE, F1B, bold=True)
-    linhas(s, x + 0.45, 5.05, largura - 0.9, tit, 22, TINTA, F1B, bold=True)
-    linhas(s, x + 0.45, 5.70, largura - 0.9, desc, 25, NEUTRO, F1, espaco=1.25,
-           h=1.8)
+    card(s, x, 3.45, largura, 4.05, CARD_B if i % 2 == 0 else CARD_G)
+    aba(s, x, 3.45, largura)
+    linhas(s, x + 0.45, 3.90, largura - 0.9, num, 48, GRAFITE, F1B, bold=True)
+    linhas(s, x + 0.45, 4.90, largura - 0.9, tit, 22, TINTA, F1B, bold=True)
+    linhas(s, x + 0.45, 5.52, largura - 0.9, desc, 25, NEUTRO, F1, espaco=1.25,
+           h=1.9)
 
-rect(s, 1.40, 8.30, 17.20, 1.30, BORDA)
-tf = caixa(s, 2.00, 8.30, 3.6, 1.30, MSO_ANCHOR.MIDDLE)
-txt(par(tf, True), "NA ETAPA SEGUINTE", 18, GRAFITE, F1B, bold=True, spc=1.0)
-tf = caixa(s, 5.80, 8.30, 12.2, 1.30, MSO_ANCHOR.MIDDLE)
-txt(par(tf, True, espaco=1.2),
-    "A Base Estratégica determinará o que disso deve se transformar em "
-    "estratégia para cada marca.", 26, TINTA, F1)
+destaque(s, 1.40, 7.80, 16.6,
+         [("A ", False), ("Base Estratégica", True),
+          (" determinará o que disso deve se transformar em estratégia para "
+           "cada marca.", False)], 28, rotulo="Na etapa seguinte")
 rodape(s)
 
 # =====================================================================
-# 04 — Como chegamos à revelação
+# 07 — Como chegamos à revelação
 # =====================================================================
 s = conteudo("MODELO", "COMO CHEGAMOS À REVELAÇÃO", 52, 1.60, 1.95)
 blocos = ["HISTÓRIA", "IKIGAI", ["PADRÕES", "RECORRENTES"]]
 bx, bl = 1.30, 3.70
 for i, b in enumerate(blocos):
     x = bx + i * (bl + 1.25)
-    card(s, x, 4.20, bl, 2.60, CARD_B if i % 2 == 0 else CARD_G)
-    aba(s, x, 4.20, bl)
-    tf = caixa(s, x + 0.22, 4.28, bl - 0.44, 2.52, MSO_ANCHOR.MIDDLE)
+    card(s, x, 3.85, bl, 2.60, CARD_B if i % 2 == 0 else CARD_G)
+    aba(s, x, 3.85, bl)
+    tf = caixa(s, x + 0.22, 3.93, bl - 0.44, 2.52, MSO_ANCHOR.MIDDLE)
     for j, t in enumerate(b if isinstance(b, list) else [b]):
         txt(par(tf, primeiro=(j == 0), align=PP_ALIGN.CENTER, espaco=1.12),
             t, 23, TINTA, F1B, bold=True)
-    # operador dentro de um disco, para amarrar a sequencia
     sinal = "+" if i < 2 else "="
-    oval(s, x + bl + 0.30, 5.13, 0.74, BORDA)
-    tf = caixa(s, x + bl + 0.30, 5.13, 0.74, 0.74, MSO_ANCHOR.MIDDLE)
+    oval(s, x + bl + 0.30, 4.78, 0.74, BORDA)
+    tf = caixa(s, x + bl + 0.30, 4.78, 0.74, 0.74, MSO_ANCHOR.MIDDLE)
     txt(par(tf, True, align=PP_ALIGN.CENTER), sinal, 30, GRAFITE, F1B, bold=True)
 
-rect(s, 16.20, 4.20, 2.40, 2.60, GRAFITE)
-tf = caixa(s, 16.30, 4.20, 2.20, 2.60, MSO_ANCHOR.MIDDLE)
+rect(s, 16.20, 3.85, 2.40, 2.60, GRAFITE)
+tf = caixa(s, 16.30, 3.85, 2.20, 2.60, MSO_ANCHOR.MIDDLE)
 for j, t in enumerate(["HIPÓTESE", "DE ESSÊNCIA"]):
     txt(par(tf, primeiro=(j == 0), align=PP_ALIGN.CENTER, espaco=1.15),
         t, 23, BRANCO, F1B, bold=True)
 
-faixa(s, 1.40, 8.05, 17.20, 1.45,
-      "A APRESENTAÇÃO CRUZA TRAJETÓRIA, RAZÃO DE SER E COMPORTAMENTO "
-      "RECORRENTE PARA REVELAR A RAIZ QUE ANTECEDE AS MARCAS.", 26)
+destaque(s, 1.30, 7.35, 16.6,
+         [("A apresentação cruza a trajetória, a razão de ser e o "
+           "comportamento recorrente para revelar ", False),
+          ("a raiz que antecede as marcas", True), (".", False)], 32)
 rodape(s)
 
 # =====================================================================
-# 05 — Onde essa história começa
+# 08 — DIVISOR: HISTÓRIA
+# =====================================================================
+divisor("02", ["HISTÓRIA"])
+
+# =====================================================================
+# 09 — Onde essa história começa
 # =====================================================================
 s = conteudo("HISTÓRIA", "ONDE ESSA HISTÓRIA COMEÇA", 52, 1.60, 1.95)
 foto(s, 11.40, 3.30, 7.20, 6.30, FOTO["B"])
 itens = [
     ("ORIGEM", "Família muito humilde, mudança para Primavera do Leste, fé, "
                "trabalho e recomeço."),
-    ("CONTEXTO", "Pai trabalhando como caseiro/vaqueiro, mãe presente, rotina "
-                 "de esforço e honestidade."),
+    ("CONTEXTO", "O pai trabalhando como caseiro/vaqueiro, a mãe presente, "
+                 "a rotina de esforço e honestidade."),
     ("MARCA INICIAL", "Desde cedo, a realidade presente nunca pareceu definir "
                       "a realidade que Flávia conseguia imaginar."),
 ]
@@ -436,7 +477,7 @@ for i, (rot, desc) in enumerate(itens):
 rodape(s)
 
 # =====================================================================
-# 06 — Os primeiros sinais
+# 10 — Os primeiros sinais
 # =====================================================================
 s = slide()
 foto(s, 11.40, 1.45, 7.20, 8.15, FOTO["B"])
@@ -457,7 +498,7 @@ for i, t in enumerate(["DESEJO DE CRESCER", "IMAGINAÇÃO DE FUTURO",
 rodape(s)
 
 # =====================================================================
-# 07 — As experiências que a formaram
+# 11 — As experiências que a formaram
 # =====================================================================
 s = conteudo("PROFUNDIDADE", "AS EXPERIÊNCIAS QUE A FORMARAM", 52, 1.60, 1.95)
 foto(s, 12.60, 3.30, 6.00, 6.20, FOTO["C"])
@@ -466,10 +507,10 @@ exp = [
      "Cozinhava com o pai no garimpo e aprendeu cedo a relação entre esforço "
      "e conquista."),
     ("02", "DISCIPLINA",
-     "Bicicleta, trabalho, faculdade e futsal para conquistar bolsa e seguir "
-     "estudando."),
+     "Bicicleta, trabalho, faculdade e futsal para conquistar a bolsa e "
+     "seguir estudando."),
     ("03", "MÓVEIS PLANEJADOS",
-     "Dez anos de aprendizado técnico, conhecimento e domínio do setor."),
+     "Dez anos de aprendizado técnico, de conhecimento e de domínio do setor."),
     ("04", "MATERNIDADE E RETORNO",
      "Pausa, reconfiguração e volta mais madura ao empreendedorismo."),
 ]
@@ -485,7 +526,7 @@ for i, (num, rot, desc) in enumerate(exp):
 rodape(s)
 
 # =====================================================================
-# 08 — As tensões que a colocaram em movimento
+# 12 — As tensões que a colocaram em movimento
 # =====================================================================
 s = conteudo("CONTRASTE", "AS TENSÕES QUE A COLOCARAM EM MOVIMENTO", 44, 1.60,
              1.95)
@@ -507,13 +548,13 @@ for i, (rot, fala, resp) in enumerate(tensoes):
     txt(par(tf, True), rot, 18, GRAFITE, F1B, bold=True, spc=0.8)
     tf = caixa(s, 7.55, y, 5.5, 1.32, MSO_ANCHOR.MIDDLE)
     txt(par(tf, True), fala, 24, NEUTRO, F1, italic=True)
-    rect(s, 13.25, y + 0.62, 0.55, 0.05, GRAFITE)
+    oval(s, 13.35, y + 0.58, 0.16, GRAFITE)
     tf = caixa(s, 14.10, y, 4.3, 1.32, MSO_ANCHOR.MIDDLE)
     txt(par(tf, True), resp, 24, TINTA, F1B, bold=True)
 rodape(s)
 
 # =====================================================================
-# 09 — As grandes viradas
+# 13 — As grandes viradas
 # =====================================================================
 s = conteudo("MÉTODO", "AS GRANDES VIRADAS", 52, 1.60, 1.95)
 viradas = [
@@ -524,12 +565,11 @@ viradas = [
     ("03", "RETORNA PELA FORMA",
      "Volta ao setor e reencontra o lugar onde quer construir."),
     ("04", "CRIA A MY HOME",
-     "Transforma o descarte em nova possibilidade de negócio."),
+     "Transforma o descarte em uma nova possibilidade de negócio."),
 ]
 for i, (num, rot, desc) in enumerate(viradas):
     x = 1.40 + i * (4.03 + 0.29)
-    # aqui o marcador do topo e o proprio disco numerado — dois
-    # marcadores no mesmo cartao poluiriam
+    # aqui o marcador do topo e o proprio disco numerado
     card(s, x, 3.90, 4.03, 5.10, CARD_B if i % 2 == 0 else CARD_G)
     oval(s, x + 1.65, 4.50, 0.72, GRAFITE if i == 3 else BORDA)
     tf = caixa(s, x + 1.65, 4.50, 0.72, 0.72, MSO_ANCHOR.MIDDLE)
@@ -544,15 +584,15 @@ for i, (num, rot, desc) in enumerate(viradas):
 rodape(s)
 
 # =====================================================================
-# 10 — O padrão invisível
+# 14 — O padrão invisível
 # =====================================================================
 s = conteudo("PADRÕES", "O PADRÃO INVISÍVEL", 52, 1.60, 1.95)
 foto(s, 12.10, 3.35, 6.50, 4.60, FOTO["D"])
 pares = [
     ("ESCASSEZ", "Não aceita a condição como destino."),
     ("CARREIRA", "Não aceita o cargo como limite final."),
-    ("FRANQUIAS", "Não aceita o modelo pronto como única forma."),
-    ("SOBRAS", "Não aceita o descarte como fim."),
+    ("FRANQUIAS", "Não aceita o modelo pronto como a única forma."),
+    ("SOBRAS", "Não aceita o descarte como o fim."),
 ]
 for i, (rot, desc) in enumerate(pares):
     x = 1.40 + (i % 2) * 5.25
@@ -562,13 +602,14 @@ for i, (rot, desc) in enumerate(pares):
     linhas(s, x + 0.40, y + 0.48, 4.15, rot, 18, GRAFITE, F1B, bold=True)
     linhas(s, x + 0.40, y + 0.95, 4.15, desc, 24, NEUTRO, F1, espaco=1.25, h=1.1)
 
-faixa(s, 1.40, 8.20, 17.20, 1.40,
-      "EM HISTÓRIAS DIFERENTES, APARECE O MESMO MOVIMENTO: A REALIDADE "
-      "PRESENTE NUNCA É TRATADA COMO A VERSÃO FINAL DO POSSÍVEL.", 26)
+destaque(s, 1.40, 8.15, 16.6,
+         [("Em histórias diferentes, aparece o mesmo movimento: ", False),
+          ("a realidade presente nunca é tratada como a versão final do "
+           "possível", True), (".", False)], 30)
 rodape(s)
 
 # =====================================================================
-# 11 — O movimento que se repete
+# 15 — O movimento que se repete
 # =====================================================================
 s = conteudo("MODELO", "O MOVIMENTO QUE SE REPETE", 52, 1.60, 1.95)
 passos = [["PERCEBE A", "CONDIÇÃO"], ["IMAGINA", "ALGO ALÉM"],
@@ -579,42 +620,53 @@ for i, blk in enumerate(passos):
     x = 1.40 + i * (lp + gp)
     ultimo = (i == len(passos) - 1)
     if ultimo:
-        rect(s, x, 4.10, lp, 2.60, GRAFITE)
+        rect(s, x, 3.90, lp, 2.60, GRAFITE)
     else:
-        card(s, x, 4.10, lp, 2.60, CARD_B if i % 2 == 0 else CARD_G)
-        aba(s, x, 4.10, lp)
-    tf = caixa(s, x + 0.12, 4.18, lp - 0.24, 2.52, MSO_ANCHOR.MIDDLE)
+        card(s, x, 3.90, lp, 2.60, CARD_B if i % 2 == 0 else CARD_G)
+        aba(s, x, 3.90, lp)
+    tf = caixa(s, x + 0.12, 3.98, lp - 0.24, 2.52, MSO_ANCHOR.MIDDLE)
     for j, t in enumerate(blk):
         txt(par(tf, primeiro=(j == 0), align=PP_ALIGN.CENTER, espaco=1.15),
             t, 18, BRANCO if ultimo else TINTA, F1B, bold=True)
     if not ultimo:
-        oval(s, x + lp + 0.14, 5.31, 0.16, GRAFITE)
+        oval(s, x + lp + 0.14, 5.11, 0.16, GRAFITE)
 
-faixa(s, 1.40, 7.60, 17.20, 1.50,
-      "A MUDANÇA NÃO NASCE DE UM IMPULSO ISOLADO. ELA SEGUE UMA SEQUÊNCIA "
-      "RECONHECÍVEL DE VISÃO, APRENDIZADO E REALIZAÇÃO.", 26)
+destaque(s, 1.40, 7.35, 16.6,
+         [("A mudança não nasce de um impulso isolado. Ela segue uma ", False),
+          ("sequência reconhecível de visão, aprendizado e realização", True),
+          (".", False)], 32)
 rodape(s)
 
 # =====================================================================
-# 12 — A linha-mestra da história
+# 16 — DIVISOR: A LINHA-MESTRA DA HISTÓRIA
 # =====================================================================
-s = slide(textura=True)
+divisor("03", ["A LINHA-MESTRA", "DA HISTÓRIA"], 76)
+
+# =====================================================================
+# 17 — O manifesto da linha-mestra
+# =====================================================================
+s = slide()
 s.shapes.add_picture(TRACO, E(16.60), E(7.70), E(1.35), E(1.61))
-eyebrow(s, "A LINHA-MESTRA DA HISTÓRIA", 1.68, 2.05)
-linhas(s, 1.68, 2.70, 14.0,
+eyebrow(s, "A LINHA-MESTRA DA HISTÓRIA", 1.40, 2.05)
+linhas(s, 1.40, 2.70, 14.0,
        "Ao longo da trajetória, Flávia parece repetir um mesmo movimento:",
        30, NEUTRO, F1, h=0.8)
-rect(s, 1.68, 3.85, 1.85, 0.08, GRAFITE)
-tf = caixa(s, 1.68, 4.40, 16.0, 4.6)
+rect(s, 1.40, 3.85, 1.85, 0.08, GRAFITE)
+tf = caixa(s, 1.40, 4.40, 16.0, 4.6)
 for i, t in enumerate(["ELA NÃO ACEITA QUE", "O QUE EXISTE DETERMINE",
                        "O QUE PODE EXISTIR."]):
-    txt(par(tf, primeiro=(i == 0), espaco=1.08), t, 68, PRETO, F1B, bold=True)
+    txt(par(tf, primeiro=(i == 0), espaco=1.08), t, 68, TINTA, F1B, bold=True)
 rodape(s)
 
 # =====================================================================
-# 13 — Ikigai: o que move a trajetória
+# 18 — DIVISOR: IKIGAI
 # =====================================================================
-s = slide(textura=True)
+divisor("04", ["IKIGAI"])
+
+# =====================================================================
+# 19 — O que move a trajetória
+# =====================================================================
+s = slide()
 eyebrow(s, "IKIGAI", 1.40, 1.85)
 h1(s, ["O QUE MOVE", "A TRAJETÓRIA"], 1.40, 2.25, 10.0, 60)
 rect(s, 1.40, 5.05, 1.60, 0.07, GRAFITE)
@@ -631,7 +683,7 @@ linhas(s, 2.00, 7.55, 7.55,
 rodape(s)
 
 # =====================================================================
-# 14 — O mapa do Ikigai
+# 20 — O mapa do Ikigai
 # =====================================================================
 s = conteudo("MODELO", "O MAPA DO IKIGAI", 52, 1.60, 1.95)
 foto(s, 13.60, 3.35, 5.00, 6.15, FOTO["E"])
@@ -639,7 +691,7 @@ quad = [
     ("O QUE AMA", "Família, pessoas, trocas, proximidade."),
     ("NO QUE É BOA", "Conhecimento, persuasão, liderança, persistência."),
     ("COMO CONTRIBUI", "Ajuda, compartilha, gera crescimento."),
-    ("ONDE SE REALIZA", "Ver sonhos tomando forma e gente feliz."),
+    ("ONDE SE REALIZA", "Ver os sonhos tomando forma e as pessoas felizes."),
 ]
 for i, (rot, desc) in enumerate(quad):
     x = 1.40 + (i % 2) * 7.60
@@ -651,7 +703,7 @@ for i, (rot, desc) in enumerate(quad):
     linhas(s, x + 0.30, y + 1.10, 3.50, desc, 23, NEUTRO, F1,
            align=PP_ALIGN.CENTER, espaco=1.25, h=1.6)
 
-# centro do Ikigai: circulo, nao bloco — e o ponto onde os quatro se cruzam
+# centro do Ikigai: circulo, o ponto onde os quatro se cruzam
 oval(s, 5.72, 4.90, 3.05, GRAFITE)
 tf = caixa(s, 5.82, 4.90, 2.85, 3.05, MSO_ANCHOR.MIDDLE)
 for j, t in enumerate(["SENTIDO", "E", "REALIZAÇÃO"]):
@@ -660,7 +712,7 @@ for j, t in enumerate(["SENTIDO", "E", "REALIZAÇÃO"]):
 rodape(s)
 
 # =====================================================================
-# 15 — O centro do Ikigai / razão de ser
+# 21 — O centro do Ikigai / razão de ser
 # =====================================================================
 s = slide()
 eyebrow(s, "O CENTRO DO IKIGAI", 1.40, 1.45)
@@ -671,22 +723,20 @@ for i, t in enumerate(["TRANSFORMAR POSSIBILIDADES EM",
                        "REALIZAÇÕES CONCRETAS QUE FAÇAM",
                        "DIFERENÇA NA VIDA DAS PESSOAS."]):
     txt(par(tf, primeiro=(i == 0), espaco=1.08), t, 48, TINTA, F1B, bold=True)
-foto(s, 1.40, 5.65, 17.20, 2.65, FOTO["E"])
-card(s, 1.40, 8.55, 17.20, 1.35, CARD_G)
-lombada(s, 1.40, 8.55, 1.35)
-tf = caixa(s, 2.05, 8.55, 16.0, 1.35, MSO_ANCHOR.MIDDLE)
-txt(par(tf, True),
-    "A satisfação não termina nela: ganha força quando o que constrói também "
-    "amplia algo para o outro.", 26, TINTA, F1, italic=True)
+foto(s, 1.40, 5.50, 17.20, 2.40, FOTO["E"])
+destaque(s, 1.40, 8.20, 16.6,
+         [("A satisfação não termina nela: ", False),
+          ("ganha força quando o que constrói também amplia algo para o outro",
+           True), (".", False)], 28)
 rodape(s)
 
 # =====================================================================
-# 16 — Onde história e Ikigai se encontram
+# 22 — Onde história e Ikigai se encontram
 # =====================================================================
 s = conteudo("SÍNTESE", "ONDE HISTÓRIA E IKIGAI SE ENCONTRAM", 52, 1.60, 1.95)
 enc = [
     ("VISÃO", "Enxerga além da condição presente.", 1.40, 3.35),
-    ("IMPULSO", "Não se conforma com limites dados.", 13.65, 3.35),
+    ("IMPULSO", "Não se conforma com os limites dados.", 13.65, 3.35),
     ("MODO DE AGIR", "Aprende, organiza, mobiliza e executa.", 1.40, 6.20),
     ("IMPACTO", "Quer realizar e gerar transformação para outras pessoas.",
      13.65, 6.20),
@@ -706,20 +756,25 @@ for x1, x2, y in [(6.35, 7.95, 4.60), (12.05, 13.65, 4.60),
                   (6.35, 7.95, 7.45), (12.05, 13.65, 7.45)]:
     rect(s, x1, y, x2 - x1, 0.05, FILETE)
 
-faixa(s, 1.40, 9.00, 17.20, 1.05,
-      "HISTÓRIA MOSTRA O MOVIMENTO. IKIGAI REVELA O SENTIDO. "
-      "JUNTOS, APONTAM A RAIZ.", 26)
+destaque(s, 1.40, 9.05, 16.6,
+         [("A história mostra o movimento. O Ikigai revela o sentido. ", False),
+          ("Juntos, apontam a raiz", True), (".", False)], 26, traco=False)
 rodape(s)
 
 # =====================================================================
-# 17 — A revelação da essência
+# 23 — DIVISOR: A ESSÊNCIA
+# =====================================================================
+divisor("05", ["A ESSÊNCIA"])
+
+# =====================================================================
+# 24 — A revelação da essência
 # =====================================================================
 s = conteudo("SÍNTESE", "A REVELAÇÃO DA ESSÊNCIA", 48, 1.45, 1.75)
-rect(s, 1.40, 3.05, 17.20, 2.35, BORDA)
-tf = caixa(s, 2.00, 3.05, 16.0, 2.35, MSO_ANCHOR.MIDDLE)
+rect(s, 1.40, 3.15, 1.60, 0.08, GRAFITE)
+tf = caixa(s, 1.40, 3.60, 17.2, 2.2)
 for i, t in enumerate(["ENXERGAR ALÉM DO QUE ESTÁ POSTO",
                        "E FAZER EXISTIR O QUE AINDA É POSSIBILIDADE."]):
-    txt(par(tf, primeiro=(i == 0), espaco=1.1), t, 40, TINTA, F1B, bold=True)
+    txt(par(tf, primeiro=(i == 0), espaco=1.1), t, 42, TINTA, F1B, bold=True)
 
 cols = [
     ("COMO ENXERGA", "O presente não precisa ser a versão final."),
@@ -731,48 +786,43 @@ for i, (rot, desc) in enumerate(cols):
     x = 1.40 + i * (4.03 + 0.29)
     card(s, x, 5.90, 4.03, 3.65, CARD_B if i % 2 == 0 else CARD_G)
     aba(s, x, 5.90, 4.03)
-    linhas(s, x + 0.40, 6.35, 3.23, rot, 18, GRAFITE, F1B, bold=True)
-    linhas(s, x + 0.40, 6.95, 3.23, desc, 25, NEUTRO, F1, espaco=1.25, h=2.3)
+    linhas(s, x + 0.40, 6.38, 3.23, rot, 18, GRAFITE, F1B, bold=True)
+    linhas(s, x + 0.40, 6.98, 3.23, desc, 25, NEUTRO, F1, espaco=1.25, h=2.3)
 rodape(s)
 
 # =====================================================================
-# 18 — Como essa essência pode transbordar para as marcas
+# 25 — Como essa essência pode transbordar para as marcas
 # =====================================================================
 s = conteudo("SÍNTESE", ["COMO ESSA ESSÊNCIA PODE TRANSBORDAR",
                          "PARA AS MARCAS"], 42, 1.45, 1.75)
-rect(s, 1.40, 3.55, 17.20, 1.55, GRAFITE)
-tf = caixa(s, 2.00, 3.55, 2.6, 1.55, MSO_ANCHOR.MIDDLE)
-txt(par(tf, True), "FLÁVIA", 18, BORDA, F1B, bold=True, spc=1.2)
-tf = caixa(s, 4.90, 3.55, 13.1, 1.55, MSO_ANCHOR.MIDDLE)
-txt(par(tf, True),
-    "Enxerga além do que está posto e faz existir o que ainda é possibilidade.",
-    28, BRANCO, F1B, bold=True)
 
-rect(s, 9.97, 5.10, 0.06, 0.40, GRAFITE)
-rect(s, 5.45, 5.44, 9.10, 0.06, GRAFITE)
-rect(s, 5.45, 5.44, 0.06, 0.38, GRAFITE)
-rect(s, 14.49, 5.44, 0.06, 0.38, GRAFITE)
+# a essencia da fundadora em tipografia — sai o bloco preto e o "colchete"
+destaque(s, 1.40, 3.45, 16.6,
+         [("Enxerga além do que está posto e ", False),
+          ("faz existir o que ainda é possibilidade", True), (".", False)],
+         30, rotulo="Flávia")
 
 marcas = [
-    ("FORMA", "Dar forma a possibilidades.",
-     "Partir de matéria, técnica e projeto para construir algo que antes "
-     "existia apenas como ideia ou sonho.", 1.40, CARD_B),
+    ("FORMA", "Dar forma às possibilidades.",
+     "Partir da matéria, da técnica e do projeto para construir algo que "
+     "antes existia apenas como ideia ou sonho.", 1.40, CARD_B),
     ("MY HOME", "Reabrir possibilidades.",
-     "Onde o processo enxergava sobra, Flávia viu matéria para criar outra "
-     "coisa.", 10.20, CARD_G),
+     "Onde o processo enxergava sobra, Flávia viu matéria para criar "
+     "outra coisa.", 10.20, CARD_G),
 ]
 for rot, tit, desc, x, cor in marcas:
-    card(s, x, 5.95, 8.40, 2.75, cor)
-    aba(s, x, 5.95, 8.40)
-    linhas(s, x + 0.45, 6.38, 7.5, rot, 18, GRAFITE, F1B, bold=True)
-    linhas(s, x + 0.45, 6.75, 7.5, tit, 28, TINTA, F1B, bold=True)
-    linhas(s, x + 0.45, 7.45, 7.5, desc, 23, NEUTRO, F1, espaco=1.25, h=1.2)
+    card(s, x, 5.30, 8.40, 3.35, cor)
+    aba(s, x, 5.30, 8.40)
+    linhas(s, x + 0.60, 5.85, 7.2, rot, 18, GRAFITE, F1B, bold=True)
+    linhas(s, x + 0.60, 6.30, 7.2, tit, 30, TINTA, F1B, bold=True)
+    linhas(s, x + 0.60, 7.10, 7.2, desc, 23, NEUTRO, F1, espaco=1.28, h=1.3)
 
-faixa(s, 1.40, 9.00, 17.20, 1.10,
-      "A REVELAÇÃO IDENTIFICA A RAIZ. A BASE ESTRATÉGICA DETERMINARÁ COMO ESSA "
-      "RAIZ DEVE, OU NÃO, SE TRANSFORMAR EM ESTRATÉGIA PARA CADA MARCA.", 23)
+linhas(s, 1.40, 9.05, 16.6,
+       "A Revelação identifica a raiz. A Base Estratégica determinará como "
+       "essa raiz deve, ou não, se transformar em estratégia para cada marca.",
+       21, NEUTRO, F2, italic=True, h=0.8)
 rodape(s)
 
 # ---------------------------------------------------------------- salvar
 prs.save(SAIDA)
-print("OK ->", SAIDA, len(prs.slides.__iter__.__self__._sldIdLst), "slides")
+print("OK ->", SAIDA, len(prs.slides._sldIdLst), "slides")
