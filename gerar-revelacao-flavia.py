@@ -34,16 +34,19 @@ LOGO = os.path.join(ASSETS, "logo-ka.png")
 FOTO = {k: os.path.join(ASSETS, "foto_%s.jpg" % k) for k in "ABCDE"}
 
 # ---------------------------------------------------------------- paleta
-FUNDO = RGBColor(0xF8, 0xF7, 0xF2)      # gelo dos slides de conteudo
-FUNDO_DIV = RGBColor(0xF6, 0xF5, 0xF0)  # gelo da capa / sumario / divisores
+# Sem bege: o fundo e branco puro e os cartoes descem por uma escala de
+# cinzas neutros. Cartao branco sobre fundo branco desapareceria, entao a
+# alternancia clara/escura passou a ser cinza claro / cinza medio.
+FUNDO = RGBColor(0xFF, 0xFF, 0xFF)      # branco dos slides de conteudo
+FUNDO_DIV = RGBColor(0xFF, 0xFF, 0xFF)  # branco sob a textura de papel
 TINTA = RGBColor(0x1A, 0x1A, 0x1A)      # titulos e frases de impacto
 PRETO = RGBColor(0x00, 0x00, 0x00)      # capa / divisores
-NEUTRO = RGBColor(0xB5, 0xB5, 0xAD)     # corpo secundario e eyebrow
+NEUTRO = RGBColor(0xAE, 0xAE, 0xAA)     # corpo secundario e eyebrow
 GRAFITE = RGBColor(0x2E, 0x2E, 0x2A)    # numeros, filetes, rotulos fortes
-CARD_B = RGBColor(0xFF, 0xFF, 0xFF)     # cartao claro
-CARD_G = RGBColor(0xED, 0xED, 0xDD)     # cartao alternado
-BORDA = RGBColor(0xE5, 0xE4, 0xDF)      # hairline dos cartoes
-FILETE = RGBColor(0xDC, 0xDB, 0xD5)     # divisorias finas
+CARD_B = RGBColor(0xFA, 0xFA, 0xF9)     # cartao claro
+CARD_G = RGBColor(0xEF, 0xEF, 0xED)     # cartao alternado
+BORDA = RGBColor(0xE3, 0xE3, 0xE1)      # hairline dos cartoes
+FILETE = RGBColor(0xDB, 0xDB, 0xD9)     # divisorias finas
 BRANCO = RGBColor(0xFF, 0xFF, 0xFF)
 
 # ------------------------------------------------- tipografia (so Outfit)
