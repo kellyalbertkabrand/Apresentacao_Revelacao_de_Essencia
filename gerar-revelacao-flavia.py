@@ -237,6 +237,22 @@ def divisor(numero, nome):
     return s
 
 
+
+def seta(s, cx, y, h=0.42):
+    """Descida vertical entre etapas, no lugar da flecha."""
+    fio_v(s, cx, y, h, FIO, esp=0.018)
+
+
+def citacao(s, x, y, w, texto, rot=None, tam=28):
+    """Fala da Flavia: aspas em acento + frase em caixa baixa."""
+    if rot:
+        bloco(s, x, y, w, rot, 17, CLARO, LIGHT, h=0.35)
+        y += 0.45
+    bloco(s, x, y, 1.0, "“", 56, ACENTO, LIGHT, h=0.7)
+    bloco(s, x + 0.62, y + 0.12, w - 0.7, texto, tam, TINTA, LIGHT,
+          espaco=1.25, h=0.9)
+
+
 # =====================================================================
 # 01 — CAPA
 # =====================================================================
@@ -249,433 +265,573 @@ fio(s, ML, 6.95, 1.30, ACENTO, esp=0.03)
 bloco(s, ML, 7.45, 7.0, "Flávia Pereira Muccelin", 20, TINTA, SEMI, spc=2.4,
       h=0.4)
 bloco(s, ML, 8.10, 6.9,
-      "História, Ikigai e os padrões que existem na origem da Forma e da "
-      "My Home.", 18.5, CORPO, LIGHT, espaco=1.45, h=1.4)
+      "A essência da Flávia como fundadora e os padrões que estão na origem "
+      "da Forma e da My Home.", 18.5, CORPO, LIGHT, espaco=1.45, h=1.6)
 s.shapes.add_picture(LOGO, E(ML), E(9.95), E(1.85), E(1.85 * 183 / 777))
 
 # =====================================================================
 # 02 — SUMÁRIO
 # =====================================================================
-SECOES = [("01", "Metodologia"), ("02", "História"),
-          ("03", "A linha-mestra da história"), ("04", "Ikigai"),
-          ("05", "A essência")]
+SECOES = [
+    ("01", "A origem",
+     "As experiências que formaram a visão de mundo da Flávia."),
+    ("02", "As tensões", "Os momentos que a colocaram em movimento."),
+    ("03", "Os padrões", "A lógica que se repete ao longo da trajetória."),
+    ("04", "O Ikigai", "O que gera sentido e realização para a Flávia."),
+    ("05", "A essência", "O princípio que conecta a sua história."),
+    ("06", "As marcas",
+     "Como essa essência se manifesta na origem da Forma e da My Home."),
+]
 
 s = slide()
 eyebrow(s, "Sumário")
-for i, (n, nome) in enumerate(SECOES):
-    y = 2.90 + i * 1.46
+for i, (n, nome, desc) in enumerate(SECOES):
+    y = 2.45 + i * 1.24
     fio(s, ML, y, 13.6)
-    bloco(s, ML, y + 0.42, 1.2, n, 13, ACENTO, SEMI, spc=2.4, h=0.3)
-    bloco(s, ML + 1.70, y + 0.24, 11.0, nome, 38, TINTA, LIGHT, espaco=1.1)
-fio(s, ML, 2.90 + len(SECOES) * 1.46, 13.6)
+    bloco(s, ML, y + 0.40, 1.2, n, 13, ACENTO, SEMI, spc=2.4, h=0.3)
+    bloco(s, ML + 1.70, y + 0.28, 11.6, nome, 30, TINTA, LIGHT, espaco=1.1,
+          h=0.6)
+    bloco(s, ML + 1.70, y + 0.86, 11.6, desc, 17, CLARO, LIGHT, h=0.4)
+fio(s, ML, 2.45 + len(SECOES) * 1.24, 13.6)
 rodape(s)
 
 # =====================================================================
-# 03 — A PERGUNTA QUE NOS GUIA
+# 03 — Por que começamos pela essência?
+# =====================================================================
+s = pagina("Conceito", "Por que começamos pela essência?")
+bloco(s, ML, 4.15, 13.4,
+      "A Forma e a My Home são negócios distintos, mas nasceram e se "
+      "desenvolveram a partir da visão de uma mesma fundadora.",
+      24, TINTA, LIGHT, espaco=1.45, h=1.3)
+bloco(s, ML, 5.65, 13.4,
+      "Em marcas fortemente ligadas à fundadora, compreender a história de "
+      "quem as criou ajuda a identificar crenças, princípios e formas de "
+      "pensar e agir que influenciaram a construção dos negócios.",
+      19, CORPO, LIGHT, espaco=1.5, h=1.6)
+fio(s, ML, 7.60, W)
+rotulo(s, "O que não é", ML, 8.00)
+bloco(s, ML, 8.50, 6.8,
+      "Uma análise psicológica da Flávia.", 23, CORPO, LIGHT, espaco=1.35,
+      h=1.2)
+fio_v(s, 9.80, 8.00, 1.70)
+rotulo(s, "O que é", 10.80, 8.00)
+bloco(s, 10.80, 8.50, 7.0,
+      "A investigação da origem identitária das marcas a partir da fundadora.",
+      23, TINTA, LIGHT, espaco=1.35, h=1.2)
+rodape(s)
+
+# =====================================================================
+# 04 — A pergunta que conduz esta etapa
 # =====================================================================
 s = slide()
-eyebrow(s, "A pergunta que nos guia", ML, 3.60)
-bloco(s, ML, 4.35, 15.0,
-      ["O que existe em Flávia", "antes mesmo de existirem",
-       "a Forma e a My Home?"], 58, TINTA, LIGHT, espaco=1.22)
+eyebrow(s, "A pergunta que conduz esta etapa", ML, 3.90)
+bloco(s, ML, 4.60, 15.2,
+      ["O que já fazia parte de quem a Flávia é",
+       "antes da Forma e da My Home?"], 56, TINTA, LIGHT, espaco=1.24)
 rodape(s)
 
 # =====================================================================
-# 04 — DIVISOR
+# 05 — Como chegamos à revelação
 # =====================================================================
-divisor("01", "Metodologia")
+s = pagina("Método", "Como chegamos à revelação")
+bloco(s, ML, 4.05, 13.6,
+      "A essência não é definida por uma característica isolada. Ela se "
+      "revela quando diferentes momentos da trajetória apresentam uma mesma "
+      "lógica.", 21, CORPO, LIGHT, espaco=1.45, h=1.3)
 
-# =====================================================================
-# 05 — Por que começamos pela essência
-# =====================================================================
-s = pagina("Conceito", "Por que começamos pela essência")
-bloco(s, ML, 4.25, 12.6,
-      "Em marcas fortemente ligadas à fundadora, compreender a sua história "
-      "ajuda a identificar as crenças, os padrões e os princípios que podem "
-      "ter influenciado a criação, a cultura e a expressão das marcas.",
-      24, CORPO, LIGHT, espaco=1.5, h=2.6)
-fio(s, ML, 7.05, W)
-rotulo(s, "O que não é", ML, 7.45)
-bloco(s, ML, 7.95, 6.6, "Não estamos fazendo uma análise psicológica.",
-      26, CORPO, LIGHT, espaco=1.35, h=1.6)
-fio_v(s, 9.80, 7.45, 2.10)
-rotulo(s, "O que é", 10.80, 7.45)
-bloco(s, 10.80, 7.95, 7.0,
-      "Estamos investigando a origem identitária da Forma e da My Home.",
-      26, TINTA, LIGHT, espaco=1.35, h=1.6)
-rodape(s)
-
-# =====================================================================
-# 06 — Como essa etapa contribui para o branding
-# =====================================================================
-s = pagina("Método", "Como essa etapa contribui para o branding")
-etapas = [("01", "História", "Revela as referências e as crenças de origem."),
-          ("02", "Ikigai", "Revela as motivações e a razão de ser."),
-          ("03", "Padrões", "Revela as formas recorrentes de agir e de decidir."),
-          ("04", "Essência", "Sintetiza aquilo que pode estar na raiz das marcas.")]
+dimensoes = [
+    ("História", "Mostra as experiências e as referências que formaram a "
+                 "visão de mundo da Flávia."),
+    ("Tensões", "Mostram os momentos em que aquilo que existia entrou em "
+                "conflito com aquilo que ela desejava ou conseguia enxergar."),
+    ("Padrões", "Revelam como a Flávia responde, repetidamente, a essas "
+                "situações."),
+    ("Ikigai", "Revela o que gera sentido, realização e vontade de "
+               "contribuir."),
+]
 COL, GAP = 3.45, 0.60
-for i, (n, tit, desc) in enumerate(etapas):
+for i, (tit, desc) in enumerate(dimensoes):
     x = ML + i * (COL + GAP)
-    fio(s, x, 4.45, COL)
-    bloco(s, x, 4.75, COL, n, 54, NUM, LIGHT, h=1.1)
-    bloco(s, x, 6.00, COL, tit, 22, TINTA, REG, espaco=1.1, h=0.5)
-    bloco(s, x, 6.60, COL, desc, 19, CORPO, LIGHT, espaco=1.45, h=2.0)
-fio(s, ML, 8.95, W)
-rotulo(s, "Na etapa seguinte", ML, 9.30, cor=ACENTO)
-bloco(s, 6.20, 9.22, 11.6,
-      "A Base Estratégica determinará o que disso deve se transformar em "
-      "estratégia para cada marca.", 19, CORPO, LIGHT, espaco=1.4, h=0.9)
-rodape(s)
+    fio(s, x, 5.60, COL)
+    bloco(s, x, 5.90, COL, tit, 24, TINTA, LIGHT, espaco=1.1, h=0.6)
+    bloco(s, x, 6.60, COL, desc, 17, CORPO, LIGHT, espaco=1.45, h=2.0)
 
-# =====================================================================
-# 07 — Como chegamos à revelação
-# =====================================================================
-s = slide()
-eyebrow(s, "Modelo")
-titulo(s, "Como chegamos à revelação")
-fio(s, ML, 3.55, W)
-
-tf = caixa(s, ML, 4.90, W, 1.0)
+tf = caixa(s, ML, 8.80, W, 0.7)
 p = par(tf, True, align=PP_ALIGN.CENTER)
-for i, palavra in enumerate(["História", "Ikigai", "Padrões recorrentes"]):
+for i, palavra in enumerate(["História", "tensões", "padrões", "Ikigai"]):
     if i:
-        txt(p, "     +     ", 34, ACENTO, LIGHT)
-    txt(p, palavra, 34, CORPO, LIGHT)
-fio(s, 9.30, 6.35, 1.40)
-bloco(s, ML, 6.85, W, "Hipótese de essência", 58, TINTA, LIGHT,
-      align=PP_ALIGN.CENTER, espaco=1.1)
-bloco(s, 4.00, 8.60, 12.0,
-      "A apresentação cruza a trajetória, a razão de ser e o comportamento "
-      "recorrente para revelar a raiz que antecede as marcas.",
-      19, CLARO, LIGHT, align=PP_ALIGN.CENTER, espaco=1.45, h=1.2)
+        txt(p, "  +  ", 26, ACENTO, LIGHT)
+    txt(p, palavra, 26, CORPO, LIGHT)
+txt(p, "  =  ", 26, ACENTO, LIGHT)
+txt(p, "essência", 26, TINTA, SEMI)
+bloco(s, ML, 9.50, W,
+      "A essência é o princípio central que conecta essas dimensões e revela "
+      "a lógica que orienta a forma como a Flávia enxerga, age e transforma.",
+      16, CLARO, LIGHT, align=PP_ALIGN.CENTER, h=0.5)
 rodape(s)
 
 # =====================================================================
-# 08 — DIVISOR
+# 06 — DIVISOR
 # =====================================================================
-divisor("02", "História")
+divisor("01", "A origem")
 
 # =====================================================================
-# 09 — Onde essa história começa
+# 07 — Onde essa história começa
 # =====================================================================
 s = slide()
 foto(s, 11.60, 0, 8.40, ALT, FOTO["B"])
-eyebrow(s, "História")
+eyebrow(s, "A origem")
 titulo(s, "Onde essa história começa", ML, Y_H1, 8.6, 42)
 fio(s, ML, 3.45, 8.6)
-itens = [("Origem", "Família muito humilde, mudança para Primavera do Leste, "
-                    "fé, trabalho e recomeço."),
-         ("Contexto", "O pai trabalhando como caseiro/vaqueiro, a mãe "
-                      "presente, a rotina de esforço e honestidade."),
-         ("Marca inicial", "Desde cedo, a realidade presente nunca pareceu "
-                           "definir a realidade que Flávia conseguia imaginar.")]
-for i, (rot, desc) in enumerate(itens):
-    y = 4.05 + i * 1.92
-    rotulo(s, rot, ML, y)
-    bloco(s, ML, y + 0.48, 8.4, desc, 19, CORPO, LIGHT, espaco=1.45, h=1.2)
-    if i < 2:
-        fio(s, ML, y + 1.62, 8.6)
+bloco(s, ML, 3.85, 8.4,
+      "A história familiar da Flávia é marcada por escassez, trabalho, fé e "
+      "recomeços.", 22, TINTA, LIGHT, espaco=1.4, h=1.3)
+bloco(s, ML, 5.30, 8.4,
+      "A família deixou Guiratinga e foi para Primavera do Leste em busca de "
+      "uma vida melhor. O pai da Flávia passou a trabalhar como caseiro "
+      "justamente na propriedade onde, décadas depois, ela viveria como "
+      "proprietária.", 18, CORPO, LIGHT, espaco=1.5, h=2.2)
+bloco(s, ML, 7.70, 8.4,
+      "A Flávia chegou àquele lugar como “a filha do peão”.",
+      22, TINTA, LIGHT, espaco=1.35, h=0.9)
+fio(s, ML, 9.10, 1.30, ACENTO, esp=0.03)
+bloco(s, ML, 9.45, 8.4,
+      "TRABALHO   ·   FAMÍLIA   ·   FÉ   ·   HONESTIDADE   ·   GRATIDÃO",
+      11.5, CLARO, SEMI, spc=2.0, h=0.4)
 rodape(s, num=False)
 
 # =====================================================================
-# 10 — Os primeiros sinais
+# 08 — Os primeiros sinais
 # =====================================================================
 s = slide()
-foto(s, 0, 0, 8.60, ALT, FOTO["B"])
+foto(s, 0, 0, 8.60, ALT, FOTO["C"])
 X2 = 10.00
-eyebrow(s, "Os primeiros sinais", X2, 2.30)
-bloco(s, X2, 2.95, 8.0, "“", 92, ACENTO, LIGHT, espaco=1.0, h=1.2)
-bloco(s, X2, 3.95, 8.0, ["Pai, eu vou comprar", "isso aqui.”"],
-      48, TINTA, LIGHT, espaco=1.18)
-fio(s, X2, 6.45, 1.30, ACENTO, esp=0.03)
-bloco(s, X2, 6.95, 7.8,
-      "Ainda adolescente, Flávia imaginava outra vida antes de ela existir. "
-      "O portão e a casa tornaram-se símbolos dessa visão de futuro.",
-      19, CORPO, LIGHT, espaco=1.5, h=1.8)
-for i, atributo in enumerate(["Desejo de crescer", "Imaginação de futuro",
-                              "Inconformismo com a condição dada"]):
-    bloco(s, X2, 8.80 + i * 0.42, 7.8, atributo.upper(), 11, CLARO, SEMI,
-          spc=2.4, h=0.3)
-tf = caixa(s, X2, Y_RODAPE, 8.0, 0.35)
-p = par(tf, True)
-txt(p, DOC, 10.5, CLARO, SANS, spc=2.4)
-txt(p, "   ·   ", 10.5, CLARO, SANS, spc=2.4)
-txt(p, MARCA, 10.5, CLARO, SANS, spc=2.4)
+eyebrow(s, "A origem", X2, 1.75)
+titulo(s, "Os primeiros sinais", X2, 2.35, 8.0, 42)
+fio(s, X2, 3.45, 8.0)
+bloco(s, X2, 3.85, 7.9,
+      "A vontade de construir uma realidade diferente aparece muito antes da "
+      "criação das empresas.", 20, TINTA, LIGHT, espaco=1.4, h=1.2)
+bloco(s, X2, 5.05, 7.9,
+      "Ainda criança, a Flávia acompanhava o pai no garimpo e chegou a "
+      "cozinhar para os trabalhadores. Mais tarde, ia de bicicleta da chácara "
+      "até o centro para trabalhar. Também estudava e jogava futsal para "
+      "conquistar uma bolsa que ajudasse a manter a faculdade.",
+      17.5, CORPO, LIGHT, espaco=1.5, h=2.1)
+citacao(s, X2, 7.05, 7.9, "Eu não quero isso para mim.",
+        rot="Ela mesma diz:", tam=25)
+citacao(s, X2, 8.35, 7.9, "Eu queria mais.",
+        rot="E, mais tarde, ao perceber que o cargo limitaria o seu "
+            "crescimento:", tam=25)
+rodape(s, x=X2, num=False)
 
 # =====================================================================
-# 11 — As experiências que a formaram
+# 09 — As experiências que a formaram
 # =====================================================================
-s = slide()
-foto(s, 11.60, 0, 8.40, ALT, FOTO["C"])
-eyebrow(s, "Profundidade")
-titulo(s, "As experiências que a formaram", ML, Y_H1, 8.6, 42)
-fio(s, ML, 3.45, 8.6)
-exp = [("01", "Trabalho precoce", "Cozinhava com o pai no garimpo e aprendeu "
-        "cedo a relação entre esforço e conquista."),
-       ("02", "Disciplina", "Bicicleta, trabalho, faculdade e futsal para "
-        "conquistar a bolsa e seguir estudando."),
-       ("03", "Móveis planejados", "Dez anos de aprendizado técnico, de "
-        "conhecimento e de domínio do setor."),
-       ("04", "Maternidade e retorno", "Pausa, reconfiguração e volta mais "
-        "madura ao empreendedorismo.")]
-for i, (n, rot, desc) in enumerate(exp):
-    y = 3.85 + i * 1.52
-    bloco(s, ML, y + 0.02, 0.9, n, 13, ACENTO, SEMI, spc=2.0, h=0.3)
-    rotulo(s, rot, ML + 1.10, y, cor=TINTA)
-    bloco(s, ML + 1.10, y + 0.45, 7.3, desc, 18.5, CORPO, LIGHT, espaco=1.45,
-          h=1.2)
-    if i < 3:
-        fio(s, ML, y + 1.30, 8.6)
-rodape(s, num=False)
+FORMACAO = [
+    ("01", "A escassez",
+     "A Flávia cresceu em uma realidade de poucos recursos.",
+     "A vontade de ampliar possibilidades e não aceitar a condição presente "
+     "como limite."),
+    ("02", "O portão",
+     "Ainda adolescente, a Flávia entrava escondida na casa dos donos da "
+     "fazenda onde o pai trabalhava e se imaginava vivendo aquela realidade. "
+     "Anos depois, tornou-se proprietária daquele mesmo lugar.",
+     "A capacidade de se enxergar dentro de uma realidade antes de ela "
+     "existir concretamente."),
+    ("03", "O trabalho e o estudo",
+     "Trabalho, faculdade, bicicleta e futsal como caminho para conquistar "
+     "uma bolsa de estudos.",
+     "Para a Flávia, enxergar uma possibilidade exige movimento para "
+     "torná-la real."),
+    ("04", "A trajetória dos pais",
+     "A Flávia cresceu vendo os pais recomeçarem sem abandonar a honestidade, "
+     "a fé, o trabalho e a família.",
+     "A forma de construir importa tanto quanto aquilo que é conquistado."),
+]
+
+# Duas experiencias por pagina: com quatro no mesmo slide o bloco "o que isso
+# revela" nao tinha ar e a leitura virava parede de texto.
+for parte in (0, 1):
+    s = pagina("A origem", "As experiências que a formaram")
+    for i, (n, tit, fato, revela) in enumerate(FORMACAO[parte * 2:parte * 2 + 2]):
+        x = ML + i * 8.20
+        fio(s, x, 4.30, 7.40)
+        bloco(s, x, 4.62, 1.0, n, 13, ACENTO, SEMI, spc=2.4, h=0.3)
+        bloco(s, x + 1.20, 4.50, 6.2, tit, 26, TINTA, LIGHT, espaco=1.1, h=0.6)
+        bloco(s, x + 1.20, 5.35, 6.2, fato, 18.5, CORPO, LIGHT, espaco=1.5,
+              h=2.2)
+        fio(s, x + 1.20, 7.75, 1.10, ACENTO, esp=0.03)
+        rotulo(s, "O que isso revela", x + 1.20, 8.10, 6.2)
+        bloco(s, x + 1.20, 8.60, 6.2, revela, 19, TINTA, LIGHT, espaco=1.5,
+              h=1.4)
+    rodape(s)
 
 # =====================================================================
-# 12 — As tensões que a colocaram em movimento
+# 10 — DIVISOR
 # =====================================================================
-s = pagina("Contraste", "As tensões que a colocaram em movimento",
+divisor("02", "As tensões")
+
+# =====================================================================
+# 11 — As tensões que a colocaram em movimento
+# =====================================================================
+s = pagina("As tensões", "As tensões que a colocaram em movimento",
            com_fio=False)
-tensoes = [("A condição de vida dizia", "“essa é a realidade disponível.”",
-            "Flávia queria outra."),
-           ("O cargo dizia", "“até aqui você pode chegar.”",
-            "Flávia queria crescer."),
-           ("As franquias diziam", "“é assim que deve ser feito.”",
-            "Flávia queria fazer do seu jeito."),
-           ("As sobras diziam", "“isso terminou aqui.”",
-            "Flávia enxergou começo.")]
+bloco(s, ML, 3.40, 13.0,
+      "Existe uma lógica recorrente na trajetória da Flávia.", 19, CLARO,
+      LIGHT, h=0.45)
+tensoes = [
+    ("A realidade dizia", "“Essa é a sua condição.”",
+     "A Flávia enxergava outra."),
+    ("O cargo dizia", "“Até aqui você pode chegar.”", "A Flávia queria mais."),
+    ("As marcas prontas diziam", "“É assim que deve ser feito.”",
+     "A Flávia queria fazer do seu jeito."),
+    ("A maternidade exigiu uma escolha",
+     "Conciliar a maternidade e o empreendedorismo não era possível como "
+     "ela desejava naquele momento.",
+     "Ela parou e, anos depois, construiu um caminho de volta."),
+    ("As sobras tinham um destino", "“O descarte.”",
+     "A Flávia enxergou matéria para uma nova criação."),
+]
+# a linha da maternidade traz um relato, nao uma fala: precisa de mais altura
+ALTURAS = [1.00, 1.00, 1.00, 1.30, 1.00]
+y = 4.00
 for i, (rot, fala, resp) in enumerate(tensoes):
-    y = 4.45 + i * 1.40
     fio(s, ML, y, W)
-    rotulo(s, rot, ML, y + 0.42, 4.6)
-    bloco(s, 7.00, y + 0.34, 5.4, fala, 20, CORPO, LIGHT, italic=True, h=0.7)
-    fio(s, 12.55, y + 0.60, 0.42, CLARO, esp=0.018)
-    bloco(s, 13.45, y + 0.30, 4.4, resp, 23, TINTA, LIGHT, espaco=1.25, h=0.9)
-fio(s, ML, 4.45 + len(tensoes) * 1.40, W)
+    rotulo(s, rot, ML, y + 0.34, 4.6)
+    bloco(s, 7.00, y + 0.24, 5.4, fala, 17.5, CORPO, LIGHT,
+          italic=(i != 3), espaco=1.4, h=1.2)
+    fio(s, 12.60, y + 0.48, 0.42, CLARO, esp=0.018)
+    bloco(s, 13.35, y + 0.22, 4.5, resp, 20, TINTA, LIGHT, espaco=1.3, h=0.9)
+    y += ALTURAS[i]
+fio(s, ML, y, W)
+bloco(s, ML, y + 0.38, 15.0,
+      "Quando aquilo que está dado não corresponde ao que a Flávia enxerga "
+      "como possível, ela entra em movimento.", 19, TINTA, LIGHT, h=0.5)
 rodape(s)
 
 # =====================================================================
-# 13 — As grandes viradas
+# 12 — DIVISOR
 # =====================================================================
-s = pagina("Método", "As grandes viradas")
-viradas = [("01", "Monta sua loja", "Sai do papel de funcionária e assume uma "
-            "trajetória própria."),
-           ("02", "Faz uma pausa", "Escolhe a maternidade, reorganiza a vida e "
-            "se fortalece."),
-           ("03", "Retorna pela Forma", "Volta ao setor e reencontra o lugar "
-            "onde quer construir."),
-           ("04", "Cria a My Home", "Transforma o descarte em uma nova "
-            "possibilidade de negócio.")]
-fio(s, ML, 5.05, W)
-for i, (n, rot, desc) in enumerate(viradas):
-    x = ML + i * (COL + GAP)
-    bloco(s, x, 4.45, COL, n, 13, ACENTO, SEMI, spc=2.4, h=0.3)
-    ponto(s, x + 0.06, 5.06, 0.12)
-    bloco(s, x, 5.45, COL, rot, 22, TINTA, REG, espaco=1.15, h=1.0)
-    bloco(s, x, 6.20, COL, desc, 19, CORPO, LIGHT, espaco=1.45, h=2.2)
-rodape(s)
+divisor("03", "Os padrões")
 
 # =====================================================================
-# 14 — O padrão invisível
+# 13 — O padrão invisível
 # =====================================================================
 s = slide()
-foto(s, 12.40, 0, 7.60, ALT, FOTO["D"])
-eyebrow(s, "Padrões")
-titulo(s, "O padrão invisível", ML, Y_H1, 9.4, 42)
-fio(s, ML, 3.45, 9.4)
-pares = [("Escassez", "Não aceita a condição como destino."),
-         ("Carreira", "Não aceita o cargo como limite final."),
-         ("Franquias", "Não aceita o modelo pronto como a única forma."),
-         ("Sobras", "Não aceita o descarte como o fim.")]
-for i, (rot, desc) in enumerate(pares):
-    y = 4.05 + i * 1.18
-    rotulo(s, rot, ML, y + 0.14, 2.6)
-    bloco(s, ML + 2.90, y, 6.5, desc, 21, CORPO, LIGHT, espaco=1.3, h=0.8)
-    if i < 3:
-        fio(s, ML, y + 0.92, 9.4)
-fio(s, ML, 8.55, 1.30, ACENTO, esp=0.03)
-bloco(s, ML, 8.95, 9.2,
-      "Em histórias diferentes, aparece o mesmo movimento: a realidade "
-      "presente nunca é tratada como a versão final do possível.",
-      19, TINTA, LIGHT, espaco=1.4, h=1.1)
+foto(s, 11.60, 0, 8.40, ALT, FOTO["D"])
+eyebrow(s, "Os padrões")
+titulo(s, "O padrão invisível", ML, Y_H1, 8.6, 42)
+fio(s, ML, 3.45, 8.6)
+bloco(s, ML, 3.85, 8.4,
+      "As situações são diferentes. A resposta da Flávia segue a mesma "
+      "lógica.", 20, CLARO, LIGHT, espaco=1.4, h=1.1)
+etapas = ["Ela encontra uma realidade ou um limite.",
+          "Enxerga que aquilo pode ser diferente.",
+          "Constrói um caminho para transformar essa possibilidade em "
+          "realidade."]
+for i, e in enumerate(etapas):
+    y = 5.05 + i * 1.32
+    ponto(s, ML + 0.06, y + 0.20, 0.11)
+    bloco(s, ML + 0.60, y, 7.8, e, 21, TINTA, LIGHT, espaco=1.3, h=0.9)
+    if i < 2:
+        seta(s, ML + 0.06, y + 0.46, 0.60)
+fio(s, ML, 9.10, 1.30, ACENTO, esp=0.03)
+bloco(s, ML, 9.45, 8.4,
+      "O padrão está na forma como a Flávia responde quando percebe que "
+      "existe uma possibilidade além daquilo que está dado.",
+      17, CORPO, LIGHT, espaco=1.4, h=0.9)
 rodape(s, num=False)
 
 # =====================================================================
-# 15 — O movimento que se repete
+# 14 — O movimento que se repete
 # =====================================================================
-s = pagina("Modelo", "O movimento que se repete")
-passos = [["Percebe", "a condição"], ["Imagina", "algo além"],
-          ["Busca", "conhecimento"], ["Mobiliza", "pessoas"],
-          ["Constrói", ""], ["Transforma", "em realidade"]]
+s = pagina("Os padrões", "O movimento que se repete")
+passos = [["Enxerga a realidade", "como ela é"],
+          ["Percebe que aquilo", "não precisa", "ser definitivo"],
+          ["Enxerga outra", "possibilidade"],
+          ["Procura", "um caminho"],
+          ["Busca conhecimento,", "mobiliza pessoas", "e recursos"],
+          ["Transforma a", "possibilidade", "em realidade"]]
 X0, PASSO = 3.20, 2.72
 fio(s, X0, 5.35, PASSO * 5)
 for i, blk in enumerate(passos):
     cx = X0 + i * PASSO
     ponto(s, cx, 5.35, 0.13, ACENTO if i == 5 else CLARO)
-    bloco(s, cx - 1.25, 5.75, 2.50, [t for t in blk if t], 19,
+    bloco(s, cx - 1.25, 5.80, 2.50, blk, 17,
           TINTA if i == 5 else CORPO, LIGHT if i < 5 else REG,
-          align=PP_ALIGN.CENTER, espaco=1.3, h=1.4)
-fio(s, ML, 7.85, 1.30, ACENTO, esp=0.03)
-bloco(s, ML, 8.30, 13.0,
-      "A mudança não nasce de um impulso isolado. Ela segue uma sequência "
-      "reconhecível de visão, aprendizado e realização.",
-      22, TINTA, LIGHT, espaco=1.45, h=1.4)
+          align=PP_ALIGN.CENTER, espaco=1.35, h=1.6)
+fio(s, ML, 8.10, 1.30, ACENTO, esp=0.03)
+tf = caixa(s, ML, 8.55, W, 0.8)
+p = par(tf, True, espaco=1.3)
+txt(p, "Enxergar além", 30, TINTA, LIGHT)
+txt(p, "   →   ", 30, ACENTO, LIGHT)
+txt(p, "colocar em movimento", 30, TINTA, LIGHT)
+txt(p, "   →   ", 30, ACENTO, LIGHT)
+txt(p, "fazer existir", 30, TINTA, LIGHT)
+rodape(s)
+
+# =====================================================================
+# 15 — A linha mestra da história
+# =====================================================================
+s = slide()
+eyebrow(s, "Os padrões", ML, 2.05)
+bloco(s, ML, 2.55, 13.0,
+      "Ao longo da sua trajetória, a Flávia repete um mesmo movimento:",
+      19, CLARO, LIGHT, h=0.45)
+bloco(s, ML, 3.35, 15.4,
+      ["A Flávia não aceita que aquilo que existe",
+       "determine aquilo que pode existir."], 52, TINTA, LIGHT, espaco=1.24)
+fio(s, ML, 6.15, W)
+bloco(s, ML, 6.60, 8.0,
+      "Essa lógica aparece em contextos completamente diferentes da sua vida.",
+      18, CORPO, LIGHT, espaco=1.45, h=1.0)
+for i, t in enumerate(["Muda a situação.", "Muda o desafio.",
+                       "Muda o que precisa ser construído."]):
+    bloco(s, 10.60, 6.60 + i * 0.46, 7.2, t, 18, CLARO, LIGHT, h=0.4)
+fio(s, ML, 8.55, 1.30, ACENTO, esp=0.03)
+bloco(s, ML, 8.95, 15.0,
+      "A Flávia vê aquilo que existe, mas também enxerga o que aquilo ainda "
+      "pode se tornar.", 26, TINTA, LIGHT, espaco=1.35, h=1.0)
 rodape(s)
 
 # =====================================================================
 # 16 — DIVISOR
 # =====================================================================
-divisor("03", "A linha-mestra da história")
+divisor("04", "O Ikigai")
 
 # =====================================================================
-# 17 — O manifesto
+# 17 — O que move a Flávia?
 # =====================================================================
 s = slide()
-eyebrow(s, "A linha-mestra da história", ML, 2.60)
-bloco(s, ML, 3.20, 13.0,
-      "Ao longo da trajetória, Flávia parece repetir um mesmo movimento:",
-      20, CLARO, LIGHT, h=0.6)
-bloco(s, ML, 4.55, 15.4,
-      ["Ela não aceita que o que existe", "determine o que pode existir."],
-      62, TINTA, LIGHT, espaco=1.24)
-fio(s, ML, 8.15, 1.30, ACENTO, esp=0.03)
+foto(s, 0, 0, 8.60, ALT, FOTO["A"])
+eyebrow(s, "O Ikigai", X2, 1.85)
+titulo(s, "O que move a Flávia?", X2, 2.45, 8.0, 44)
+fio(s, X2, 3.60, 8.0)
+bloco(s, X2, 4.00, 7.9,
+      "Até aqui, a história revelou como a Flávia responde à realidade e "
+      "entra em movimento. O Ikigai acrescenta outra dimensão: o que faz "
+      "esse movimento ter sentido para ela.", 18, CORPO, LIGHT, espaco=1.5,
+      h=1.8)
+for i, q in enumerate(["O que a Flávia ama?",
+                       "No que reconhece as suas forças?",
+                       "Onde encontra realização?",
+                       "Como deseja contribuir para outras pessoas?"]):
+    y = 6.05 + i * 0.62
+    ponto(s, X2 + 0.06, y + 0.14, 0.10, CLARO)
+    bloco(s, X2 + 0.55, y, 7.3, q, 20, TINTA, LIGHT, h=0.45)
+fio(s, X2, 8.85, 1.30, ACENTO, esp=0.03)
+bloco(s, X2, 9.25, 7.9,
+      "Não buscamos apenas aquilo que ela gosta de fazer, e sim o que faz uma "
+      "realização ter significado para a Flávia.", 17, CORPO, LIGHT,
+      espaco=1.45, h=0.9)
+rodape(s, x=X2, num=False)
+
+# =====================================================================
+# 18 — O mapa do Ikigai
+# =====================================================================
+s = pagina("O Ikigai", "O mapa do Ikigai")
+mapa = [
+    ("O que a Flávia ama",
+     "A família. As pessoas. Os momentos de qualidade. As conversas e as "
+     "trocas verdadeiras. As conexões."),
+    ("No que a Flávia é boa",
+     "No conhecimento que construiu. Na persuasão. Na seriedade. Na "
+     "persistência. No domínio daquilo que vende. Na capacidade de envolver "
+     "pessoas."),
+    ("Como a Flávia gosta de contribuir",
+     "Sendo útil. Compartilhando conhecimentos e experiências. Ajudando "
+     "pessoas e empresários. Criando oportunidades. Fazendo diferença na vida "
+     "das pessoas."),
+    ("Onde a Flávia encontra realização",
+     "Ao ver algo ganhar forma. Ao transformar matéria em algo de valor. Ao "
+     "perceber a alegria do cliente. Ao ver o sonho de outra pessoa se tornar "
+     "concreto. Ao saber que aquilo que construiu também ampliou as "
+     "possibilidades de alguém."),
+]
+for i, (rot, itens) in enumerate(mapa):
+    x = ML + i * (COL + GAP)
+    fio(s, x, 4.55, COL)
+    bloco(s, x, 4.88, COL, rot, 20, TINTA, LIGHT, espaco=1.15, h=1.0)
+    bloco(s, x, 6.00, COL, itens, 17, CORPO, LIGHT, espaco=1.5, h=3.4)
 rodape(s)
 
 # =====================================================================
-# 18 — DIVISOR
+# 19 — O centro do Ikigai
 # =====================================================================
-divisor("04", "Ikigai")
-
-# =====================================================================
-# 19 — O que move a trajetória
-# =====================================================================
-s = slide()
-foto(s, 0, 0, 8.60, ALT, FOTO["C"])
-eyebrow(s, "Ikigai", X2, 2.60)
-bloco(s, X2, 3.20, 7.8, ["O que move", "a trajetória"], 52, TINTA, LIGHT,
-      espaco=1.14)
-fio(s, X2, 5.55, 7.8)
-bloco(s, X2, 6.00, 7.6,
-      "A história mostra como Flávia se formou e como age diante da vida.",
-      21, CORPO, LIGHT, espaco=1.45, h=1.4)
-bloco(s, X2, 7.55, 7.6,
-      "O Ikigai entra para revelar o que gera sentido, realização e vontade "
-      "de contribuir.", 21, TINTA, REG, espaco=1.45, h=1.8)
-tf = caixa(s, X2, Y_RODAPE, 8.0, 0.35)
-p = par(tf, True)
-txt(p, DOC, 10.5, CLARO, SANS, spc=2.4)
-txt(p, "   ·   ", 10.5, CLARO, SANS, spc=2.4)
-txt(p, MARCA, 10.5, CLARO, SANS, spc=2.4)
-
-# =====================================================================
-# 20 — O mapa do Ikigai
-# =====================================================================
-s = pagina("Modelo", "O mapa do Ikigai")
-quad = [("O que ama", "Família, pessoas, trocas, proximidade.",
-         PP_ALIGN.RIGHT, 2.20, 4.45),
-        ("No que é boa", "Conhecimento, persuasão, liderança, persistência.",
-         PP_ALIGN.LEFT, 12.60, 4.45),
-        ("Como contribui", "Ajuda, compartilha, gera crescimento.",
-         PP_ALIGN.RIGHT, 2.20, 7.25),
-        ("Onde se realiza", "Ver os sonhos tomando forma e as pessoas felizes.",
-         PP_ALIGN.LEFT, 12.60, 7.25)]
-for rot, desc, al, x, y in quad:
-    bloco(s, x, y, 5.20, rot.upper(), 12.5, CLARO, SEMI, spc=2.2, align=al,
-          h=0.3)
-    bloco(s, x, y + 0.50, 5.20, desc, 21, TINTA, LIGHT, align=al, espaco=1.4,
-          h=1.5)
-anel(s, 10.00, 6.55, 3.60)
-bloco(s, 8.30, 6.05, 3.40, ["Sentido", "e realização"], 21, TINTA, LIGHT,
-      align=PP_ALIGN.CENTER, espaco=1.3)
+s = pagina("O Ikigai", "O centro do Ikigai")
+bloco(s, ML, 4.15, 13.4,
+      "A Flávia não se realiza apenas conquistando para si. Ela encontra "
+      "realização quando vê uma possibilidade se tornar concreta e produzir "
+      "algo na vida de outras pessoas.", 22, TINTA, LIGHT, espaco=1.45, h=1.8)
+fio(s, ML, 6.25, W)
+for i, ex in enumerate(["Um cliente realiza um sonho.", "Uma equipe cresce.",
+                        "Uma ideia sai do papel.",
+                        "Uma pessoa recebe uma oportunidade."]):
+    x = ML + i * (COL + GAP)
+    bloco(s, x, 6.65, COL, ex, 18, CORPO, LIGHT, espaco=1.4, h=1.0)
+citacao(s, ML, 8.05, 9.0, "Fazer diferença na vida das pessoas.",
+        rot="Sobre o legado que deseja deixar, a própria Flávia resume:",
+        tam=26)
+bloco(s, 11.40, 8.55, 6.4,
+      "A Flávia também deseja criar uma fundação para oferecer uma profissão "
+      "a crianças.", 17, CLARO, LIGHT, espaco=1.45, h=1.0)
 rodape(s)
 
 # =====================================================================
-# 21 — Razão de ser
+# 20 — A razão de ser
 # =====================================================================
 s = slide()
-eyebrow(s, "O centro do Ikigai")
+eyebrow(s, "O Ikigai")
 bloco(s, ML, 2.35, 3.0, "RAZÃO DE SER", 12.5, ACENTO, SEMI, spc=2.4, h=0.3)
 bloco(s, ML, 3.05, 15.2,
-      ["Transformar possibilidades", "em realizações concretas que façam",
-       "diferença na vida das pessoas."], 44, TINTA, LIGHT, espaco=1.24)
-fio(s, ML, 6.10, 1.30, ACENTO, esp=0.03)
-bloco(s, ML, 6.50, 14.0,
-      "A satisfação não termina nela: ganha força quando o que constrói "
-      "também amplia algo para o outro.", 19, CORPO, LIGHT, espaco=1.45, h=0.7)
-foto(s, 0, 7.55, LARG, ALT - 7.55, FOTO["E"])
+      ["Transformar possibilidades em realizações",
+       "concretas que também ampliem a vida",
+       "de outras pessoas."], 44, TINTA, LIGHT, espaco=1.24)
+fio(s, ML, 6.35, 1.30, ACENTO, esp=0.03)
+bloco(s, ML, 6.75, 14.0,
+      "A realização ganha sentido quando aquilo que a Flávia constrói também "
+      "amplia possibilidades para outras pessoas.", 19, CORPO, LIGHT,
+      espaco=1.45, h=0.7)
+foto(s, 0, 7.70, LARG, ALT - 7.70, FOTO["E"])
 
 # =====================================================================
-# 22 — Onde história e Ikigai se encontram
-# =====================================================================
-s = pagina("Síntese", "Onde história e Ikigai se encontram")
-enc = [("Visão", "Enxerga além da condição presente.", PP_ALIGN.RIGHT,
-        2.20, 4.45),
-       ("Impulso", "Não se conforma com os limites dados.", PP_ALIGN.LEFT,
-        12.60, 4.45),
-       ("Modo de agir", "Aprende, organiza, mobiliza e executa.",
-        PP_ALIGN.RIGHT, 2.20, 7.05),
-       ("Impacto", "Quer realizar e gerar transformação para outras pessoas.",
-        PP_ALIGN.LEFT, 12.60, 7.05)]
-for rot, desc, al, x, y in enc:
-    bloco(s, x, y, 5.20, rot.upper(), 12.5, CLARO, SEMI, spc=2.2, align=al,
-          h=0.3)
-    bloco(s, x, y + 0.50, 5.20, desc, 21, TINTA, LIGHT, align=al, espaco=1.4,
-          h=1.5)
-anel(s, 10.00, 6.35, 3.60)
-bloco(s, 8.45, 6.10, 3.10, "Convergência", 21, TINTA, LIGHT,
-      align=PP_ALIGN.CENTER, espaco=1.3)
-bloco(s, ML, 9.35, 15.0,
-      "A história mostra o movimento. O Ikigai revela o sentido. "
-      "Juntos, apontam a raiz.", 19, CLARO, LIGHT, align=PP_ALIGN.CENTER,
-      h=0.6)
-rodape(s)
-
-# =====================================================================
-# 23 — DIVISOR
+# 21 — DIVISOR
 # =====================================================================
 divisor("05", "A essência")
 
 # =====================================================================
-# 24 — A revelação da essência
+# 22 — Onde a história e o Ikigai se encontram
 # =====================================================================
-s = slide()
-eyebrow(s, "Síntese")
-bloco(s, ML, 2.35, 15.4,
-      ["Enxergar além do que está posto e fazer",
-       "existir o que ainda é possibilidade."], 52, TINTA, LIGHT, espaco=1.2)
-fio(s, ML, 5.85, W)
-cols = [("Como enxerga", "O presente não precisa ser a versão final."),
-        ("O que a move", "A distância entre o que existe e o que ela imagina."),
-        ("Como age", "Aprende, trabalha, cria, reorganiza e materializa."),
-        ("O que transforma", "Realidades, inclusive a de outras pessoas.")]
-for i, (rot, desc) in enumerate(cols):
+s = pagina("A essência", "Onde a história e o Ikigai se encontram")
+bloco(s, ML, 4.05, 13.6,
+      "A história revela como a Flávia se movimenta. O Ikigai revela o que dá "
+      "sentido a esse movimento. Lado a lado, a mesma lógica aparece.",
+      20, CORPO, LIGHT, espaco=1.45, h=1.2)
+encontro = [
+    ("Visão", "A Flávia enxerga além da condição presente."),
+    ("Movimento", "A distância entre aquilo que existe e aquilo que ela "
+                  "enxerga como possível a leva a buscar caminhos, "
+                  "conhecimento, pessoas e recursos."),
+    ("Pessoas", "A família, a equipe, os clientes e as relações fazem parte "
+                "daquilo que dá significado às suas realizações."),
+    ("Impacto", "A conquista ganha mais sentido quando aquilo que ela "
+                "constrói também amplia possibilidades para outras pessoas."),
+]
+for i, (rot, desc) in enumerate(encontro):
     x = ML + i * (COL + GAP)
-    rotulo(s, rot, x, 6.30, COL)
-    bloco(s, x, 6.80, COL, desc, 19, CORPO, LIGHT, espaco=1.45, h=2.2)
+    fio(s, x, 5.60, COL)
+    bloco(s, x, 5.92, COL, rot, 22, TINTA, LIGHT, espaco=1.1, h=0.5)
+    bloco(s, x, 6.55, COL, desc, 17, CORPO, LIGHT, espaco=1.5, h=2.4)
+tf = caixa(s, ML, 9.15, W, 0.7)
+p = par(tf, True, align=PP_ALIGN.CENTER)
+txt(p, "Enxergar além.", 26, TINTA, LIGHT)
+txt(p, "   ·   ", 26, ACENTO, LIGHT)
+txt(p, "Colocar em movimento.", 26, TINTA, LIGHT)
+txt(p, "   ·   ", 26, ACENTO, LIGHT)
+txt(p, "Fazer existir.", 26, TINTA, LIGHT)
 rodape(s)
 
 # =====================================================================
-# 25 — Como essa essência transborda para as marcas
+# 23 — A essência da Flávia como fundadora
 # =====================================================================
-s = pagina("Síntese", "Como essa essência transborda para as marcas", 42)
-rotulo(s, "Flávia", ML, 4.20, cor=ACENTO)
-bloco(s, ML, 4.70, 15.0,
-      "Enxerga além do que está posto e faz existir o que ainda é "
-      "possibilidade.", 32, TINTA, LIGHT, espaco=1.3, h=1.1)
-fio(s, ML, 6.25, W)
-marcas = [("Forma", "Dar forma às possibilidades.",
-           "Partir da matéria, da técnica e do projeto para construir algo "
-           "que antes existia apenas como ideia ou sonho.", ML),
-          ("My Home", "Reabrir possibilidades.",
-           "Onde o processo enxergava sobra, Flávia viu matéria para criar "
-           "outra coisa.", 10.60)]
-for rot, tit, desc, x in marcas:
-    rotulo(s, rot, x, 6.70, 6.8)
-    bloco(s, x, 7.20, 7.0, tit, 30, TINTA, LIGHT, espaco=1.2, h=0.8)
-    bloco(s, x, 8.20, 6.8, desc, 19, CORPO, LIGHT, espaco=1.45, h=1.6)
-fio_v(s, 9.80, 6.70, 3.00)
-bloco(s, ML, 9.60, 15.0,
-      "A Revelação identifica a raiz. A Base Estratégica determinará como "
-      "essa raiz deve, ou não, se transformar em estratégia para cada marca.",
-      15, CLARO, LIGHT, h=0.5)
+s = slide()
+eyebrow(s, "A essência da Flávia como fundadora")
+bloco(s, ML, 2.35, 15.4,
+      ["Enxergar além do que está posto e fazer",
+       "existir o que ainda é possibilidade."], 52, TINTA, LIGHT, espaco=1.2)
+fio(s, ML, 5.55, W)
+camadas = [
+    ("Enxergar além", "A Flávia não considera a realidade presente como a "
+                      "única possibilidade. Ela consegue enxergar aquilo que "
+                      "ainda pode existir."),
+    ("Fazer existir", "Ela não permanece apenas no campo da imaginação. "
+                      "Procura caminhos e transforma a possibilidade em "
+                      "realidade."),
+    ("Ampliar possibilidades", "A realização ganha sentido quando aquilo que "
+                               "ela constrói também cria valor, oportunidade "
+                               "ou transformação para outras pessoas."),
+]
+LC, LG = 4.80, 0.60
+for i, (rot, desc) in enumerate(camadas):
+    x = ML + i * (LC + LG)
+    rotulo(s, rot, x, 6.00, LC)
+    bloco(s, x, 6.50, LC, desc, 18, CORPO, LIGHT, espaco=1.5, h=2.2)
+fio(s, ML, 8.75, W)
+bloco(s, ML, 9.15, 15.2,
+      "Forte, determinada, criativa, sonhadora e visionária são "
+      "características da Flávia. Mas são manifestações de uma lógica mais "
+      "profunda: enxergar além e fazer existir.", 18, TINTA, LIGHT,
+      espaco=1.45, h=0.9)
 rodape(s)
+
+# =====================================================================
+# 24 — DIVISOR
+# =====================================================================
+divisor("06", "As marcas")
+
+# =====================================================================
+# 25 — Como essa essência se manifesta nas marcas
+# =====================================================================
+s = pagina("As marcas", "Como essa essência se manifesta nas marcas")
+bloco(s, ML, 4.05, 13.0,
+      "Uma mesma essência. Duas manifestações diferentes.", 22, CLARO, LIGHT,
+      h=0.6)
+fio(s, ML, 4.95, W)
+rotulo(s, "A Forma", ML, 5.35, 7.0, cor=ACENTO)
+bloco(s, ML, 5.85, 7.0, "Dar forma ao que ainda é ideia.", 27, TINTA, LIGHT,
+      espaco=1.2, h=0.8)
+bloco(s, ML, 6.85, 7.0,
+      "A empresa representa o espaço que a Flávia buscava para criar, "
+      "personalizar e construir segundo a sua própria visão. Esse mesmo "
+      "movimento está na natureza do negócio: uma necessidade, uma ideia ou "
+      "um sonho se transformam em projeto e ganham forma concreta.",
+      17, CORPO, LIGHT, espaco=1.5, h=2.6)
+fio_v(s, 9.80, 5.35, 3.80)
+rotulo(s, "A My Home", 10.80, 5.35, 7.0, cor=ACENTO)
+bloco(s, 10.80, 5.85, 7.0, "Reabrir possibilidades.", 27, TINTA, LIGHT,
+      espaco=1.2, h=0.8)
+bloco(s, 10.80, 6.85, 7.0,
+      "A marca nasce quando a Flávia questiona o destino dado às sobras da "
+      "marcenaria. Onde havia descarte, ela enxergou matéria. Onde havia fim, "
+      "ela enxergou um novo começo. Aquilo que havia encerrado a sua função "
+      "ganhou uma nova possibilidade de existir.",
+      17, CORPO, LIGHT, espaco=1.5, h=2.6)
+bloco(s, ML, 9.30, 15.2,
+      "A Forma e a My Home são marcas diferentes e terão estratégias "
+      "próprias. Mas as duas carregam, na origem, uma mesma forma de enxergar "
+      "e transformar a realidade.", 17, CLARO, LIGHT, espaco=1.45, h=0.6)
+rodape(s)
+
+# =====================================================================
+# 26 — Da essência à estratégia
+# =====================================================================
+s = pagina("Próxima etapa", "Da essência à estratégia")
+bloco(s, ML, 4.15, 13.4,
+      "Esta etapa revelou a essência da Flávia como fundadora: uma forma "
+      "própria de enxergar e transformar a realidade que já existia antes da "
+      "Forma e da My Home.", 21, CORPO, LIGHT, espaco=1.5, h=1.6)
+fio(s, ML, 6.10, W)
+rotulo(s, "O que vem a seguir", ML, 6.50)
+bloco(s, ML, 7.00, 15.2,
+      "Essa essência ajuda a compreender de onde as duas marcas vêm, mas não "
+      "define, sozinha, quem cada marca precisa ser.", 20, CORPO, LIGHT,
+      espaco=1.45, h=1.2)
+bloco(s, ML, 8.35, 15.2,
+      "A Base Estratégica vai definir como essa origem se traduz em uma "
+      "direção própria, relevante e diferenciada para a Forma e para a "
+      "My Home.", 24, TINTA, LIGHT, espaco=1.4, h=1.6)
+rodape(s)
+
+# =====================================================================
+# 27 — FECHO
+# =====================================================================
+s = slide()
+fio(s, ML, 4.55, 1.30, ACENTO, esp=0.03)
+bloco(s, ML, 5.05, 15.2,
+      ["A essência revela a origem.", "A estratégia define a direção."],
+      54, TINTA, LIGHT, espaco=1.3)
+s.shapes.add_picture(LOGO, E(ML), E(9.90), E(1.85), E(1.85 * 183 / 777))
 
 # ---------------------------------------------------------------- salvar
 prs.save(SAIDA)
