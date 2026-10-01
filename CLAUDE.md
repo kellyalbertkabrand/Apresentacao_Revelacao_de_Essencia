@@ -31,6 +31,21 @@ padrão KA. Não inventar outro estilo.
    prévia em PNG para inspeção visual.
 4. Commitar no branch de trabalho e entregar o `.pptx` com `SendUserFile`.
 
+## Gatilho: "base estratégica" / apresentação com roteiro próprio
+
+Quando a entrega **não** tem roteiro fixo — Base Estratégica, plano, proposta,
+ou uma Revelação com estrutura diferente da padrão — use o **roteiro
+declarativo**: o conteúdo declara a lista de páginas, e os arquétipos vêm
+prontos.
+
+1. Ler **`padrao-ka/ROTEIRO-DECLARATIVO.md`** — os 18 arquétipos de página,
+   os três tratamentos de fotografia e as regras de ajuste automático.
+2. Montar com **`padrao-ka/ka_paginas.py`** (`DeckNarrativo`).
+3. Conferir com `padrao-ka/conferir.sh`.
+
+Referência viva: `clientes/lucas-martini/` — duas apresentações, 63 e 69
+slides.
+
 ## Gatilho: "revelação de essência"
 
 Primeira etapa do Método Marca com Essência ©.
@@ -68,6 +83,22 @@ Detalhe completo em `padrao-ka/SISTEMA-VISUAL.md`. O essencial:
 - Rodapé: pílula `DOCUMENTO | MARCA` à esquerda, logo KA à direita. Sem número
   de página.
 - Escala tipográfica fechada — não inventar tamanho fora da tabela.
+
+## Fotografia
+
+O tratamento depende da **proporção do material que o cliente mandou**, não do
+gosto:
+
+- **Retrato** → tira vertical sangrando numa lateral (o deck da Flávia).
+- **16:9** → faixa horizontal sangrando no topo ou no pé, ou tela cheia com
+  véu (os decks do Lucas).
+
+Nunca forçar retrato em faixa horizontal nem paisagem em tira vertical: o
+corte come três quartos da imagem. O `ka_paginas.py` já recusa sozinho o
+primeiro caso.
+
+Na faixa horizontal, usar `foco` para escolher que parte da imagem sobrevive
+ao corte — centralizar decapita as pessoas.
 
 ## Quando o texto não couber
 

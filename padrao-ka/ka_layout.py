@@ -208,19 +208,25 @@ class Deck:
                      t, tam, cor, fonte, italic, spc)
         return tf
 
-    def foto(self, s, x, y, w, h, caminho, raio=None):
-        """Imagem cobrindo a caixa (center-crop, sem distorcer). Quando sangra
-        na borda do slide vai sem raio; contida, ganha canto arredondado."""
+    def foto(self, s, x, y, w, h, caminho, raio=None, foco=0.5):
+        """Imagem cobrindo a caixa (crop sem distorcer). Quando sangra na
+        borda do slide vai sem raio; contida, ganha canto arredondado.
+
+        `foco` diz que parte da imagem sobrevive ao corte: 0.5 e o centro,
+        valores menores puxam para o topo. Numa FAIXA horizontal o corte e
+        vertical e violento, e centralizar decapita as pessoas — por isso a
+        faixa pede foco alto (perto de 0,3)."""
         iw, ih = Image.open(caminho).size
         alvo, orig = w / h, iw / ih
         pic = s.shapes.add_picture(caminho, self.e(x), self.e(y),
                                    self.e(w), self.e(h))
+        f = min(max(foco, 0.0), 1.0)
         if orig > alvo:
-            c = (1 - alvo / orig) / 2
-            pic.crop_left = pic.crop_right = c
+            c = 1 - alvo / orig
+            pic.crop_left, pic.crop_right = c * f, c * (1 - f)
         elif orig < alvo:
-            c = (1 - orig / alvo) / 2
-            pic.crop_top = pic.crop_bottom = c
+            c = 1 - orig / alvo
+            pic.crop_top, pic.crop_bottom = c * f, c * (1 - f)
         if raio:
             geom = pic._element.spPr.find(qn("a:prstGeom"))
             if geom is not None:

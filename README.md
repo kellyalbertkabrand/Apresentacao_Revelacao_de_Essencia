@@ -10,6 +10,8 @@ trabalho fique na estratégia, não no arrasta-caixinha.
 padrao-ka/              O PADRÃO DE LAYOUT — vale para toda apresentação KA
   SISTEMA-VISUAL.md       grade, paleta, tipografia, arquétipos de página
   ka_layout.py            o motor; não conhece conteúdo nenhum
+  ka_paginas.py           arquétipos de página para roteiro declarativo
+  ROTEIRO-DECLARATIVO.md  quando o roteiro não é fixo: páginas como dados
   conferir.sh             renderiza e acusa texto vazando do painel
   assets/                 textura, logos, símbolos
 
@@ -19,9 +21,13 @@ modelos/                UM MODELO POR TIPO DE APRESENTAÇÃO
     gerar.py              monta o deck a partir do conteúdo do cliente
 
 clientes/               UM PROJETO POR CLIENTE
-  flavia-muccelin/
+  flavia-muccelin/        roteiro fixo — usa modelos/revelacao-de-essencia
     conteudo.py           só dados: os textos da apresentação
     assets/               as fotos, nomeadas pelo slide de destino
+  lucas-martini/          roteiro declarativo — duas apresentações
+    revelacao.py          Revelação de Essência (63 slides)
+    base_estrategica.py   Base Estratégica da Marca (69 slides)
+    gerar.py              monta as duas, em .pptx e .pdf
 
 referencia/             o .pptx aprovado — herda tema e as fontes Outfit
 arquivo/                material anterior ao padrão atual; histórico
@@ -36,9 +42,20 @@ vez.
 
 ```bash
 python3 modelos/revelacao-de-essencia/gerar.py clientes/flavia-muccelin
+python3 clientes/lucas-martini/gerar.py
 ```
 
-Sai um `.pptx` de 31 slides na pasta do cliente.
+Sai o `.pptx` (e, no caso do Lucas, também o `.pdf`) na pasta do cliente.
+
+**Duas rotas**, conforme a entrega:
+
+- **Roteiro fixo** (`modelos/<tipo>/`) — quando a apresentação se repete igual
+  de cliente para cliente, como a Revelação de Essência. O conteúdo preenche
+  um contrato de campos.
+- **Roteiro declarativo** (`padrao-ka/ka_paginas.py`) — quando cada entrega
+  tem estrutura própria. O conteúdo declara a lista de páginas.
+
+O layout é o mesmo nas duas.
 
 ## Conferir
 
