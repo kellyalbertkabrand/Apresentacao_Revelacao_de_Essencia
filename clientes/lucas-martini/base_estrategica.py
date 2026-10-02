@@ -21,6 +21,7 @@ As fotografias entram em tira vertical ou tela cheia; o recorte sai de
 
 MARCA = "Lucas Martini"
 DOCUMENTO = "Base Estratégica da Marca"
+RODAPE = False          # a Kelly pediu a Base sem rodape
 ARQUIVO = "Base-Estrategica-da-Marca-Lucas-Martini"
 
 IMG = {
@@ -43,12 +44,13 @@ PAGINAS = [
     {"tipo": "abertura"},
 
     # 02 — capa
+    # capa no formato do arquivo final da Kelly: sem fotografia, titulo
+    # numa linha so atravessando a pagina
     {"tipo": "capa",
-     "titulo": ["BASE", "ESTRATÉGICA"],
+     "titulo": ["BASE ESTRATÉGICA", "DA MARCA"],
      "subtitulo": ["Lucas Martini", "Proteção & Sucessão"],
      "assinatura": ["Método Marca", "com Essência ©"],
-     "data": "Outubro/2026",
-     "foto": IMG[1], "foco": 0.42},
+     "data": "Outubro/2026"},
 
     # 03 — sumário
     {"tipo": "sumario", "itens": [

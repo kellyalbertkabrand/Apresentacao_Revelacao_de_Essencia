@@ -46,8 +46,7 @@ PAGINAS = [
      "subtitulo": ["Lucas José Martini",
                    "Origem Identitária do Fundador"],
      "assinatura": ["Método Marca", "com Essência ©"],
-     "data": "Outubro/2026",
-     "foto": IMG[1], "foco": 0.42},
+     "data": "Outubro/2026"},
 
     # 03 — sumário
     {"tipo": "sumario", "itens": [
@@ -69,13 +68,13 @@ PAGINAS = [
     # 04 — por que começamos pela essência
     {"tipo": "texto", "eyebrow": "Conceito", "foto": IMG[3], "lado": "direita",
      "titulo": "Por que começamos pela essência?",
-     "lead": "Uma marca pessoal não começa naquilo que o profissional vende. "
-             "Começa na maneira como ele enxerga o mundo, toma decisões e "
-             "atribui significado ao próprio trabalho.",
+     "lead": "Uma marca pessoal não começa no que o profissional vende. "
+             "Começa na maneira como ele enxerga o mundo e atribui "
+             "significado ao próprio trabalho.",
      "paragrafos": [
-         "No caso do Lucas, proteção e sucessão são a parte visível. Esta "
-         "etapa não é uma análise psicológica: é a investigação dos padrões, "
-         "crenças e tensões que explicam a origem da sua atuação.",
+         "Proteção e sucessão são a parte visível. Esta etapa investiga os "
+         "padrões, as crenças e as tensões que explicam a origem da sua "
+         "atuação.",
      ],
      "destaque": "O que existe por trás da forma como ele protege?"},
 
@@ -176,10 +175,9 @@ PAGINAS = [
              "reveladora — “fui pelo dinheiro e acabei ficando pelo "
              "propósito”.",
      "paragrafos": [
-         "O significado aparece quando ele começa a acompanhar pagamentos de "
-         "benefícios e percebe o que uma decisão tomada antes representava na "
-         "vida de alguém. Crescimento, resultado e reconhecimento movem o "
-         "Lucas — e seguem movendo.",
+         "O significado aparece quando ele acompanha pagamentos de "
+         "benefícios e percebe o que uma decisão tomada antes representava "
+         "na vida de alguém.",
      ],
      "destaque": "O dinheiro explica a entrada. O impacto explica a "
                  "permanência."},
@@ -189,13 +187,11 @@ PAGINAS = [
      "lado": "esquerda",
      "titulo": "Reconhecimento × exposição",
      "lead": "Lucas acumula reconhecimentos e valoriza estar entre os "
-             "melhores. Mas tem dificuldade declarada em comunicar essas "
-             "conquistas.",
+             "melhores. Mas tem dificuldade declarada em comunicá-los.",
      "paragrafos": [
-         "O paradoxo é aparente. Ele não tem dificuldade com reconhecimento: "
-         "tem dificuldade com autoproclamação. Existe conforto quando um "
-         "cliente, uma companhia ou um ranking reconhecem; existe desconforto "
-         "quando ele próprio precisa dizer “olhem o que eu conquistei”.",
+         "O incômodo não é com o reconhecimento: é com a autoproclamação. "
+         "Há conforto quando um cliente ou um ranking reconhece; há "
+         "desconforto quando ele próprio precisa anunciar.",
      ],
      "destaque": "Para o Lucas, legitimidade precisa ser conquistada. Não "
                  "declarada."},
@@ -349,13 +345,13 @@ PAGINAS = [
     {"tipo": "texto", "eyebrow": "A marca", "foto": IMG[13],
      "lado": "direita",
      "titulo": "Prova, não proclamação",
-     "lead": "A dificuldade de comunicação do Lucas não exige que ele se "
-             "transforme em alguém que não é. Sua marca pode ser construída "
-             "pela lógica que já existe nele.",
+     "lead": "A dificuldade de comunicação não exige que ele se transforme "
+             "em alguém que não é. A marca pode ser construída pela lógica "
+             "que já existe nele.",
      "paragrafos": [
-         "Resultados, casos, conhecimento, reconhecimentos contextualizados e "
-         "consistência. Ele não precisa se tornar mais exibido: precisa "
-         "tornar mais visível aquilo que já construiu.",
+         "Resultados, casos, conhecimento e consistência. Ele não precisa se "
+         "tornar mais exibido: precisa tornar mais visível aquilo que já "
+         "construiu.",
      ],
      "destaque": "A essência revela a origem. A estratégia define a direção."},
 

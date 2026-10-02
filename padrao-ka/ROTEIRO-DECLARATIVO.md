@@ -33,7 +33,7 @@ a liberdade de ordenar as páginas.
 | `tipo` | O que é | Campos |
 |---|---|---|
 | `abertura` | logos sobre a textura | — |
-| `capa` | título, filete, assinatura e foto sangrando à direita | `titulo` (lista), `subtitulo`, `assinatura`, `data`, `foto` |
+| `capa` | título em caixa alta sobre a textura, traço no canto e barra de assinatura | `titulo` (lista), `subtitulo` (lista: nome + descritor), `assinatura`, `data`, `foto` (opcional) |
 | `sumario` | índice numerado | `itens`: `(num, nome[, descrição])` |
 | `divisor` | virada de seção | `numero`, `nome`, `apoio` |
 | `declaracao` | **a página de silêncio**: uma frase grande e muito ar | `linhas`, `apoio`, `eyebrow`, `marcar` |
@@ -166,3 +166,39 @@ d.salvar("saida.pptx")
 
 Exemplo completo e vivo: `clientes/lucas-martini/` — duas apresentações, 63 e
 69 slides, montadas a partir de dois módulos de conteúdo.
+
+---
+
+## O rodapé é opcional
+
+A Kelly pediu a Base Estratégica **sem rodapé** — a pílula `DOCUMENTO | MARCA`
+e o logo KA saem de todas as páginas. A Revelação mantém o rodapé, como no
+arquivo final dela.
+
+```python
+# no conteudo.py do cliente
+RODAPE = False
+```
+
+O `gerar.py` do cliente repassa:
+
+```python
+d = DeckNarrativo(documento=C.DOCUMENTO, marca=C.MARCA,
+                  assets=..., rodape=getattr(C, "RODAPE", True))
+```
+
+---
+
+## Quando o texto não cabe
+
+O motor mede o texto na própria fonte (veja SISTEMA-VISUAL.md) e monta cada
+página pela altura real de cada bloco. Se ainda assim não couber, ele **avisa
+no build** em vez de espremer:
+
+```
+! texto nao cabe em "Reconhecimento × exposição": sobram 0.21" para cortar
+```
+
+A saída é cortar texto ou quebrar a página em duas — nunca diminuir o corpo
+abaixo de 92%, nem espremer a linha. Espremer a caixa não encolhe o texto:
+faz o filete da linha seguinte passar por cima da última linha.

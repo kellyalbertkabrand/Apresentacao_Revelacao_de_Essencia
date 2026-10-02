@@ -7,17 +7,15 @@
 # pdftotext -bbox — as alturas declaradas no python-pptx sao so um chute, o
 # texto quebra em mais linhas do que se espera.
 #
-# A copia usada na conferencia troca "Outfit 2 Semi-Bold" por
-# "Outfit 2 SemiBold" porque o fontconfig local nao casa o nome com hifen e
-# substitui por DejaVu Sans, fazendo a previa mentir sobre o peso. O arquivo
-# ENTREGUE nunca e alterado.
+# A previa so diz a verdade com as 12 fontes de padrao-ka/fontes/ instaladas
+# (padrao-ka/instalar-fontes.sh). Sem elas o LibreOffice cai na DejaVu Sans,
+# que e mais larga, e a conferencia acusa vazamento onde nao ha.
 set -e
 SRC=$(readlink -f "${1:?uso: conferir.sh <arquivo.pptx>}")
 AQUI=$(cd "$(dirname "$0")" && pwd)
 T=$(mktemp -d)
 mkdir -p "$T/x" && cd "$T/x"
 unzip -o -q "$SRC"
-sed -i 's/Outfit 2 Semi-Bold/Outfit 2 SemiBold/g' ppt/slides/slide*.xml
 zip -q -r ../previa.pptx . && cd "$T"
 # perfil proprio por execucao: duas conferencias ao mesmo tempo disputam o
 # perfil padrao do LibreOffice e as duas travam sem dizer nada

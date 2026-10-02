@@ -45,7 +45,8 @@ def pdf(caminho):
 def montar(nome):
     C = carregar(nome)
     d = DeckNarrativo(documento=C.DOCUMENTO, marca=C.MARCA,
-                      assets=os.path.join(AQUI, "assets"))
+                      assets=os.path.join(AQUI, "assets"),
+                      rodape=getattr(C, "RODAPE", True))
     d.montar(C.PAGINAS)
     alvo = os.path.join(AQUI, C.ARQUIVO + ".pptx")
     caminho, n = d.salvar(alvo)

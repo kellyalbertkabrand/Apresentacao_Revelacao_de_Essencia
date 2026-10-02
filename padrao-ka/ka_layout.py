@@ -50,11 +50,21 @@ ACENTO = RGBColor(0xA9, 0x72, 0x4A)   # terracota — uso minimo
 BRANCO = RGBColor(0xFF, 0xFF, 0xFF)
 
 # ------------------------------------------------- tipografia (so Outfit)
-LIGHT = "Outfit 2 Light"
-REG = "Outfit 2"
-SEMI = "Outfit 2 Semi-Bold"
-SANS = "Outfit 1"
+#
+# MEDIDO no arquivo final da Kelly: a familia de texto e a OUTFIT 1, nao a
+# Outfit 2. No arquivo dela sao 576 trechos em Outfit 1 Light contra 4 em
+# Outfit 2 Light. A Outfit 2 sobrou so no eyebrow. A primeira transcricao
+# inverteu as duas familias — e e dai que vinha a maior diferenca visual
+# entre o que eu gerava e o padrao dela, maior que qualquer tamanho.
+LIGHT = "Outfit 1 Light"        # corpo, titulos e frases — o peso padrao
+REG = "Outfit 1"                # rodape e texto neutro
+SEMI = "Outfit 1 Semi-Bold"     # rotulos e numerais
+SANS = "Outfit 2"               # eyebrow — a unica sobrevivente da familia 2
+SANS_LIGHT = "Outfit 2 Light"   # assinatura do metodo, na capa
+SANS_SEMI = "Outfit 2 Semi-Bold"  # o nome do metodo dentro da assinatura
 BOLD = "Outfit 1 Bold"
+MEDIO = "Outfit 1 Medium"       # titulo da capa
+ULTRA = "Outfit 1 Ultra-Bold"   # titulo do sumario
 HEAVY = "Outfit 1 Heavy"
 
 EMU = 914400
@@ -83,12 +93,13 @@ T_DISPLAY = 74           # frase grande que abre uma etapa
 T_H1 = 42                # titulo de pagina
 T_FRASE = 29             # aspas de citacao
 T_MEDIO = 23             # frase forte, item de lista forte
-T_LEAD = 23              # linha de abertura
-T_CORPO = 19             # corpo
+T_LEAD = 24              # linha de abertura
+T_CORPO = 21             # corpo
 T_MINI = 17              # legenda miuda
 T_RODAPE = 17            # rodape
+T_SUMARIO = 78           # titulo do sumario, acima do painel
 T_SUBCAPA = 30           # subtitulo da capa
-T_ASSINATURA = 27        # assinatura do metodo, na capa
+T_ASSINATURA = 26.8      # assinatura do metodo, na capa
 T_DATA = 19.5            # data, na capa
 T_ROTULO = 14           # eyebrow e rotulo em caixa alta
 
@@ -108,13 +119,13 @@ def _modelo_base():
 ESCALA_LEGADA = {
     "CAPA": 76, "DIVISOR": 62, "DISPLAY": 46, "H1": 38, "FRASE": 28,
     "MEDIO": 22, "LEAD": 17, "CORPO": 14.5, "MINI": 12, "RODAPE": 12,
-    "ROTULO": 9.5, "SUBCAPA": 22, "ASSINATURA": 17, "DATA": 12,
+    "ROTULO": 9.5, "SUMARIO": 44, "SUBCAPA": 22, "ASSINATURA": 17, "DATA": 12,
 }
 ESCALA_KA = {
     "CAPA": T_CAPA, "DIVISOR": T_DIVISOR, "DISPLAY": T_DISPLAY, "H1": T_H1,
     "FRASE": T_FRASE, "MEDIO": T_MEDIO, "LEAD": T_LEAD, "CORPO": T_CORPO,
     "MINI": T_MINI, "RODAPE": T_RODAPE, "ROTULO": T_ROTULO,
-    "SUBCAPA": T_SUBCAPA, "ASSINATURA": T_ASSINATURA, "DATA": T_DATA,
+    "SUMARIO": T_SUMARIO, "SUBCAPA": T_SUBCAPA, "ASSINATURA": T_ASSINATURA, "DATA": T_DATA,
 }
 
 
@@ -302,8 +313,8 @@ class Deck:
         self.bloco(s, 1.55, Y_RODAPE - 0.16, 8.35, 0.58, PAINEL, raio=0.16)
         tf = self.caixa(s, 1.95, Y_RODAPE - 0.16, 7.6, 0.58, MSO_ANCHOR.MIDDLE)
         p = self.par(tf, True)
-        self.txt(p, self.documento, self.T["RODAPE"], TINTA, SANS, spc=2.2)
-        self.txt(p, "   |   ", self.T["RODAPE"], CLARO, SANS, spc=2.2)
+        self.txt(p, self.documento, self.T["RODAPE"], TINTA, REG, spc=2.2)
+        self.txt(p, "   |   ", self.T["RODAPE"], CLARO, REG, spc=2.2)
         self.txt(p, self.marca, self.T["RODAPE"], TINTA, BOLD, spc=2.2)
         self.logo(s, LOGO_KA, 16.55, Y_RODAPE - 0.22, 1.72)
 

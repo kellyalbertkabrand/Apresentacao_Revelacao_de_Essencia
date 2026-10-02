@@ -70,33 +70,60 @@ as páginas com foto sangrando dispensam o painel.
 **Fonte única: Outfit**, nas variantes nomeadas que vêm incorporadas no arquivo
 de referência. Nada de Calibri, Playfair ou IBM Plex.
 
+A família de texto é a **Outfit 1**. No arquivo final da Kelly são **576**
+trechos em `Outfit 1 Light` contra 4 em `Outfit 2 Light`: a Outfit 2 sobrou no
+eyebrow e na assinatura da capa. A primeira transcrição inverteu as duas
+famílias — era daí que vinha a maior diferença visual entre o gerado e o
+padrão dela, maior que qualquer tamanho.
+
 | Constante | Nome no OOXML | Uso |
 |---|---|---|
-| `LIGHT` | `Outfit 2 Light` | títulos, corpo, frases — o peso padrão |
-| `REG` | `Outfit 2` | texto corrido em caixa pequena |
-| `SEMI` | `Outfit 2 Semi-Bold` | rótulos e numerais |
-| `SANS` | `Outfit 1` | eyebrow e rodapé |
-| `BOLD` | `Outfit 1 Bold` | capa e nome da marca no rodapé |
+| `LIGHT` | `Outfit 1 Light` | títulos, corpo, frases — o peso padrão |
+| `REG` | `Outfit 1` | texto neutro e data |
+| `SEMI` | `Outfit 1 Semi-Bold` | rótulos e numerais |
+| `BOLD` | `Outfit 1 Bold` | título da capa, nome da marca no rodapé |
+| `MEDIO` | `Outfit 1 Medium` | — |
+| `ULTRA` | `Outfit 1 Ultra-Bold` | título do sumário |
+| `SANS` | `Outfit 2` | eyebrow |
+| `SANS_LIGHT` | `Outfit 2 Light` | assinatura do método, na capa |
+| `SANS_SEMI` | `Outfit 2 Semi-Bold` | nome do método dentro da assinatura |
 
 > **O peso vem do NOME da fonte, nunca de `b="1"`.** `font.bold = False` está
 > fixado em `txt()`. Negrito sintético sobre a Outfit engrossa as curvas e
 > deixa o texto pastoso.
+>
+> O arquivo do Canva faz o contrário: aplica `b="true"` por cima de
+> `Outfit 1 Medium` no título da capa. Aqui o mesmo peso vem da `Outfit 1
+> Bold`, com os 3 pt de espacejamento que dão o ar da capa.
+
+### As fontes estão no repositório
+
+`padrao-ka/fontes/` guarda as doze faces, extraídas do próprio arquivo da
+Kelly (lá elas vão embarcadas em EOT dentro do `.pptx`). Cada arquivo foi
+renomeado para se chamar, na tabela de nomes, exatamente como o Canva o chama
+— `Outfit 1 Light`, `Outfit 1 Semi-Bold` e por aí. Sem isso o LibreOffice não
+casa o nome composto, cai na mesma face para todos os pesos e a prévia mente.
+
+```bash
+padrao-ka/instalar-fontes.sh      # uma vez por máquina
+```
 
 Escala fechada — **não inventar tamanhos fora desta tabela**:
 
 | Constante | pt | Onde |
 |---|---|---|
 | `T_DIVISOR` | 94 | nome da seção, na virada de tema |
+| `T_SUMARIO` | 78 | título do sumário, acima do painel |
 | `T_CAPA` | 75 | título da capa |
 | `T_DISPLAY` | 74 | frase grande que abre uma etapa |
 | `T_H1` | 42 | título de página |
 | `T_SUBCAPA` | 30 | subtítulo da capa |
 | `T_FRASE` | 29 | aspas de citação |
-| `T_ASSINATURA` | 27 | assinatura do método, na capa |
+| `T_ASSINATURA` | 26,8 | assinatura do método, na capa |
+| `T_LEAD` | 24 | linha de abertura |
 | `T_MEDIO` | 23 | frase forte, item de lista forte |
-| `T_LEAD` | 23 | linha de abertura |
+| `T_CORPO` | 21 | corpo |
 | `T_DATA` | 19,5 | data, na capa |
-| `T_CORPO` | 19 | corpo |
 | `T_RODAPE` | 17 | rodapé |
 | `T_MINI` | 17 | legenda miúda |
 | `T_ROTULO` | 14 | eyebrow e rótulo em caixa alta |
@@ -197,7 +224,18 @@ maneira honesta de saber.
 Critério: nenhuma palavra pode ter `yMax > 691,2 pt` (= 9,60") com
 `yMin < 728 pt` (o rodapé legitimamente fica abaixo do painel).
 
-Para a prévia em imagem, o script troca `Outfit 2 Semi-Bold` por
-`Outfit 2 SemiBold` **numa cópia** antes de converter — o fontconfig local não
-casa o nome com hífen e substitui por DejaVu Sans, o que faz a prévia mentir
-sobre o peso. O arquivo entregue nunca é alterado.
+A prévia só diz a verdade com as fontes instaladas
+(`padrao-ka/instalar-fontes.sh`). Sem elas o LibreOffice cai na DejaVu Sans,
+que é mais larga: a conferência acusa vazamento onde não há.
+
+### A quebra de linha é medida, não estimada
+
+`linhas()` repete, palavra por palavra, a quebra que o PowerPoint vai fazer —
+medindo cada palavra na própria `Outfit 1 Light` com 3% de folga. Contar
+caractere, como a primeira versão fazia, trata "iii" e "MMM" como a mesma
+coisa e erra até 15%: páginas inteiras eram espremidas à toa, e outras
+vazavam. Sem a fonte no disco o cálculo cai na conta por caractere, que é
+grosseira mas nunca subestima.
+
+Quando o texto ainda assim não cabe, o build **avisa** em vez de encolher a
+fonte abaixo de 92%: a saída é cortar texto ou quebrar a página em duas.

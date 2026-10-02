@@ -16,6 +16,28 @@ Cada deck sai em **`.pptx` e `.pdf`** na própria pasta.
 | `base_estrategica.py` | Base Estratégica da Marca — posicionamento e comunicação | 30 |
 | `assets/` | as 14 fotografias | — |
 
+## O que veio do arquivo final da Kelly
+
+A capa, o sumário e a tipografia foram **medidos** no `.pptx` que ela mandou
+(a VFinal da Revelação), não estimados:
+
+| | No arquivo dela |
+|---|---|
+| Capa | sem painel — a textura corre de borda a borda; título 75pt em caixa alta com 3pt de espacejamento; traço no canto; barra de assinatura com quatro filetes |
+| Sumário | **SUMÁRIO** em 78pt Ultra-Bold **acima** do painel; numerais terracota em 15,5pt; nome 25pt; descrição 18pt |
+| Família de texto | **Outfit 1** (576 trechos em `Outfit 1 Light`) — a Outfit 2 ficou no eyebrow e na assinatura da capa |
+| Corpo | lead 24pt · corpo 21pt |
+
+### Duas diferenças conscientes
+
+1. **A Base Estratégica vai sem rodapé** — foi o que ela marcou nas quatro
+   capturas do Canva. A Revelação mantém o rodapé, como no arquivo dela.
+   Trocar é uma linha: `RODAPE = False` em `base_estrategica.py`.
+2. **O sumário da Base não tem descrição sob cada nome.** São nove seções
+   contra as seis da Revelação: com descrição, o índice fecharia o painel sem
+   ar nenhum. Se ela preferir a descrição, o caminho é reduzir o número de
+   seções, não espremer as linhas.
+
 ---
 
 ## A edição: 63 e 69 páginas viraram 30 cada

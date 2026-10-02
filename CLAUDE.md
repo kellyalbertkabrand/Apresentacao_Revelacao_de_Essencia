@@ -71,8 +71,10 @@ Detalhe completo em `padrao-ka/SISTEMA-VISUAL.md`. O essencial:
 - Formato 16:9 — 20" × 11,25".
 - Textura de ondas a 32% de opacidade no fundo de todo slide; painel claro
   `#F8F7F2` de cantos arredondados por cima, recuado 1,10", fundo em **9,60"**.
-- **Fonte única: Outfit**, nas variantes nomeadas. Nada de Calibri, Playfair
-  ou IBM Plex. O peso vem do **nome** da fonte, nunca de negrito sintético.
+- **Fonte única: Outfit**, nas variantes nomeadas — a família de texto é a
+  **Outfit 1** (`Outfit 1 Light` é o peso padrão; a Outfit 2 sobrou no eyebrow
+  e na assinatura da capa). Nada de Calibri, Playfair ou IBM Plex. O peso vem
+  do **nome** da fonte, nunca de negrito sintético.
 - **O filete organiza a página, não a caixa.** Encher de cartõezinhos foi
   exatamente o que a Kelly rejeitou como "grosseiro, pouco elegante".
 - Hierarquia por **escala e ar**, não por peso: título grande em **caixa
@@ -108,13 +110,28 @@ Cortar texto, **não** diminuir o corpo da fonte. Se não coube, o slide está
 dizendo duas coisas — quebrar em duas páginas, como o gerador já faz com as
 experiências formadoras e com a tabela de tensões.
 
+O motor mede o texto na própria Outfit e avisa no build quando não cabe:
+
+```
+! texto nao cabe em "Reconhecimento × exposição": sobram 0.21" para cortar
+```
+
+Esse aviso é para ser atendido, não ignorado.
+
 ## Ambiente
 
 LibreOffice Impress **está instalado e funciona** — usar para conferir o
-resultado, sempre. Para a prévia em imagem, trocar `Outfit 2 Semi-Bold` por
-`Outfit 2 SemiBold` **numa cópia** antes de converter: o fontconfig local não
-casa o nome com hífen e substitui por DejaVu Sans, fazendo a prévia mentir
-sobre o peso. O arquivo entregue nunca é alterado.
+resultado, sempre.
+
+As fontes moram em `padrao-ka/fontes/` e precisam estar instaladas, uma vez
+por máquina:
+
+```bash
+padrao-ka/instalar-fontes.sh
+```
+
+Sem elas o LibreOffice cai na DejaVu Sans, que é mais larga: a prévia mente e
+a conferência acusa vazamento onde não há.
 
 ## `arquivo/`
 

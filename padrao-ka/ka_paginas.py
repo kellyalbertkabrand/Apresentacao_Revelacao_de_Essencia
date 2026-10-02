@@ -45,11 +45,12 @@ from pptx.oxml.xmlchemy import OxmlElement  # noqa: E402
 from rostos import foco as foco_cabeca  # noqa: E402
 from ka_layout import (  # noqa: E402
     ACENTO, BRANCO, CLARO, CORPO, FIO, PAINEL, TINTA,
-    BOLD, LIGHT, SANS, SEMI,
+    BOLD, LIGHT, SANS, SANS_LIGHT, SANS_SEMI, SEMI,
     T_CAPA, T_CORPO, T_DISPLAY, T_DIVISOR, T_FRASE, T_H1, T_LEAD, T_MEDIO,
-    T_MINI, T_RODAPE, T_ROTULO, T_SUBCAPA, T_ASSINATURA, T_DATA,
+    T_MINI, T_RODAPE, T_ROTULO, T_SUMARIO, T_SUBCAPA, T_ASSINATURA,
+    T_DATA, MEDIO, REG, ULTRA,
     ALT, LARG, ML, MR, W, Y_EYE, Y_H1, Y_RODAPE,
-    LOGO_KA, SIMBOLO_IKIGAI,
+    LOGO_KA, SIMBOLO_IKIGAI, TRACO,
     Deck,
 )
 
@@ -58,23 +59,62 @@ TOPO = 2.00          # primeira linha util dentro do painel
 FUNDO = 9.15         # ultima caixa de texto comeca aqui, no maximo
 COL, GAP = 3.35, 0.55
 
-# Largura media de caractere, em polegadas por ponto de corpo. Calibrado na
-# Outfit Light contra a prévia renderizada; serve para estimar quantas linhas
-# um texto vai ocupar ANTES de gerar. A conferencia real continua sendo o
-# padrao-ka/conferir.sh.
+# Largura media de caractere, em polegadas por ponto de corpo. So entra em
+# cena se a Outfit nao estiver em padrao-ka/fontes/ — contar caractere trata
+# "iii" e "MMM" como a mesma coisa e erra ate 15%.
 CHAR = 0.0103
+
+# A fonte com que o texto e medido. E a Light porque e a mais estreita da
+# familia: medir por ela e errar sempre para o lado seguro.
+FONTE_MEDIDA = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            "fontes", "Outfit1Light.ttf")
+FOLGA = 1.03         # o LibreOffice e o PowerPoint quebram um fio antes
+_FONTES = {}
+
+
+def _fonte(tam):
+    chave = round(tam, 1)
+    if chave not in _FONTES:
+        from PIL import ImageFont
+        _FONTES[chave] = ImageFont.truetype(FONTE_MEDIDA, int(round(tam * 4)))
+    return _FONTES[chave]
+
+
+def largura_texto(texto, tam):
+    """Largura real do texto, em polegadas, medida na propria fonte."""
+    return _fonte(tam).getlength(texto) / 4.0 / 72.0 * FOLGA
 
 
 def linhas(texto, tam, largura):
-    """Quantas linhas um texto deve ocupar nessa largura."""
+    """Quantas linhas um texto ocupa nessa largura — medido, nao estimado.
+
+    Repete a quebra por palavra que o PowerPoint faz. Sem a fonte no disco
+    cai na conta por caractere, que e grosseira mas nunca subestima."""
     if not texto:
         return 0
-    por_linha = max(8, largura / (CHAR * tam))
-    return max(1, int(math.ceil(len(texto) / por_linha)))
+    if not os.path.exists(FONTE_MEDIDA):
+        por_linha = max(8, largura / (CHAR * tam))
+        return max(1, int(math.ceil(len(texto) / por_linha)))
+    n, atual = 1, ""
+    for palavra in texto.split():
+        teste = (atual + " " + palavra).strip()
+        if not atual or largura_texto(teste, tam) <= largura:
+            atual = teste
+        else:
+            n += 1
+            atual = palavra
+    return n
+
+
+# A entrelinha do PowerPoint multiplica a ALTURA DE LINHA da fonte, nao o
+# corpo: a Outfit declara 1,26 em e o LibreOffice usa 1,20. Medir pelo corpo
+# puro subestimava toda caixa em ~20% — era por isso que o filete de acento
+# cortava a ultima linha do paragrafo mesmo com a contagem de linhas certa.
+ENTRELINHA = 1.24
 
 
 def altura(texto, tam, largura, espaco=1.4):
-    return linhas(texto, tam, largura) * tam / 72.0 * espaco
+    return linhas(texto, tam, largura) * tam / 72.0 * espaco * ENTRELINHA
 
 
 class DeckNarrativo(Deck):
@@ -84,8 +124,9 @@ class DeckNarrativo(Deck):
     FAIXA_MAX = 0.60          # alem disso a faixa nao deixa pagina para texto
 
     def __init__(self, documento, marca, assets=None, modelo=None,
-                 escala="ka"):
+                 escala="ka", rodape=True):
         super().__init__(documento, marca, modelo, escala)
+        self.com_rodape = rodape
         self.assets = assets
         self.rostos = {}
         self.avisos = []
@@ -136,6 +177,8 @@ class DeckNarrativo(Deck):
                sobre_painel=False):
         """Pilula de identificacao. Sobre fotografia ela some e o texto vai
         direto em branco — pilula clara sobre foto suja a composicao."""
+        if not getattr(self, "com_rodape", True):
+            return
         y = Y_RODAPE if y is None else y
         if sobre_foto:
             tf = self.caixa(s, ML, y - 0.10, 10.0, 0.46)
@@ -221,6 +264,14 @@ class DeckNarrativo(Deck):
         while total > disponivel and k > 0.92:
             k -= 0.04
             total, _ = medir(k)
+        if total > disponivel:
+            # O corpo nao desce mais: abaixo de 92% o texto deixa de ser
+            # legivel de longe. Quem precisa ceder e o texto — avisa no build
+            # para que a pagina seja cortada ou quebrada em duas.
+            self.avisos.append(
+                "texto nao cabe em \"%s\": sobram %.2f\" para cortar"
+                % (spec.get("titulo") or spec.get("eyebrow") or "?",
+                   total - disponivel))
         _, blocos = medir(k)
 
         for b in blocos:
@@ -388,7 +439,10 @@ class DeckNarrativo(Deck):
         self.veu(s, 0, 0, LARG, ALT, TINTA, spec.get("veu", 0.58))
         linhas_ = spec.get("linhas") or [spec.get("titulo", "")]
         tam = spec.get("tam") or self._tam_display(linhas_, 15.4)
-        alt_bloco = len(linhas_) * tam / 72.0 * 1.26
+        # a frase sai com entrelinha 1,26 e a fonte ainda tem a sua propria
+        # altura de linha: sem ENTRELINHA o bloco mede 20% a menos do que
+        # ocupa, e o filete de acento acaba por cima da segunda linha
+        alt_bloco = len(linhas_) * tam / 72.0 * 1.26 * ENTRELINHA
         y = (ALT - alt_bloco) / 2 - 0.30
         if spec.get("eyebrow"):
             self.texto(s, ML, y - 0.85, W, spec["eyebrow"].upper(), T_ROTULO,
@@ -419,7 +473,10 @@ class DeckNarrativo(Deck):
         s = self.slide()
         linhas_ = spec.get("linhas", [])
         tam = spec.get("tam") or self._tam_display(linhas_, 15.4)
-        alt_bloco = len(linhas_) * tam / 72.0 * 1.26
+        # a frase sai com entrelinha 1,26 e a fonte ainda tem a sua propria
+        # altura de linha: sem ENTRELINHA o bloco mede 20% a menos do que
+        # ocupa, e o filete de acento acaba por cima da segunda linha
+        alt_bloco = len(linhas_) * tam / 72.0 * 1.26 * ENTRELINHA
         extra = 0.0
         if spec.get("apoio"):
             extra = 0.90 + altura(spec["apoio"], T_CORPO, 13.0)
@@ -653,38 +710,43 @@ class DeckNarrativo(Deck):
         por_col = int(math.ceil(len(itens) / colunas))
         largura = spec.get("largura", (min(13.0, LG) if colunas == 1
                                        else (LG - 0.90) / 2))
-        # O passo sai do espaco que sobra DEPOIS do fecho; forcar um piso
-        # aqui e o que fazia o filete de acento atravessar o ultimo item
-        passo = min(0.86, disponivel / por_col)
-        tam = T_LEAD if passo >= 0.62 else T_CORPO
         # 18pt de corpo pede 0,45" de entrelinha; abaixo disso as linhas
         # encostam. Em vez de espremer, a lista vai para duas colunas
-        if passo < 0.46 and colunas == 1 and len(itens) >= 4 and LG >= 12.0:
+        if colunas == 1 and len(itens) >= 4 and LG >= 12.0 \
+                and disponivel / por_col < 0.46:
             colunas, por_col = 2, int(math.ceil(len(itens) / 2))
             largura = (LG - 0.90) / 2
-            passo = min(0.86, disponivel / por_col)
-            tam = T_LEAD if passo >= 0.62 else T_CORPO
-        passo = max(0.42, passo)
-        # se ainda nao cabe, o item desce para o corpo menor antes de a
-        # pagina estourar
-        if passo < 0.50:
-            tam = T_CORPO
+
+        # Cada item tem a altura do SEU proprio texto. Distribuir o espaco em
+        # passos iguais subestima o item que quebra em duas linhas, e era por
+        # isso que o filete de acento do fecho atravessava a ultima linha.
+        def medir(tam):
+            alturas = [max(0.46, altura(i, tam, largura - 0.48, 1.38) + 0.06)
+                       for i in itens]
+            pior = max(sum(alturas[c * por_col:(c + 1) * por_col])
+                       for c in range(colunas))
+            return alturas, pior
+
+        for tam in (T_LEAD, T_CORPO, T_MINI):
+            alturas, pior = medir(tam)
+            if pior <= disponivel:
+                break
+        # o que sobra vira ar entre os itens, ate o limite de respiro do padrao
+        folga = min(0.26, max(0.0, (disponivel - pior) / max(1, por_col)))
+
         fundo = y
-        for i, item in enumerate(itens):
-            c, r = i // por_col, i % por_col
+        for c in range(colunas):
             cx = X + c * (largura + 0.90)
-            yy = y + r * passo
-            self.ponto(s, cx + 0.05, yy + 0.16, 0.085,
-                       ACENTO if i == len(itens) - 1 and
-                       spec.get("marcar_ultimo") else CLARO)
-            self.texto(s, cx + 0.48, yy, largura - 0.48, item, tam, TINTA,
-                       LIGHT, h=passo - 0.04)
-            # o fecho segue a coluna mais ALTA: num item de duas linhas a
-            # conta por passo subestima o pe da lista e o filete de acento
-            # acaba por cima do texto
-            fundo = max(fundo, yy + max(passo,
-                                        altura(item, tam, largura - 0.48)
-                                        + 0.10))
+            yy = y
+            for i in range(c * por_col, min(len(itens), (c + 1) * por_col)):
+                item = itens[i]
+                self.ponto(s, cx + 0.05, yy + 0.16, 0.085,
+                           ACENTO if i == len(itens) - 1 and
+                           spec.get("marcar_ultimo") else CLARO)
+                self.texto(s, cx + 0.48, yy, largura - 0.48, item, tam, TINTA,
+                           LIGHT, h=alturas[i])
+                yy += alturas[i] + folga
+            fundo = max(fundo, yy - folga)
         if spec.get("destaque"):
             # o fecho nao desce alem do painel, mesmo quando a lista
             # cresceu mais do que a reserva previa
@@ -784,19 +846,27 @@ class DeckNarrativo(Deck):
         reservado = 0.0
         if spec.get("centro"):
             reservado = 0.55 + altura(spec["centro"], T_MINI, larg, 1.35)
-        alturas = [max(0.80, altura(desc, T_CORPO, larg, 1.45) + 0.52)
-                   for _, desc in campos]
-        folga = (FIM + 0.25 - topo - reservado) - sum(alturas)
+        espaco = FIM + 0.25 - topo - reservado
+        # O corpo desce um degrau ANTES de a linha ser espremida: encolher a
+        # caixa abaixo do que o texto ocupa nao encolhe o texto — faz o filete
+        # da leitura seguinte passar por cima da ultima linha.
+        for tam in (T_CORPO, T_MINI):
+            alturas = [max(0.80, altura(desc, tam, larg, 1.45) + 0.52)
+                       for _, desc in campos]
+            if sum(alturas) <= espaco:
+                break
+        folga = espaco - sum(alturas)
         if folga > 0:
             alturas = [a + min(0.30, folga / len(campos)) for a in alturas]
-        elif folga < 0:
-            fator = (FIM + 0.25 - topo - reservado) / sum(alturas)
-            alturas = [a * fator for a in alturas]
+        else:
+            self.avisos.append(
+                "ikigai nao cabe em \"%s\": sobram %.2f\" para cortar"
+                % (spec.get("titulo", "?"), -folga))
         yy = topo
         for i, (rot, desc) in enumerate(campos):
             self.fio(s, X, yy, larg)
             self.rotulo(s, rot, X, yy + 0.22, larg, ACENTO)
-            self.texto(s, X, yy + 0.54, larg, desc, T_CORPO, CORPO, LIGHT,
+            self.texto(s, X, yy + 0.54, larg, desc, tam, CORPO, LIGHT,
                        h=alturas[i] - 0.60)
             yy += alturas[i]
         if spec.get("centro"):
@@ -844,30 +914,30 @@ class DeckNarrativo(Deck):
 
     def pg_sumario(self, spec):
         s = self.slide()
-        self.texto(s, ML, Y_EYE, 12.0, "SUMÁRIO", T_ROTULO, CLARO, SANS,
-                   spc=3.0, h=0.32)
-        self.titulo(s, spec.get("titulo", "Sumário").upper(), ML, 2.35,
-                    W, T_H1)
+        # o titulo do sumario fica ACIMA do painel, em Ultra-Bold, como no
+        # arquivo final da Kelly
+        self.texto(s, 1.82, 0.88, 12.0, spec.get("titulo", "Sumário").upper(),
+                   T_SUMARIO, TINTA, ULTRA, espaco=1.0, h=T_SUMARIO / 60.0)
         itens = spec["itens"]
         com_desc = any(len(i) > 2 for i in itens)
-        topo = 3.20
+        topo = 2.95
         passo = (FUNDO + 0.30 - topo) / len(itens)
         # com a escala medida o nome vem a 23pt e a descricao a 15pt: sem
         # folga suficiente o filete seguinte corta os descendentes
-        tam_nome = T_MEDIO if passo >= 1.08 else T_LEAD
+        tam_nome = 25 if passo >= 1.00 else T_LEAD
         for i, item in enumerate(itens):
             num, nome = item[0], item[1]
             desc = item[2] if len(item) > 2 else None
             y = topo + i * passo
             self.fio(s, ML, y, W)
-            self.texto(s, ML, y + 0.30, 1.1, num, T_ROTULO, ACENTO, SEMI,
-                       spc=2.4, h=0.30)
+            self.texto(s, ML, y + 0.28, 1.1, num, 15.5, ACENTO, SEMI,
+                       spc=2.4, h=0.32)
             h_nome = tam_nome / 72.0 * 1.42
             self.texto(s, ML + 1.75, y + 0.16, W - 1.75, nome, tam_nome,
                        TINTA, LIGHT, h=h_nome)
             if desc:
                 self.texto(s, ML + 1.75, y + 0.16 + h_nome, W - 1.75, desc,
-                           T_MINI, CLARO, LIGHT, h=T_MINI / 72.0 * 1.5)
+                           18, CLARO, LIGHT, h=18 / 72.0 * 1.5)
         self.fio(s, ML, topo + len(itens) * passo, W)
         self.rodape(s)
         return s
@@ -888,31 +958,86 @@ class DeckNarrativo(Deck):
         return s
 
     def pg_capa(self, spec):
-        """Capa: fotografia sangrando a direita, titulo sobre o painel."""
+        """Capa no formato do arquivo final da Kelly — medida nele, nao
+        estimada.
+
+        A capa nao leva painel: a textura corre de borda a borda e o texto
+        assenta direto sobre ela. O titulo entra em 75pt, o subtitulo tem o
+        nome em Bold e o resto em regular, e a barra de assinatura embaixo e
+        quatro filetes separando logo, metodo e data.
+
+        `foto` so entra se for pedida explicitamente — a capa dela nao tem.
+        """
         s = self.slide(painel=False)
         caminho = self.arquivo(spec.get("foto"))
-        corte = spec.get("corte", 7.60)
-        self.bloco(s, 0, 0, LARG, ALT, PAINEL)
+        corte = spec.get("corte", 7.60) if caminho else 0.0
         if caminho:
             foco, _ = self._enquadrar(caminho, corte, ALT,
                                       spec.get("foco", 0.5))
             self.foto(s, LARG - corte, 0, corte, ALT, caminho, foco=foco)
-        larg = LARG - corte - ML - 1.10
-        self.texto(s, ML, 3.35, larg, spec["titulo"], T_CAPA * 0.78, TINTA,
-                   BOLD, espaco=1.06,
-                   h=len(spec["titulo"]) * T_CAPA * 0.78 / 72.0 * 1.1)
-        y = 3.35 + len(spec["titulo"]) * T_CAPA * 0.78 / 72.0 * 1.1 + 0.30
-        self.fio(s, ML, y, 1.30, ACENTO, esp=0.03)
-        self.texto(s, ML, y + 0.50, larg, spec["subtitulo"], T_SUBCAPA, TINTA,
-                   LIGHT, h=0.80)
-        # barra de assinatura — mesma faixa do arquivo da Kelly (8,6"–9,4")
-        self.logo(s, LOGO_KA, ML, 8.68, 2.35)
-        self.fio_v(s, 5.20, 8.55, 0.95, CLARO, esp=0.012)
-        self.texto(s, 5.60, 8.52, 3.10, spec["assinatura"], T_ASSINATURA,
-                   TINTA, LIGHT, espaco=1.15, h=1.0)
-        self.fio_v(s, 8.95, 8.55, 0.95, CLARO, esp=0.012)
-        self.texto(s, 9.35, 8.82, 2.60, spec["data"].upper(), T_DATA, CLARO,
-                   SANS, spc=2.0, h=0.45)
+        if TRACO and not caminho:
+            self.logo(s, TRACO, 16.17, 3.68, 1.63)
+
+        x = 1.68
+        # a caixa do titulo para antes do traco, no canto superior direito
+        larg = (LARG - corte - x - 1.10) if caminho else 14.82
+        titulo = spec["titulo"]
+        if isinstance(titulo, str):
+            titulo = [titulo]
+        tam = spec.get("tam_titulo", T_CAPA)
+        n = len(titulo)
+        # No arquivo dela o titulo da capa e Outfit 1 Medium com negrito
+        # sintetico por cima. Aqui o peso vem da Bold, que e a mesma cor de
+        # traco sem engrossar as curvas — e os 3pt de espacejamento, que sao
+        # o que da o ar da capa, ficam.
+        self.texto(s, x, 3.93, larg, titulo, tam, TINTA, BOLD, espaco=1.14,
+                   spc=3.0, h=n * tam / 72.0 * 1.30)
+
+        # subtitulo: o nome em Bold, a descricao em regular, na mesma linha
+        y = 3.93 + n * tam / 72.0 * 1.30 + 0.12
+        sub = spec["subtitulo"]
+        if isinstance(sub, str):
+            sub = [sub]
+        tf = self.caixa(s, x, y, larg, 0.55)
+        p = self.par(tf, primeiro=True, espaco=1.2)
+        self.txt(p, sub[0], T_SUBCAPA, TINTA, BOLD)
+        if len(sub) > 1:
+            self.txt(p, "  |  " + "  |  ".join(sub[1:]), T_SUBCAPA, TINTA, REG)
+
+        # barra de assinatura: quatro filetes, logo, metodo e data
+        for fx in (1.69, 5.21, 8.19, 10.60):
+            self.fio_v(s, fx, 8.52, 0.98, CLARO, esp=0.012)
+        # a marca mede 3,11" de tinta comecando em 8,65", como no arquivo
+        # dela. A tela do PNG e quadrada e a tinta ocupa so a faixa do meio,
+        # entao a conta e feita pela tinta — ancorar pelo topo da tela joga a
+        # marca 1,5" abaixo da barra.
+        TINTA_TOPO, TINTA_ESQ, TINTA_LARG = 0.409, 0.081, 0.822
+        tela = 3.11 / TINTA_LARG
+        self.logo(s, LOGO_KA, 1.90 - TINTA_ESQ * tela,
+                  8.65 - TINTA_TOPO * tela, tela)
+        assin = spec["assinatura"]
+        if isinstance(assin, str):
+            assin = [assin]
+        tf = self.caixa(s, 5.45, 8.71, 2.60, 0.80)
+        for i, linha in enumerate(assin):
+            p = self.par(tf, primeiro=(i == 0), espaco=0.95)
+            # "Metodo" leve, o nome do metodo em semibold — como no arquivo
+            # dela, onde o peso marca o nome e nao a palavra de servico
+            marca = linha.endswith("©")
+            if marca:
+                linha = linha[:-1].rstrip()
+            if i == 0 and " " in linha:
+                servico, nome = linha.split(" ", 1)
+                self.txt(p, servico + " ", T_ASSINATURA, TINTA, SANS_LIGHT)
+                self.txt(p, nome, T_ASSINATURA, TINTA, SANS_SEMI)
+            else:
+                self.txt(p, linha, T_ASSINATURA, TINTA, SANS_SEMI)
+            # o © entra miudo, como no arquivo dela: no corpo da assinatura
+            # ele vira um caractere do tamanho de uma palavra
+            if marca:
+                self.txt(p, "©", 14.7, TINTA, SANS)
+        self.texto(s, 8.25, 8.92, 2.30, spec["data"].upper(), T_DATA, TINTA,
+                   REG, align=PP_ALIGN.CENTER, h=0.40)
         return s
 
     # ---------------------------------------------------------------- montagem
