@@ -73,22 +73,24 @@ Y_RODAPE = 10.32
 # MEDIDA no arquivo final da Kelly, nao estimada: o Canva reporta a pagina
 # em 1920 px para 20", ou seja 96 px/in, entao pt = px * 0,75. A primeira
 # transcricao deste padrao chutou a escala e saiu pequena demais — o nome
-# da secao vinha 34%% menor, o rodape 29%% menor, o corpo 19%% menor. Os
-# valores abaixo sao os do arquivo dela.
+# da secao vinha 34%% menor, o rodape 29%% menor, o corpo 19%% menor.
+#
+# Lead e corpo ficam no topo da faixa medida (o arquivo dela usa 22/18 numa
+# pagina e 24/19 noutra) porque em projecao o corpo menor nao se le.
 T_CAPA = 75              # titulo da capa
 T_DIVISOR = 94           # nome da secao, na virada de tema
 T_DISPLAY = 74           # frase grande que abre uma etapa
 T_H1 = 42                # titulo de pagina
 T_FRASE = 29             # aspas de citacao
 T_MEDIO = 23             # frase forte, item de lista forte
-T_LEAD = 22              # linha de abertura
-T_CORPO = 18             # corpo
-T_MINI = 15              # legenda miuda
+T_LEAD = 23              # linha de abertura
+T_CORPO = 19             # corpo
+T_MINI = 17              # legenda miuda
 T_RODAPE = 17            # rodape
 T_SUBCAPA = 30           # subtitulo da capa
 T_ASSINATURA = 27        # assinatura do metodo, na capa
 T_DATA = 19.5            # data, na capa
-T_ROTULO = 12.5         # eyebrow e rotulo em caixa alta
+T_ROTULO = 14           # eyebrow e rotulo em caixa alta
 
 
 def _modelo_base():

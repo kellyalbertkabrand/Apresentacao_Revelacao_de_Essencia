@@ -171,6 +171,11 @@ class DeckNarrativo(Deck):
         titulo = spec.get("titulo")
         if not titulo:
             return y
+        # Titulo de pagina em CAIXA ALTA. Caixa alta ocupa cerca de 10% mais
+        # largura que caixa baixa, entao a conta de linhas usa o texto ja
+        # convertido — senao o titulo quebra onde o calculo nao previu.
+        titulo = (titulo.upper() if isinstance(titulo, str)
+                  else [l.upper() for l in titulo])
         tam = spec.get("tam_titulo", T_H1)
         n = linhas(titulo, tam, w) if isinstance(titulo, str) else len(titulo)
         self.titulo(s, titulo, x, y, w, tam, cor)
@@ -213,7 +218,7 @@ class DeckNarrativo(Deck):
         if total > disponivel:
             gap_lead, gap_par, gap_item, gap_dest = 0.20, 0.18, 0.04, 0.38
             total, _ = medir(k)
-        while total > disponivel and k > 0.85:
+        while total > disponivel and k > 0.92:
             k -= 0.04
             total, _ = medir(k)
         _, blocos = medir(k)
@@ -593,7 +598,8 @@ class DeckNarrativo(Deck):
         larg = LG - min(5.60, LG * 0.40)
         # Cada degrau tem a altura do seu proprio texto. Dividir o espaco em
         # partes iguais estoura a pagina quando uma das leituras e longa.
-        alturas = [max(0.78, altura(desc, T_LEAD, larg, 1.35) + 0.46)
+        tam_desc = T_LEAD if larg >= 7.0 else T_CORPO
+        alturas = [max(0.78, altura(desc, tam_desc, larg, 1.35) + 0.46)
                    for _, desc in itens]
         folga = (FIM + 0.30 - topo) - sum(alturas)
         if folga > 0:
@@ -609,7 +615,7 @@ class DeckNarrativo(Deck):
             self.rotulo(s, rot, X, yy + 0.26, min(5.20, LG * 0.37),
                         ACENTO if ultimo else CLARO)
             self.texto(s, X + min(5.60, LG * 0.40), yy + 0.18, larg, desc,
-                       T_LEAD, TINTA, LIGHT, h=alturas[i] - 0.26)
+                       tam_desc, TINTA, LIGHT, h=alturas[i] - 0.26)
             yy += alturas[i]
         # o acento fecha a escada por baixo. Em cima da ultima linha ele
         # parece sublinhar a penultima, que e justamente a que nao importa
@@ -644,6 +650,8 @@ class DeckNarrativo(Deck):
         por_col = int(math.ceil(len(itens) / colunas))
         largura = spec.get("largura", (min(13.0, LG) if colunas == 1
                                        else (LG - 0.90) / 2))
+        # O passo sai do espaco que sobra DEPOIS do fecho; forcar um piso
+        # aqui e o que fazia o filete de acento atravessar o ultimo item
         passo = min(0.86, disponivel / por_col)
         tam = T_LEAD if passo >= 0.62 else T_CORPO
         # 18pt de corpo pede 0,45" de entrelinha; abaixo disso as linhas
@@ -653,7 +661,11 @@ class DeckNarrativo(Deck):
             largura = (LG - 0.90) / 2
             passo = min(0.86, disponivel / por_col)
             tam = T_LEAD if passo >= 0.62 else T_CORPO
-        passo = max(0.46, passo)
+        passo = max(0.42, passo)
+        # se ainda nao cabe, o item desce para o corpo menor antes de a
+        # pagina estourar
+        if passo < 0.50:
+            tam = T_CORPO
         fundo = y
         for i, item in enumerate(itens):
             c, r = i // por_col, i % por_col
@@ -671,10 +683,13 @@ class DeckNarrativo(Deck):
                                         altura(item, tam, largura - 0.48)
                                         + 0.10))
         if spec.get("destaque"):
-            self.fio(s, X, fundo + 0.24, 1.30, ACENTO, esp=0.03)
+            # o fecho nao desce alem do painel, mesmo quando a lista
+            # cresceu mais do que a reserva previa
             h = altura(spec["destaque"], T_MEDIO, LG, 1.25) + 0.14
-            self.texto(s, X, fundo + 0.58, LG, spec["destaque"], T_MEDIO,
-                       TINTA, LIGHT, espaco=1.25, h=h)
+            base = min(fundo + 0.58, FIM + 0.28 - h)
+            self.fio(s, X, base - 0.34, 1.30, ACENTO, esp=0.03)
+            self.texto(s, X, base, LG, spec["destaque"], T_MEDIO, TINTA,
+                       LIGHT, espaco=1.25, h=h)
         self._fechar(s, spec)
         return s
 
@@ -743,28 +758,45 @@ class DeckNarrativo(Deck):
         return s
 
     def pg_ikigai(self, spec):
-        """Os quatro circulos — aneis de contorno, nunca preenchidos."""
-        s = self.slide()
-        self.cabeca(s, spec)
-        cx, cy, d = 13.90, 6.30, 3.90
+        """Os quatro circulos — aneis de contorno, nunca preenchidos.
+
+        Cada leitura tem a altura do seu proprio texto: dividir a coluna em
+        quatro partes iguais faz a leitura mais longa invadir a seguinte."""
+        s, y0, FIM = self._abrir(spec)
+        X, LG = self._col
+        self.cabeca(s, spec, x=X, w=LG, y=y0)
+        cx, cy, d = 16.55, 2.95, 2.30
         desloc = d * 0.28
         for ddx, ddy in ((0, -desloc), (desloc, 0), (0, desloc), (-desloc, 0)):
             self.anel(s, cx + ddx, cy + ddy, d, FIO, esp=1.1)
-        self.ponto(s, cx, cy, 0.17, ACENTO)
-        larg = 8.70
+        self.ponto(s, cx, cy, 0.13, ACENTO)
+        larg = 13.6
         campos = spec["campos"]
-        topo = 3.95
-        passo = min(1.32, (FUNDO + 0.25 - topo) / len(campos))
-        for i, (rot, desc) in enumerate(campos):
-            yy = topo + i * passo
-            self.fio(s, ML, yy, larg)
-            self.rotulo(s, rot, ML, yy + 0.24, larg, ACENTO)
-            self.texto(s, ML, yy + 0.56, larg, desc, T_CORPO, CORPO, LIGHT,
-                       h=passo - 0.62)
+        topo = 3.40
+        reservado = 0.0
         if spec.get("centro"):
-            self.texto(s, ML, FUNDO - 0.10, larg, spec["centro"], T_MINI,
-                       CLARO, SEMI, spc=2.0, h=0.4)
-        self.rodape(s)
+            reservado = 0.55 + altura(spec["centro"], T_MINI, larg, 1.35)
+        alturas = [max(0.80, altura(desc, T_CORPO, larg, 1.45) + 0.52)
+                   for _, desc in campos]
+        folga = (FIM + 0.25 - topo - reservado) - sum(alturas)
+        if folga > 0:
+            alturas = [a + min(0.30, folga / len(campos)) for a in alturas]
+        elif folga < 0:
+            fator = (FIM + 0.25 - topo - reservado) / sum(alturas)
+            alturas = [a * fator for a in alturas]
+        yy = topo
+        for i, (rot, desc) in enumerate(campos):
+            self.fio(s, X, yy, larg)
+            self.rotulo(s, rot, X, yy + 0.22, larg, ACENTO)
+            self.texto(s, X, yy + 0.54, larg, desc, T_CORPO, CORPO, LIGHT,
+                       h=alturas[i] - 0.60)
+            yy += alturas[i]
+        if spec.get("centro"):
+            self.fio(s, X, yy + 0.08, 1.30, ACENTO, esp=0.03)
+            self.texto(s, X, yy + 0.34, larg, spec["centro"], T_MINI, CLARO,
+                       SEMI, spc=1.4,
+                       h=altura(spec["centro"], T_MINI, larg, 1.35) + 0.12)
+        self._fechar(s, spec)
         return s
 
     def pg_manifesto(self, spec):
@@ -794,7 +826,8 @@ class DeckNarrativo(Deck):
         s = self.slide()
         self.texto(s, ML, Y_EYE, 12.0, "SUMÁRIO", T_ROTULO, CLARO, SANS,
                    spc=3.0, h=0.32)
-        self.titulo(s, spec.get("titulo", "Sumário"), ML, 2.35, W, T_H1)
+        self.titulo(s, spec.get("titulo", "Sumário").upper(), ML, 2.35,
+                    W, T_H1)
         itens = spec["itens"]
         com_desc = any(len(i) > 2 for i in itens)
         topo = 3.20
@@ -823,8 +856,8 @@ class DeckNarrativo(Deck):
         s = self.slide()
         self.texto(s, ML, 4.20, 4.0, spec["numero"], T_ROTULO, ACENTO, SEMI,
                    spc=3.0, h=0.3)
-        nome = spec["nome"]
-        tam = T_DIVISOR if len(nome) <= 18 else 72
+        nome = spec["nome"].upper()
+        tam = T_DIVISOR if len(nome) <= 16 else 68
         self.texto(s, ML, 4.80, 14.0, nome, tam, TINTA, LIGHT, espaco=1.0,
                    h=tam / 72.0 * 1.3)
         self.fio(s, ML, 6.95, W)

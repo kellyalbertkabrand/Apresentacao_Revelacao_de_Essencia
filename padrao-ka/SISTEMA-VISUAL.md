@@ -22,8 +22,8 @@ delas é negociável:
    Encher a página de caixinhas foi exatamente o que a Kelly rejeitou como
    "grosseiro".
 2. **A hierarquia vem da escala e do ar, não do peso.** Título grande em
-   **caixa baixa e peso leve**. Negrito e caixa alta são reservados à capa,
-   aos rótulos minúsculos e ao nome da marca no rodapé.
+   **CAIXA ALTA e peso leve** — a força vem do tamanho e do espaço, nunca do
+   negrito. Títulos de página e nomes de seção são sempre em caixa alta.
 3. **Um único acento quente.** O terracota `#A9724A` aparece em filetes de
    1,3", pontos de lista e numerais de seção. Nunca em área grande.
 
@@ -94,12 +94,12 @@ Escala fechada — **não inventar tamanhos fora desta tabela**:
 | `T_FRASE` | 29 | aspas de citação |
 | `T_ASSINATURA` | 27 | assinatura do método, na capa |
 | `T_MEDIO` | 23 | frase forte, item de lista forte |
-| `T_LEAD` | 22 | linha de abertura |
+| `T_LEAD` | 23 | linha de abertura |
 | `T_DATA` | 19,5 | data, na capa |
-| `T_CORPO` | 18 | corpo |
+| `T_CORPO` | 19 | corpo |
 | `T_RODAPE` | 17 | rodapé |
-| `T_MINI` | 15 | legenda miúda |
-| `T_ROTULO` | 12,5 | eyebrow e rótulo em caixa alta |
+| `T_MINI` | 17 | legenda miúda |
+| `T_ROTULO` | 14 | eyebrow e rótulo em caixa alta |
 
 > **Esta tabela foi MEDIDA, não estimada.** O arquivo final da Kelly reporta
 > a página em 1920 px para 20", ou seja 96 px/in, então `pt = px × 0,75`.
@@ -109,7 +109,9 @@ Escala fechada — **não inventar tamanhos fora desta tabela**:
 > rodapé **29% menor**, o corpo **19% menor**. Decks gerados antes da medição
 > carregam o erro.
 >
-> O nome da seção vai em **caixa baixa** ("A origem"), não em caixa alta.
+> Lead, corpo, legenda e rótulo ficam no topo da faixa medida (o arquivo
+> dela usa 22/18 numa página e 24/19 noutra): em projeção o corpo menor
+> não se lê.
 
 ### A escala legada
 

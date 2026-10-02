@@ -12,11 +12,35 @@ Cada deck sai em **`.pptx` e `.pdf`** na própria pasta.
 
 | Arquivo | O que é | Slides |
 |---|---|---|
-| `revelacao.py` | Revelação de Essência — origem identitária do fundador | 63 |
+| `revelacao.py` | Revelação de Essência — origem identitária do fundador | 30 |
 | `base_estrategica.py` | Base Estratégica da Marca — posicionamento e comunicação | 69 |
 | `assets/` | as 14 fotografias | — |
 
 ---
+
+## A edição: 63 páginas viraram 30
+
+A primeira montagem tinha 63 slides e dizia a mesma coisa que estes 30: cada
+descoberta vinha anunciada numa página, desenvolvida na seguinte e repetida
+numa terceira em caixa alta.
+
+Aqui cada descoberta ocupa **uma página só** — a afirmação, a evidência e a
+leitura juntas. Nenhuma ideia do material original saiu; o que saiu foi a
+repetição. Por seção:
+
+| Seção | Antes | Agora |
+|---|---|---|
+| Abertura e método | 6 | 4 |
+| 01 A origem | 7 | 3 |
+| 02 As tensões | 11 | 4 |
+| 03 Os padrões | 5 | 2 |
+| 04 O Ikigai | 13 | 3 |
+| 05 A essência | 8 | 3 |
+| 06 A marca | 6 | 2 |
+| Divisores, capa, sumário, fecho | 7 | 9 |
+
+As quatro páginas separadas de Paixão, Profissão, Missão e Vocação viraram
+uma só — que é o que o Ikigai é: os quatro encontros numa página.
 
 ## As fotografias: vertical por padrão, rosto sempre inteiro
 
@@ -40,8 +64,8 @@ texto**. Por isso a distribuição final:
 
 | Tratamento | Páginas |
 |---|---|
-| Tira vertical | **23** |
-| Tela cheia (horizontal, sem recorte nenhum) | **6** |
+| Tira vertical | **7** |
+| Tela cheia (horizontal, sem recorte nenhum) | **4** |
 | Faixa horizontal | 0 |
 
 A tela cheia é o horizontal que funciona com este material: a foto aparece
@@ -60,7 +84,7 @@ python3 padrao-ka/conferir_rostos.py <arquivo>.pptx clientes/lucas-martini/asset
 ```
 
 A conferência abre o `.pptx` pronto, lê o recorte **real** gravado em cada
-imagem e confere contra o mapa. Hoje: **28 fotografias, nenhuma cabeça
+imagem e confere contra o mapa. Hoje: **12 fotografias, nenhuma cabeça
 cortada.**
 
 A imagem 04 (o jovem no caixa eletrônico) não tem rosto detectado porque o

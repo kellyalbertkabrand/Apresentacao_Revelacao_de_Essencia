@@ -69,14 +69,14 @@ aprovado pela Kelly.
 Detalhe completo em `padrao-ka/SISTEMA-VISUAL.md`. O essencial:
 
 - Formato 16:9 — 20" × 11,25".
-- Textura de ondas no fundo de todo slide; painel claro `#F7F5F0` de cantos
-  arredondados por cima, recuado 1,10", com o fundo em **9,60"**.
+- Textura de ondas a 32% de opacidade no fundo de todo slide; painel claro
+  `#F8F7F2` de cantos arredondados por cima, recuado 1,10", fundo em **9,60"**.
 - **Fonte única: Outfit**, nas variantes nomeadas. Nada de Calibri, Playfair
   ou IBM Plex. O peso vem do **nome** da fonte, nunca de negrito sintético.
 - **O filete organiza a página, não a caixa.** Encher de cartõezinhos foi
   exatamente o que a Kelly rejeitou como "grosseiro, pouco elegante".
-- Hierarquia por **escala e ar**, não por peso: título grande em caixa baixa e
-  peso leve. Caixa alta só na capa, nos rótulos miúdos e no rodapé.
+- Hierarquia por **escala e ar**, não por peso: título grande em **caixa
+  alta** e peso leve. Títulos de página e nomes de seção sempre em caixa alta.
 - Um único acento quente, o terracota `#A9724A`, em filetes curtos, pontos de
   lista e numerais. Nunca em área grande.
 - Círculos de contorno fino, **nunca preenchidos**.
@@ -86,19 +86,21 @@ Detalhe completo em `padrao-ka/SISTEMA-VISUAL.md`. O essencial:
 
 ## Fotografia
 
-O tratamento depende da **proporção do material que o cliente mandou**, não do
-gosto:
+**Tira vertical é o padrão.** Numa faixa horizontal o corte é vertical e come
+a maior parte da altura: com foto 16:9, uma faixa que preserva o rosto não
+deixa página para o texto. O horizontal que funciona é a **tela cheia**, onde
+nada é cortado.
 
-- **Retrato** → tira vertical sangrando numa lateral (o deck da Flávia).
-- **16:9** → faixa horizontal sangrando no topo ou no pé, ou tela cheia com
-  véu (os decks do Lucas).
+**O rosto nunca é cortado.** `padrao-ka/rostos.py` mapeia a cabeça de cada
+foto; o motor calcula o recorte a partir desse mapa e, quando não cabe, vira a
+orientação e avisa no build. Depois de trocar qualquer foto:
 
-Nunca forçar retrato em faixa horizontal nem paisagem em tira vertical: o
-corte come três quartos da imagem. O `ka_paginas.py` já recusa sozinho o
-primeiro caso.
+```bash
+python3 padrao-ka/rostos.py clientes/<cliente>/assets
+python3 padrao-ka/conferir_rostos.py <arquivo>.pptx clientes/<cliente>/assets
+```
 
-Na faixa horizontal, usar `foco` para escolher que parte da imagem sobrevive
-ao corte — centralizar decapita as pessoas.
+Detalhe em `padrao-ka/ROTEIRO-DECLARATIVO.md`.
 
 ## Quando o texto não couber
 
