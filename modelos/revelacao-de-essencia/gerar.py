@@ -23,9 +23,22 @@ sys.path.insert(0, os.path.join(RAIZ, "padrao-ka"))
 
 from ka_layout import (  # noqa: E402
     Deck, ACENTO, CLARO, CORPO, TINTA, LIGHT, REG, SEMI, SANS,
-    T_CORPO, T_FRASE, T_LEAD, T_MEDIO, T_MINI, T_DISPLAY, T_ROTULO, ML, W,
-    SIMBOLO_IKIGAI,
+    T_FRASE, ML, W, SIMBOLO_IKIGAI,
 )
+
+# ATENCAO — escala propria, menor que a do padrao.
+#
+# Este roteiro foi diagramado antes de a escala real ter sido medida no
+# arquivo da Kelly (ver a tabela em ka_layout.py). Todas as coordenadas das
+# paginas abaixo foram ajustadas a mao contra os tamanhos antigos; trocar
+# por T_CORPO=18 e T_H1=42 estoura a pagina inteira. Os valores ficam
+# fixados aqui ate o roteiro ser rediagramado na escala nova.
+T_DISPLAY = 46
+T_MEDIO = 22
+T_LEAD = 17
+T_CORPO = 14.5
+T_MINI = 12
+T_ROTULO = 9.5
 from pptx.enum.text import PP_ALIGN  # noqa: E402
 
 COL, GAP = 3.35, 0.55          # grade de quatro colunas
@@ -48,7 +61,8 @@ def montar(C, pasta):
         p = os.path.join(fotos, nome + ".jpg")
         return p if os.path.exists(p) else None
 
-    d = Deck(documento="Revelação de Essência", marca=C.MARCA)
+    d = Deck(documento="Revelação de Essência", marca=C.MARCA,
+             escala="legada")
     lado = [0]
 
     def alterna():

@@ -45,8 +45,9 @@ delas é negociável:
 > qualquer página começa em **9,15"** no máximo. O `conferir.sh` verifica
 > isso automaticamente (ver §7).
 
-Todo slide tem a textura de ondas no fundo. Por cima vem o painel claro de
-cantos arredondados (raio 0,18") onde o conteúdo vive. Abertura, capa, fecho e
+Todo slide tem a textura de ondas no fundo, **a 32% de opacidade** — chapada,
+ela rouba o contraste do texto e acaba com a leveza do padrão. Por cima vem o
+painel claro de cantos arredondados (raio 0,18") onde o conteúdo vive. Abertura, capa, fecho e
 as páginas com foto sangrando dispensam o painel.
 
 ---
@@ -55,7 +56,7 @@ as páginas com foto sangrando dispensam o painel.
 
 | Uso | Hex | Constante |
 |---|---|---|
-| Painel claro | `#F7F5F0` | `PAINEL` |
+| Painel claro | `#F8F7F2` | `PAINEL` |
 | Títulos e frases | `#1C1C1A` | `TINTA` |
 | Corpo de texto | `#6B6B66` | `CORPO` |
 | Eyebrow, legenda, rodapé | `#A5A49F` | `CLARO` |
@@ -85,16 +86,37 @@ Escala fechada — **não inventar tamanhos fora desta tabela**:
 
 | Constante | pt | Onde |
 |---|---|---|
-| `T_CAPA` | 76 | título da capa |
-| `T_DIVISOR` | 62 | virada de tema |
-| `T_DISPLAY` | 46 | manifesto, frase-síntese |
-| `T_H1` | 38 | título de página |
-| `T_FRASE` | 28 | aspas de citação |
-| `T_MEDIO` | 22 | subtítulo, item de lista forte |
-| `T_LEAD` | 17 | linha de abertura |
-| `T_CORPO` | 14,5 | corpo |
-| `T_MINI` | 12 | legenda, rodapé |
-| `T_ROTULO` | 9,5 | eyebrow e rótulo em caixa alta |
+| `T_DIVISOR` | 94 | nome da seção, na virada de tema |
+| `T_CAPA` | 75 | título da capa |
+| `T_DISPLAY` | 74 | frase grande que abre uma etapa |
+| `T_H1` | 42 | título de página |
+| `T_SUBCAPA` | 30 | subtítulo da capa |
+| `T_FRASE` | 29 | aspas de citação |
+| `T_ASSINATURA` | 27 | assinatura do método, na capa |
+| `T_MEDIO` | 23 | frase forte, item de lista forte |
+| `T_LEAD` | 22 | linha de abertura |
+| `T_DATA` | 19,5 | data, na capa |
+| `T_CORPO` | 18 | corpo |
+| `T_RODAPE` | 17 | rodapé |
+| `T_MINI` | 15 | legenda miúda |
+| `T_ROTULO` | 12,5 | eyebrow e rótulo em caixa alta |
+
+> **Esta tabela foi MEDIDA, não estimada.** O arquivo final da Kelly reporta
+> a página em 1920 px para 20", ou seja 96 px/in, então `pt = px × 0,75`.
+>
+> A primeira transcrição deste padrão chutou a escala e saiu pequena demais —
+> o nome da seção vinha **34% menor**, a frase de abertura **38% menor**, o
+> rodapé **29% menor**, o corpo **19% menor**. Decks gerados antes da medição
+> carregam o erro.
+>
+> O nome da seção vai em **caixa baixa** ("A origem"), não em caixa alta.
+
+### A escala legada
+
+`Deck(..., escala="legada")` traz de volta os tamanhos antigos. Existe por um
+motivo só: o roteiro fixo em `modelos/revelacao-de-essencia/` foi diagramado à
+mão contra eles, e trocar a escala sem rediagramar estoura todas as páginas.
+**Não usar em material novo.**
 
 ---
 

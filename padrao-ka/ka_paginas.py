@@ -45,7 +45,7 @@ from ka_layout import (  # noqa: E402
     ACENTO, BRANCO, CLARO, CORPO, FIO, PAINEL, TINTA,
     BOLD, LIGHT, SANS, SEMI,
     T_CAPA, T_CORPO, T_DISPLAY, T_DIVISOR, T_FRASE, T_H1, T_LEAD, T_MEDIO,
-    T_MINI, T_ROTULO,
+    T_MINI, T_RODAPE, T_ROTULO, T_SUBCAPA, T_ASSINATURA, T_DATA,
     ALT, LARG, ML, MR, W, Y_EYE, Y_H1, Y_RODAPE,
     LOGO_KA, SIMBOLO_IKIGAI,
     Deck,
@@ -78,8 +78,9 @@ def altura(texto, tam, largura, espaco=1.4):
 class DeckNarrativo(Deck):
     """Deck montado a partir de uma lista de paginas declaradas."""
 
-    def __init__(self, documento, marca, assets=None, modelo=None):
-        super().__init__(documento, marca, modelo)
+    def __init__(self, documento, marca, assets=None, modelo=None,
+                 escala="ka"):
+        super().__init__(documento, marca, modelo, escala)
         self.assets = assets
 
     # ------------------------------------------------------------ utilidades
@@ -99,24 +100,36 @@ class DeckNarrativo(Deck):
         clr.append(alpha)
         return sp
 
-    def rodape(self, s, sobre_foto=False, x=1.55, y=None):
+    def rodape(self, s, sobre_foto=False, x=1.55, y=None,
+               sobre_painel=False):
         """Pilula de identificacao. Sobre fotografia ela some e o texto vai
         direto em branco — pilula clara sobre foto suja a composicao."""
         y = Y_RODAPE if y is None else y
         if sobre_foto:
             tf = self.caixa(s, ML, y - 0.10, 10.0, 0.46)
             p = self.par(tf, True)
-            self.txt(p, self.documento, T_MINI, BRANCO, SANS, spc=2.2)
-            self.txt(p, "   |   ", T_MINI, BRANCO, SANS, spc=2.2)
-            self.txt(p, self.marca, T_MINI, BRANCO, BOLD, spc=2.2)
+            self.txt(p, self.documento, T_RODAPE, BRANCO, SANS, spc=2.2)
+            self.txt(p, "   |   ", T_RODAPE, BRANCO, SANS, spc=2.2)
+            self.txt(p, self.marca, T_RODAPE, BRANCO, BOLD, spc=2.2)
             return
-        self.bloco(s, x, y - 0.16, 8.35, 0.58, PAINEL, raio=0.16)
-        tf = self.caixa(s, x + 0.40, y - 0.16, 7.6, 0.58, MSO_ANCHOR.MIDDLE)
+        self.bloco(s, x, y - 0.20, 9.30, 0.66, PAINEL, raio=0.18)
+        tf = self.caixa(s, x + 0.45, y - 0.20, 8.4, 0.66, MSO_ANCHOR.MIDDLE)
         p = self.par(tf, True)
-        self.txt(p, self.documento, T_MINI, TINTA, SANS, spc=2.2)
-        self.txt(p, "   |   ", T_MINI, CLARO, SANS, spc=2.2)
-        self.txt(p, self.marca, T_MINI, TINTA, BOLD, spc=2.2)
-        self.logo(s, LOGO_KA, 16.55, y - 0.22, 1.72)
+        self.txt(p, self.documento, T_RODAPE, TINTA, SANS, spc=2.2)
+        self.txt(p, "   |   ", T_RODAPE, CLARO, SANS, spc=2.2)
+        self.txt(p, self.marca, T_RODAPE, TINTA, BOLD, spc=2.2)
+        # O logo-ka.png e uma tela QUADRADA com a marca no meio (a tinta
+        # ocupa so 41%–60% da altura). Ancorar pelo topo da tela joga a
+        # marca 0,7" abaixo do ponto pedido — foi assim que ela atravessou
+        # a borda da faixa de fotografia. Aqui a conta e feita pela tinta.
+        TINTA_TOPO, TINTA_BASE = 0.409, 0.597
+        lg = 1.72
+        if sobre_painel:
+            # na faixa, a marca centra na mesma linha optica da pilula
+            alvo = y + 0.13 - (TINTA_TOPO + TINTA_BASE) / 2 * lg
+        else:
+            alvo = y + 0.48 - TINTA_TOPO * lg
+        self.logo(s, LOGO_KA, 16.55, alvo, lg)
 
     def cabeca(self, s, spec, x=ML, w=W, cor=TINTA, cor_eye=CLARO, y=Y_H1):
         """Eyebrow + titulo + filete. Devolve o y onde o corpo pode comecar."""
@@ -252,11 +265,11 @@ class DeckNarrativo(Deck):
         w = spec.get("largura", 13.4)
         preciso = 1.30  # cabeca: eyebrow, titulo e filete
         if spec.get("lead"):
-            preciso += altura(spec["lead"], T_LEAD, w) + 0.42
+            preciso += altura(spec["lead"], T_LEAD, w) + 0.50
         for par in spec.get("paragrafos", []):
             preciso += altura(par, T_CORPO, w) + 0.36
         for item in spec.get("itens", []):
-            preciso += max(0.46, altura(item, T_CORPO, w - 0.5) + 0.14)
+            preciso += max(0.58, altura(item, T_CORPO, w - 0.5) + 0.18)
         if spec.get("destaque"):
             preciso += altura(spec["destaque"],
                               spec.get("tam_destaque", T_MEDIO), w, 1.25) + 0.62
@@ -272,7 +285,7 @@ class DeckNarrativo(Deck):
             # dentro do painel, logo acima da faixa: o rodape em branco sobre
             # uma fotografia clara simplesmente desaparece
             self.rodape(s, x=min(x - 0.65, 11.0),
-                        y=ALT - self._h_foto - 0.52)
+                        y=ALT - self._h_foto - 0.52, sobre_painel=True)
         else:
             self.rodape(s, x=min(x - 0.65, 11.0))
 
@@ -289,10 +302,7 @@ class DeckNarrativo(Deck):
             self.foto(s, 0, 0, LARG, ALT, caminho, foco=spec.get("foco", 0.5))
         self.veu(s, 0, 0, LARG, ALT, TINTA, spec.get("veu", 0.58))
         linhas_ = spec.get("linhas") or [spec.get("titulo", "")]
-        tam = spec.get("tam", T_DISPLAY)
-        total = sum(len(l) for l in linhas_)
-        if total > 150:
-            tam = min(tam, T_FRASE)
+        tam = spec.get("tam") or self._tam_display(linhas_, 15.4)
         alt_bloco = len(linhas_) * tam / 72.0 * 1.26
         y = (ALT - alt_bloco) / 2 - 0.30
         if spec.get("eyebrow"):
@@ -309,15 +319,21 @@ class DeckNarrativo(Deck):
         return s
 
     # ---------------------------------------------------- paginas tipograficas
+    def _tam_display(self, linhas_, largura, teto=T_DISPLAY, piso=30):
+        """Corpo que faz as quebras do autor valerem.
+
+        Numa pagina de frase as linhas sao escritas a mao: cada uma e uma
+        unidade de sentido. Se o corpo for grande demais para a largura, a
+        linha quebra sozinha no meio e a intencao se perde — por isso o
+        tamanho sai da linha mais longa, nao de uma tabela."""
+        maior = max((len(l) for l in linhas_), default=1)
+        return max(piso, min(teto, largura / (CHAR * max(maior, 1))))
+
     def pg_declaracao(self, spec):
         """A pagina de silencio: uma frase grande e muito ar."""
         s = self.slide()
         linhas_ = spec.get("linhas", [])
-        tam = spec.get("tam")
-        if not tam:
-            maior = max((len(l) for l in linhas_), default=0)
-            tam = T_DISPLAY if maior <= 48 else (T_FRASE + 6 if maior <= 64
-                                                 else T_FRASE)
+        tam = spec.get("tam") or self._tam_display(linhas_, 15.4)
         alt_bloco = len(linhas_) * tam / 72.0 * 1.26
         extra = 0.0
         if spec.get("apoio"):
@@ -548,10 +564,17 @@ class DeckNarrativo(Deck):
         por_col = int(math.ceil(len(itens) / colunas))
         largura = spec.get("largura", (min(13.0, LG) if colunas == 1
                                        else (LG - 0.90) / 2))
-        passo = min(0.78, disponivel / por_col)
-        tam = T_LEAD if passo >= 0.56 else T_CORPO
-        if passo < 0.40:
-            tam, passo = T_CORPO, max(0.34, passo)
+        passo = min(0.86, disponivel / por_col)
+        tam = T_LEAD if passo >= 0.62 else T_CORPO
+        # 18pt de corpo pede 0,45" de entrelinha; abaixo disso as linhas
+        # encostam. Em vez de espremer, a lista vai para duas colunas
+        if passo < 0.46 and colunas == 1 and len(itens) >= 4:
+            colunas, por_col = 2, int(math.ceil(len(itens) / 2))
+            largura = (LG - 0.90) / 2
+            passo = min(0.86, disponivel / por_col)
+            tam = T_LEAD if passo >= 0.62 else T_CORPO
+        passo = max(0.46, passo)
+        fundo = y
         for i, item in enumerate(itens):
             c, r = i // por_col, i % por_col
             cx = X + c * (largura + 0.90)
@@ -561,7 +584,12 @@ class DeckNarrativo(Deck):
                        spec.get("marcar_ultimo") else CLARO)
             self.texto(s, cx + 0.48, yy, largura - 0.48, item, tam, TINTA,
                        LIGHT, h=passo - 0.04)
-        fundo = y + por_col * passo
+            # o fecho segue a coluna mais ALTA: num item de duas linhas a
+            # conta por passo subestima o pe da lista e o filete de acento
+            # acaba por cima do texto
+            fundo = max(fundo, yy + max(passo,
+                                        altura(item, tam, largura - 0.48)
+                                        + 0.10))
         if spec.get("destaque"):
             self.fio(s, X, fundo + 0.24, 1.30, ACENTO, esp=0.03)
             h = altura(spec["destaque"], T_MEDIO, LG, 1.25) + 0.14
@@ -686,32 +714,37 @@ class DeckNarrativo(Deck):
         s = self.slide()
         self.texto(s, ML, Y_EYE, 12.0, "SUMÁRIO", T_ROTULO, CLARO, SANS,
                    spc=3.0, h=0.32)
-        self.titulo(s, spec.get("titulo", "Sumário"), ML, 2.45, W, 44)
+        self.titulo(s, spec.get("titulo", "Sumário"), ML, 2.35, W, T_H1)
         itens = spec["itens"]
-        topo = 3.42
-        passo = min(1.00, (FUNDO - topo) / len(itens))
+        com_desc = any(len(i) > 2 for i in itens)
+        topo = 3.20
+        passo = (FUNDO + 0.30 - topo) / len(itens)
+        # com a escala medida o nome vem a 23pt e a descricao a 15pt: sem
+        # folga suficiente o filete seguinte corta os descendentes
+        tam_nome = T_MEDIO if passo >= 1.08 else T_LEAD
         for i, item in enumerate(itens):
             num, nome = item[0], item[1]
             desc = item[2] if len(item) > 2 else None
             y = topo + i * passo
-            self.fio(s, ML, y, 13.4)
-            self.texto(s, ML, y + 0.34, 1.0, num, T_MINI, ACENTO, SEMI,
-                       spc=2.4, h=0.28)
-            self.texto(s, ML + 1.55, y + 0.22, 11.6, nome, T_MEDIO, TINTA,
-                       LIGHT, h=0.42)
+            self.fio(s, ML, y, W)
+            self.texto(s, ML, y + 0.30, 1.1, num, T_ROTULO, ACENTO, SEMI,
+                       spc=2.4, h=0.30)
+            h_nome = tam_nome / 72.0 * 1.42
+            self.texto(s, ML + 1.75, y + 0.16, W - 1.75, nome, tam_nome,
+                       TINTA, LIGHT, h=h_nome)
             if desc:
-                self.texto(s, ML + 1.55, y + 0.60, 11.6, desc, T_CORPO, CLARO,
-                           LIGHT, h=0.30)
-        self.fio(s, ML, topo + len(itens) * passo, 13.4)
+                self.texto(s, ML + 1.75, y + 0.16 + h_nome, W - 1.75, desc,
+                           T_MINI, CLARO, LIGHT, h=T_MINI / 72.0 * 1.5)
+        self.fio(s, ML, topo + len(itens) * passo, W)
         self.rodape(s)
         return s
 
     def pg_divisor(self, spec):
         s = self.slide()
-        self.texto(s, ML, 4.30, 4.0, spec["numero"], T_MINI, ACENTO, SEMI,
+        self.texto(s, ML, 4.20, 4.0, spec["numero"], T_ROTULO, ACENTO, SEMI,
                    spc=3.0, h=0.3)
-        nome = spec["nome"].upper()
-        tam = T_DIVISOR if len(nome) <= 26 else 48
+        nome = spec["nome"]
+        tam = T_DIVISOR if len(nome) <= 18 else 72
         self.texto(s, ML, 4.80, 14.0, nome, tam, TINTA, LIGHT, espaco=1.0,
                    h=tam / 72.0 * 1.3)
         self.fio(s, ML, 6.95, W)
@@ -736,15 +769,16 @@ class DeckNarrativo(Deck):
                    h=len(spec["titulo"]) * T_CAPA * 0.78 / 72.0 * 1.1)
         y = 3.35 + len(spec["titulo"]) * T_CAPA * 0.78 / 72.0 * 1.1 + 0.30
         self.fio(s, ML, y, 1.30, ACENTO, esp=0.03)
-        self.texto(s, ML, y + 0.45, larg, spec["subtitulo"], T_LEAD, TINTA,
-                   LIGHT, h=0.55)
-        self.logo(s, LOGO_KA, ML, 8.85, 2.35)
-        self.fio_v(s, 5.20, 8.75, 0.85, CLARO, esp=0.012)
-        self.texto(s, 5.60, 8.82, 2.70, spec["assinatura"], T_LEAD, TINTA,
-                   LIGHT, espaco=1.25, h=0.8)
-        self.fio_v(s, 8.55, 8.75, 0.85, CLARO, esp=0.012)
-        self.texto(s, 8.95, 9.02, 2.40, spec["data"].upper(), T_MINI, CLARO,
-                   SANS, spc=2.0, h=0.35)
+        self.texto(s, ML, y + 0.50, larg, spec["subtitulo"], T_SUBCAPA, TINTA,
+                   LIGHT, h=0.80)
+        # barra de assinatura — mesma faixa do arquivo da Kelly (8,6"–9,4")
+        self.logo(s, LOGO_KA, ML, 8.68, 2.35)
+        self.fio_v(s, 5.20, 8.55, 0.95, CLARO, esp=0.012)
+        self.texto(s, 5.60, 8.52, 3.10, spec["assinatura"], T_ASSINATURA,
+                   TINTA, LIGHT, espaco=1.15, h=1.0)
+        self.fio_v(s, 8.95, 8.55, 0.95, CLARO, esp=0.012)
+        self.texto(s, 9.35, 8.82, 2.60, spec["data"].upper(), T_DATA, CLARO,
+                   SANS, spc=2.0, h=0.45)
         return s
 
     # ---------------------------------------------------------------- montagem

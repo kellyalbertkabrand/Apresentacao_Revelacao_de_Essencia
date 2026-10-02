@@ -39,7 +39,8 @@ PAGINAS = [
     # 01 — capa
     {"tipo": "capa",
      "titulo": ["REVELAÇÃO", "DE ESSÊNCIA"],
-     "subtitulo": "Lucas José Martini  |  Origem Identitária do Fundador",
+     "subtitulo": ["Lucas José Martini",
+                   "Origem Identitária do Fundador"],
      "assinatura": ["Método Marca", "com Essência ©"],
      "data": "Outubro/2026",
      "foto": IMG[1], "foco": 0.42},
@@ -155,7 +156,8 @@ PAGINAS = [
 
     # 11
     {"tipo": "declaracao",
-     "linhas": ["Talvez o primeiro grande aprendizado do Lucas",
+     "linhas": ["Talvez o primeiro",
+                "grande aprendizado do Lucas",
                 "não tenha sido sobre seguro.",
                 "Tenha sido sobre fragilidade."]},
 
@@ -248,7 +250,8 @@ PAGINAS = [
     {"tipo": "declaracao",
      "linhas": ["Ele não precisa escolher",
                 "entre ambição e propósito.",
-                "No Lucas, os dois podem coexistir."]},
+                "No Lucas, os dois",
+                "podem coexistir."]},
 
     # 21
     {"tipo": "texto", "eyebrow": "Terceira tensão", "foto": IMG[14],
@@ -481,8 +484,10 @@ PAGINAS = [
 
     # 43
     {"tipo": "declaracao",
-     "linhas": ["Dinheiro, nessa lógica, não é o fim.",
-                "É o que preserva possibilidades."]},
+     "linhas": ["Dinheiro, nessa lógica,",
+                "não é o fim.",
+                "É o que preserva",
+                "possibilidades."]},
 
     # 44
     {"tipo": "texto", "eyebrow": "O Ikigai",
@@ -497,8 +502,9 @@ PAGINAS = [
     # 45 — razão de ser
     {"tipo": "foto_cheia", "foto": IMG[3], "foco": 0.40, "veu": 0.66,
      "eyebrow": "Razão de ser",
-     "linhas": ["Preservar a capacidade de escolha",
-                "quando a vida tira a previsibilidade."]},
+     "linhas": ["Preservar a capacidade",
+                "de escolha quando a vida",
+                "tira a previsibilidade."]},
 
     # ——— 05 A ESSÊNCIA
     {"tipo": "divisor", "numero": "05", "nome": "A essência",
@@ -523,8 +529,10 @@ PAGINAS = [
 
     # 48
     {"tipo": "declaracao", "eyebrow": "A crença fundadora", "marcar": True,
-     "linhas": ["O que levou anos para ser construído",
-                "não deveria ficar entregue ao acaso."]},
+     "linhas": ["O que levou anos",
+                "para ser construído",
+                "não deveria ficar",
+                "entregue ao acaso."]},
 
     # 49
     {"tipo": "texto", "eyebrow": "A essência", "foto": IMG[1],
@@ -549,9 +557,10 @@ PAGINAS = [
 
     # 51
     {"tipo": "declaracao",
-     "linhas": ["Lucas não trabalha para controlar o imprevisto.",
-                "Trabalha para que o imprevisto não decida",
-                "sozinho o que acontece depois."]},
+     "linhas": ["Lucas não trabalha",
+                "para controlar o imprevisto.",
+                "Trabalha para que ele não decida",
+                "sozinho o que vem depois."]},
 
     # 52 — a essência
     {"tipo": "foto_cheia", "foto": IMG[3], "foco": 0.45, "veu": 0.68,
@@ -623,7 +632,8 @@ PAGINAS = [
 
     # 58
     {"tipo": "foto_cheia", "foto": IMG[14], "foco": 0.12, "veu": 0.60,
-     "linhas": ["Ele não precisa se tornar mais exibido.",
+     "linhas": ["Ele não precisa",
+                "se tornar mais exibido.",
                 "Precisa tornar mais visível",
                 "aquilo que já construiu."]},
 

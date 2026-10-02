@@ -41,7 +41,7 @@ TRACO = os.path.join(ASSETS, "traco.png")
 SIMBOLO_IKIGAI = os.path.join(ASSETS, "simbolo-ikigai.png")
 
 # ------------------------------------------------------------------ paleta
-PAINEL = RGBColor(0xF7, 0xF5, 0xF0)   # painel claro sobre a textura
+PAINEL = RGBColor(0xF8, 0xF7, 0xF2)   # painel claro sobre a textura
 TINTA = RGBColor(0x1C, 0x1C, 0x1A)    # titulos e frases
 CORPO = RGBColor(0x6B, 0x6B, 0x66)    # corpo de texto
 CLARO = RGBColor(0xA5, 0xA4, 0x9F)    # eyebrow, legenda, rodape
@@ -69,16 +69,26 @@ Y_EYE, Y_H1 = 1.95, 2.55
 Y_RODAPE = 10.32
 
 # Escala tipografica. Nao inventar tamanhos fora desta tabela.
-T_CAPA = 76
-T_DIVISOR = 62
-T_DISPLAY = 46
-T_H1 = 38
-T_FRASE = 28
-T_MEDIO = 22
-T_LEAD = 17
-T_CORPO = 14.5
-T_MINI = 12
-T_ROTULO = 9.5
+#
+# MEDIDA no arquivo final da Kelly, nao estimada: o Canva reporta a pagina
+# em 1920 px para 20", ou seja 96 px/in, entao pt = px * 0,75. A primeira
+# transcricao deste padrao chutou a escala e saiu pequena demais — o nome
+# da secao vinha 34%% menor, o rodape 29%% menor, o corpo 19%% menor. Os
+# valores abaixo sao os do arquivo dela.
+T_CAPA = 75              # titulo da capa
+T_DIVISOR = 94           # nome da secao, na virada de tema
+T_DISPLAY = 74           # frase grande que abre uma etapa
+T_H1 = 42                # titulo de pagina
+T_FRASE = 29             # aspas de citacao
+T_MEDIO = 23             # frase forte, item de lista forte
+T_LEAD = 22              # linha de abertura
+T_CORPO = 18             # corpo
+T_MINI = 15              # legenda miuda
+T_RODAPE = 17            # rodape
+T_SUBCAPA = 30           # subtitulo da capa
+T_ASSINATURA = 27        # assinatura do metodo, na capa
+T_DATA = 19.5            # data, na capa
+T_ROTULO = 12.5         # eyebrow e rotulo em caixa alta
 
 
 def _modelo_base():
@@ -90,8 +100,24 @@ def _modelo_base():
                      "PADRAO-KA-revelacao-de-essencia.pptx"))
 
 
+# Escala anterior, menor. Existe so para o roteiro fixo da Revelacao de
+# Essencia, diagramado a mao contra estes valores antes da medicao. Nao usar
+# em material novo.
+ESCALA_LEGADA = {
+    "CAPA": 76, "DIVISOR": 62, "DISPLAY": 46, "H1": 38, "FRASE": 28,
+    "MEDIO": 22, "LEAD": 17, "CORPO": 14.5, "MINI": 12, "RODAPE": 12,
+    "ROTULO": 9.5, "SUBCAPA": 22, "ASSINATURA": 17, "DATA": 12,
+}
+ESCALA_KA = {
+    "CAPA": T_CAPA, "DIVISOR": T_DIVISOR, "DISPLAY": T_DISPLAY, "H1": T_H1,
+    "FRASE": T_FRASE, "MEDIO": T_MEDIO, "LEAD": T_LEAD, "CORPO": T_CORPO,
+    "MINI": T_MINI, "RODAPE": T_RODAPE, "ROTULO": T_ROTULO,
+    "SUBCAPA": T_SUBCAPA, "ASSINATURA": T_ASSINATURA, "DATA": T_DATA,
+}
+
+
 class Deck:
-    def __init__(self, documento, marca, modelo=None):
+    def __init__(self, documento, marca, modelo=None, escala="ka"):
         self.documento = documento.upper()
         self.marca = marca.upper()
         self.prs = Presentation(modelo or _modelo_base())
@@ -111,6 +137,7 @@ class Deck:
                     if "/ppt/slides/" in str(p.partname)], "sobraram slides do modelo"
 
         self.branco = next(l for l in self.prs.slide_layouts if l.name == "Blank")
+        self.T = dict(ESCALA_LEGADA if escala == "legada" else ESCALA_KA)
 
     # ------------------------------------------------------------ utilidades
     @staticmethod
@@ -125,7 +152,13 @@ class Deck:
         s.background.fill.solid()
         s.background.fill.fore_color.rgb = PAINEL
         if textura:
-            s.shapes.add_picture(TEXTURA, 0, 0, self.e(LARG), self.e(ALT))
+            pic = s.shapes.add_picture(TEXTURA, 0, 0, self.e(LARG), self.e(ALT))
+            # 32% sobre o fundo claro. Chapada, a textura rouba o contraste
+            # do texto e some com a leveza do padrao.
+            blip = pic._element.blipFill.find(qn("a:blip"))
+            alpha = OxmlElement("a:alphaModFix")
+            alpha.set("amt", "32000")
+            blip.append(alpha)
         if painel:
             self.bloco(s, PAINEL_M, PAINEL_M, LARG - 2 * PAINEL_M,
                        ALT - 2 * PAINEL_M - 0.55, PAINEL, raio=0.18)
@@ -250,15 +283,16 @@ class Deck:
 
     # -------------------------------------------------------- blocos de pagina
     def eyebrow(self, s, texto, x=ML, y=Y_EYE):
-        self.texto(s, x, y, 12.0, texto.upper(), T_ROTULO, CLARO, SANS,
+        self.texto(s, x, y, 12.0, texto.upper(), self.T["ROTULO"], CLARO, SANS,
                    spc=3.0, h=0.32)
 
     def rotulo(self, s, texto, x, y, w=6.0, cor=CLARO):
-        self.texto(s, x, y, w, texto.upper(), T_ROTULO, cor, SEMI, spc=2.2,
+        self.texto(s, x, y, w, texto.upper(), self.T["ROTULO"], cor, SEMI, spc=2.2,
                    h=0.28)
 
-    def titulo(self, s, texto, x=ML, y=Y_H1, w=W, tam=T_H1, cor=TINTA):
+    def titulo(self, s, texto, x=ML, y=Y_H1, w=W, tam=None, cor=TINTA):
         """H1 em caixa baixa e peso leve: a forca vem do tamanho e do ar."""
+        tam = self.T["H1"] if tam is None else tam
         return self.texto(s, x, y, w, texto, tam, cor, LIGHT, espaco=1.14)
 
     def rodape(self, s):
@@ -266,9 +300,9 @@ class Deck:
         self.bloco(s, 1.55, Y_RODAPE - 0.16, 8.35, 0.58, PAINEL, raio=0.16)
         tf = self.caixa(s, 1.95, Y_RODAPE - 0.16, 7.6, 0.58, MSO_ANCHOR.MIDDLE)
         p = self.par(tf, True)
-        self.txt(p, self.documento, T_MINI, TINTA, SANS, spc=2.2)
-        self.txt(p, "   |   ", T_MINI, CLARO, SANS, spc=2.2)
-        self.txt(p, self.marca, T_MINI, TINTA, BOLD, spc=2.2)
+        self.txt(p, self.documento, self.T["RODAPE"], TINTA, SANS, spc=2.2)
+        self.txt(p, "   |   ", self.T["RODAPE"], CLARO, SANS, spc=2.2)
+        self.txt(p, self.marca, self.T["RODAPE"], TINTA, BOLD, spc=2.2)
         self.logo(s, LOGO_KA, 16.55, Y_RODAPE - 0.22, 1.72)
 
     # ------------------------------------------------------------ arquetipos
@@ -286,21 +320,22 @@ class Deck:
         assinatura embaixo (logo KA · metodo · data)."""
         s = self.slide(painel=False)
         self.logo(s, TRACO, 16.30, 3.15, 1.45)
-        self.texto(s, ML, 3.55, 15.0, titulo_linhas, T_CAPA, TINTA, BOLD,
+        self.texto(s, ML, 3.55, 15.0, titulo_linhas, self.T["CAPA"], TINTA, BOLD,
                    espaco=1.06)
         self.fio(s, ML, 6.55, 1.30, ACENTO, esp=0.03)
-        self.texto(s, ML, 7.00, 14.0, subtitulo, T_MEDIO, TINTA, LIGHT, h=0.6)
+        self.texto(s, ML, 7.00, 14.0, subtitulo, self.T["SUBCAPA"], TINTA, LIGHT, h=0.75)
         self.logo(s, LOGO_KA, ML, 8.85, 2.35)
         self.fio_v(s, 5.20, 8.75, 0.85, CLARO, esp=0.012)
-        self.texto(s, 5.60, 8.82, 4.2, assinatura, T_LEAD, TINTA, LIGHT,
+        self.texto(s, 5.60, 8.82, 4.2, assinatura, self.T["ASSINATURA"], TINTA, LIGHT,
                    espaco=1.25, h=0.8)
         self.fio_v(s, 10.10, 8.75, 0.85, CLARO, esp=0.012)
-        self.texto(s, 10.50, 9.02, 3.2, data.upper(), T_MINI, TINTA, SANS,
+        self.texto(s, 10.50, 9.02, 3.2, data.upper(), self.T["DATA"], TINTA, SANS,
                    spc=2.0, h=0.35)
         return s
 
-    def pagina(self, eyebrow, titulo, tam=T_H1, com_fio=True, x=ML, w=W):
+    def pagina(self, eyebrow, titulo, tam=None, com_fio=True, x=ML, w=W):
         """A3 — pagina de conteudo: eyebrow, titulo e filete."""
+        tam = self.T["H1"] if tam is None else tam
         s = self.slide()
         self.eyebrow(s, eyebrow, x)
         n = len(titulo) if isinstance(titulo, list) else 1
@@ -314,18 +349,19 @@ class Deck:
         """A4 — virada de tema: numero da secao, nome em caixa alta leve e um
         filete que atravessa a pagina. Nada alem disso."""
         s = self.slide()
-        self.texto(s, ML, 4.30, 4.0, numero, T_MINI, ACENTO, SEMI, spc=3.0,
+        self.texto(s, ML, 4.30, 4.0, numero, self.T["ROTULO"], ACENTO, SEMI, spc=3.0,
                    h=0.3)
-        self.texto(s, ML, 4.80, 12.0, nome.upper(), T_DIVISOR, TINTA, LIGHT,
+        self.texto(s, ML, 4.80, 12.0, nome, self.T["DIVISOR"], TINTA, LIGHT,
                    espaco=1.0)
         self.fio(s, ML, 6.95, W)
         self.rodape(s)
         return s
 
     def com_foto(self, eyebrow, titulo, caminho, lado="direita", fatia=0.42,
-                 tam=T_H1):
+                 tam=None):
         """A5 — pagina partida: foto sangrando em uma lateral, texto na
         outra. Devolve (slide, x, largura) da coluna de texto."""
+        tam = self.T["H1"] if tam is None else tam
         s = self.slide(painel=False)
         corte = LARG * fatia
         if lado == "direita":
@@ -355,8 +391,8 @@ class Deck:
         s = self.slide()
         self.eyebrow(s, eyebrow, ML, 3.10)
         if apoio:
-            self.texto(s, ML, 3.60, 13.0, apoio, T_LEAD, CLARO, LIGHT, h=0.5)
-        self.texto(s, ML, 4.35, 15.2, linhas, T_DISPLAY, TINTA, LIGHT,
+            self.texto(s, ML, 3.60, 13.0, apoio, self.T["LEAD"], CLARO, LIGHT, h=0.6)
+        self.texto(s, ML, 4.35, 15.2, linhas, self.T["DISPLAY"], TINTA, LIGHT,
                    espaco=1.26)
         self.fio(s, ML, 8.05, 1.30, ACENTO, esp=0.03)
         self.rodape(s)
@@ -365,7 +401,7 @@ class Deck:
     def fecho(self, frase="MUITO OBRIGADA!", parceiro=LOGO_PARCEIRO):
         """A7 — ultima pagina: agradecimento e assinatura, sem painel."""
         s = self.slide(painel=False)
-        self.texto(s, ML, 4.05, 15.0, frase, T_CAPA * 0.62, TINTA, LIGHT,
+        self.texto(s, ML, 4.05, 15.0, frase, self.T["CAPA"] * 0.62, TINTA, LIGHT,
                    espaco=1.1)
         self.logo(s, LOGO_KELLY, ML, 5.95, 3.55)
         if parceiro:

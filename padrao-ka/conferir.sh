@@ -19,8 +19,10 @@ mkdir -p "$T/x" && cd "$T/x"
 unzip -o -q "$SRC"
 sed -i 's/Outfit 2 Semi-Bold/Outfit 2 SemiBold/g' ppt/slides/slide*.xml
 zip -q -r ../previa.pptx . && cd "$T"
-timeout 500 soffice --headless --norestore --convert-to pdf \
-  --outdir . previa.pptx >/dev/null 2>&1
+# perfil proprio por execucao: duas conferencias ao mesmo tempo disputam o
+# perfil padrao do LibreOffice e as duas travam sem dizer nada
+timeout 500 soffice -env:UserInstallation="file://$T/lo" \
+  --headless --norestore --convert-to pdf --outdir . previa.pptx >/dev/null 2>&1
 pdftoppm -png -r 62 previa.pdf s
 pdftotext -bbox previa.pdf bb.html 2>/dev/null
 python3 "$AQUI/conferir.py" "$T/bb.html"
