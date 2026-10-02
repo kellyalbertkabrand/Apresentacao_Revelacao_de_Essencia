@@ -13,12 +13,12 @@ Cada deck sai em **`.pptx` e `.pdf`** na própria pasta.
 | Arquivo | O que é | Slides |
 |---|---|---|
 | `revelacao.py` | Revelação de Essência — origem identitária do fundador | 30 |
-| `base_estrategica.py` | Base Estratégica da Marca — posicionamento e comunicação | 69 |
+| `base_estrategica.py` | Base Estratégica da Marca — posicionamento e comunicação | 30 |
 | `assets/` | as 14 fotografias | — |
 
 ---
 
-## A edição: 63 páginas viraram 30
+## A edição: 63 e 69 páginas viraram 30 cada
 
 A primeira montagem tinha 63 slides e dizia a mesma coisa que estes 30: cada
 descoberta vinha anunciada numa página, desenvolvida na seguinte e repetida
@@ -41,6 +41,16 @@ repetição. Por seção:
 
 As quatro páginas separadas de Paixão, Profissão, Missão e Vocação viraram
 uma só — que é o que o Ikigai é: os quatro encontros numa página.
+
+### A Base Estratégica tem uma restrição própria
+
+São **nove seções**, e os divisores sozinhos ocupam 9 das 30 páginas. Com
+capa, sumário, abertura e fecho, sobram **17 para o conteúdo** — menos de duas
+por seção. Por isso ali os cinco pilares viraram uma página, os quatro
+públicos viraram uma, e o Golden Circle inteiro cabe numa só.
+
+Se a Kelly quiser mais fôlego nessa apresentação, o caminho não é cortar mais
+conteúdo: é **reduzir o número de seções** ou aceitar passar de 30.
 
 ## As fotografias: vertical por padrão, rosto sempre inteiro
 

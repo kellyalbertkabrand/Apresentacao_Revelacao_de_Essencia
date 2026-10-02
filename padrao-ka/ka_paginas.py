@@ -598,16 +598,19 @@ class DeckNarrativo(Deck):
         larg = LG - min(5.60, LG * 0.40)
         # Cada degrau tem a altura do seu proprio texto. Dividir o espaco em
         # partes iguais estoura a pagina quando uma das leituras e longa.
-        tam_desc = T_LEAD if larg >= 7.0 else T_CORPO
-        alturas = [max(0.78, altura(desc, tam_desc, larg, 1.35) + 0.46)
-                   for _, desc in itens]
-        folga = (FIM + 0.30 - topo) - sum(alturas)
+        # Quando nao cabe, o corpo desce um degrau ANTES de a linha ser
+        # espremida: encolher a caixa abaixo do que o texto ocupa nao faz o
+        # texto encolher — faz ele invadir a linha de baixo.
+        espaco = FIM + 0.30 - topo
+        escala = [T_LEAD, T_CORPO, T_MINI] if larg >= 7.0 else [T_CORPO, T_MINI]
+        for tam_desc in escala:
+            alturas = [max(0.72, altura(desc, tam_desc, larg, 1.35) + 0.44)
+                       for _, desc in itens]
+            if sum(alturas) <= espaco:
+                break
+        folga = espaco - sum(alturas)
         if folga > 0:
-            extra = min(0.42, folga / len(itens))
-            alturas = [a + extra for a in alturas]
-        elif folga < 0:
-            fator = (FIM + 0.30 - topo) / sum(alturas)
-            alturas = [a * fator for a in alturas]
+            alturas = [a + min(0.42, folga / len(itens)) for a in alturas]
         yy = topo
         for i, (rot, desc) in enumerate(itens):
             ultimo = i == len(itens) - 1
@@ -709,15 +712,20 @@ class DeckNarrativo(Deck):
         larg = (LG - 0.90 * (colunas - 1)) / colunas
         topo = max(y, 3.90)
 
-        def alturas(bloco):
-            return [max(0.84, altura(v, T_CORPO, larg, 1.35) + 0.66)
+        def alturas(bloco, tam):
+            return [max(0.76, altura(v, tam, larg, 1.35) + 0.62)
                     for _, v in bloco]
 
         pilhas = [campos[c * por_col:(c + 1) * por_col]
                   for c in range(colunas)]
-        alts = [alturas(b) for b in pilhas]
-        maior = max((sum(a) for a in alts), default=0)
         disponivel = FIM + 0.35 - topo
+        # o valor desce um degrau de corpo antes de a linha ser espremida:
+        # encolher a caixa abaixo do texto nao encolhe o texto
+        for tam_valor in (T_CORPO, T_MINI):
+            alts = [alturas(b, tam_valor) for b in pilhas]
+            maior = max((sum(a) for a in alts), default=0)
+            if maior <= disponivel:
+                break
         fator = min(1.0, disponivel / maior) if maior else 1.0
         for c, bloco in enumerate(pilhas):
             cx = X + c * (larg + 0.90)
@@ -726,7 +734,7 @@ class DeckNarrativo(Deck):
                 h = alts[c][k] * fator
                 self.fio(s, cx, yy, larg)
                 self.rotulo(s, rot, cx, yy + 0.22, larg, ACENTO)
-                self.texto(s, cx, yy + 0.54, larg, valor, T_CORPO, TINTA,
+                self.texto(s, cx, yy + 0.54, larg, valor, tam_valor, TINTA,
                            LIGHT, h=h - 0.60)
                 yy += h
         self._fechar(s, spec)
@@ -807,17 +815,29 @@ class DeckNarrativo(Deck):
         larg = (W - 1.10) / 2
         meio = int(math.ceil(len(paragrafos) / 2))
         topo = 3.30
-        for c, bloco in enumerate((paragrafos[:meio], paragrafos[meio:])):
+        reservado = 0.75 if spec.get("assinatura") else 0.0
+        espaco = FUNDO + 0.25 - topo - reservado
+        colunas = (paragrafos[:meio], paragrafos[meio:])
+        for tam_par in (T_LEAD, T_CORPO):
+            altos = [sum(altura(p, tam_par, larg, 1.45) + 0.40 for p in b)
+                     for b in colunas]
+            if max(altos) <= espaco:
+                break
+        fundo = topo
+        for c, bloco in enumerate(colunas):
             cx = ML + c * (larg + 1.10)
             yy = topo
             for par in bloco:
-                h = altura(par, T_LEAD, larg, 1.45) + 0.10
-                self.texto(s, cx, yy, larg, par, T_LEAD, TINTA, LIGHT,
+                h = altura(par, tam_par, larg, 1.45) + 0.10
+                self.texto(s, cx, yy, larg, par, tam_par, TINTA, LIGHT,
                            espaco=1.45, h=h)
                 yy += h + 0.30
+            fundo = max(fundo, yy)
         if spec.get("assinatura"):
-            self.fio(s, ML, 9.00, 1.30, ACENTO, esp=0.03)
-            self.texto(s, ML, 9.30, W, spec["assinatura"], T_MINI, CLARO,
+            # a assinatura segue a coluna mais alta, nunca uma altura fixa
+            base = min(fundo + 0.12, FUNDO - 0.05)
+            self.fio(s, ML, base - 0.30, 1.30, ACENTO, esp=0.03)
+            self.texto(s, ML, base, W, spec["assinatura"], T_MINI, CLARO,
                        SANS, spc=2.2, h=0.35)
         self.rodape(s)
         return s

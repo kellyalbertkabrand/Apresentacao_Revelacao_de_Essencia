@@ -5,8 +5,18 @@ BASE ESTRATÉGICA DA MARCA — Lucas Martini | Proteção & Sucessão
 Só conteúdo. Layout em padrao-ka/ka_layout.py, arquétipos de página em
 padrao-ka/ka_paginas.py.
 
-Aqui as fotografias aparecem menos como história do Lucas e mais como prova
-da marca em ação, conforme o gabarito da Kelly. A imagem 07 ficou de fora.
+30 páginas. A versão anterior tinha 69 e dizia a mesma coisa: cada
+definição vinha anunciada, desenvolvida e repetida.
+
+A conta aqui é apertada e vale explicar. São NOVE seções, e os divisores
+sozinhos já ocupam 9 das 30 páginas. Com capa, sumário, abertura e fecho,
+sobram 17 para o conteúdo — menos de duas por seção. Por isso os cinco
+pilares viraram uma página, os quatro públicos viraram uma, e o Golden
+Circle inteiro cabe numa só. Nenhuma definição do material original saiu;
+o que saiu foi a página de anúncio antes de cada uma.
+
+As fotografias entram em tira vertical ou tela cheia; o recorte sai de
+`assets/rostos.json` para que o rosto nunca seja cortado.
 """
 
 MARCA = "Lucas Martini"
@@ -29,17 +39,18 @@ IMG = {
 }
 
 PAGINAS = [
+    # 01
     {"tipo": "abertura"},
 
-    # 01 — capa
+    # 02 — capa
     {"tipo": "capa",
-     "titulo": ["BASE ESTRATÉGICA", "DA MARCA"],
-     "subtitulo": "Lucas Martini  |  Proteção & Sucessão",
+     "titulo": ["BASE", "ESTRATÉGICA"],
+     "subtitulo": ["Lucas Martini", "Proteção & Sucessão"],
      "assinatura": ["Método Marca", "com Essência ©"],
      "data": "Outubro/2026",
      "foto": IMG[1], "foco": 0.42},
 
-    # 02 — sumário
+    # 03 — sumário
     {"tipo": "sumario", "itens": [
         ("01", "Leitura do momento da marca"),
         ("02", "Definição central da marca"),
@@ -53,553 +64,278 @@ PAGINAS = [
     ]},
 
     # ——— 01 LEITURA DO MOMENTO
-    {"tipo": "divisor", "numero": "01", "nome": "Leitura do momento da marca"},
+    {"tipo": "divisor", "numero": "01", "nome": "Leitura do momento",
+     "apoio": "O que a marca já tem, e o que ainda não aparece."},
 
-    # 04
+    # 05 — a marca já existe antes da comunicação
     {"tipo": "lista", "eyebrow": "Leitura do momento", "foto": IMG[10],
-     "fatia": 0.32, "foco": 0.24,
+     "lado": "direita",
      "titulo": "A marca já existe antes da comunicação",
-     "lead": "Lucas já possui ativos que não podem ser fabricados por "
-             "identidade visual ou conteúdo:",
-     "itens": ["experiência;", "resultado;", "recomendação;", "confiança;",
-               "relacionamento;", "reconhecimento;",
+     "lead": "Lucas possui ativos que identidade visual e conteúdo não "
+             "fabricam:",
+     "itens": ["experiência, resultado e recomendação;",
+               "confiança, relacionamento e reconhecimento;",
                "histórico de atendimento."],
      "destaque": "Primeiro veio a reputação. Agora a marca precisa torná-la "
                  "visível."},
 
-    # 05
-    {"tipo": "texto", "eyebrow": "Leitura do momento", "foto": IMG[14],
-     "lado": "baixo", "fatia": 0.36, "foco": 0.12,
-     "titulo": "O paradoxo atual",
-     "lead": "A autoridade real é maior do que a autoridade percebida.",
-     "paragrafos": [
-         "Lucas possui conquistas e reconhecimentos relevantes, mas admite "
-         "dificuldade em comunicá-los e se expor. O problema estratégico não "
-         "é falta de substância: é falta de tradução pública dessa "
-         "substância.",
-     ]},
-
-    # 06
-    {"tipo": "texto", "eyebrow": "Leitura do momento", "foto": IMG[1],
-     "lado": "direita", "foco": 0.44,
-     "titulo": "O risco de percepção",
-     "lead": "Sem uma construção própria, Lucas pode ser percebido apenas "
-             "como corretor de seguros, ou como profissional ligado à "
-             "Prudential.",
-     "paragrafos": [
-         "Mas sua atuação é mais ampla. Ele analisa realidade financeira, "
-         "profissional, familiar, empresarial e patrimonial para estruturar "
-         "proteção, sucessão e continuidade de maneira personalizada.",
-     ]},
-
-    # 07
-    {"tipo": "declaracao",
-     "linhas": ["O desafio não é parecer maior.",
-                "É fazer a percepção alcançar a entrega."]},
-
-    # 08
-    {"tipo": "camadas", "eyebrow": "Leitura do momento", "foto": IMG[6],
-     "lado": "cima", "fatia": 0.30, "foco": 0.22,
-     "titulo": "A evolução de percepção",
+    # 06 — o paradoxo e a evolução de percepção
+    {"tipo": "camadas", "eyebrow": "Leitura do momento",
+     "titulo": "A autoridade real é maior que a percebida",
      "camadas": [
-         ("Não apenas", "Corretor de seguros."),
-         ("Mas", "Especialista em proteção e sucessão."),
-         ("Em uma camada mais estratégica",
-          "Um profissional que estrutura continuidade e preserva "
-          "possibilidades."),
+         ("O paradoxo",
+          "Lucas tem conquistas relevantes e dificuldade em comunicá-las. O "
+          "problema não é falta de substância: é falta de tradução pública "
+          "dessa substância."),
+         ("O risco",
+          "Sem construção própria, ele é percebido apenas como corretor de "
+          "seguros, ou como alguém ligado a uma seguradora."),
+         ("A evolução",
+          "De corretor de seguros a especialista em proteção e sucessão — e, "
+          "numa camada mais estratégica, a um profissional que estrutura "
+          "continuidade e preserva possibilidades."),
      ]},
 
     # ——— 02 DEFINIÇÃO CENTRAL
-    {"tipo": "divisor", "numero": "02", "nome": "Definição central da marca"},
+    {"tipo": "divisor", "numero": "02", "nome": "Definição central",
+     "apoio": "O que Lucas entrega, abaixo do produto."},
 
-    # 10
+    # 08 — o que ele faz de verdade
     {"tipo": "lista", "eyebrow": "Definição central", "foto": IMG[11],
-     "fatia": 0.30, "foco": 0.22,
-     "titulo": "O que Lucas faz de verdade?",
-     "lead": "Lucas não começa pelo produto. Começa pela realidade.",
-     "itens": ["Quem depende daquele cliente?", "O que está vulnerável?",
+     "lado": "esquerda",
+     "titulo": "O que Lucas faz de verdade",
+     "lead": "Ele não começa pelo produto. Começa pela realidade:",
+     "itens": ["Quem depende daquele cliente?",
                "Que impacto sua ausência produziria?",
-               "O que aconteceria com a empresa?",
-               "Como o patrimônio seria transferido?",
-               "Existe liquidez?", "Existe continuidade?"],
+               "Como o patrimônio seria transferido? Existe liquidez?"],
      "destaque": "A proteção é consequência do diagnóstico."},
 
-    # 11
+    # 09 — a definição central
     {"tipo": "foto_cheia", "foto": IMG[2], "foco": 0.40, "veu": 0.66,
      "eyebrow": "Definição central",
-     "linhas": ["Lucas Martini estrutura proteção e sucessão",
-                "para preservar possibilidades quando a vida,",
-                "a família ou a empresa entram em transição."],
-     "tam": 32},
-
-    # 12
-    {"tipo": "camadas", "eyebrow": "Definição central",
-     "titulo": "As quatro camadas da entrega",
-     "camadas": [
-         ("Produto", "Seguro e soluções financeiras de proteção."),
-         ("Serviço", "Planejamento de proteção e sucessão."),
-         ("Valor estratégico", "Continuidade."),
-         ("Valor humano", "Capacidade de escolha."),
-     ]},
-
-    # 13
-    {"tipo": "palavras", "eyebrow": "Definição central", "foto": IMG[3],
-     "lado": "baixo", "fatia": 0.30, "foco": 0.26,
-     "titulo": "O território central: continuidade",
-     "palavras": ["Da renda", "Da família", "Dos projetos",
-                  "Da empresa", "Do patrimônio", "Do legado"],
-     "grade": 2, "tam": 22,
-     "destaque": "A continuidade é o território capaz de conectar as "
-                 "diferentes soluções sem reduzir a marca ao seguro."},
+     "linhas": ["Lucas Martini estrutura proteção",
+                "e sucessão para preservar possibilidades",
+                "quando a vida, a família ou a empresa",
+                "entram em transição."],
+     "apoio": "Produto: seguro e soluções de proteção. Serviço: planejamento. "
+              "Valor estratégico: continuidade. Valor humano: capacidade de "
+              "escolha."},
 
     # ——— 03 CAUSA, LIDERANÇA E TRIBO
-    {"tipo": "divisor", "numero": "03", "nome": "Causa, liderança e tribo"},
+    {"tipo": "divisor", "numero": "03", "nome": "Causa e tribo",
+     "apoio": "No que a marca acredita, e para quem ela fala."},
 
-    # 15
+    # 11 — a causa
     {"tipo": "foto_cheia", "foto": IMG[3], "foco": 0.38, "veu": 0.66,
      "eyebrow": "A causa",
      "linhas": ["O que levou anos para ser construído",
                 "não deveria ficar entregue ao acaso."],
-     "apoio": "Não porque todos os riscos possam ser eliminados. Mas porque "
-              "muitos dos seus impactos podem ser preparados."},
+     "apoio": "Não porque todos os riscos possam ser eliminados, mas porque "
+              "muitos dos seus impactos podem ser preparados. Nem tudo pode "
+              "ser previsto — mas muito pode ser preparado."},
 
-    # 16
-    {"tipo": "camadas", "eyebrow": "A causa",
-     "titulo": "A mudança cultural que a marca defende",
+    # 12 — a mudança que defende, o que combate e a tribo
+    {"tipo": "camadas", "eyebrow": "Causa e tribo",
+     "titulo": "O que a marca defende e para quem",
      "camadas": [
-         ("De resolver depois", "Para pensar antes."),
-         ("De seguro como produto", "Para proteção como estratégia."),
-         ("De sucessão como problema futuro",
-          "Para sucessão como responsabilidade presente."),
+         ("A mudança",
+          "De resolver depois para pensar antes. De seguro como produto para "
+          "proteção como estratégia. De sucessão como problema futuro para "
+          "responsabilidade presente."),
+         ("O que combate",
+          "Não a morte nem a incerteza: o improviso, o adiamento, a falta de "
+          "liquidez e as decisões tomadas sob pressão."),
+         ("A liderança",
+          "Não ocupar o território do medo nem pressionar. Perguntar, traduzir "
+          "risco, organizar possibilidades e estruturar decisões."),
+         ("A tribo",
+          "Empresários, sócios, profissionais liberais, pilares financeiros e "
+          "pessoas-chave. Há algo ou alguém que depende das suas decisões."),
      ]},
-
-    # 17
-    {"tipo": "contraste", "eyebrow": "A causa",
-     "titulo": "O que a marca combate",
-     "esquerda": ("Combate",
-                  ["improviso;", "desorganização;", "adiamento;",
-                   "falta de liquidez;", "dependência não mapeada;",
-                   "decisões tomadas sob pressão;",
-                   "proteção tratada apenas como compra de produto."]),
-     "direita": ("Não combate",
-                 ["a morte;", "a doença;", "a incerteza."])},
-
-    # 18
-    {"tipo": "foto_cheia", "foto": IMG[12], "foco": 0.42, "veu": 0.58,
-     "linhas": ["Nem tudo pode ser previsto.",
-                "Mas muito pode ser preparado."]},
-
-    # 19
-    {"tipo": "lista", "eyebrow": "A liderança da marca", "foto": IMG[11],
-     "lado": "cima", "fatia": 0.30, "foco": 0.24,
-     "titulo": "Ajudar o cliente a enxergar antes",
-     "lead": "Lucas não deve ocupar o território do medo. Também não precisa "
-             "assumir o papel do vendedor que pressiona. Seu papel é outro:",
-     "itens": ["Perguntar.", "Provocar reflexão.", "Traduzir risco.",
-               "Organizar possibilidades.", "Trazer clareza.",
-               "Estruturar decisões."]},
-
-    # 20
-    {"tipo": "palavras", "eyebrow": "A tribo", "foto": IMG[2],
-     "lado": "baixo", "fatia": 0.30, "foco": 0.26,
-     "titulo": "A tribo",
-     "lead": "A tribo do Lucas não é definida apenas por idade ou renda. É "
-             "formada principalmente por pessoas que carregam "
-             "responsabilidade.",
-     "palavras": ["Empresários", "Sócios", "Profissionais liberais",
-                  "Autônomos", "Pilares financeiros",
-                  "Famílias com patrimônio", "Pessoas-chave"],
-     "grade": 2, "tam": 22,
-     "destaque": "Há algo ou alguém que depende de suas decisões."},
-
-    # 21
-    {"tipo": "declaracao",
-     "linhas": ["Quanto maior a responsabilidade",
-                "que uma pessoa carrega, maior a importância",
-                "de não deixar todas as respostas para depois."]},
 
     # ——— 04 GOLDEN CIRCLE
-    {"tipo": "divisor", "numero": "04", "nome": "Golden Circle"},
+    {"tipo": "divisor", "numero": "04", "nome": "Golden Circle",
+     "apoio": "Por quê, como e o quê — nesta ordem."},
 
-    # 23
-    {"tipo": "texto", "eyebrow": "Why | Por quê?", "foto": IMG[3],
-     "lado": "cima", "fatia": 0.36, "foco": 0.26,
-     "titulo": "Por quê?",
-     "destaque": "Porque o que levou anos para ser construído não deveria "
-                 "perder sua continuidade por falta de preparação.",
-     "tam_destaque": 28,
-     "paragrafos": [
-         "A marca existe para preservar possibilidades diante daquilo que não "
-         "pode ser controlado.",
-     ]},
-
-    # 24
-    {"tipo": "lista", "eyebrow": "How | Como?", "foto": IMG[9],
-     "lado": "baixo", "fatia": 0.30, "foco": 0.24,
-     "titulo": "Como?",
-     "itens": ["Entendendo profundamente a realidade do cliente.",
-               "Identificando vulnerabilidades.", "Projetando impactos.",
-               "Construindo cenários.",
-               "Estruturando proteção e sucessão de forma personalizada.",
-               "Mantendo acompanhamento de longo prazo."],
-     "destaque": "Não começar pelo produto. Começar pela consequência."},
-
-    # 25
-    {"tipo": "lista", "eyebrow": "What | O quê?",
-     "titulo": "O quê?",
-     "itens": ["Proteção de renda.", "Proteção pessoal e familiar.",
-               "Proteção empresarial.", "Pessoa-chave.",
-               "Planejamento sucessório familiar.",
-               "Planejamento sucessório empresarial.",
-               "Liquidez para sucessão e inventário.",
-               "Seguro de vida como instrumento estratégico de proteção."]},
-
-    # 26
+    # 14 — golden circle
     {"tipo": "colunas", "eyebrow": "Golden Circle",
-     "titulo": "Golden Circle | síntese",
+     "titulo": "Por quê, como e o quê",
      "colunas": [
-         ("Por quê", "Preservar possibilidades e continuidade."),
+         ("Por quê",
+          "Porque o que levou anos para ser construído não deveria perder sua "
+          "continuidade por falta de preparação."),
          ("Como",
-          "Antecipando vulnerabilidades e estruturando alternativas antes da "
-          "urgência."),
+          "Entendendo a realidade do cliente, identificando "
+          "vulnerabilidades, projetando impactos e estruturando proteção de "
+          "forma personalizada, com acompanhamento de longo prazo."),
          ("O quê",
-          "Proteção financeira e planejamento sucessório para pessoas, "
-          "famílias e empresas."),
-     ]},
+          "Proteção de renda, familiar e empresarial. Pessoa-chave. "
+          "Planejamento sucessório. Liquidez para sucessão e inventário."),
+     ],
+     "fecho": "Não começar pelo produto. Começar pela consequência."},
 
-    # ——— 05 PROPOSTA DE VALOR
-    {"tipo": "divisor", "numero": "05",
-     "nome": "Proposta de valor e posicionamento"},
+    # ——— 05 PROPOSTA DE VALOR E POSICIONAMENTO
+    {"tipo": "divisor", "numero": "05", "nome": "Posicionamento",
+     "apoio": "O que a marca promete e onde ela se coloca."},
 
-    # 28
-    {"tipo": "foto_cheia", "foto": IMG[2], "foco": 0.45, "veu": 0.66,
+    # 16 — proposta de valor
+    {"tipo": "foto_cheia", "foto": IMG[12], "foco": 0.42, "veu": 0.64,
      "eyebrow": "Proposta de valor",
      "linhas": ["Estruturar proteção e sucessão de forma",
                 "personalizada para que famílias, profissionais",
                 "e empresas mantenham recursos, possibilidades",
-                "e continuidade diante de imprevistos e transições."],
-     "tam": 28},
+                "e continuidade diante de imprevistos."]},
 
-    # 29
-    {"tipo": "texto", "eyebrow": "Proposta de valor", "foto": IMG[11],
-     "lado": "cima", "fatia": 0.36, "foco": 0.24,
-     "titulo": "Não é sobre vender mais proteção",
-     "lead": "Lucas afirma que seu planejamento parte das necessidades do "
-             "cliente e não do comissionamento.",
-     "destaque": "A melhor proteção não é a maior. É a que faz sentido para "
-                 "aquela realidade."},
-
-    # 30
-    {"tipo": "palavras", "eyebrow": "Diferenciação", "foto": IMG[13],
-     "lado": "baixo", "fatia": 0.30, "foco": 0.22,
-     "titulo": "Diferenciação",
-     "lead": "O produto não é suficiente para diferenciar a marca. A "
-             "diferenciação está na combinação de:",
-     "palavras": ["Diagnóstico", "Personalização", "Proteção + sucessão",
-                  "Conhecimento técnico", "Confiança", "Pós-venda",
-                  "Relação de longo prazo"],
-     "grade": 2, "tam": 22},
-
-    # 31
-    {"tipo": "declaracao",
-     "linhas": ["O produto pode ser comparável.",
-                "A qualidade da decisão não precisa ser."]},
-
-    # 32
-    {"tipo": "texto", "eyebrow": "Posicionamento", "foto": IMG[1],
-     "lado": "esquerda", "foco": 0.44,
+    # 17 — posicionamento e diferenciação
+    {"tipo": "texto", "eyebrow": "Posicionamento", "foto": IMG[13],
+     "lado": "esquerda",
      "titulo": "Posicionamento",
      "lead": "Lucas Martini é especialista em proteção e sucessão para "
              "pessoas, famílias e empresas que desejam preservar o que "
-             "construíram e manter possibilidades diante do imprevisto e das "
-             "transições da vida.",
+             "construíram e manter possibilidades diante do imprevisto.",
      "paragrafos": [
-         "Sua atuação une visão consultiva, planejamento personalizado, "
-         "relacionamento e acompanhamento.",
-     ]},
+         "O produto não diferencia. A diferenciação está na combinação de "
+         "diagnóstico, personalização, conhecimento técnico, confiança, "
+         "pós-venda e relação de longo prazo. A melhor proteção não é a "
+         "maior: é a que faz sentido para aquela realidade.",
+     ],
+     "destaque": "Preparar antes para preservar escolhas depois."},
 
-    # 33
-    {"tipo": "foto_cheia", "foto": IMG[3], "foco": 0.40, "veu": 0.62,
-     "eyebrow": "Expressão de posicionamento",
-     "linhas": ["Proteção e sucessão", "para o que precisa continuar."]},
+    # ——— 06 ARQUITETURA
+    {"tipo": "divisor", "numero": "06", "nome": "Arquitetura",
+     "apoio": "O nome no centro, e as frentes que ele sustenta."},
 
-    # 34
-    {"tipo": "declaracao", "eyebrow": "Expressão conceitual", "marcar": True,
-     "linhas": ["Preparar antes", "para preservar escolhas depois."]},
-
-    # ——— 06 ARQUITETURA DE MARCA
-    {"tipo": "divisor", "numero": "06", "nome": "Arquitetura de marca"},
-
-    # 36
-    {"tipo": "lista", "eyebrow": "A marca protagonista", "foto": IMG[14],
-     "lado": "baixo", "fatia": 0.34, "foco": 0.12,
-     "titulo": "Lucas Martini",
-     "lead": "Por que a pessoa, e não a operação, é o centro:",
-     "itens": ["A confiança está associada à pessoa.",
-               "A indicação chega pelo nome.",
-               "O relacionamento acontece com Lucas.",
-               "O conhecimento é reconhecido nele."],
-     "destaque": "Lucas Martini deve ser o principal ativo da arquitetura."},
-
-    # 37
-    {"tipo": "lista", "eyebrow": "Descritor", "foto": IMG[1],
-     "lado": "direita", "foco": 0.44,
-     "titulo": "Proteção & Sucessão",
-     "lead": "O descritor deve explicar o campo de atuação sem aprisionar a "
-             "marca a:",
-     "itens": ["uma seguradora;", "um produto;", "uma única solução."]},
-
-    # 38
+    # 19 — arquitetura
     {"tipo": "colunas", "eyebrow": "Arquitetura",
      "titulo": "Lucas Martini · Proteção & Sucessão",
-     "tam_titulo": 34,
+     "tam_titulo": 36,
+     "lead": "A confiança está associada à pessoa, a indicação chega pelo "
+             "nome e o relacionamento acontece com Lucas. Ele é o principal "
+             "ativo da arquitetura; o descritor explica o campo sem prender a "
+             "marca a uma seguradora ou a um produto.",
      "colunas": [
          ("Proteção pessoal e familiar",
           "Renda, família e pilares financeiros."),
-         ("Proteção empresarial", "Pessoa-chave e continuidade do negócio."),
-         ("Sucessão familiar e patrimonial",
+         ("Proteção empresarial",
+          "Pessoa-chave e continuidade do negócio."),
+         ("Sucessão familiar",
           "Transferência, liquidez e inventário."),
-         ("Sucessão empresarial", "Passagem de responsabilidade e sociedade."),
+         ("Sucessão empresarial",
+          "Passagem de responsabilidade e sociedade."),
      ],
-     "fecho": "Pessoa-chave, seguro de vida, liquidez e demais soluções "
-              "entram dentro dessas frentes."},
-
-    # 39
-    {"tipo": "lista", "eyebrow": "O papel das seguradoras", "foto": IMG[1],
-     "lado": "esquerda", "foco": 0.44,
-     "titulo": "O papel das seguradoras",
-     "lead": "Seguradoras são parceiras, fornecedoras das soluções e "
-             "credenciais relevantes. Mas não devem ser o centro da "
-             "identidade.",
-     "itens": [],
-     "destaque": "A seguradora entrega o instrumento. Lucas constrói a "
-                 "estratégia."},
+     "fecho": "A seguradora entrega o instrumento. Lucas constrói a "
+              "estratégia."},
 
     # ——— 07 TERRITÓRIOS, PILARES E PÚBLICO
-    {"tipo": "divisor", "numero": "07",
-     "nome": "Territórios, pilares e público"},
+    {"tipo": "divisor", "numero": "07", "nome": "Territórios e público",
+     "apoio": "Do que a marca fala, como atua e com quem."},
 
-    # 41
-    {"tipo": "palavras", "eyebrow": "Território principal", "foto": IMG[3],
-     "lado": "cima", "fatia": 0.30, "foco": 0.26,
-     "titulo": "Continuidade",
-     "lead": "É o território mais abrangente para a marca porque permite "
-             "falar simultaneamente de:",
-     "palavras": ["Renda", "Família", "Empresa", "Patrimônio",
-                  "Sucessão", "Projetos", "Legado"],
-     "grade": 2, "tam": 22},
-
-    # 42
+    # 21 — territórios
     {"tipo": "camadas", "eyebrow": "Territórios de comunicação",
-     "titulo": "Territórios de comunicação",
+     "titulo": "Continuidade é o território",
      "camadas": [
-         ("Continuidade", "O que precisa seguir existindo."),
+         ("Continuidade", "O que precisa seguir existindo: renda, família, "
+                          "empresa, patrimônio, projetos e legado."),
          ("Proteção",
           "Os recursos e estruturas que sustentam essa continuidade."),
          ("Sucessão",
           "A preparação para a passagem de responsabilidade e patrimônio."),
          ("Dignidade financeira",
           "A preservação de alternativas em momentos difíceis."),
-         ("Escolha",
-          "A possibilidade de decidir sem ser totalmente dominado pela "
-          "urgência."),
-         ("Responsabilidade",
-          "Pensar hoje nas consequências que podem existir amanhã."),
+         ("Escolha e responsabilidade",
+          "Decidir sem ser dominado pela urgência; pensar hoje nas "
+          "consequências de amanhã."),
      ]},
 
-    # 43–47 — os cinco pilares
-    {"tipo": "texto", "eyebrow": "Pilar 01", "foto": IMG[9], "lado": "cima",
-     "fatia": 0.40, "foco": 0.24,
-     "titulo": "Antecipação",
-     "lead": "Algumas decisões são melhores quando tomadas sem urgência. A "
-             "marca ajuda o cliente a olhar antes."},
+    # 22 — os cinco pilares
+    {"tipo": "camadas", "eyebrow": "Os pilares", "foto": IMG[9],
+     "lado": "direita",
+     "titulo": "Os cinco pilares",
+     "camadas": [
+         ("Antecipação", "Decisões são melhores sem urgência."),
+         ("Personalização", "Não existe proteção ideal fora de contexto."),
+         ("Confiança", "Transparência e consistência ao longo dos anos."),
+         ("Continuidade", "A proteção não termina na contratação."),
+         ("Excelência", "Menos discurso, mais padrão de execução."),
+     ]},
 
-    {"tipo": "texto", "eyebrow": "Pilar 02", "foto": IMG[11], "lado": "baixo",
-     "fatia": 0.38, "foco": 0.22,
-     "titulo": "Personalização",
-     "lead": "Não existe proteção ideal fora de contexto. A solução deve "
-             "nascer da realidade financeira, profissional, familiar, "
-             "empresarial e patrimonial de cada cliente."},
-
-    {"tipo": "texto", "eyebrow": "Pilar 03", "foto": IMG[8], "lado": "cima",
-     "fatia": 0.40, "foco": 0.26,
-     "titulo": "Confiança",
-     "lead": "Lucas trabalha com decisões que podem produzir consequências "
-             "anos depois. Transparência, responsabilidade e consistência são "
-             "indispensáveis."},
-
-    {"tipo": "texto", "eyebrow": "Pilar 04", "foto": IMG[13], "lado": "baixo",
-     "fatia": 0.38, "foco": 0.20,
-     "titulo": "Continuidade",
-     "lead": "Proteção não termina na contratação. Ela existe para sustentar "
-             "uma trajetória."},
-
-    {"tipo": "lista", "eyebrow": "Pilar 05", "foto": IMG[9], "lado": "cima",
-     "fatia": 0.32, "foco": 0.24,
-     "titulo": "Excelência",
-     "itens": ["Estudar.", "Aprimorar.", "Atualizar.", "Acompanhar.",
-               "Estar disponível."],
-     "destaque": "A excelência aparece menos como discurso e mais como padrão "
-                 "de execução."},
-
-    # 48–51 — os quatro públicos
-    {"tipo": "lista", "eyebrow": "Público 01", "foto": IMG[11],
-     "lado": "baixo", "fatia": 0.30, "foco": 0.22,
-     "titulo": "Quem depende da própria capacidade de produzir renda",
-     "tam_titulo": 34,
-     "itens": ["Profissionais liberais.", "Autônomos.", "Executivos.",
-               "Especialistas.", "Empresários.",
-               "Pessoas cuja renda depende diretamente da própria capacidade "
-               "de trabalho."]},
-
-    {"tipo": "lista", "eyebrow": "Público 02", "foto": IMG[2], "lado": "cima",
-     "fatia": 0.30, "foco": 0.24,
-     "titulo": "Quem sustenta financeiramente outras pessoas",
-     "tam_titulo": 34,
-     "itens": ["Pilares financeiros familiares.", "Pais.", "Mães.",
-               "Cônjuges.",
-               "Pessoas cuja ausência alteraria significativamente a "
-               "estrutura econômica da família."]},
-
-    {"tipo": "lista", "eyebrow": "Público 03", "foto": IMG[11],
-     "lado": "baixo", "fatia": 0.30, "foco": 0.22,
-     "titulo": "Quem carrega responsabilidade sobre uma empresa",
-     "tam_titulo": 34,
-     "itens": ["Empresários.", "Sócios.", "Pessoas-chave.",
-               "Negócios dependentes de indivíduos específicos.",
-               "Empresas preocupadas com continuidade e sucessão."]},
-
-    {"tipo": "lista", "eyebrow": "Público 04", "foto": IMG[5], "lado": "cima",
-     "fatia": 0.30, "foco": 0.20,
-     "titulo": "Quem construiu patrimônio e precisa pensar em sua continuidade",
-     "tam_titulo": 32,
-     "itens": ["Famílias com patrimônio.", "Sócios.", "Empresários.",
-               "Pessoas que precisam organizar transferência, liquidez e "
-               "sucessão."]},
-
-    # 52
-    {"tipo": "declaracao", "eyebrow": "O denominador comum", "marcar": True,
-     "linhas": ["Existem pessoas, projetos, renda, empresas",
-                "ou patrimônios que dependem",
-                "de suas decisões."],
-     "apoio": "Esses públicos parecem diferentes. Mas têm isso em comum."},
+    # 23 — os quatro públicos
+    {"tipo": "colunas", "eyebrow": "Público",
+     "titulo": "Quem carrega responsabilidade",
+     "colunas": [
+         ("Quem produz a própria renda",
+          "Profissionais liberais, autônomos, executivos e especialistas."),
+         ("Quem sustenta outras pessoas",
+          "Pilares financeiros da família, cuja ausência alteraria a "
+          "estrutura econômica de casa."),
+         ("Quem responde por uma empresa",
+          "Empresários, sócios e pessoas-chave de negócios dependentes de "
+          "indivíduos específicos."),
+         ("Quem construiu patrimônio",
+          "Famílias e sócios que precisam organizar transferência, liquidez "
+          "e sucessão."),
+     ],
+     "fecho": "Parecem diferentes, mas existe algo ou alguém que depende das "
+              "decisões de cada um."},
 
     # ——— 08 PERSONALIDADE E TOM DE VOZ
-    {"tipo": "divisor", "numero": "08", "nome": "Personalidade e tom de voz"},
+    {"tipo": "divisor", "numero": "08", "nome": "Personalidade e voz",
+     "apoio": "Como a marca se comporta e como ela fala."},
 
-    # 54
-    {"tipo": "lista", "eyebrow": "Personalidade central", "foto": IMG[14],
-     "lado": "baixo", "fatia": 0.34, "foco": 0.12,
+    # 25 — personalidade
+    {"tipo": "camadas", "eyebrow": "Personalidade", "foto": IMG[14],
+     "lado": "esquerda",
      "titulo": "Autoridade discreta",
-     "lead": "Lucas não precisa construir autoridade pelo excesso de "
-             "exposição. Sua marca deve transmitir autoridade por:",
-     "itens": ["repertório;", "clareza;", "consistência;", "prova;",
-               "experiência;", "resultado."]},
-
-    # 55
-    {"tipo": "camadas", "eyebrow": "Personalidade", "foto": IMG[10],
-     "lado": "cima", "fatia": 0.26, "foco": 0.22,
-     "titulo": "Personalidade",
      "camadas": [
-         ("Seguro", "Transmite domínio sem necessidade de provar o tempo "
-                    "todo."),
-         ("Confiável", "Assume a responsabilidade daquilo que recomenda."),
-         ("Preparado", "Estuda antes de orientar."),
-         ("Consultivo", "Pergunta antes de oferecer."),
-         ("Humano", "Entende o que existe por trás dos números."),
-         ("Elegante", "Sofisticação sem ostentação."),
-         ("Acessível", "Torna assuntos complexos compreensíveis."),
+         ("Seguro e preparado",
+          "Transmite domínio sem precisar provar o tempo todo; estuda antes "
+          "de orientar."),
+         ("Consultivo e humano",
+          "Pergunta antes de oferecer e entende o que existe por trás dos "
+          "números."),
+         ("Elegante e acessível",
+          "Sofisticação sem ostentação; torna o complexo compreensível."),
+         ("Nunca",
+          "Alarmista, exibicionista, técnica demais, comercial demais ou "
+          "genérica."),
      ]},
 
-    # 56
-    {"tipo": "camadas", "eyebrow": "O que a marca não deve ser",
-     "titulo": "O que a marca não deve ser",
-     "camadas": [
-         ("Alarmista", "Não usa medo para pressionar."),
-         ("Exibicionista", "Não transforma conquista em ostentação."),
-         ("Técnica demais", "Conhecimento deve aproximar."),
-         ("Comercial demais",
-          "O produto nunca deve parecer anterior ao diagnóstico."),
-         ("Genérica",
-          "Não deve repetir apenas “segurança, proteção e tranquilidade” sem "
-          "traduzir seu significado."),
-     ]},
-
-    # 57
-    {"tipo": "alternativas", "eyebrow": "Princípio de comunicação",
+    # 26 — como a marca fala
+    {"tipo": "alternativas", "eyebrow": "Tom de voz",
      "titulo": "Provar, não proclamar",
-     "rot_evitar": "Em vez de dizer", "rot_preferir": "Mostrar",
-     "pares": [
-         ("Sou referência.", "Reconhecimento comprovado por terceiros."),
-         ("Tenho experiência.", "Raciocínio e casos reais."),
-         ("Sou um dos melhores.", "Resultados contextualizados."),
-     ]},
-
-    # 58
-    {"tipo": "foto_cheia", "foto": IMG[14], "foco": 0.12, "veu": 0.60,
-     "linhas": ["Ele não precisa aparecer mais.",
-                "Precisa fazer sua competência aparecer mais."],
-     "tam": 36},
-
-    # 59
-    {"tipo": "palavras", "eyebrow": "Tom de voz",
-     "titulo": "Tom de voz",
-     "palavras": ["Claro sem ser simplista", "Seguro sem ser arrogante",
-                  "Humano sem ser dramático",
-                  "Sofisticado sem ser ostentatório",
-                  "Consultivo sem ser burocrático", "Direto sem ser frio"],
-     "grade": 2, "tam": 22},
-
-    # 60
-    {"tipo": "alternativas", "eyebrow": "Como a marca fala",
-     "titulo": "Como a marca fala",
      "pares": [
          ("Você pode morrer amanhã.",
           "Quem depende financeiramente de você hoje?"),
          ("Você precisa contratar um seguro de vida.",
-          "Antes de pensar em produto, precisamos entender o impacto "
-          "financeiro que uma ausência ou incapacidade produziria."),
-         ("Proteja-se antes que seja tarde.",
-          "Algumas decisões são melhores quando ainda existe tempo para "
-          "escolher."),
-     ]},
-
-    # 61
-    {"tipo": "alternativas", "eyebrow": "Como falar das próprias conquistas",
-     "titulo": "Não como autocelebração. Como evidência.",
-     "tam_titulo": 34,
-     "foto": IMG[6], "lado": "cima", "fatia": 0.30, "foco": 0.22,
-     "rot_evitar": "Não", "rot_preferir": "Sim",
-     "pares": [
+          "Antes do produto, precisamos entender o impacto financeiro que "
+          "uma ausência produziria."),
          ("Olha onde eu cheguei.",
-          "Esse reconhecimento representa dez anos de consistência, "
-          "atendimento e confiança de clientes."),
+          "Esse reconhecimento representa dez anos de consistência e "
+          "confiança de clientes."),
      ]},
 
     # ——— 09 MANIFESTO E SÍNTESE
-    {"tipo": "divisor", "numero": "09", "nome": "Manifesto e síntese final"},
+    {"tipo": "divisor", "numero": "09", "nome": "Manifesto",
+     "apoio": "A marca em palavras, e a marca em uma página."},
 
-    # 63
+    # 28 — manifesto
     {"tipo": "manifesto", "eyebrow": "Manifesto",
      "paragrafos": [
          "Há coisas que levam anos para construir. Uma carreira. Uma família. "
-         "Uma empresa. Um patrimônio. Uma história.",
+         "Uma empresa. Um patrimônio.",
          "E nenhuma delas deveria ficar completamente dependente daquilo que "
          "não podemos controlar.",
          "Planejar não é esperar que algo dê errado. É reconhecer o valor "
          "daquilo que deu certo.",
-         "É pensar antes. Enquanto existe tempo. Enquanto existem "
-         "alternativas. Enquanto podemos escolher.",
+         "É pensar antes. Enquanto existe tempo. Enquanto podemos escolher.",
          "Nem tudo pode ser previsto. Mas muito pode ser preparado.",
-         "E quando existe preparação, o imprevisto pode mudar a vida sem "
-         "necessariamente decidir sozinho tudo o que virá depois.",
-         "Porque proteção não existe apenas para preservar dinheiro. Existe "
-         "para preservar possibilidades.",
+         "Porque proteção não existe para preservar dinheiro. Existe para "
+         "preservar possibilidades.",
      ],
      "assinatura": "LUCAS MARTINI  |  PROTEÇÃO & SUCESSÃO"},
 
-    # 64
-    {"tipo": "ficha", "eyebrow": "A marca em uma página",
+    # 29 — a marca em uma página
+    {"tipo": "ficha", "eyebrow": "Síntese",
      "titulo": "A marca em uma página",
      "campos": [
          ("Crença fundadora",
@@ -613,37 +349,15 @@ PAGINAS = [
          ("Causa", "Ampliar a cultura da preparação antes da urgência."),
          ("Território", "Continuidade."),
          ("Posicionamento",
-          "Especialista em proteção e sucessão para pessoas, famílias e "
-          "empresas que desejam preservar o que construíram e manter "
-          "possibilidades diante do imprevisto e das transições da vida."),
+          "Especialista em proteção e sucessão para quem deseja preservar o "
+          "que construiu e manter possibilidades diante do imprevisto."),
          ("Proposta de valor",
           "Estruturar proteção e sucessão de forma personalizada para "
-          "preservar recursos, patrimônio, continuidade e capacidade de "
-          "escolha."),
+          "preservar recursos, continuidade e capacidade de escolha."),
          ("Princípio de comunicação", "Provar, não proclamar."),
          ("Personalidade", "Autoridade discreta."),
      ]},
 
-    # 65
-    {"tipo": "foto_cheia", "foto": IMG[12], "foco": 0.42, "veu": 0.60,
-     "eyebrow": "A lógica da marca",
-     "linhas": ["Nem tudo pode ser previsto.",
-                "Mas muito pode ser preparado."]},
-
-    # 66
-    {"tipo": "foto_cheia", "foto": IMG[3], "foco": 0.45, "veu": 0.66,
-     "eyebrow": "A grande síntese",
-     "linhas": ["Lucas não trabalha para controlar o futuro.",
-                "Trabalha para preservar escolhas",
-                "quando o futuro muda."],
-     "tam": 36},
-
-    # 67
-    {"tipo": "foto_cheia", "foto": IMG[1], "foco": 0.35, "veu": 0.64,
-     "linhas": ["Preparar antes.",
-                "Proteger o que foi construído.",
-                "Preservar a possibilidade de continuar."],
-     "apoio": "Lucas Martini  |  Proteção & Sucessão"},
-
+    # 30
     {"tipo": "fecho", "frase": "OBRIGADA!"},
 ]
