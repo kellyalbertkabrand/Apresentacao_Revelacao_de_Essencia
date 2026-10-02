@@ -18,35 +18,53 @@ Cada deck sai em **`.pptx` e `.pdf`** na própria pasta.
 
 ---
 
-## As fotografias, e por que a faixa aqui é horizontal
+## As fotografias: vertical por padrão, rosto sempre inteiro
 
 O material do Lucas chegou com **13 imagens em 16:9** e **uma em retrato**
-(a 01, o retrato corporativo).
+(a 01). Duas decisões vêm daí, e as duas são aritmética, não gosto.
 
-O modelo da Revelação de Essência sangra a foto numa **faixa vertical** de
-~40% da largura — foi feito para o material da Flávia, que veio em retrato.
-Aplicado aqui, esse corte reduziria cada fotografia a **um quarto da largura
-original**, exatamente o "excesso de recortes" que a diretriz pedia para
-evitar.
+### 1. A tira vertical é o padrão
 
-Por isso, nestes dois decks a fotografia entra de três maneiras:
+Numa faixa horizontal o corte é **vertical** e come a maior parte da altura.
+Numa tira vertical o corte é horizontal, e a cabeça ocupa uma fração bem menor
+da largura. Medindo foto por foto o quanto cada tratamento exige para o rosto
+sobreviver:
 
-| Tratamento | Quando | Como fica |
+| | faixa horizontal | tira vertical |
 |---|---|---|
-| **Faixa horizontal** (`lado: "cima"`/`"baixo"`) | o caso normal, com 16:9 | sangra de ponta a ponta; o painel claro ocupa o resto |
-| **Tela cheia com véu** (`tipo: "foto_cheia"`) | frases que precisam de peso | foto inteira, texto branco por cima |
-| **Tira vertical** (`lado: "direita"`/`"esquerda"`) | **só a imagem 01**, que é retrato | o tratamento do deck da Flávia |
+| o rosto exige | **52% a 86%** da página | **26% a 42%** |
+| sobra para o texto | nada, em quase todas | a página quase inteira |
 
-O motor recusa sozinho retrato em faixa horizontal: imagem com proporção
-abaixo de 1,15 vai automaticamente para a tira vertical.
+Com 16:9, **uma faixa horizontal que preserva o rosto não deixa página para o
+texto**. Por isso a distribuição final:
 
-### `foco`: por que existe
+| Tratamento | Páginas |
+|---|---|
+| Tira vertical | **23** |
+| Tela cheia (horizontal, sem recorte nenhum) | **6** |
+| Faixa horizontal | 0 |
 
-Numa faixa horizontal o corte é **vertical**, e centralizar decapita as
-pessoas. `foco` diz que parte da imagem sobrevive: `0` é o topo, `0,5` o
-centro. Retrato em pé pede entre 0,08 e 0,16; cena de mesa, entre 0,20 e 0,28.
+A tela cheia é o horizontal que funciona com este material: a foto aparece
+inteira, nada é cortado, e o texto vai por cima com véu.
 
----
+### 2. O rosto nunca é cortado — e isso é conferido
+
+`padrao-ka/rostos.py` detecta a cabeça de cada foto e grava `rostos.json`
+nesta pasta. O motor lê o mapa e calcula o recorte que mantém a cabeça inteira,
+com folga. Quando não cabe, ele cresce a tira; se ainda não cabe, vira a página
+de orientação e **avisa no build** — cortar o rosto não é uma saída.
+
+```bash
+python3 padrao-ka/rostos.py clientes/lucas-martini/assets        # ao trocar fotos
+python3 padrao-ka/conferir_rostos.py <arquivo>.pptx clientes/lucas-martini/assets
+```
+
+A conferência abre o `.pptx` pronto, lê o recorte **real** gravado em cada
+imagem e confere contra o mapa. Hoje: **28 fotografias, nenhuma cabeça
+cortada.**
+
+A imagem 04 (o jovem no caixa eletrônico) não tem rosto detectado porque o
+Lucas não aparece nela — fica de fora da conferência.
 
 ## O gabarito de imagens
 

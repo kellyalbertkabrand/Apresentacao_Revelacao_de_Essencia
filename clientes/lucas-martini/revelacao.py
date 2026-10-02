@@ -43,7 +43,7 @@ PAGINAS = [
                    "Origem Identitária do Fundador"],
      "assinatura": ["Método Marca", "com Essência ©"],
      "data": "Outubro/2026",
-     "foto": IMG[1], "foco": 0.42},
+     "foto": IMG[1], "lado": "esquerda", "foco": 0.42},
 
     # 02 — sumário
     {"tipo": "sumario", "itens": [
@@ -67,8 +67,7 @@ PAGINAS = [
      "linhas": ["Por que começamos", "pela essência?"]},
 
     # 04 — por que começamos pela essência
-    {"tipo": "texto", "eyebrow": "Conceito", "foto": IMG[3], "lado": "baixo",
-     "fatia": 0.40, "foco": 0.22,
+    {"tipo": "texto", "eyebrow": "Conceito", "foto": IMG[3], "lado": "direita",
      "titulo": "O que existe por trás da forma como ele protege?",
      "lead": "Uma marca pessoal não começa naquilo que o profissional vende. "
              "Começa na maneira como ele enxerga o mundo, toma decisões, "
@@ -141,8 +140,7 @@ PAGINAS = [
                  "tudo o que foi necessário para chegar até ali."},
 
     # 10
-    {"tipo": "texto", "eyebrow": "A origem", "foto": IMG[4], "lado": "cima",
-     "fatia": 0.40, "foco": 0.28,
+    {"tipo": "texto", "eyebrow": "A origem", "foto": IMG[4], "lado": "esquerda",
      "titulo": "O segundo aprendizado",
      "lead": "Anos depois, trabalhando na recuperação de ativos do Bradesco, "
              "Lucas passa a enxergar o outro lado dessa lógica.",
@@ -184,7 +182,7 @@ PAGINAS = [
 
     # 14
     {"tipo": "texto", "eyebrow": "Primeira tensão", "foto": IMG[12],
-     "lado": "cima", "fatia": 0.42, "foco": 0.24,
+     "lado": "direita",
      "titulo": "Segurança × risco",
      "lead": "Existe um paradoxo importante na trajetória do Lucas. Ele "
              "trabalha construindo segurança para outras pessoas. Mas, "
@@ -210,7 +208,7 @@ PAGINAS = [
 
     # 17
     {"tipo": "texto", "eyebrow": "Segunda tensão", "foto": IMG[9],
-     "lado": "cima", "fatia": 0.42, "foco": 0.26,
+     "lado": "direita",
      "titulo": "Dinheiro × propósito",
      "lead": "Lucas não romantiza a própria decisão profissional. Ao falar "
              "sobre a mudança de carreira, deixa claro que a possibilidade "
@@ -223,7 +221,7 @@ PAGINAS = [
 
     # 18
     {"tipo": "texto", "eyebrow": "Segunda tensão", "foto": IMG[5],
-     "lado": "baixo", "fatia": 0.40, "foco": 0.20,
+     "lado": "esquerda",
      "titulo": "O que mudou?",
      "lead": "O dinheiro explicava a oportunidade. Mas não explicava o "
              "significado.",
@@ -255,7 +253,7 @@ PAGINAS = [
 
     # 21
     {"tipo": "texto", "eyebrow": "Terceira tensão", "foto": IMG[14],
-     "lado": "baixo", "fatia": 0.38, "foco": 0.14,
+     "lado": "direita",
      "titulo": "Reconhecimento × exposição",
      "lead": "Lucas acumula reconhecimentos profissionais. Valoriza metas, "
              "valoriza resultado, valoriza estar entre os melhores.",
@@ -278,7 +276,7 @@ PAGINAS = [
 
     # 23
     {"tipo": "texto", "eyebrow": "Terceira tensão", "foto": IMG[8],
-     "lado": "cima", "fatia": 0.44, "foco": 0.26,
+     "lado": "esquerda",
      "titulo": "Uma hipótese identitária",
      "lead": "Para o Lucas, legitimidade precisa ser conquistada. Não "
              "declarada.",
@@ -294,7 +292,7 @@ PAGINAS = [
 
     # 25
     {"tipo": "texto", "eyebrow": "Terceira tensão", "foto": IMG[14],
-     "lado": "cima", "fatia": 0.44, "foco": 0.10,
+     "lado": "direita",
      "titulo": "O que isso revela?",
      "lead": "Lucas performa muito, mas performatiza pouco. Construiu "
              "autoridade, mas construiu poucos signos públicos dessa "
@@ -312,7 +310,7 @@ PAGINAS = [
 
     # 27
     {"tipo": "texto", "eyebrow": "Primeiro padrão", "foto": IMG[9],
-     "lado": "baixo", "fatia": 0.40, "foco": 0.24,
+     "lado": "esquerda",
      "titulo": "Preparar antes é um padrão",
      "lead": "Diante de algo importante, Lucas tende a entender, estudar, "
              "organizar, estruturar e acompanhar.",
@@ -323,7 +321,7 @@ PAGINAS = [
 
     # 28
     {"tipo": "texto", "eyebrow": "Segundo padrão", "foto": IMG[6],
-     "lado": "cima", "fatia": 0.42, "foco": 0.22,
+     "lado": "esquerda",
      "titulo": "Resultado não é evento",
      "lead": "A trajetória também revela uma relação forte com constância. "
              "Começa cedo, avança progressivamente no banco, recomeça "
@@ -338,7 +336,7 @@ PAGINAS = [
 
     # 29
     {"tipo": "texto", "eyebrow": "Terceiro padrão", "foto": IMG[13],
-     "lado": "baixo", "fatia": 0.40, "foco": 0.20,
+     "lado": "direita",
      "titulo": "O trabalho não termina na venda",
      "lead": "Lucas não encerra mentalmente o trabalho no momento da venda.",
      "paragrafos": [
@@ -371,8 +369,7 @@ PAGINAS = [
      "centro": "E, principalmente, onde tudo isso ganha significado"},
 
     # 33
-    {"tipo": "texto", "eyebrow": "O Ikigai", "foto": IMG[2], "lado": "cima",
-     "fatia": 0.42, "foco": 0.24,
+    {"tipo": "texto", "eyebrow": "O Ikigai", "foto": IMG[2], "lado": "esquerda",
      "titulo": "O que Lucas gosta de fazer",
      "lead": "Conversar com o cliente. Entender sua realidade. Fazer "
              "perguntas. Levar o cliente a perceber necessidades que ainda "
@@ -385,8 +382,7 @@ PAGINAS = [
                  "e construir."},
 
     # 34
-    {"tipo": "texto", "eyebrow": "O Ikigai", "foto": IMG[11], "lado": "baixo",
-     "fatia": 0.40, "foco": 0.22,
+    {"tipo": "texto", "eyebrow": "O Ikigai", "foto": IMG[11], "lado": "direita",
      "titulo": "No que Lucas é bom",
      "lead": "Relacionamento, comunicação, conexão e construção de confiança. "
              "Conhecimento técnico, leitura da realidade do cliente, "
@@ -395,8 +391,7 @@ PAGINAS = [
                  "transformar complexidade em uma decisão estruturada."},
 
     # 35
-    {"tipo": "lista", "eyebrow": "O Ikigai", "foto": IMG[9],
-     "fatia": 0.32, "foco": 0.26,
+    {"tipo": "lista", "eyebrow": "O Ikigai", "foto": IMG[9], "lado": "esquerda", "foco": 0.26,
      "titulo": "Pelo que Lucas pode ser pago",
      "itens": [
          "Diagnosticar vulnerabilidades financeiras.",
@@ -411,8 +406,7 @@ PAGINAS = [
      "destaque": "Sua remuneração vem da estruturação de proteção."},
 
     # 36
-    {"tipo": "texto", "eyebrow": "O Ikigai", "foto": IMG[5], "lado": "cima",
-     "fatia": 0.42, "foco": 0.20,
+    {"tipo": "texto", "eyebrow": "O Ikigai", "foto": IMG[5], "lado": "direita",
      "titulo": "Do que o mundo precisa, na visão de Lucas",
      "lead": "Mais preparação antes da urgência. Mais pessoas conscientes dos "
              "riscos que carregam. Mais famílias com recursos para atravessar "
@@ -425,37 +419,35 @@ PAGINAS = [
      ]},
 
     # 37–40 — os quatro cruzamentos
-    {"tipo": "texto", "eyebrow": "Paixão", "foto": IMG[2], "lado": "baixo",
-     "fatia": 0.44, "foco": 0.26,
-     "titulo": "O que ama + no que é bom",
-     "destaque": "Conversar, compreender e construir soluções que façam "
-                 "sentido para cada realidade.",
-     "tam_destaque": 28},
+    {"tipo": "foto_cheia", "eyebrow": "Paixão — o que ama + no que é bom",
+     "foto": IMG[2], "veu": 0.62,
+     "linhas": ["Conversar, compreender",
+                "e construir soluções que façam",
+                "sentido para cada realidade."]},
 
-    {"tipo": "texto", "eyebrow": "Profissão", "foto": IMG[11], "lado": "cima",
-     "fatia": 0.44, "foco": 0.24,
+    {"tipo": "texto", "eyebrow": "Profissão", "foto": IMG[11], "lado": "direita",
      "titulo": "No que é bom + pelo que pode ser pago",
      "destaque": "Estruturar proteção e sucessão com visão consultiva, "
                  "personalização e relacionamento.",
      "tam_destaque": 28},
 
-    {"tipo": "texto", "eyebrow": "Missão", "foto": IMG[13], "lado": "baixo",
-     "fatia": 0.44, "foco": 0.20,
+    {"tipo": "texto", "eyebrow": "Missão", "foto": IMG[13], "lado": "esquerda",
      "titulo": "O que o mundo precisa + o que ele gosta de fazer",
      "destaque": "Ampliar a consciência de que preparação financeira também é "
                  "uma forma de cuidado e responsabilidade.",
      "tam_destaque": 28},
 
-    {"tipo": "texto", "eyebrow": "Vocação", "foto": IMG[3], "lado": "cima",
-     "fatia": 0.44, "foco": 0.24,
-     "titulo": "O que o mundo precisa + pelo que pode ser pago",
-     "destaque": "Ajudar pessoas, famílias e empresas a chegarem mais "
-                 "preparadas aos momentos que não podem controlar.",
-     "tam_destaque": 28},
+    # Tela cheia: com estas fotos, o horizontal que nao corta rosto nenhum
+    # e este — a imagem inteira, sem recorte, e o texto por cima.
+    {"tipo": "foto_cheia",
+     "eyebrow": "Vocação — o que o mundo precisa + pelo que pode ser pago",
+     "foto": IMG[12], "veu": 0.60,
+     "linhas": ["Ajudar pessoas, famílias e empresas",
+                "a chegarem mais preparadas aos",
+                "momentos que não podem controlar."]},
 
     # 41
-    {"tipo": "lista", "eyebrow": "O Ikigai", "foto": IMG[5],
-     "fatia": 0.32, "foco": 0.18,
+    {"tipo": "lista", "eyebrow": "O Ikigai", "foto": IMG[5], "lado": "esquerda", "foco": 0.18,
      "titulo": "Onde Lucas encontra realização",
      "lead": "Quando o planejamento deixa de ser uma hipótese e passa a "
              "cumprir aquilo para o qual foi criado.",
@@ -536,7 +528,7 @@ PAGINAS = [
 
     # 49
     {"tipo": "texto", "eyebrow": "A essência", "foto": IMG[1],
-     "lado": "direita", "foco": 0.44,
+     "lado": "direita",
      "titulo": "Uma frase do próprio Lucas",
      "lead": "Lucas define uma parte importante da própria atuação como "
              "“buscar sempre chegar antes do imprevisto”.",
@@ -547,7 +539,7 @@ PAGINAS = [
 
     # 50
     {"tipo": "texto", "eyebrow": "A essência", "foto": IMG[12],
-     "lado": "baixo", "fatia": 0.40, "foco": 0.22,
+     "lado": "direita",
      "titulo": "O que significa chegar antes?",
      "lead": "Chegar antes é preservar tempo para decidir. É poder construir "
              "alternativas sem urgência. É impedir que uma situação "
@@ -600,8 +592,7 @@ PAGINAS = [
               "ocupar."},
 
     # 55
-    {"tipo": "texto", "eyebrow": "A marca", "foto": IMG[2], "lado": "baixo",
-     "fatia": 0.40, "foco": 0.22,
+    {"tipo": "texto", "eyebrow": "A marca", "foto": IMG[2], "lado": "esquerda",
      "titulo": "O que essa essência muda?",
      "lead": "Muda o entendimento sobre aquilo que Lucas vende. Na "
              "superfície: seguro, proteção, sucessão, liquidez, planejamento.",
@@ -620,8 +611,7 @@ PAGINAS = [
      ]},
 
     # 57
-    {"tipo": "lista", "eyebrow": "A marca", "foto": IMG[8],
-     "fatia": 0.32, "foco": 0.24,
+    {"tipo": "lista", "eyebrow": "A marca", "foto": IMG[8], "lado": "direita", "foco": 0.24,
      "titulo": "Uma segunda revelação",
      "lead": "A dificuldade de comunicação do Lucas não exige que ele se "
              "transforme em alguém que não é. Sua marca pode ser construída "

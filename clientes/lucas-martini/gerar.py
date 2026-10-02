@@ -50,6 +50,8 @@ def montar(nome):
     alvo = os.path.join(AQUI, C.ARQUIVO + ".pptx")
     caminho, n = d.salvar(alvo)
     print("OK -> %s  (%d slides)" % (caminho, n))
+    for aviso in dict.fromkeys(d.avisos):
+        print("     ! %s" % aviso)
     print("     %s" % pdf(caminho))
     return caminho
 

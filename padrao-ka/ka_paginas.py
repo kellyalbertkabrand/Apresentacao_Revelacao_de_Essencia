@@ -29,6 +29,7 @@ faixa recortaria a foto a um quarto da largura. Por isso aqui a fotografia
 entra em FAIXA HORIZONTAL (`foto` + `lado` em "cima"/"baixo") ou em tela
 cheia com veu (`foto_cheia`), que respeitam o enquadramento original.
 """
+import json
 import math
 import os
 import sys
@@ -41,6 +42,7 @@ from pptx.enum.text import MSO_ANCHOR, PP_ALIGN  # noqa: E402
 from pptx.oxml.ns import qn  # noqa: E402
 from pptx.oxml.xmlchemy import OxmlElement  # noqa: E402
 
+from rostos import foco as foco_cabeca  # noqa: E402
 from ka_layout import (  # noqa: E402
     ACENTO, BRANCO, CLARO, CORPO, FIO, PAINEL, TINTA,
     BOLD, LIGHT, SANS, SEMI,
@@ -78,10 +80,40 @@ def altura(texto, tam, largura, espaco=1.4):
 class DeckNarrativo(Deck):
     """Deck montado a partir de uma lista de paginas declaradas."""
 
+    FATIA_V_MIN, FATIA_V_MAX = 0.38, 0.46
+    FAIXA_MAX = 0.60          # alem disso a faixa nao deixa pagina para texto
+
     def __init__(self, documento, marca, assets=None, modelo=None,
                  escala="ka"):
         super().__init__(documento, marca, modelo, escala)
         self.assets = assets
+        self.rostos = {}
+        self.avisos = []
+        if assets:
+            mapa = os.path.join(assets, "rostos.json")
+            if os.path.exists(mapa):
+                with open(mapa, encoding="utf-8") as fp:
+                    self.rostos = json.load(fp)
+
+    def _enquadrar(self, caminho, w, h, padrao=0.5):
+        """Foco que mantem a cabeca inteira dentro de uma caixa w x h.
+
+        Devolve (foco, cabe). Sem mapa de rostos para a imagem, devolve o
+        foco pedido e assume que cabe — e por isso que o rostos.json
+        precisa existir."""
+        c = self.rostos.get(os.path.basename(caminho))
+        if not c:
+            return padrao, True
+        iw, ih = Image.open(caminho).size
+        origem, alvo = iw / ih, w / h
+        if abs(alvo - origem) < 1e-6:
+            return 0.5, True
+        eixo = "v" if alvo > origem else "h"
+        return foco_cabeca(c, origem, alvo, eixo)
+
+    def _faixa_cabe(self, caminho, fatia):
+        """A cabeca sobrevive a uma faixa horizontal dessa altura?"""
+        return self._enquadrar(caminho, LARG, ALT * fatia)[1]
 
     # ------------------------------------------------------------ utilidades
     def arquivo(self, nome):
@@ -175,7 +207,7 @@ class DeckNarrativo(Deck):
                 blocos.append(("dest", h)); total += h + gap_dest * k
             return total, blocos
 
-        disponivel = fim - y
+        disponivel = fim - y - 0.14
         k = 1.0
         total, _ = medir(k)
         if total > disponivel:
@@ -220,19 +252,57 @@ class DeckNarrativo(Deck):
         caminho = self.arquivo(spec.get("foto"))
         if not caminho:
             return self.slide(), Y_H1, FUNDO
-        lado = spec.get("lado", "cima")
-        foco = spec.get("foco", 0.16)
-        # Uma faixa horizontal corta a imagem na vertical. Em foto de
-        # RETRATO esse corte sobra um sexto da altura — so a testa. Entao
-        # retrato nunca entra em faixa: vai para a tira vertical, que e o
-        # enquadramento que ele pede.
+        lado = spec.get("lado", "direita")
+        nome = os.path.basename(caminho)
         iw, ih = Image.open(caminho).size
+
+        # Retrato nunca entra em faixa horizontal: o corte sobraria um sexto
+        # da altura, so a testa.
         if lado in ("cima", "baixo") and iw / ih < 1.15:
             lado = "direita"
+
+        # A faixa horizontal corta a imagem na VERTICAL, e e ai que a cabeca
+        # se perde. Se a faixa que o texto permite nao comporta a cabeca
+        # inteira, a pagina vira tira vertical — cortar o rosto nao e uma
+        # opcao, e a tira corta na horizontal, onde sobra folga de sobra.
+        if lado in ("cima", "baixo"):
+            pedida = min(self._fatia(spec), self.FAIXA_MAX)
+            if not self._faixa_cabe(caminho, pedida):
+                precisa = pedida
+                while precisa <= self.FAIXA_MAX and \
+                        not self._faixa_cabe(caminho, precisa):
+                    precisa += 0.02
+                if precisa > self.FAIXA_MAX:
+                    self.avisos.append(
+                        "%s: faixa horizontal cortaria a cabeca; virou tira "
+                        "vertical" % nome)
+                    lado = spec.get("virar", "direita")
+                elif FUNDO - (ALT * precisa + 0.95) < \
+                        self._altura_texto(spec) * 0.92:
+                    # A faixa que o rosto exige nao deixa pagina para o
+                    # texto. O miolo ainda aperta um pouco (dai o 0,92),
+                    # mas espremer alem disso e trocar um problema por
+                    # outro: a pagina vai para a tira vertical
+                    self.avisos.append(
+                        "%s: a faixa que o rosto exige nao deixa espaco "
+                        "para o texto; virou tira vertical" % nome)
+                    lado = spec.get("virar", "esquerda")
+                else:
+                    spec = dict(spec, fatia=precisa)
+
         s = self.slide(painel=False)
 
         if lado in ("direita", "esquerda"):
-            corte = LARG * spec.get("fatia_v", 0.38)
+            # a tira cresce ate a cabeca caber, dentro de um limite
+            v = max(self.FATIA_V_MIN, spec.get("fatia_v", self.FATIA_V_MIN))
+            while v < self.FATIA_V_MAX and \
+                    not self._enquadrar(caminho, LARG * v, ALT)[1]:
+                v += 0.01
+            foco, cabe = self._enquadrar(caminho, LARG * v, ALT,
+                                         spec.get("foco", 0.5))
+            if not cabe:
+                self.avisos.append("%s: cabeca nao cabe nem na tira" % nome)
+            corte = LARG * v
             if lado == "direita":
                 self.bloco(s, 0, 0, LARG - corte, ALT, PAINEL)
                 self.foto(s, LARG - corte, 0, corte, ALT, caminho, foco=foco)
@@ -244,7 +314,11 @@ class DeckNarrativo(Deck):
             return s, Y_H1, FUNDO
 
         self._col = (ML, W)
-        h_foto = ALT * self._fatia(spec)
+        h_foto = ALT * min(spec.get("fatia", 0.42), self.FAIXA_MAX)
+        foco, cabe = self._enquadrar(caminho, LARG, h_foto,
+                                     spec.get("foco", 0.16))
+        if not cabe:
+            self.avisos.append("%s: cabeca cortada na faixa" % nome)
         if lado == "cima":
             self.foto(s, 0, 0, LARG, h_foto, caminho, foco=foco)
             self.bloco(s, 0, h_foto, LARG, ALT - h_foto, PAINEL)
@@ -254,14 +328,8 @@ class DeckNarrativo(Deck):
         self._h_foto = h_foto
         return s, 1.70, ALT - h_foto - 1.25
 
-    def _fatia(self, spec):
-        """Quanto da pagina a fotografia pode tomar.
-
-        A faixa e generosa por padrao, mas cede altura quando o texto
-        precisa: uma faixa de 42%% com lead, paragrafo e destaque embaixo
-        obriga a reduzir o corpo ate o texto ficar ilegivel. Melhor a foto
-        perder dois centimetros do que a leitura perder dois pontos."""
-        pedido = spec.get("fatia", 0.42)
+    def _altura_texto(self, spec):
+        """Altura que o miolo da pagina pede, em polegadas."""
         w = spec.get("largura", 13.4)
         preciso = 1.30  # cabeca: eyebrow, titulo e filete
         if spec.get("lead"):
@@ -273,8 +341,19 @@ class DeckNarrativo(Deck):
         if spec.get("destaque"):
             preciso += altura(spec["destaque"],
                               spec.get("tam_destaque", T_MEDIO), w, 1.25) + 0.62
-        sobra = ALT - 2.30 - preciso          # margens, cabeca e rodape
-        return max(0.24, min(pedido, sobra / ALT))
+        return preciso
+
+    def _fatia(self, spec):
+        """Quanto da pagina a fotografia pode tomar.
+
+        A faixa e generosa por padrao, mas cede altura quando o texto
+        precisa: uma faixa de 42%% com lead, paragrafo e destaque embaixo
+        obriga a reduzir o corpo ate o texto ficar ilegivel. Melhor a foto
+        perder dois centimetros do que a leitura perder dois pontos."""
+        # espaco util abaixo da faixa: comeca 0,95" depois dela e termina
+        # no fundo do painel — nao e ALT menos a faixa
+        sobra = FUNDO - 0.95 - self._altura_texto(spec)
+        return max(0.24, min(spec.get("fatia", 0.42), sobra / ALT))
 
     def _fechar(self, s, spec):
         x, _ = getattr(self, "_col", (ML, W))
@@ -299,7 +378,8 @@ class DeckNarrativo(Deck):
         s = self.slide(painel=False)
         caminho = self.arquivo(spec.get("foto"))
         if caminho:
-            self.foto(s, 0, 0, LARG, ALT, caminho, foco=spec.get("foco", 0.5))
+            foco, _ = self._enquadrar(caminho, LARG, ALT, spec.get("foco", 0.5))
+            self.foto(s, 0, 0, LARG, ALT, caminho, foco=foco)
         self.veu(s, 0, 0, LARG, ALT, TINTA, spec.get("veu", 0.58))
         linhas_ = spec.get("linhas") or [spec.get("titulo", "")]
         tam = spec.get("tam") or self._tam_display(linhas_, 15.4)
@@ -559,7 +639,7 @@ class DeckNarrativo(Deck):
 
         colunas = spec.get("grade", 1)
         if colunas == 1 and len(itens) >= 6 and disponivel / len(itens) < 0.50 \
-                and max(len(i) for i in itens) <= 56:
+                and max(len(i) for i in itens) <= 56 and LG >= 12.0:
             colunas = 2
         por_col = int(math.ceil(len(itens) / colunas))
         largura = spec.get("largura", (min(13.0, LG) if colunas == 1
@@ -568,7 +648,7 @@ class DeckNarrativo(Deck):
         tam = T_LEAD if passo >= 0.62 else T_CORPO
         # 18pt de corpo pede 0,45" de entrelinha; abaixo disso as linhas
         # encostam. Em vez de espremer, a lista vai para duas colunas
-        if passo < 0.46 and colunas == 1 and len(itens) >= 4:
+        if passo < 0.46 and colunas == 1 and len(itens) >= 4 and LG >= 12.0:
             colunas, por_col = 2, int(math.ceil(len(itens) / 2))
             largura = (LG - 0.90) / 2
             passo = min(0.86, disponivel / por_col)
@@ -761,8 +841,9 @@ class DeckNarrativo(Deck):
         corte = spec.get("corte", 7.60)
         self.bloco(s, 0, 0, LARG, ALT, PAINEL)
         if caminho:
-            self.foto(s, LARG - corte, 0, corte, ALT, caminho,
-                      foco=spec.get("foco", 0.5))
+            foco, _ = self._enquadrar(caminho, corte, ALT,
+                                      spec.get("foco", 0.5))
+            self.foto(s, LARG - corte, 0, corte, ALT, caminho, foco=foco)
         larg = LARG - corte - ML - 1.10
         self.texto(s, ML, 3.35, larg, spec["titulo"], T_CAPA * 0.78, TINTA,
                    BOLD, espaco=1.06,

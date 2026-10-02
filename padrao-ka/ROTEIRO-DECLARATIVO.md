@@ -64,21 +64,63 @@ Quando o material chega em 16:9, como o do Lucas, essa faixa recorta a
 fotografia a **um quarto da largura original**. Por isso aqui a foto entra de
 duas outras maneiras:
 
-- **faixa horizontal** — `"foto": ..., "lado": "cima"` ou `"baixo"`. A foto
-  sangra de ponta a ponta e o painel claro ocupa o resto da página.
+- **faixa horizontal** — `"lado": "cima"` ou `"baixo"`. A foto sangra de ponta
+  a ponta e o painel claro ocupa o resto. **Só funciona com foto cujo rosto
+  caiba numa faixa curta** (ver abaixo).
 - **tela cheia com véu** — `tipo: "foto_cheia"`. Para as frases que precisam
   de peso emocional.
 
-Dois parâmetros controlam o resultado:
+- **tira vertical** — `"lado": "direita"` ou `"esquerda"`. A foto sangra numa
+  lateral e o texto ocupa a outra. **É o tratamento padrão.**
+
+### O rosto nunca é cortado
+
+`padrao-ka/rostos.py` detecta a cabeça de cada foto e grava `rostos.json` ao
+lado delas. O motor lê esse mapa e calcula o recorte que mantém a cabeça
+inteira — com folga. Não é estimativa: é conta sobre a posição medida.
+
+```bash
+python3 padrao-ka/rostos.py clientes/<cliente>/assets     # depois de trocar fotos
+python3 padrao-ka/conferir_rostos.py <arquivo>.pptx clientes/<cliente>/assets
+```
+
+O `conferir_rostos.py` abre o `.pptx` pronto, lê o recorte **real** gravado em
+cada imagem e confere contra o mapa. Casa as fotos por conteúdo, porque o
+python-pptx renomeia tudo para `image1.png` no caminho.
+
+Quando o recorte não comporta a cabeça, o motor **não corta**: ele age, nesta
+ordem.
+
+1. Cresce a faixa (ou a tira) até a cabeça caber.
+2. Se a faixa necessária não deixa espaço para o texto, **vira tira
+   vertical** — e avisa no build.
+3. Se nem a tira resolve, avisa alto.
+
+### Por que a tira vertical é o padrão
+
+Numa faixa horizontal o corte é **vertical** e come 60% da altura. Numa tira
+vertical o corte é horizontal, e a cabeça ocupa uma fração bem menor da
+largura. Com o material do Lucas (13 fotos em 16:9), a conta fica assim:
+
+| | faixa horizontal | tira vertical |
+|---|---|---|
+| altura/largura que o rosto exige | **52% a 86%** da página | **26% a 42%** |
+| sobra para o texto | nada, na maioria | a página quase inteira |
+
+Ou seja: com foto 16:9, **uma faixa horizontal que preserva o rosto não deixa
+página para o texto**. O horizontal que funciona é a tela cheia, onde a foto
+aparece inteira e nada é cortado.
+
+Dois parâmetros ainda controlam o enquadramento manualmente, quando não há
+mapa de rostos:
 
 | | |
 |---|---|
 | `fatia` | quanto da altura a faixa pede (padrão 0,42) |
+| `fatia_v` | quanto da largura a tira pede (padrão 0,38; cresce até 0,46) |
 | `foco` | que parte da imagem sobrevive ao corte: `0` = topo, `0,5` = centro |
 
-**`foco` existe porque o corte de uma faixa horizontal é vertical e violento.**
-Centralizar decapita as pessoas. Retrato em pé pede `foco` entre 0,08 e 0,16;
-cena de mesa, entre 0,20 e 0,28.
+Com `rostos.json` presente, o `foco` é calculado e o valor manual é ignorado.
 
 ---
 
