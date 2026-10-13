@@ -38,12 +38,14 @@ from PIL import Image
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+from pptx.enum.shapes import MSO_SHAPE_TYPE  # noqa: E402
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN  # noqa: E402
 from pptx.oxml.ns import qn  # noqa: E402
 from pptx.oxml.xmlchemy import OxmlElement  # noqa: E402
 
 from rostos import foco as foco_cabeca  # noqa: E402
 from ka_layout import (  # noqa: E402
+    EMU,
     ACENTO, BRANCO, CLARO, CORPO, FIO, PAINEL, TINTA,
     BOLD, LIGHT, SANS, SANS_LIGHT, SANS_SEMI, SEMI,
     T_CAPA, T_CORPO, T_DISPLAY, T_DIVISOR, T_FRASE, T_H1, T_LEAD, T_MEDIO,
@@ -115,6 +117,18 @@ ENTRELINHA = 1.24
 
 def altura(texto, tam, largura, espaco=1.4):
     return linhas(texto, tam, largura) * tam / 72.0 * espaco * ENTRELINHA
+
+
+# Sobra de entrelinha embaixo da ultima linha, em ems. A caixa de texto mede
+# n linhas inteiras, mas a ultima deixa esse respiro vazio por baixo. Quem
+# vai encostar um filete ou uma frase no texto desconta isso — senao abre um
+# vao que parece descuido.
+SOBRA = 0.30
+
+
+def pe(y, n, tam, espaco=1.4):
+    """Onde a ultima linha de um bloco de texto termina, de verdade."""
+    return y + n * tam / 72.0 * espaco * ENTRELINHA - tam / 72.0 * SOBRA
 
 
 class DeckNarrativo(Deck):
@@ -209,7 +223,7 @@ class DeckNarrativo(Deck):
     def cabeca(self, s, spec, x=ML, w=W, cor=TINTA, cor_eye=CLARO, y=Y_H1):
         """Eyebrow + titulo + filete. Devolve o y onde o corpo pode comecar."""
         if spec.get("eyebrow"):
-            self.texto(s, x, y - 0.60, w, spec["eyebrow"].upper(), T_ROTULO,
+            self.texto(s, x, y - 0.52, w, spec["eyebrow"].upper(), T_ROTULO,
                        cor_eye, SANS, spc=3.0, h=0.32)
         titulo = spec.get("titulo")
         if not titulo:
@@ -222,9 +236,12 @@ class DeckNarrativo(Deck):
         tam = spec.get("tam_titulo", T_H1)
         n = linhas(titulo, tam, w) if isinstance(titulo, str) else len(titulo)
         self.titulo(s, titulo, x, y, w, tam, cor)
-        fim = y + n * tam / 72.0 * 1.14 + 0.34
+        # O filete sai da altura REAL do titulo, nao de uma estimativa: num
+        # titulo de duas linhas a conta antiga encostava o filete no texto, e
+        # num de uma linha sobrava um vao.
+        fim = y + n * tam / 72.0 * 1.14 * ENTRELINHA + 0.20
         self.fio(s, x, fim, w, FIO if cor is TINTA else CLARO)
-        return fim + 0.42
+        return fim + 0.38
 
     def corpo(self, s, spec, x, y, w, fim=FUNDO, cor=CORPO, cor_forte=TINTA):
         """Lead, paragrafos, itens e destaque — o miolo comum a varias
@@ -445,14 +462,14 @@ class DeckNarrativo(Deck):
         alt_bloco = len(linhas_) * tam / 72.0 * 1.26 * ENTRELINHA
         y = (ALT - alt_bloco) / 2 - 0.30
         if spec.get("eyebrow"):
-            self.texto(s, ML, y - 0.85, W, spec["eyebrow"].upper(), T_ROTULO,
+            self.texto(s, ML, y - 0.62, W, spec["eyebrow"].upper(), T_ROTULO,
                        BRANCO, SANS, spc=3.0, h=0.32)
         self.texto(s, ML, y, 15.4, linhas_, tam, BRANCO, LIGHT, espaco=1.26,
                    h=alt_bloco + 0.30)
-        y += alt_bloco + 0.34
+        y = pe(y, len(linhas_), tam, 1.26) + 0.26
         if spec.get("apoio"):
             self.fio(s, ML, y, 1.30, ACENTO, esp=0.03)
-            self.texto(s, ML, y + 0.34, 13.0, spec["apoio"], T_CORPO, BRANCO,
+            self.texto(s, ML, y + 0.30, 13.0, spec["apoio"], T_CORPO, BRANCO,
                        LIGHT, h=altura(spec["apoio"], T_CORPO, 13.0) + 0.1)
         self.rodape(s, sobre_foto=True)
         return s
@@ -482,15 +499,17 @@ class DeckNarrativo(Deck):
             extra = 0.90 + altura(spec["apoio"], T_CORPO, 13.0)
         y = (9.60 + 1.10 - alt_bloco - extra) / 2
         if spec.get("eyebrow"):
-            self.texto(s, ML, y - 0.90, W, spec["eyebrow"].upper(), T_ROTULO,
+            # o eyebrow sobe um pouco: colado, o filete de acento parecia
+            # sublinhar o rotulo em vez de abrir a frase
+            self.texto(s, ML, y - 0.98, W, spec["eyebrow"].upper(), T_ROTULO,
                        ACENTO if spec.get("marcar") else CLARO, SEMI if
                        spec.get("marcar") else SANS, spc=3.0, h=0.32)
-        self.fio(s, ML, y - 0.46, 1.30, ACENTO, esp=0.03)
+        self.fio(s, ML, y - 0.44, 1.30, ACENTO, esp=0.03)
         self.texto(s, ML, y, 15.4, linhas_, tam, TINTA, LIGHT, espaco=1.26,
                    h=alt_bloco + 0.30)
         if spec.get("apoio"):
-            self.texto(s, ML, y + alt_bloco + 0.55, 13.0, spec["apoio"],
-                       T_CORPO, CORPO, LIGHT,
+            self.texto(s, ML, pe(y, len(linhas_), tam, 1.26) + 0.42, 13.0,
+                       spec["apoio"], T_CORPO, CORPO, LIGHT,
                        h=altura(spec["apoio"], T_CORPO, 13.0) + 0.1)
         self.rodape(s)
         return s
@@ -943,17 +962,26 @@ class DeckNarrativo(Deck):
         return s
 
     def pg_divisor(self, spec):
+        """Virada de tema. O filete e a linha de apoio acompanham a altura
+        REAL do nome da secao — com um valor fixo, um nome de duas linhas
+        empurrava o filete para longe e a frase ficava solta no meio do
+        nada."""
         s = self.slide()
-        self.texto(s, ML, 4.20, 4.0, spec["numero"], T_ROTULO, ACENTO, SEMI,
+        y = 4.20
+        self.texto(s, ML, y, 4.0, spec["numero"], T_ROTULO, ACENTO, SEMI,
                    spc=3.0, h=0.3)
         nome = spec["nome"].upper()
         tam = T_DIVISOR if len(nome) <= 16 else 68
-        self.texto(s, ML, 4.80, 14.0, nome, tam, TINTA, LIGHT, espaco=1.0,
-                   h=tam / 72.0 * 1.3)
-        self.fio(s, ML, 6.95, W)
+        n = linhas(nome, tam, 14.0)
+        y_nome = y + 0.60
+        self.texto(s, ML, y_nome, 14.0, nome, tam, TINTA, LIGHT, espaco=1.0,
+                   h=n * tam / 72.0 * 1.3)
+        y_fio = y_nome + n * tam / 72.0 * ENTRELINHA + 0.34
+        self.fio(s, ML, y_fio, W)
         if spec.get("apoio"):
-            self.texto(s, ML, 7.25, 13.0, spec["apoio"], T_CORPO, CLARO,
-                       LIGHT, h=altura(spec["apoio"], T_CORPO, 13.0) + 0.1)
+            self.texto(s, ML, y_fio + 0.30, 13.0, spec["apoio"], T_LEAD,
+                       CLARO, LIGHT,
+                       h=altura(spec["apoio"], T_LEAD, 13.0) + 0.1)
         self.rodape(s)
         return s
 
@@ -1053,6 +1081,52 @@ class DeckNarrativo(Deck):
         "foto_cheia": "pg_foto_cheia",
     }
 
+    # Paginas cuja posicao e desenhada a mao e nao deve ser recentrada: a
+    # capa tem a barra de assinatura presa embaixo, a abertura e o fecho sao
+    # composicao de logos, e o sumario nasce preenchendo o painel inteiro.
+    SEM_CENTRAR = ("capa", "abertura", "fecho", "sumario")
+
+    def centrar(self, s, tipo):
+        """Centra verticalmente o bloco de conteudo da pagina.
+
+        O motor monta de cima para baixo a partir de uma linha fixa, e numa
+        pagina de pouco texto — que e o caso agora, com uma ideia por pagina —
+        o conteudo fica colado no cabecalho e o pe sobra vazio. Aqui o bloco
+        inteiro desce (ou sobe) de uma vez, para o olho encontrar o texto no
+        meio da pagina.
+
+        Fotografia, painel, veu e textura nao se mexem: so o texto e os
+        filetes que o acompanham."""
+        if tipo in self.SEM_CENTRAR:
+            return
+        moveis, painel = [], False
+        for sh in s.shapes:
+            larg = sh.width / float(EMU)
+            alt = sh.height / float(EMU)
+            if larg >= 17.0 and 8.4 <= alt <= 9.6:
+                painel = True
+            if sh.shape_type == MSO_SHAPE_TYPE.PICTURE:
+                continue
+            # painel, faixa de fotografia, veu e fundo ficam onde estao
+            if larg >= 17.0 or alt >= 8.0:
+                continue
+            moveis.append(sh)
+        if not moveis:
+            return
+        topo = min(sh.top for sh in moveis) / float(EMU)
+        base = max(sh.top + sh.height for sh in moveis) / float(EMU)
+        if painel:
+            limite_alto, limite_baixo, meio = 1.62, 9.30, 5.35
+        else:
+            limite_alto, limite_baixo, meio = 1.10, 10.15, 5.50
+        delta = meio - (topo + base) / 2.0
+        delta = min(delta, limite_baixo - base)
+        delta = max(delta, limite_alto - topo)
+        if abs(delta) < 0.02:
+            return
+        for sh in moveis:
+            sh.top = sh.top + self.e(delta)
+
     def montar(self, paginas):
         for i, spec in enumerate(paginas, 1):
             tipo = spec["tipo"]
@@ -1064,4 +1138,5 @@ class DeckNarrativo(Deck):
                 self.fecho(spec.get("frase", "MUITO OBRIGADA!"))
             else:
                 getattr(self, self.TIPOS[tipo])(spec)
+            self.centrar(self.prs.slides[-1], tipo)
         return self

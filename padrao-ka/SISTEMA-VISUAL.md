@@ -239,3 +239,43 @@ grosseira mas nunca subestima.
 
 Quando o texto ainda assim não cabe, o build **avisa** em vez de encolher a
 fonte abaixo de 92%: a saída é cortar texto ou quebrar a página em duas.
+
+---
+
+## Centralização vertical
+
+O motor monta de cima para baixo a partir de uma linha fixa. Numa página de
+pouco texto — que é a regra agora, com uma ideia por página — o conteúdo fica
+colado no cabeçalho e o pé sobra vazio.
+
+Por isso, depois de montada, **cada página é recentrada**: o bloco inteiro
+(texto e filetes) desce ou sobe de uma vez, para o olho encontrar o conteúdo
+no meio da página.
+
+- Fotografia, painel, véu e textura **não se mexem**.
+- Capa, abertura, fecho e sumário ficam fora: a posição deles é desenhada à
+  mão.
+- Em página com painel o bloco centra em 5,35"; em página sangrada, em 5,50".
+
+```python
+DeckNarrativo.centrar(slide, tipo)   # chamado por montar(), página a página
+```
+
+## Distância entre os elementos
+
+Filete e frase saem da altura **real** do texto que vem antes, nunca de um
+valor fixo:
+
+```python
+pe(y, n, tam, espaco)   # onde a última linha termina de verdade
+```
+
+A caixa de texto mede `n` linhas inteiras, mas a última deixa a sobra de
+entrelinha vazia por baixo (`SOBRA`, 0,30 em). Quem vai encostar algo no
+texto desconta isso — senão abre um vão que parece descuido. Foi o que a
+Kelly apontou nos divisores e nas páginas de frase.
+
+## O rodapé é opcional — e nos decks do Lucas está desligado
+
+`RODAPE = False` no conteúdo do cliente tira a pílula `DOCUMENTO | MARCA` e o
+logo KA de todas as páginas. A Revelação e a Base do Lucas saem assim.

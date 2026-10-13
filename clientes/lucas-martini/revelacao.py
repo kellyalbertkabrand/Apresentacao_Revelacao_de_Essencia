@@ -18,6 +18,7 @@ para que o rosto nunca seja cortado.
 
 MARCA = "Lucas José Martini"
 DOCUMENTO = "Revelação de Essência"
+RODAPE = False          # a Kelly pediu sem rodape: nem a pilula, nem o logo
 ARQUIVO = "Revelacao-de-Essencia-Lucas-Jose-Martini"
 
 IMG = {
