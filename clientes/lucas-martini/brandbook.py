@@ -265,7 +265,7 @@ PAGINAS = [
      "resumo": ["A marca não precisa assustar para ser ouvida, nem anunciar "
                 "para ser reconhecida.",
                 "A autoridade aparece na qualidade da pergunta."],
-     "y_direita": 1.95,
+     "y_direita": 1.80,
      "pares": [
          ("Você pode morrer amanhã.",
           "Quem depende financeiramente de você hoje?"),

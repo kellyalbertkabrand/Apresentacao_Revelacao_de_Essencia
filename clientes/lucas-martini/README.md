@@ -13,7 +13,7 @@ Cada deck sai em **`.pptx` e `.pdf`** na própria pasta.
 | Arquivo | O que é | Slides |
 |---|---|---|
 | `revelacao.py` | Revelação de Essência — origem identitária do fundador | 30 |
-| `base_estrategica.py` | Base Estratégica da Marca — posicionamento e comunicação | 51 |
+| `base_estrategica.py` | Base Estratégica da Marca — na diagramação do brand book | 18 |
 | `brandbook.py` | Brand Book — a mesma base em formato de manual | 27 |
 | `assets/` | as 14 fotografias | — |
 | `assets/marca/` | o logotipo do Lucas, recortado com fundo transparente | — |
@@ -95,19 +95,35 @@ evidência e a leitura juntas. Nenhuma ideia saiu; o que saiu foi a repetição.
 As quatro páginas separadas de Paixão, Profissão, Missão e Vocação viraram
 uma só — que é o que o Ikigai é: os quatro encontros numa página.
 
-## A Base Estratégica foi reescrita (outubro/2026)
+## A Base Estratégica foi refeita na diagramação do brand book
 
-A Kelly reescreveu o texto inteiro com outra régua: **uma ideia por página,
-menos texto em cada uma**. O roteiro novo tem 38 páginas de conteúdo, e o
-deck fechou em **51** (abertura, capa, sumário, nove divisores, 38 páginas e
-fecho).
+Depois de ver os slides do Brand Book KA 2026, a Kelly pediu outro padrão de
+página para **todas** as apresentações:
 
-Parece contradição com o corte anterior, e não é: antes eram 30 páginas
-densas; agora são 51 páginas leves. A conta de texto por página caiu à
-metade — que era o pedido.
+> Título e um bloco de texto. Título e um bloco de texto. Não quero um texto
+> pequeno, uma linha, outro texto embaixo.
 
-A versão de 30 páginas continua no histórico do git, no commit anterior a
-esta reescrita.
+A Base passou a usar o motor do brand book
+([`padrao-ka/BRAND-BOOK.md`](../../padrao-ka/BRAND-BOOK.md)): título à
+esquerda com o filete, bloco de texto à direita, papel limpo, só a paginação
+no alto. **18 páginas**, com o conteúdo que ela escreveu, na ordem dela — a
+essência em 01 e o Lucas em 02.
+
+Três decisões de montagem, para ela conferir:
+
+1. **Sem páginas de separação.** O título de cada página já é o nome do tema;
+   um separador com o mesmo nome seria repetição. Ligar é uma linha.
+2. **Três páginas viraram colunas** (causa/liderança/tribo, arquétipos,
+   Golden Circle, arquitetura) — é o arranjo da página de arquétipos do brand
+   book dela. Nos rótulos dessas colunas há uma síntese de duas ou três
+   palavras feita a partir do texto dela ("Preparar antes", "Enxergar
+   antes"), para o nome da coluna caber em caixa alta.
+3. **As marcas de origem saíram.** "Identidade Verbal - Lucas José…",
+   "mft-nwyj-ixz…" e "IKIGAI Empresarial…" são referências da ferramenta, não
+   conteúdo de slide.
+
+A versão anterior, de 51 páginas no painel sobre textura, está no histórico
+do git.
 
 ## As fotografias: vertical por padrão, rosto sempre inteiro
 

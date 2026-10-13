@@ -47,9 +47,14 @@ def pdf(caminho):
 
 def montar(nome):
     C = carregar(nome)
-    if nome == "brandbook":
+    # o motor sai do proprio conteudo: "brandbook" e a diagramacao de duas
+    # colunas (titulo a esquerda, bloco de texto a direita), "paginas" e a
+    # apresentacao com painel sobre textura
+    if getattr(C, "MOTOR", "paginas") == "brandbook" or nome == "brandbook":
         d = Brandbook(marca=C.MARCA, documento=C.DOCUMENTO, paleta=C.PALETA,
-                      logos=C.LOGOS)
+                      logos=C.LOGOS,
+                      cabecalho_documento=getattr(C, "CABECALHO_DOCUMENTO",
+                                                  True))
     else:
         d = DeckNarrativo(documento=C.DOCUMENTO, marca=C.MARCA,
                           assets=os.path.join(AQUI, "assets"),

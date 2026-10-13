@@ -20,10 +20,12 @@ da Kelly. O que muda de um cliente para outro é só a **paleta** e a
 
 Tipografia: Outfit, como em todo o padrão KA. O peso vem do nome da fonte.
 """
+import math
 import os
 import sys
 
 from pptx.dml.color import RGBColor
+from pptx.enum.shapes import MSO_SHAPE_TYPE
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.oxml.ns import qn
 from pptx.oxml.xmlchemy import OxmlElement
@@ -32,7 +34,7 @@ from pptx.util import Pt
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from ka_layout import (  # noqa: E402
-    ALT, LARG, BOLD, LIGHT, MEDIO, REG, SEMI, ULTRA, Deck,
+    ALT, EMU, LARG, BOLD, LIGHT, MEDIO, REG, SEMI, ULTRA, Deck,
 )
 from ka_paginas import altura, largura_texto, linhas  # noqa: E402
 
@@ -56,10 +58,10 @@ FUNDO = 10.30                 # nada de texto abaixo disto
 T_TITULO = 45       # título de página, caixa alta e peso leve
 T_OLHO = 12.5       # eyebrow, caixa alta espacejada
 T_CABECA = 11.5     # cabeçalho e paginação
-T_LEAD = 21         # linha de abertura da coluna esquerda
-T_CORPO = 19        # corpo
-T_MINI = 15.5       # nota miúda
-T_NOME = 25         # nome de coluna, de pilar, de versão
+T_LEAD = 22         # linha de abertura da coluna esquerda
+T_CORPO = 21        # corpo — o mesmo da apresentação; 19 some em projeção
+T_MINI = 16.5       # nota miúda
+T_NOME = 26         # nome de coluna, de pilar, de versão
 T_NUMERO = 44       # numeral de pilar
 T_FRASE = 52        # frase grande numa página de silêncio
 T_DIV_NUM = 58      # numeral do divisor de capítulo
@@ -85,8 +87,11 @@ class Brandbook(Deck):
     """Manual de marca em 20 × 11,25 polegadas."""
 
     def __init__(self, marca, documento="BRAND BOOK", paleta=None, logos=None,
-                 modelo=None, edicao=None):
+                 modelo=None, edicao=None, cabecalho_documento=True):
         super().__init__(documento=documento, marca=marca, modelo=modelo)
+        # a Kelly pediu as apresentacoes sem o nome do documento no alto:
+        # sobra so a paginacao, discreta, no canto direito
+        self.cabecalho_documento = cabecalho_documento
         p = dict(PALETA_KA)
         p.update(paleta or {})
         self.p = {k: _cor(v) for k, v in p.items()}
@@ -154,10 +159,11 @@ class Brandbook(Deck):
         o documento parecer manual, e não apresentação."""
         _, _, acento, _ = self.tinta(tom)
         suave = self.p["suave"] if tom != "escuro" else self.p["corpo_escuro"]
-        self.bloco(s, 0.98, Y_CABECA - 0.02, 0.022, 0.26, acento)
-        self.texto(s, 1.12, Y_CABECA, 9.0,
-                   "%s %s" % (self.documento, self.marca), T_CABECA,
-                   suave, SEMI, spc=2.6, h=0.30)
+        if self.cabecalho_documento:
+            self.bloco(s, 0.98, Y_CABECA - 0.02, 0.022, 0.26, acento)
+            self.texto(s, 1.12, Y_CABECA, 9.0,
+                       "%s %s" % (self.documento, self.marca), T_CABECA,
+                       suave, SEMI, spc=2.6, h=0.30)
         self.texto(s, MR - 4.0, Y_CABECA, 4.0,
                    "%02d / %02d" % (self.n, self.total or self.n), T_CABECA,
                    acento, SEMI, spc=2.6, h=0.30, align=PP_ALIGN.RIGHT)
@@ -246,6 +252,70 @@ class Brandbook(Deck):
                        spec["edicao"].upper(), T_CAPA_MINI,
                        self.p["acento_escuro"], SEMI, spc=4.0,
                        align=PP_ALIGN.CENTER, h=0.34)
+        return s
+
+    def pg_abertura(self, spec):
+        """Os dois logos sobre o papel — abre e fecha o documento."""
+        s = self.pagina(spec.get("tom", "claro"), None, cabecalho=False)
+        esq = self.logos.get("kelly")
+        dir_ = self.logos.get("parceiro")
+        if esq:
+            self.logo(s, esq, 3.55, 5.05, 4.30)
+        if dir_:
+            self.bloco(s, 9.85, 4.60, 0.014, 1.85, self.p["fio"])
+            self.logo(s, dir_, 10.90, 4.85, 4.40)
+        return s
+
+    def pg_capa_ka(self, spec):
+        """A capa do padrão KA — a mesma do arquivo final da Kelly, agora
+        sobre o papel limpo: título em caixa alta, subtítulo com o nome em
+        bold e a barra de assinatura embaixo."""
+        s = self.pagina(spec.get("tom", "claro"), None, cabecalho=False)
+        tinta, corpo, acento, fio = self.tinta(spec.get("tom", "claro"))
+        x = 1.68
+        titulo = spec["titulo"]
+        if isinstance(titulo, str):
+            titulo = [titulo]
+        tam = spec.get("tam_titulo", 75)
+        n = len(titulo)
+        self.texto(s, x, 3.93, 14.82, [t.upper() for t in titulo], tam, tinta,
+                   BOLD, espaco=1.14, spc=3.0, h=n * tam / 72.0 * 1.30)
+        y = 3.93 + n * tam / 72.0 * 1.30 + 0.12
+        sub = spec.get("subtitulo") or []
+        if isinstance(sub, str):
+            sub = [sub]
+        if sub:
+            tf = self.caixa(s, x, y, 14.82, 0.55)
+            p = self.par(tf, True, espaco=1.2)
+            self.txt(p, sub[0], 30, tinta, BOLD)
+            if len(sub) > 1:
+                self.txt(p, "  |  " + "  |  ".join(sub[1:]), 30, tinta, REG)
+        for fx in (1.69, 5.21, 8.19, 10.60):
+            self.bloco(s, fx, 8.52, 0.014, 0.98, self.p["suave"])
+        if self.logos.get("ka"):
+            TOPO_TINTA, ESQ_TINTA, LARG_TINTA = 0.409, 0.081, 0.822
+            tela = 3.11 / LARG_TINTA
+            self.logo(s, self.logos["ka"], 1.90 - ESQ_TINTA * tela,
+                      8.65 - TOPO_TINTA * tela, tela)
+        assin = spec.get("assinatura") or []
+        if assin:
+            tf = self.caixa(s, 5.45, 8.71, 2.60, 0.80)
+            for i, linha in enumerate(assin):
+                p = self.par(tf, primeiro=(i == 0), espaco=0.95)
+                marca = linha.endswith("©")
+                if marca:
+                    linha = linha[:-1].rstrip()
+                if i == 0 and " " in linha:
+                    servico, nome = linha.split(" ", 1)
+                    self.txt(p, servico + " ", 26.8, tinta, "Outfit 2 Light")
+                    self.txt(p, nome, 26.8, tinta, "Outfit 2 Semi-Bold")
+                else:
+                    self.txt(p, linha, 26.8, tinta, "Outfit 2 Semi-Bold")
+                if marca:
+                    self.txt(p, "©", 14.7, tinta, "Outfit 2")
+        if spec.get("data"):
+            self.texto(s, 8.25, 8.92, 2.30, spec["data"].upper(), 19.5, tinta,
+                       REG, align=PP_ALIGN.CENTER, h=0.40)
         return s
 
     def pg_texto(self, spec):
@@ -379,6 +449,7 @@ class Brandbook(Deck):
                       tinta, tinta, fonte=LIGHT, fonte_forte=SEMI, spc=0.4)
             ny = y + 0.40 + alt_nome
             self.fio(s, x, ny + 0.08, larg, acento, esp=0.012)
+            fundo_col = max(fundo_col, ny + 0.30)
             if texto:
                 fim = self.paragrafos(
                     s, x, ny + 0.36, larg,
@@ -458,20 +529,30 @@ class Brandbook(Deck):
         yy = spec.get("y_direita", Y_CORPO)
         rot_e = spec.get("rot_evitar", "em vez de")
         rot_p = spec.get("rot_preferir", "prefere")
+        # mede os pares antes: com tres pares de duas linhas, o corpo cheio
+        # passa do pe da pagina
+        for fator in (0.95, 0.88, 0.80):
+            tam_par = T_CORPO * fator
+            total = sum(
+                1.28 + altura(e, tam_par, LARG_D, 1.42)
+                + altura(pr, tam_par, LARG_D, 1.42)
+                for e, pr in spec["pares"])
+            if yy + total <= FUNDO:
+                break
         for evitar, preferir in spec["pares"]:
             self.fio(s, COL_D, yy, LARG_D, fio, esp=0.008)
             yy += 0.20
             self.olho(s, rot_e, COL_D, yy, self.p["suave"], w=LARG_D)
-            h = altura(evitar, T_CORPO * 0.95, LARG_D, 1.42)
+            h = altura(evitar, tam_par, LARG_D, 1.42)
             tf = self.caixa(s, COL_D, yy + 0.34, LARG_D, h + 0.1)
             self.rico(self.par(tf, True, espaco=1.42), "~~%s~~" % evitar,
-                      T_CORPO * 0.95, self.p["acento"], self.p["acento"])
+                      tam_par, self.p["acento"], self.p["acento"])
             yy += 0.34 + h + 0.30
             self.olho(s, rot_p, COL_D, yy, acento, w=LARG_D)
-            h2 = altura(preferir, T_CORPO * 0.95, LARG_D, 1.42)
+            h2 = altura(preferir, tam_par, LARG_D, 1.42)
             tf = self.caixa(s, COL_D, yy + 0.34, LARG_D, h2 + 0.1)
             self.rico(self.par(tf, True, espaco=1.42), preferir,
-                      T_CORPO * 0.95, tinta, tinta)
+                      tam_par, tinta, tinta)
             yy += 0.34 + h2 + 0.40
         return s
 
@@ -599,57 +680,123 @@ class Brandbook(Deck):
                        tinta, fonte, espaco=1.1, h=0.95)
             self.paragrafos(s, 13.60, y + 0.46, 5.40, [uso], T_MINI, corpo,
                             tinta, gap=0.18)
-            y += 1.70
+            y += 1.62
             self.fio(s, ML, y, W, fio, esp=0.008)
-            y += 0.52
+            y += 0.46
         if spec.get("nota"):
             self.paragrafos(s, ML, y + 0.20, W * 0.72, [spec["nota"]], T_MINI,
                             self.p["suave"], corpo)
         return s
 
     def pg_fecho(self, spec):
-        s = self.pagina(spec.get("tom", "escuro"), TRAMA_PE, cabecalho=False)
-        logo = self.logos.get("escuro") or self.logos.get("capa")
+        """Agradecimento: a marca no meio da página e a frase embaixo.
+
+        O logo-ka.png é uma tela quadrada com a marca na faixa do meio —
+        ancorar pelo topo da tela joga a frase por cima dela."""
+        tom = spec.get("tom", "claro")
+        s = self.pagina(tom, spec.get("trama"), cabecalho=False)
+        tinta, corpo, acento, _ = self.tinta(tom)
+        logo = (self.logos.get("ka") if tom != "escuro"
+                else self.logos.get("escuro"))
+        y = spec.get("y", 6.30)
         if logo:
-            lg = spec.get("logo_largura", 6.4)
-            self.logo(s, logo, (LARG - lg) / 2, spec.get("logo_y", 3.90), lg)
+            TOPO_TINTA, ESQ_TINTA, LARG_TINTA = 0.409, 0.081, 0.822
+            lg = spec.get("logo_largura", 4.40)
+            tela = lg / LARG_TINTA
+            self.logo(s, logo, (LARG - lg) / 2 - ESQ_TINTA * tela,
+                      spec.get("logo_y", 4.60) - TOPO_TINTA * tela, tela)
         if spec.get("frase"):
-            self.texto(s, 0, spec.get("y", 6.90), LARG, spec["frase"].upper(),
-                       T_OLHO * 1.25, self.p["acento_escuro"], SEMI, spc=4.2,
-                       align=PP_ALIGN.CENTER, h=0.42)
+            self.texto(s, 0, y, LARG, spec["frase"].upper(), T_OLHO * 1.35,
+                       acento, SEMI, spc=4.2, align=PP_ALIGN.CENTER, h=0.46)
         if spec.get("assinatura"):
-            self.texto(s, 0, spec.get("y", 6.90) + 0.70, LARG,
-                       spec["assinatura"], T_MINI, self.p["corpo_escuro"],
-                       LIGHT, align=PP_ALIGN.CENTER, h=0.40)
+            self.texto(s, 0, y + 0.72, LARG, spec["assinatura"], T_MINI,
+                       self.p["suave"], LIGHT, align=PP_ALIGN.CENTER, h=0.40)
         return s
 
     def pg_indice(self, spec):
+        """O conteúdo do documento. Com até seis temas cabe uma coluna, com
+        a legenda ao lado; acima disso vai para duas, só número e nome."""
         tom = spec.get("tom", "claro")
         s = self.pagina(tom, spec.get("trama"))
         tinta, corpo, acento, fio = self.tinta(tom)
         self.titulo_pagina(s, spec.get("titulo", "Conteúdo"), tom,
                            fio_ate=spec.get("fio_ate"))
-        y = spec.get("y", 4.05)
-        passo = spec.get("passo", 1.28)
-        for num, nome, legenda in spec["itens"]:
-            self.fio(s, COL_D - 0.0, y - 0.26, LARG_D + 0.0, fio, esp=0.008)
-            self.texto(s, COL_E, y, 1.2, num, T_OLHO * 1.15, acento, SEMI,
+        itens = spec["itens"]
+        colunas = spec.get("grade", 1 if len(itens) <= 6 else 2)
+        por_col = int(math.ceil(len(itens) / colunas))
+        larg = (W - 1.20) / colunas if colunas > 1 else LARG_D
+        y0 = spec.get("y", 4.05 if colunas == 1 else 3.95)
+        passo = spec.get("passo", 1.28 if colunas == 1 else 0.82)
+        for i, item in enumerate(itens):
+            num, nome = item[0], item[1]
+            legenda = item[2] if len(item) > 2 else ""
+            c, r = i // por_col, i % por_col
+            x = ML + c * (larg + 1.20)
+            y = y0 + r * passo
+            self.fio(s, x, y - 0.24, larg if colunas > 1 else LARG_D + 0.0,
+                     fio, esp=0.008)
+            self.texto(s, x, y, 1.1, num, T_OLHO * 1.15, acento, SEMI,
                        spc=2.4, h=0.34)
-            self.texto(s, COL_E + 1.4, y - 0.12, 7.0, nome.upper(), T_NOME,
-                       tinta, LIGHT, spc=0.6, h=0.52)
-            self.paragrafos(s, COL_D, y - 0.08, LARG_D, [legenda], T_CORPO,
-                            corpo, tinta, gap=0.0)
-            y += passo
+            if colunas == 1:
+                self.texto(s, x + 1.4, y - 0.12, 7.0, nome.upper(), T_NOME,
+                           tinta, LIGHT, spc=0.6, h=0.52)
+                if legenda:
+                    self.paragrafos(s, COL_D, y - 0.08, LARG_D, [legenda],
+                                    T_CORPO, corpo, tinta, gap=0.0)
+            else:
+                self.texto(s, x + 1.15, y - 0.10, larg - 1.15, nome.upper(),
+                           T_CORPO * 1.08, tinta, LIGHT, spc=0.6, h=0.46)
         return s
 
     # -------------------------------------------------------------- montagem
     TIPOS = {
-        "capa": "pg_capa", "indice": "pg_indice", "divisor": "pg_divisor",
+        "capa": "pg_capa", "capa_ka": "pg_capa_ka",
+        "abertura": "pg_abertura", "indice": "pg_indice",
+        "divisor": "pg_divisor",
         "texto": "pg_texto", "lista": "pg_lista", "colunas": "pg_colunas",
         "numerais": "pg_numerais", "declaracao": "pg_declaracao",
         "pares": "pg_pares", "meia": "pg_meia", "paleta": "pg_paleta",
         "marca": "pg_marca", "tipografia": "pg_tipografia", "fecho": "pg_fecho",
     }
+
+    # Paginas desenhadas a mao, que nao se recentram: capa, abertura, fecho,
+    # divisor de capitulo e a pagina de indice, que ja nasce preenchendo.
+    SEM_CENTRAR = ("capa", "capa_ka", "abertura", "fecho", "divisor",
+                   "indice", "declaracao", "meia")
+
+    def centrar(self, s, tipo):
+        """Centra verticalmente o bloco de conteudo.
+
+        A diagramacao monta do alto para baixo. Num texto curto — e aqui
+        quase todos sao — a pagina fica com o conteudo preso no cabecalho e
+        um vazio embaixo. O bloco inteiro desce de uma vez, mas o titulo
+        nunca passa de 4,20": abaixo disso o documento deixa de parecer
+        manual."""
+        if tipo in self.SEM_CENTRAR:
+            return
+        moveis = []
+        for sh in s.shapes:
+            larg = sh.width / float(EMU)
+            alt = sh.height / float(EMU)
+            if sh.shape_type == MSO_SHAPE_TYPE.PICTURE:
+                continue
+            if larg >= 19.0 or alt >= 8.0:
+                continue
+            # o cabecalho e a paginacao ficam onde estao
+            if sh.top / float(EMU) < 1.10:
+                continue
+            moveis.append(sh)
+        if not moveis:
+            return
+        topo = min(sh.top for sh in moveis) / float(EMU)
+        base = max(sh.top + sh.height for sh in moveis) / float(EMU)
+        delta = 5.45 - (topo + base) / 2.0
+        delta = min(delta, 10.10 - base, 4.20 - topo)
+        delta = max(delta, 1.60 - topo)
+        if abs(delta) < 0.02:
+            return
+        for sh in moveis:
+            sh.top = sh.top + self.e(delta)
 
     def montar(self, paginas):
         self.total = len(paginas)
@@ -658,4 +805,5 @@ class Brandbook(Deck):
             if not metodo:
                 raise ValueError("tipo desconhecido: %s" % spec["tipo"])
             getattr(self, metodo)(spec)
+            self.centrar(self.prs.slides[-1], spec["tipo"])
         return self

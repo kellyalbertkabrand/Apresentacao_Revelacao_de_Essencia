@@ -31,6 +31,31 @@ padrão KA. Não inventar outro estilo.
    prévia em PNG para inspeção visual.
 4. Commitar no branch de trabalho e entregar o `.pptx` com `SendUserFile`.
 
+## O padrão de página pedido pela Kelly (outubro/2026)
+
+**Um título e um bloco de texto. Nunca uma frase miúda empilhada com outra.**
+
+Foi o pedido dela depois de ver os slides do Brand Book KA 2026: título à
+esquerda em caixa alta e peso leve, com o filete de acento saindo dele;
+bloco de texto à direita. Quando o conteúdo tem campos (causa, arquétipos,
+pilares, Golden Circle), eles viram colunas com rótulo, nome e filete.
+
+Essa diagramação vale para **todas as apresentações** daqui pra frente —
+Base Estratégica, Revelação de Essência, o que vier. O motor é o mesmo do
+brand book (`padrao-ka/ka_brandbook.py`); o conteúdo do cliente declara:
+
+```python
+MOTOR = "brandbook"            # a diagramação de duas colunas
+CABECALHO_DOCUMENTO = False    # no alto fica só a paginação
+PALETA = { ... }               # a do KA, ou a do cliente
+```
+
+Referência viva: `clientes/lucas-martini/base_estrategica.py` — 18 páginas.
+
+A rota antiga (painel claro sobre a textura de ondas,
+`padrao-ka/ka_paginas.py`) continua no repositório e é o que a Revelação do
+Lucas e o deck da Flávia ainda usam.
+
 ## Gatilho: "base estratégica" / apresentação com roteiro próprio
 
 Quando a entrega **não** tem roteiro fixo — Base Estratégica, plano, proposta,
