@@ -14,7 +14,41 @@ Cada deck sai em **`.pptx` e `.pdf`** na própria pasta.
 |---|---|---|
 | `revelacao.py` | Revelação de Essência — origem identitária do fundador | 30 |
 | `base_estrategica.py` | Base Estratégica da Marca — posicionamento e comunicação | 30 |
+| `brandbook.py` | Brand Book — a mesma base em formato de manual | 27 |
 | `assets/` | as 14 fotografias | — |
+| `assets/marca/` | o logotipo do Lucas, recortado com fundo transparente | — |
+
+## O brand book
+
+A Base Estratégica tem 30 páginas de apresentação; o brand book tem 27 de
+**manual**, na diagramação do Brand Book KA 2026
+([`padrao-ka/BRAND-BOOK.md`](../../padrao-ka/BRAND-BOOK.md)) e vestido com a
+identidade do Lucas: verde `#4A534E`, dourado do escudo, areia e papel.
+
+```bash
+python3 clientes/lucas-martini/gerar.py brandbook
+padrao-ka/conferir.sh clientes/lucas-martini/Brand-Book-Lucas-Martini.pptx --fundo 10.30
+```
+
+Nada foi inventado: cada definição vem da Base aprovada. **Duas páginas são
+derivação, não transcrição**, e precisam do aval da Kelly:
+
+1. **"As palavras da marca"** (vocabulário) — montada a partir dos
+   territórios e do "nunca" da personalidade. A Base não trazia glossário.
+2. **"O que preserva a marca"** (usos do logo) — regras de respiro,
+   contraste, proporção e tamanho mínimo. São as regras usuais de manual,
+   escritas para este escudo.
+
+Duas observações de produção:
+
+- **O logotipo saiu do Canva em 592 px de largura** — foi o que a API
+  entregou; o download em alta resolução está bloqueado. Serve para tela e
+  para o PDF; para impressão grande, trocar pelos arquivos originais em
+  `assets/marca/`.
+- **As fontes da marca (Allrounder e DM Sans) não estão instaladas aqui.** O
+  documento está composto em Outfit, como todo o padrão KA, e a página de
+  tipografia diz isso em nota. Com os arquivos das fontes, a troca é de um
+  minuto.
 
 ## O que veio do arquivo final da Kelly
 

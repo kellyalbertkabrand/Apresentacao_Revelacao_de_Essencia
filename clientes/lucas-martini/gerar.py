@@ -3,11 +3,13 @@
 """
 Monta as duas apresentacoes do Lucas Martini no padrao KA.
 
-    python3 clientes/lucas-martini/gerar.py            # as duas
-    python3 clientes/lucas-martini/gerar.py revelacao  # so uma
+    python3 clientes/lucas-martini/gerar.py            # os tres
+    python3 clientes/lucas-martini/gerar.py revelacao  # so um
 
-Cada deck e um modulo de conteudo com uma lista PAGINAS; os arquetipos de
-pagina estao em padrao-ka/ka_paginas.py.
+Cada deck e um modulo de conteudo com uma lista PAGINAS. As apresentacoes
+usam os arquetipos de padrao-ka/ka_paginas.py; o brand book usa os de
+padrao-ka/ka_brandbook.py, que e outra diagramacao — manual, nao
+apresentacao.
 """
 import importlib.util
 import os
@@ -18,9 +20,10 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 RAIZ = os.path.dirname(os.path.dirname(AQUI))
 sys.path.insert(0, os.path.join(RAIZ, "padrao-ka"))
 
+from ka_brandbook import Brandbook  # noqa: E402
 from ka_paginas import DeckNarrativo  # noqa: E402
 
-DECKS = ("revelacao", "base-estrategica")
+DECKS = ("revelacao", "base-estrategica", "brandbook")
 
 
 def carregar(nome):
@@ -44,9 +47,13 @@ def pdf(caminho):
 
 def montar(nome):
     C = carregar(nome)
-    d = DeckNarrativo(documento=C.DOCUMENTO, marca=C.MARCA,
-                      assets=os.path.join(AQUI, "assets"),
-                      rodape=getattr(C, "RODAPE", True))
+    if nome == "brandbook":
+        d = Brandbook(marca=C.MARCA, documento=C.DOCUMENTO, paleta=C.PALETA,
+                      logos=C.LOGOS)
+    else:
+        d = DeckNarrativo(documento=C.DOCUMENTO, marca=C.MARCA,
+                          assets=os.path.join(AQUI, "assets"),
+                          rodape=getattr(C, "RODAPE", True))
     d.montar(C.PAGINAS)
     alvo = os.path.join(AQUI, C.ARQUIVO + ".pptx")
     caminho, n = d.salvar(alvo)

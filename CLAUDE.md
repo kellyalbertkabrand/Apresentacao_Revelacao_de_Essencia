@@ -46,6 +46,23 @@ prontos.
 Referência viva: `clientes/lucas-martini/` — duas apresentações, 63 e 69
 slides.
 
+## Gatilho: "brand book" / "manual de marca"
+
+Um brand book **não** é apresentação: é manual. Outra diagramação — cabeçalho
+com paginação, capítulos numerados, título à esquerda e conteúdo à direita — e
+é o único documento do padrão que veste a **identidade visual do cliente**, não
+a do KA.
+
+1. Ler **`padrao-ka/BRAND-BOOK.md`** — a grade, os 14 arquétipos e a paleta
+   como parâmetro.
+2. Montar com **`padrao-ka/ka_brandbook.py`** (`Brandbook`).
+3. Conferir com `padrao-ka/conferir.sh <arquivo>.pptx --fundo 10.30`.
+
+A tipografia continua sendo a Outfit. Fonte própria do cliente é **nomeada**
+na página de tipografia, não usada no documento.
+
+Referência viva: `clientes/lucas-martini/brandbook.py` — 27 páginas.
+
 ## Gatilho: "revelação de essência"
 
 Primeira etapa do Método Marca com Essência ©.

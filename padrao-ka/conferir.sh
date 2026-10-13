@@ -1,7 +1,10 @@
 #!/bin/bash
 # Confere se algum texto vazou do painel (o fundo do painel esta em 9,60").
 #
-#   padrao-ka/conferir.sh <arquivo.pptx>
+#   padrao-ka/conferir.sh <arquivo.pptx> [--fundo 10.30]
+#
+# O `--fundo` troca o limite: a apresentacao mede pelo fundo do painel
+# (9,60"), o brand book pela pagina inteira (10,30").
 #
 # Converte com o LibreOffice e mede a caixa real de cada palavra com
 # pdftotext -bbox — as alturas declaradas no python-pptx sao so um chute, o
@@ -12,6 +15,7 @@
 # que e mais larga, e a conferencia acusa vazamento onde nao ha.
 set -e
 SRC=$(readlink -f "${1:?uso: conferir.sh <arquivo.pptx>}")
+shift || true
 AQUI=$(cd "$(dirname "$0")" && pwd)
 T=$(mktemp -d)
 mkdir -p "$T/x" && cd "$T/x"
@@ -23,5 +27,5 @@ timeout 500 soffice -env:UserInstallation="file://$T/lo" \
   --headless --norestore --convert-to pdf --outdir . previa.pptx >/dev/null 2>&1
 pdftoppm -png -r 62 previa.pdf s
 pdftotext -bbox previa.pdf bb.html 2>/dev/null
-python3 "$AQUI/conferir.py" "$T/bb.html"
+python3 "$AQUI/conferir.py" "$T/bb.html" "$@"
 echo "previa em PNG: $T/s-*.png"
