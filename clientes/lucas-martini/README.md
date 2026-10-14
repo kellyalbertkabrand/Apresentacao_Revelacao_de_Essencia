@@ -14,6 +14,7 @@ Cada deck sai em **`.pptx` e `.pdf`** na própria pasta.
 |---|---|---|
 | `revelacao.py` | Revelação de Essência — origem identitária do fundador | 30 |
 | `base_estrategica.py` | Base Estratégica da Marca — na diagramação do brand book | 18 |
+| `plano_conteudo.py` | Plano de Conteúdo — eixos, formatos e cronograma | 23 |
 | `brandbook.py` | Brand Book — a mesma base em formato de manual | 27 |
 | `assets/` | as 14 fotografias | — |
 | `assets/marca/` | o logotipo do Lucas, recortado com fundo transparente | — |
@@ -115,6 +116,26 @@ que vieram coladas no texto ("Identidade Verbal - Lucas José…",
 não conteúdo de slide, e ficaram de fora.
 
 Cinco fotografias, nenhuma repetida em páginas seguidas.
+
+## O Plano de Conteúdo
+
+Mesma identidade e mesma régua da Base: **um título e um bloco de texto**.
+São 23 páginas — objetivo, os cinco eixos da linha editorial, distribuição,
+formatos, cronograma, o ciclo mensal de quatro semanas, a regra central e a
+direção final.
+
+Dois itens que a skill do KA pede num Plano de Comunicação e que **não** estão
+aqui, porque dependem de decisão da Kelly:
+
+1. **A seção "fora do escopo"** — o que o plano não cobre (edição de vídeo,
+   agendamento, mídia paga, gestão diária de redes). Uma página resolve.
+2. **O calendário linha a linha** (data, canal, tema, formato, objetivo,
+   copy, CTA, observações). Esse não é deck: é planilha. O ciclo mensal das
+   quatro semanas é a semente dela.
+
+```bash
+python3 clientes/lucas-martini/gerar.py plano-conteudo
+```
 
 ## As fotografias: vertical por padrão, rosto sempre inteiro
 

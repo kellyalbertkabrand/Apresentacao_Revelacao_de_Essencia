@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.join(RAIZ, "padrao-ka"))
 from ka_brandbook import Brandbook  # noqa: E402
 from ka_paginas import DeckNarrativo  # noqa: E402
 
-DECKS = ("revelacao", "base-estrategica", "brandbook")
+DECKS = ("revelacao", "base-estrategica", "plano-conteudo", "brandbook")
 
 
 def carregar(nome):
