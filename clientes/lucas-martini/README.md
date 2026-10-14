@@ -95,35 +95,26 @@ evidência e a leitura juntas. Nenhuma ideia saiu; o que saiu foi a repetição.
 As quatro páginas separadas de Paixão, Profissão, Missão e Vocação viraram
 uma só — que é o que o Ikigai é: os quatro encontros numa página.
 
-## A Base Estratégica foi refeita na diagramação do brand book
+## A Base Estratégica: um título e um bloco de texto
 
-Depois de ver os slides do Brand Book KA 2026, a Kelly pediu outro padrão de
-página para **todas** as apresentações:
+A Kelly reescreveu o conteúdo em 14 temas e pediu outra diagramação de
+texto — a identidade visual é a mesma de sempre:
 
-> Título e um bloco de texto. Título e um bloco de texto. Não quero um texto
-> pequeno, uma linha, outro texto embaixo.
+> "Tem título, aí um títulozinho menor, aí outro menorzinho, aí uma frase
+>  maior, aí uma linha. Não quero isso. Um título e um texto num slide."
 
-A Base passou a usar o motor do brand book
-([`padrao-ka/BRAND-BOOK.md`](../../padrao-ka/BRAND-BOOK.md)): título à
-esquerda com o filete, bloco de texto à direita, papel limpo, só a paginação
-no alto. **18 páginas**, com o conteúdo que ela escreveu, na ordem dela — a
-essência em 01 e o Lucas em 02.
+São **18 páginas**: abertura, capa, sumário em duas colunas, os 14 temas e o
+fecho. Cada página de conteúdo tem título e um bloco de texto — sem eyebrow,
+sem lead em outro corpo, sem destaque com filete. Onde o conteúdo é de campos
+(causa, arquétipos, Golden Circle, arquitetura, pilares), ele vira colunas ou
+camadas: rótulo e texto lado a lado.
 
-Três decisões de montagem, para ela conferir:
+A ordem é a dela, com a essência em 01 e o Lucas em 02. As marcas de origem
+que vieram coladas no texto ("Identidade Verbal - Lucas José…",
+"mft-nwyj-ixz…", "IKIGAI Empresarial…") são referências da ferramenta dela,
+não conteúdo de slide, e ficaram de fora.
 
-1. **Sem páginas de separação.** O título de cada página já é o nome do tema;
-   um separador com o mesmo nome seria repetição. Ligar é uma linha.
-2. **Três páginas viraram colunas** (causa/liderança/tribo, arquétipos,
-   Golden Circle, arquitetura) — é o arranjo da página de arquétipos do brand
-   book dela. Nos rótulos dessas colunas há uma síntese de duas ou três
-   palavras feita a partir do texto dela ("Preparar antes", "Enxergar
-   antes"), para o nome da coluna caber em caixa alta.
-3. **As marcas de origem saíram.** "Identidade Verbal - Lucas José…",
-   "mft-nwyj-ixz…" e "IKIGAI Empresarial…" são referências da ferramenta, não
-   conteúdo de slide.
-
-A versão anterior, de 51 páginas no painel sobre textura, está no histórico
-do git.
+Cinco fotografias, nenhuma repetida em páginas seguidas.
 
 ## As fotografias: vertical por padrão, rosto sempre inteiro
 

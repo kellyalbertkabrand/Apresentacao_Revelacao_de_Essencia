@@ -33,28 +33,30 @@ padrão KA. Não inventar outro estilo.
 
 ## O padrão de página pedido pela Kelly (outubro/2026)
 
-**Um título e um bloco de texto. Nunca uma frase miúda empilhada com outra.**
+**Um título e um bloco de texto. Nada empilhado.** Palavras dela:
 
-Foi o pedido dela depois de ver os slides do Brand Book KA 2026: título à
-esquerda em caixa alta e peso leve, com o filete de acento saindo dele;
-bloco de texto à direita. Quando o conteúdo tem campos (causa, arquétipos,
-pilares, Golden Circle), eles viram colunas com rótulo, nome e filete.
+> "Tem título, aí tem um títulozinho menor, aí outro menorzinho, aí uma
+>  frase maior, aí uma linha. Não quero isso. Um título e um texto num
+>  slide."
 
-Essa diagramação vale para **todas as apresentações** daqui pra frente —
-Base Estratégica, Revelação de Essência, o que vier. O motor é o mesmo do
-brand book (`padrao-ka/ka_brandbook.py`); o conteúdo do cliente declara:
+Na prática, numa página de conteúdo:
 
-```python
-MOTOR = "brandbook"            # a diagramação de duas colunas
-CABECALHO_DOCUMENTO = False    # no alto fica só a paginação
-PALETA = { ... }               # a do KA, ou a do cliente
-```
+- **sem** eyebrow, **sem** linha de abertura em outro tamanho, **sem** frase
+  de destaque com filete embaixo;
+- título em caixa alta, o filete do padrão, e **um** bloco de texto — um
+  corpo só, uma cor só;
+- quando o conteúdo é mesmo de campos (causa, arquétipos, Golden Circle,
+  pilares), vira **colunas** ou **camadas**: rótulo e texto lado a lado,
+  nunca empilhados.
+
+A página de um bloco só lê num corpo maior (24pt, não 21): é o único texto
+da página.
+
+**A identidade visual não muda**: painel claro sobre a textura de ondas,
+Outfit, acento terracota — a de sempre. Os prints do brand book que ela
+mandou eram referência de **limpeza de texto**, não de layout.
 
 Referência viva: `clientes/lucas-martini/base_estrategica.py` — 18 páginas.
-
-A rota antiga (painel claro sobre a textura de ondas,
-`padrao-ka/ka_paginas.py`) continua no repositório e é o que a Revelação do
-Lucas e o deck da Flávia ainda usam.
 
 ## Gatilho: "base estratégica" / apresentação com roteiro próprio
 

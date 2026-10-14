@@ -252,7 +252,7 @@ class DeckNarrativo(Deck):
         na pagina inteira estoura ali. Quando nao cabe, o metodo aperta
         primeiro os intervalos e so depois reduz o corpo — nunca deixa
         vazar."""
-        tam_lead, tam_corpo = T_LEAD, T_CORPO
+        tam_lead, tam_corpo = T_LEAD, spec.get("tam_corpo", T_CORPO)
         tam_dest = spec.get("tam_destaque", T_MEDIO)
         gap_lead, gap_par, gap_item, gap_dest = 0.30, 0.26, 0.08, 0.48
 
@@ -518,6 +518,12 @@ class DeckNarrativo(Deck):
         s, y0, fim = self._abrir(spec)
         X, LG = self._col
         y = self.cabeca(s, spec, x=X, w=LG, y=y0)
+        # Um titulo e um bloco de texto: como o bloco e o unico texto da
+        # pagina, ele le num corpo maior. Quando a pagina tem lead, itens ou
+        # destaque, a escala volta ao normal para a hierarquia nao sumir.
+        if (spec.get("paragrafos") and not spec.get("lead")
+                and not spec.get("itens") and not spec.get("destaque")):
+            spec = dict(spec, tam_corpo=spec.get("tam_corpo", T_LEAD))
         self.corpo(s, spec, X, y, spec.get("largura", min(13.4, LG)), fim)
         self._fechar(s, spec)
         return s
@@ -554,8 +560,10 @@ class DeckNarrativo(Deck):
             self.txt(p, spec["equacao"][-1], T_MEDIO, TINTA, SEMI)
             fundo = min(fundo + 0.45, 8.45) + 0.55
         if spec.get("fecho"):
-            self.texto(s, X, min(fundo + 0.30, FIM), LG, spec["fecho"],
-                       T_MINI, CLARO, LIGHT, align=PP_ALIGN.CENTER, h=0.4)
+            h = altura(spec["fecho"], T_CORPO, min(13.4, LG)) + 0.1
+            self.texto(s, X, min(fundo + 0.45, FIM - h + 0.3),
+                       min(13.4, LG), spec["fecho"], T_CORPO, CORPO, LIGHT,
+                       h=h)
         self._fechar(s, spec)
         return s
 
@@ -932,32 +940,41 @@ class DeckNarrativo(Deck):
         return s
 
     def pg_sumario(self, spec):
+        """Indice. Ate oito temas cabem numa coluna; acima disso vai para
+        duas, senao o filete de um item corta o nome do seguinte."""
         s = self.slide()
         # o titulo do sumario fica ACIMA do painel, em Ultra-Bold, como no
         # arquivo final da Kelly
         self.texto(s, 1.82, 0.88, 12.0, spec.get("titulo", "Sumário").upper(),
                    T_SUMARIO, TINTA, ULTRA, espaco=1.0, h=T_SUMARIO / 60.0)
         itens = spec["itens"]
-        com_desc = any(len(i) > 2 for i in itens)
+        colunas = spec.get("grade", 1 if len(itens) <= 8 else 2)
+        por_col = int(math.ceil(len(itens) / colunas))
+        larg = (W - 0.90) / colunas if colunas > 1 else W
         topo = 2.95
-        passo = (FUNDO + 0.30 - topo) / len(itens)
+        passo = (FUNDO + 0.30 - topo) / por_col
         # com a escala medida o nome vem a 23pt e a descricao a 15pt: sem
         # folga suficiente o filete seguinte corta os descendentes
         tam_nome = 25 if passo >= 1.00 else T_LEAD
         for i, item in enumerate(itens):
             num, nome = item[0], item[1]
             desc = item[2] if len(item) > 2 else None
-            y = topo + i * passo
-            self.fio(s, ML, y, W)
-            self.texto(s, ML, y + 0.28, 1.1, num, 15.5, ACENTO, SEMI,
+            c, r = i // por_col, i % por_col
+            x = ML + c * (larg + 0.90)
+            y = topo + r * passo
+            self.fio(s, x, y, larg)
+            self.texto(s, x, y + 0.28, 1.1, num, 15.5, ACENTO, SEMI,
                        spc=2.4, h=0.32)
             h_nome = tam_nome / 72.0 * 1.42
-            self.texto(s, ML + 1.75, y + 0.16, W - 1.75, nome, tam_nome,
+            self.texto(s, x + 1.75, y + 0.16, larg - 1.75, nome, tam_nome,
                        TINTA, LIGHT, h=h_nome)
             if desc:
-                self.texto(s, ML + 1.75, y + 0.16 + h_nome, W - 1.75, desc,
+                self.texto(s, x + 1.75, y + 0.16 + h_nome, larg - 1.75, desc,
                            18, CLARO, LIGHT, h=18 / 72.0 * 1.5)
-        self.fio(s, ML, topo + len(itens) * passo, W)
+        for c in range(colunas):
+            x = ML + c * (larg + 0.90)
+            n = min(por_col, len(itens) - c * por_col)
+            self.fio(s, x, topo + n * passo, larg)
         self.rodape(s)
         return s
 
