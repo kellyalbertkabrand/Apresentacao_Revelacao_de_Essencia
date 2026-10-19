@@ -18,6 +18,7 @@ Cada deck sai em **`.pptx` e `.pdf`** na própria pasta.
 | `brandbook.py` | Brand Book — a mesma base em formato de manual | 27 |
 | `assets/` | as 14 fotografias | — |
 | `assets/marca/` | o logotipo do Lucas, recortado com fundo transparente | — |
+| `logotipos.py` | gera a folha de logotipos em PDF | — |
 
 ## O brand book
 
@@ -136,6 +137,26 @@ aqui, porque dependem de decisão da Kelly:
 ```bash
 python3 clientes/lucas-martini/gerar.py plano-conteudo
 ```
+
+## Os logotipos em PDF
+
+```bash
+python3 clientes/lucas-martini/logotipos.py
+```
+
+Sai em `assets/marca/pdf/`:
+
+- **`Lucas-Martini-Logotipos.pdf`** — a folha completa, A4 deitado, uma
+  versão por página, com o nome, o fundo em que vive e para que serve. É o
+  que se manda para quem precisa escolher.
+- **um PDF por versão** — a página cortada no tamanho do próprio logo, com
+  respiro. É o que se manda quando pedem "o logo em PDF".
+
+Os PNGs de origem têm **592 px de largura** — foi o que a API do Canva
+entregou; o download em alta está bloqueado. Serve para tela, apresentação e
+impressão pequena. Para impressão grande, trocar os PNGs em `assets/marca/`
+pelos arquivos originais do designer e rodar o script de novo: os PDFs são
+**raster**, não vetor.
 
 ## As fotografias: vertical por padrão, rosto sempre inteiro
 
