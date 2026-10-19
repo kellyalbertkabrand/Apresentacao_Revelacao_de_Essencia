@@ -17,7 +17,9 @@ Cada deck sai em **`.pptx` e `.pdf`** na própria pasta.
 | `plano_conteudo.py` | Plano de Conteúdo — eixos, formatos e cronograma | 23 |
 | `brandbook.py` | Brand Book — a mesma base em formato de manual | 27 |
 | `assets/` | as 14 fotografias | — |
-| `assets/marca/` | o logotipo do Lucas, recortado com fundo transparente | — |
+| `assets/marca/origem/` | as páginas da identidade, como vieram do Canva | — |
+| `vetorizar.py` | refaz os logotipos em vetor — SVG, PDF e PNG de 4000 px | — |
+| `assets/marca/vetor/` | o logotipo refeito: 3 versões × 4 cores | — |
 | `logotipos.py` | gera a folha de logotipos em PDF | — |
 
 ## O brand book
@@ -44,9 +46,9 @@ derivação, não transcrição**, e precisam do aval da Kelly:
 Duas observações de produção:
 
 - **O logotipo saiu do Canva em 592 px de largura** — foi o que a API
-  entregou; o download em alta resolução está bloqueado. Serve para tela e
-  para o PDF; para impressão grande, trocar pelos arquivos originais em
-  `assets/marca/`.
+  entregou; o download em alta está bloqueado pela política de rede. Por
+  isso ele foi **refeito em vetor** (`vetorizar.py`): o brand book usa
+  `assets/marca/vetor/`, que escala sem serrilhar e sem cor ralada.
 - **As fontes da marca (Allrounder e DM Sans) não estão instaladas aqui.** O
   documento está composto em Outfit, como todo o padrão KA, e a página de
   tipografia diz isso em nota. Com os arquivos das fontes, a troca é de um
@@ -138,25 +140,43 @@ aqui, porque dependem de decisão da Kelly:
 python3 clientes/lucas-martini/gerar.py plano-conteudo
 ```
 
-## Os logotipos em PDF
+## Os logotipos
+
+O material de identidade chegou como **página de 592 px** — foi o que a API
+do Canva entregou, e o download em alta está bloqueado pela política de rede
+do ambiente. Num logotipo isso aparece de duas formas feias: a borda
+serrilhada e a cor "ralada", porque o pixel da borda traz o fundo antigo
+misturado dentro dele.
+
+As duas se resolvem na mesma operação — **separar a forma da cor**:
 
 ```bash
-python3 clientes/lucas-martini/logotipos.py
+python3 clientes/lucas-martini/vetorizar.py   # a forma
+python3 clientes/lucas-martini/logotipos.py   # a folha e os soltos
 ```
 
-Sai em `assets/marca/pdf/`:
+A cobertura de tinta é medida pixel a pixel, ampliada oito vezes e
+vetorizada com o potrace; a cor entra depois, exata. Saem **três versões**
+(horizontal, vertical, escudo) em **quatro cores** (preto, branco, `ouro`
+para fundo claro, `ouro-claro` para fundo escuro), cada uma em SVG, PDF e
+PNG de 4000 px, em `assets/marca/vetor/`.
+
+Uma parte **não** vem do traçado: na origem o til de PROTEÇÃO e SUCESSÃO tem
+**4 × 1 pixel** — virou uma barra reta. Nenhum traçado inventa de volta o
+que não está lá, então os dois acentos são localizados e redesenhados na
+proporção certa. É reconstrução de uma informação que se sabe qual é.
+
+Em `assets/marca/pdf/`:
 
 - **`Lucas-Martini-Logotipos.pdf`** — a folha completa, A4 deitado, uma
   versão por página, com o nome, o fundo em que vive e para que serve. É o
   que se manda para quem precisa escolher.
-- **um PDF por versão** — a página cortada no tamanho do próprio logo, com
-  respiro. É o que se manda quando pedem "o logo em PDF".
+- **um PDF por versão**, em vetor de verdade. É o que a gráfica quer.
 
-Os PNGs de origem têm **592 px de largura** — foi o que a API do Canva
-entregou; o download em alta está bloqueado. Serve para tela, apresentação e
-impressão pequena. Para impressão grande, trocar os PNGs em `assets/marca/`
-pelos arquivos originais do designer e rodar o script de novo: os PDFs são
-**raster**, não vetor.
+A ressalva honesta: isto é a melhor reconstrução possível a partir do que
+existe, e é melhor do que o PNG em tudo — mas o arquivo definitivo continua
+sendo o vetor original do designer. No próprio Canva,
+**Compartilhar › Baixar › PDF para impressão** entrega esse vetor.
 
 ## As fotografias: vertical por padrão, rosto sempre inteiro
 

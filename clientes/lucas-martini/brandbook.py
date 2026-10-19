@@ -18,7 +18,7 @@ delas e a Base não as trazia escritas.
 import os
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
-MARCA_DIR = os.path.join(AQUI, "assets", "marca")
+MARCA_DIR = os.path.join(AQUI, "assets", "marca", "vetor")
 
 MARCA = "Lucas Martini"
 DOCUMENTO = "Brand Book"
@@ -42,17 +42,20 @@ PALETA = {
     "corpo_escuro": "C8CCC6",   # corpo sobre o verde
 }
 
+# Os logotipos vêm de `assets/marca/vetor/`, refeitos em vetor a partir da
+# identidade do cliente — ver vetorizar.py. O sufixo diz onde cada um vive:
+# `ouro-claro` sobre o verde, `ouro` sobre papel, `branco` sobre fotografia.
 LOGOS = {
-    "capa": os.path.join(MARCA_DIR, "lm-vertical-dourado-escuro.png"),
-    "escuro": os.path.join(MARCA_DIR, "lm-vertical-dourado-escuro.png"),
+    "capa": os.path.join(MARCA_DIR, "lm-vertical-ouro-claro.png"),
+    "escuro": os.path.join(MARCA_DIR, "lm-vertical-ouro-claro.png"),
     "claro": os.path.join(MARCA_DIR, "lm-vertical-preto.png"),
-    "escudo": os.path.join(MARCA_DIR, "lm-escudo-dourado.png"),
+    "escudo": os.path.join(MARCA_DIR, "lm-escudo-ouro-claro.png"),
 }
 
-V_DOURADO = os.path.join(MARCA_DIR, "lm-horizontal-dourado.png")
+V_DOURADO = os.path.join(MARCA_DIR, "lm-horizontal-ouro-claro.png")
 V_PRETO = os.path.join(MARCA_DIR, "lm-horizontal-preto.png")
 V_VERTICAL_PRETO = os.path.join(MARCA_DIR, "lm-vertical-preto.png")
-V_CLARO = os.path.join(MARCA_DIR, "lm-vertical-claro.png")
+V_CLARO = os.path.join(MARCA_DIR, "lm-vertical-branco.png")
 
 PAGINAS = [
     # 01 — capa
