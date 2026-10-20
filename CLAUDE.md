@@ -71,7 +71,22 @@ prontos.
 3. Conferir com `padrao-ka/conferir.sh`.
 
 Referência viva: `clientes/lucas-martini/` — duas apresentações, 63 e 69
-slides.
+slides. E `clientes/flavia-muccelin/sociedade.py` — 20 páginas com marcação
+de imagem.
+
+### Quando as fotos ainda não existem
+
+Declarar a foto assim mesmo, com o **nome do arquivo futuro** e o briefing:
+
+```python
+{"tipo": "texto", "foto": "sociedade-flavia-retrato.png", "lado": "direita",
+ "imagem": "Retrato da Flávia, meio corpo, em obra. Olhar direto.",
+ "titulo": "...", "paragrafos": [...]}
+```
+
+A página sai com a **marcação**: a área exata que a imagem vai ocupar,
+identificada. Quando o arquivo entrar em `assets/` com esse nome, a marcação
+some e nada muda de lugar. Detalhe em `padrao-ka/ROTEIRO-DECLARATIVO.md`.
 
 ## Gatilho: "brand book" / "manual de marca"
 

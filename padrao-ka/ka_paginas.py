@@ -38,6 +38,7 @@ from PIL import Image
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+from pptx.dml.color import RGBColor  # noqa: E402
 from pptx.enum.shapes import MSO_SHAPE_TYPE  # noqa: E402
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN  # noqa: E402
 from pptx.oxml.ns import qn  # noqa: E402
@@ -60,6 +61,16 @@ from ka_layout import (  # noqa: E402
 TOPO = 2.00          # primeira linha util dentro do painel
 FUNDO = 9.15         # ultima caixa de texto comeca aqui, no maximo
 COL, GAP = 3.35, 0.55
+
+# MARCACAO DE IMAGEM. Quando a pagina pede fotografia e o arquivo ainda nao
+# existe, o motor nao finge que a pagina nao tem foto: ele reserva a area
+# EXATA que a imagem vai ocupar e a identifica. O layout aprovado e o mesmo
+# layout que recebe a foto depois — quando o arquivo entra em `assets/` com
+# o nome declarado em `foto`, a marcacao desaparece e nada se move.
+MARCA_FUNDO = RGBColor(0xE9, 0xE5, 0xDC)    # area reservada sobre o claro
+MARCA_ESCURO = RGBColor(0x32, 0x33, 0x30)   # area reservada em tela cheia
+MARCA_SOBRE_ESCURO = RGBColor(0xC9, 0xC7, 0xC0)
+MARCA_ACENTO_ESCURO = RGBColor(0xC6, 0x98, 0x6E)
 
 # Largura media de caractere, em polegadas por ponto de corpo. So entra em
 # cena se a Outfit nao estiver em padrao-ka/fontes/ — contar caractere trata
@@ -144,6 +155,7 @@ class DeckNarrativo(Deck):
         self.assets = assets
         self.rostos = {}
         self.avisos = []
+        self._areas = []
         if assets:
             mapa = os.path.join(assets, "rostos.json")
             if os.path.exists(mapa):
@@ -165,6 +177,48 @@ class DeckNarrativo(Deck):
             return 0.5, True
         eixo = "v" if alvo > origem else "h"
         return foco_cabeca(c, origem, alvo, eixo)
+
+    # ------------------------------------------------ marcacao de imagem
+    def marcacao(self, s, x, y, w, h, spec, escuro=False, baixo=False):
+        """A area reservada para uma fotografia que ainda nao existe.
+
+        Nao e um lugar vazio: e a fotografia desenhada em negativo. Ocupa a
+        medida exata que a imagem vai ocupar, diz que imagem e aquela, e sai
+        de cena sozinha no dia em que o arquivo chegar."""
+        self.bloco(s, x, y, w, h, MARCA_ESCURO if escuro else MARCA_FUNDO)
+        cor_rot = MARCA_ACENTO_ESCURO if escuro else ACENTO
+        cor_txt = MARCA_SOBRE_ESCURO if escuro else CORPO
+        larg = min(w - 1.30, 8.60)
+        if larg < 1.60:
+            return
+        nota = spec.get("imagem") or ""
+        h_nota = altura(nota, T_CORPO, larg) if nota else 0.0
+        bloco = 0.34 + 0.32 + (h_nota + 0.30 if nota else 0.0)
+        cx = x + (w - larg) / 2.0
+        # em tela cheia o rotulo desce para o pe, mas para no mesmo fundo de
+        # 9,60" que o resto do padrao respeita
+        fim = 9.55 - (0.96 + h_nota if nota else 0.66)
+        cy = min(fim, y + h - bloco - 1.05) if baixo \
+            else y + (h - bloco) / 2.0
+        # em tela cheia a pagina ja tem o filete de acento da frase: um
+        # segundo filete a quatro centimetros do primeiro vira ruido
+        if not baixo:
+            self.fio(s, cx, cy, 1.30, cor_rot, esp=0.03)
+        self.texto(s, cx, cy + 0.34, larg, "IMAGEM", T_ROTULO, cor_rot, SEMI,
+                   spc=3.0, h=0.32)
+        if nota:
+            self.texto(s, cx, cy + 0.96, larg, nota, T_CORPO, cor_txt, LIGHT,
+                       h=h_nota + 0.1)
+        # o rotulo pertence a area da foto: a centragem vertical da pagina
+        # move o texto do conteudo, nunca a marcacao
+        self._areas.append((cx - 0.2, cy - 0.2, larg + 0.4, bloco + 0.4))
+
+    def _por_foto(self, s, x, y, w, h, caminho, foco, spec, escuro=False,
+                  baixo=False):
+        """A fotografia — ou, enquanto ela nao existe, a marcacao dela."""
+        if caminho:
+            return self.foto(s, x, y, w, h, caminho, foco=foco)
+        return self.marcacao(s, x, y, w, h, spec, escuro, baixo)
 
     def _faixa_cabe(self, caminho, fatia):
         """A cabeca sobrevive a uma faixa horizontal dessa altura?"""
@@ -322,26 +376,31 @@ class DeckNarrativo(Deck):
         Devolve (slide, y do primeiro elemento, y limite do conteudo).
         """
         self._col, self._h_foto = (ML, W), 0
-        caminho = self.arquivo(spec.get("foto"))
-        if not caminho:
+        pedida = spec.get("foto")
+        if not pedida:
             return self.slide(), Y_H1, FUNDO
+        caminho = self.arquivo(pedida)
+        # O arquivo ainda nao existe: a pagina sai com a MARCACAO da imagem,
+        # na medida exata que a fotografia vai ocupar.
+        marcar = caminho is None
         lado = spec.get("lado", "direita")
-        nome = os.path.basename(caminho)
-        iw, ih = Image.open(caminho).size
+        nome = os.path.basename(pedida)
 
-        # Retrato nunca entra em faixa horizontal: o corte sobraria um sexto
-        # da altura, so a testa.
-        if lado in ("cima", "baixo") and iw / ih < 1.15:
-            lado = "direita"
+        if not marcar:
+            iw, ih = Image.open(caminho).size
+            # Retrato nunca entra em faixa horizontal: o corte sobraria um
+            # sexto da altura, so a testa.
+            if lado in ("cima", "baixo") and iw / ih < 1.15:
+                lado = "direita"
 
         # A faixa horizontal corta a imagem na VERTICAL, e e ai que a cabeca
         # se perde. Se a faixa que o texto permite nao comporta a cabeca
         # inteira, a pagina vira tira vertical — cortar o rosto nao e uma
         # opcao, e a tira corta na horizontal, onde sobra folga de sobra.
-        if lado in ("cima", "baixo"):
-            pedida = min(self._fatia(spec), self.FAIXA_MAX)
-            if not self._faixa_cabe(caminho, pedida):
-                precisa = pedida
+        if not marcar and lado in ("cima", "baixo"):
+            faixa = min(self._fatia(spec), self.FAIXA_MAX)
+            if not self._faixa_cabe(caminho, faixa):
+                precisa = faixa
                 while precisa <= self.FAIXA_MAX and \
                         not self._faixa_cabe(caminho, precisa):
                     precisa += 0.02
@@ -366,38 +425,42 @@ class DeckNarrativo(Deck):
         s = self.slide(painel=False)
 
         if lado in ("direita", "esquerda"):
-            # a tira cresce ate a cabeca caber, dentro de um limite
             v = max(self.FATIA_V_MIN, spec.get("fatia_v", self.FATIA_V_MIN))
-            while v < self.FATIA_V_MAX and \
-                    not self._enquadrar(caminho, LARG * v, ALT)[1]:
-                v += 0.01
-            foco, cabe = self._enquadrar(caminho, LARG * v, ALT,
-                                         spec.get("foco", 0.5))
-            if not cabe:
-                self.avisos.append("%s: cabeca nao cabe nem na tira" % nome)
+            foco = spec.get("foco", 0.5)
+            if not marcar:
+                # a tira cresce ate a cabeca caber, dentro de um limite
+                while v < self.FATIA_V_MAX and \
+                        not self._enquadrar(caminho, LARG * v, ALT)[1]:
+                    v += 0.01
+                foco, cabe = self._enquadrar(caminho, LARG * v, ALT, foco)
+                if not cabe:
+                    self.avisos.append(
+                        "%s: cabeca nao cabe nem na tira" % nome)
             corte = LARG * v
             if lado == "direita":
                 self.bloco(s, 0, 0, LARG - corte, ALT, PAINEL)
-                self.foto(s, LARG - corte, 0, corte, ALT, caminho, foco=foco)
+                self._por_foto(s, LARG - corte, 0, corte, ALT, caminho, foco,
+                               spec)
                 self._col = (ML, LARG - corte - ML - 0.95)
             else:
-                self.foto(s, 0, 0, corte, ALT, caminho, foco=foco)
+                self._por_foto(s, 0, 0, corte, ALT, caminho, foco, spec)
                 self.bloco(s, corte, 0, LARG - corte, ALT, PAINEL)
                 self._col = (corte + 0.95, LARG - corte - 1.90)
             return s, Y_H1, FUNDO
 
         self._col = (ML, W)
         h_foto = ALT * min(spec.get("fatia", 0.42), self.FAIXA_MAX)
-        foco, cabe = self._enquadrar(caminho, LARG, h_foto,
-                                     spec.get("foco", 0.16))
-        if not cabe:
-            self.avisos.append("%s: cabeca cortada na faixa" % nome)
+        foco = spec.get("foco", 0.16)
+        if not marcar:
+            foco, cabe = self._enquadrar(caminho, LARG, h_foto, foco)
+            if not cabe:
+                self.avisos.append("%s: cabeca cortada na faixa" % nome)
         if lado == "cima":
-            self.foto(s, 0, 0, LARG, h_foto, caminho, foco=foco)
+            self._por_foto(s, 0, 0, LARG, h_foto, caminho, foco, spec)
             self.bloco(s, 0, h_foto, LARG, ALT - h_foto, PAINEL)
             return s, h_foto + 0.95, FUNDO
         self.bloco(s, 0, 0, LARG, ALT - h_foto, PAINEL)
-        self.foto(s, 0, ALT - h_foto, LARG, h_foto, caminho, foco=foco)
+        self._por_foto(s, 0, ALT - h_foto, LARG, h_foto, caminho, foco, spec)
         self._h_foto = h_foto
         return s, 1.70, ALT - h_foto - 1.25
 
@@ -453,7 +516,14 @@ class DeckNarrativo(Deck):
         if caminho:
             foco, _ = self._enquadrar(caminho, LARG, ALT, spec.get("foco", 0.5))
             self.foto(s, 0, 0, LARG, ALT, caminho, foco=foco)
-        self.veu(s, 0, 0, LARG, ALT, TINTA, spec.get("veu", 0.58))
+            self.veu(s, 0, 0, LARG, ALT, TINTA, spec.get("veu", 0.58))
+        elif spec.get("foto"):
+            # a imagem ainda nao existe: a pagina inteira vira a marcacao
+            # dela, e o rotulo desce para o pe para nao disputar com a frase
+            self._por_foto(s, 0, 0, LARG, ALT, None, 0.5, spec, escuro=True,
+                           baixo=True)
+        else:
+            self.veu(s, 0, 0, LARG, ALT, TINTA, spec.get("veu", 0.58))
         linhas_ = spec.get("linhas") or [spec.get("titulo", "")]
         tam = spec.get("tam") or self._tam_display(linhas_, 15.4)
         # a frase sai com entrelinha 1,26 e a fonte ainda tem a sua propria
@@ -728,6 +798,8 @@ class DeckNarrativo(Deck):
         reservado = 0.0
         if spec.get("destaque"):
             reservado = 0.95 + altura(spec["destaque"], T_MEDIO, LG, 1.25)
+        if spec.get("fecho"):
+            reservado += 0.52 + altura(spec["fecho"], T_CORPO, min(13.4, LG))
         disponivel = FIM - y - reservado
 
         colunas = spec.get("grade", 1)
@@ -782,6 +854,14 @@ class DeckNarrativo(Deck):
             self.fio(s, X, base - 0.34, 1.30, ACENTO, esp=0.03)
             self.texto(s, X, base, LG, spec["destaque"], T_MEDIO, TINTA,
                        LIGHT, espaco=1.25, h=h)
+            fundo = base + h
+        if spec.get("fecho"):
+            # o fecho e a conclusao da lista: mesmo corpo, mesma cor, sem
+            # filete. Nao e um destaque — e a ultima frase do mesmo bloco.
+            lg = min(13.4, LG)
+            h = altura(spec["fecho"], T_CORPO, lg) + 0.1
+            self.texto(s, X, min(fundo + 0.52, FIM + 0.28 - h), lg,
+                       spec["fecho"], T_CORPO, CORPO, LIGHT, h=h)
         self._fechar(s, spec)
         return s
 
@@ -1127,6 +1207,12 @@ class DeckNarrativo(Deck):
             # painel, faixa de fotografia, veu e fundo ficam onde estao
             if larg >= 17.0 or alt >= 8.0:
                 continue
+            # o rotulo da marcacao pertence a area da imagem, nao ao texto
+            cx = (sh.left + sh.width / 2.0) / float(EMU)
+            cy = (sh.top + sh.height / 2.0) / float(EMU)
+            if any(ax <= cx <= ax + aw and ay <= cy <= ay + ah
+                   for ax, ay, aw, ah in self._areas):
+                continue
             moveis.append(sh)
         if not moveis:
             return
@@ -1146,6 +1232,7 @@ class DeckNarrativo(Deck):
 
     def montar(self, paginas):
         for i, spec in enumerate(paginas, 1):
+            self._areas = []
             tipo = spec["tipo"]
             if tipo not in self.TIPOS:
                 raise ValueError("pagina %d: tipo desconhecido %r" % (i, tipo))

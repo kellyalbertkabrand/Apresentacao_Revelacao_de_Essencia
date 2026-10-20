@@ -38,7 +38,7 @@ a liberdade de ordenar as páginas.
 | `divisor` | virada de seção | `numero`, `nome`, `apoio` |
 | `declaracao` | **a página de silêncio**: uma frase grande e muito ar | `linhas`, `apoio`, `eyebrow`, `marcar` |
 | `texto` | eyebrow, título, filete, lead, parágrafos, destaque | `titulo`, `lead`, `paragrafos`, `itens`, `destaque` |
-| `lista` | itens com ponto; vira duas colunas se a lista for longa | `lead`, `itens`, `destaque`, `grade` |
+| `lista` | itens com ponto; vira duas colunas se a lista for longa | `lead`, `itens`, `destaque`, `fecho`, `grade` |
 | `colunas` | 2–4 colunas de `(rótulo, texto)` | `colunas`, `equacao`, `fecho` |
 | `palavras` | palavras soltas como composição | `palavras`, `grade`, `tam`, `destaque` |
 | `camadas` | rótulo → leitura, empilhados: a escada de significado | `camadas`: `(rótulo, texto)` |
@@ -51,7 +51,14 @@ a liberdade de ordenar as páginas.
 | `foto_cheia` | foto em tela cheia com véu, texto branco | `foto`, `linhas`, `apoio`, `veu`, `foco` |
 | `fecho` | agradecimento e assinatura | `frase` |
 
-Todos aceitam `eyebrow`, `titulo` e `tam_titulo`.
+Todos aceitam `eyebrow`, `titulo` e `tam_titulo`. Todos os que aceitam
+`foto` aceitam também `imagem` — o briefing da **marcação** (seção 3).
+
+`destaque` e `fecho` não são a mesma coisa. O `destaque` é uma frase forte,
+maior, com filete de acento em cima. O `fecho` é a última frase do mesmo
+bloco: mesmo corpo, mesma cor, sem filete. **No padrão clean de outubro o
+que se usa é o `fecho`** — o destaque é justamente o empilhamento que a
+Kelly recusou.
 
 ---
 
@@ -124,7 +131,40 @@ Com `rostos.json` presente, o `foco` é calculado e o valor manual é ignorado.
 
 ---
 
-## 3. As três regras de ajuste automático
+## 3. Marcação de imagem: a foto antes da foto
+
+Quando a página pede fotografia e **o arquivo ainda não existe**, o motor não
+finge que a página não tem foto. Ele reserva a área exata que a imagem vai
+ocupar e a identifica:
+
+```python
+{"tipo": "palavras", "titulo": "Flávia · essência empreendedora",
+ "foto": "sociedade-flavia-retrato.png", "lado": "direita",
+ "imagem": "Retrato da Flávia, meio corpo, em obra ou em ambiente de "
+           "trabalho. Olhar direto, postura de quem conduz.",
+ "palavras": ["Autonomia", "Inconformismo", "Visão", "Realização"]},
+```
+
+- `foto` é o **nome do arquivo futuro**, não um arquivo que existe.
+- `imagem` é o briefing — o que entra ali, para quem vai fotografar ou
+  escolher.
+
+Isso vale para os três tratamentos: tira vertical, faixa horizontal e
+`foto_cheia` (que marca a página inteira em tom escuro, com o rótulo no pé
+para não disputar com a frase).
+
+**O ganho não é a marcação em si, é o que ela garante:** a página aprovada
+com marcação é a MESMA página que recebe a foto depois. No dia em que o
+arquivo entrar em `assets/` com o nome declarado em `foto`, a marcação
+desaparece sozinha e **nada muda de lugar** — nem a coluna de texto, nem o
+tamanho do corpo, nem a quebra das linhas. Não há rediagramação.
+
+A marcação também não entra na centragem vertical da página: ela pertence à
+área da imagem, não ao bloco de texto.
+
+---
+
+## 4. As três regras de ajuste automático
 
 Texto de cliente nunca tem o tamanho do texto de exemplo. Três mecanismos
 impedem que isso vire página estourada:
@@ -150,7 +190,7 @@ texto**, não diminuir corpo. Se não coube, o slide está dizendo duas coisas.
 
 ---
 
-## 4. Uso
+## 5. Uso
 
 ```python
 import sys, os
