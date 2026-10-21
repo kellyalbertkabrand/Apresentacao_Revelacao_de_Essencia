@@ -179,46 +179,55 @@ class DeckNarrativo(Deck):
         return foco_cabeca(c, origem, alvo, eixo)
 
     # ------------------------------------------------ marcacao de imagem
-    def marcacao(self, s, x, y, w, h, spec, escuro=False, baixo=False):
+    def marcacao(self, s, x, y, w, h, spec, escuro=False, baixo=False,
+                 piso=None, fundo=True):
         """A area reservada para uma fotografia que ainda nao existe.
 
         Nao e um lugar vazio: e a fotografia desenhada em negativo. Ocupa a
         medida exata que a imagem vai ocupar, diz que imagem e aquela, e sai
-        de cena sozinha no dia em que o arquivo chegar."""
-        self.bloco(s, x, y, w, h, MARCA_ESCURO if escuro else MARCA_FUNDO)
+        de cena sozinha no dia em que o arquivo chegar.
+
+        Em tela cheia (`baixo`) o rotulo e uma nota de producao no pe, e
+        `piso` diz onde o texto da pagina terminou — sem isso o rotulo sobe
+        por cima da frase."""
+        if fundo:
+            self.bloco(s, x, y, w, h,
+                       MARCA_ESCURO if escuro else MARCA_FUNDO)
         cor_rot = MARCA_ACENTO_ESCURO if escuro else ACENTO
         cor_txt = MARCA_SOBRE_ESCURO if escuro else CORPO
-        larg = min(w - 1.30, 8.60)
+        larg = min(w - 1.30, 12.60 if baixo else 8.60)
         if larg < 1.60:
             return
         nota = spec.get("imagem") or ""
-        h_nota = altura(nota, T_CORPO, larg) if nota else 0.0
+        tam = T_MINI if baixo else T_CORPO
+        h_nota = altura(nota, tam, larg) if nota else 0.0
         bloco = 0.34 + 0.32 + (h_nota + 0.30 if nota else 0.0)
-        cx = x + (w - larg) / 2.0
-        # em tela cheia o rotulo desce para o pe, mas para no mesmo fundo de
-        # 9,60" que o resto do padrao respeita
-        fim = 9.55 - (0.96 + h_nota if nota else 0.66)
-        cy = min(fim, y + h - bloco - 1.05) if baixo \
-            else y + (h - bloco) / 2.0
-        # em tela cheia a pagina ja tem o filete de acento da frase: um
-        # segundo filete a quatro centimetros do primeiro vira ruido
-        if not baixo:
+        if baixo:
+            # a nota encosta no pe do padrao e sobe dali; se o texto da
+            # pagina desceu demais, ela cede e desce com ele
+            cx = x + ML - 0.00
+            cy = 9.55 - (0.96 + h_nota if nota else 0.66)
+            if piso is not None:
+                cy = max(cy, piso)
+        else:
+            cx = x + (w - larg) / 2.0
+            cy = y + (h - bloco) / 2.0
             self.fio(s, cx, cy, 1.30, cor_rot, esp=0.03)
         self.texto(s, cx, cy + 0.34, larg, "IMAGEM", T_ROTULO, cor_rot, SEMI,
                    spc=3.0, h=0.32)
         if nota:
-            self.texto(s, cx, cy + 0.96, larg, nota, T_CORPO, cor_txt, LIGHT,
+            self.texto(s, cx, cy + 0.96, larg, nota, tam, cor_txt, LIGHT,
                        h=h_nota + 0.1)
         # o rotulo pertence a area da foto: a centragem vertical da pagina
         # move o texto do conteudo, nunca a marcacao
         self._areas.append((cx - 0.2, cy - 0.2, larg + 0.4, bloco + 0.4))
 
     def _por_foto(self, s, x, y, w, h, caminho, foco, spec, escuro=False,
-                  baixo=False):
+                  baixo=False, piso=None):
         """A fotografia — ou, enquanto ela nao existe, a marcacao dela."""
         if caminho:
             return self.foto(s, x, y, w, h, caminho, foco=foco)
-        return self.marcacao(s, x, y, w, h, spec, escuro, baixo)
+        return self.marcacao(s, x, y, w, h, spec, escuro, baixo, piso)
 
     def _faixa_cabe(self, caminho, fatia):
         """A cabeca sobrevive a uma faixa horizontal dessa altura?"""
@@ -519,9 +528,9 @@ class DeckNarrativo(Deck):
             self.veu(s, 0, 0, LARG, ALT, TINTA, spec.get("veu", 0.58))
         elif spec.get("foto"):
             # a imagem ainda nao existe: a pagina inteira vira a marcacao
-            # dela, e o rotulo desce para o pe para nao disputar com a frase
-            self._por_foto(s, 0, 0, LARG, ALT, None, 0.5, spec, escuro=True,
-                           baixo=True)
+            # dela. O fundo entra agora; o rotulo so no fim, quando se sabe
+            # onde o texto terminou
+            self.bloco(s, 0, 0, LARG, ALT, MARCA_ESCURO)
         else:
             self.veu(s, 0, 0, LARG, ALT, TINTA, spec.get("veu", 0.58))
         linhas_ = spec.get("linhas") or [spec.get("titulo", "")]
@@ -539,8 +548,14 @@ class DeckNarrativo(Deck):
         y = pe(y, len(linhas_), tam, 1.26) + 0.26
         if spec.get("apoio"):
             self.fio(s, ML, y, 1.30, ACENTO, esp=0.03)
+            h = altura(spec["apoio"], T_CORPO, 13.0)
             self.texto(s, ML, y + 0.30, 13.0, spec["apoio"], T_CORPO, BRANCO,
-                       LIGHT, h=altura(spec["apoio"], T_CORPO, 13.0) + 0.1)
+                       LIGHT, h=h + 0.1)
+            y += 0.30 + h
+        if not caminho and spec.get("foto"):
+            # o fundo ja foi desenhado la em cima, antes do texto
+            self.marcacao(s, 0, 0, LARG, ALT, spec, escuro=True, baixo=True,
+                          piso=y + 0.62, fundo=False)
         self.rodape(s, sobre_foto=True)
         return s
 

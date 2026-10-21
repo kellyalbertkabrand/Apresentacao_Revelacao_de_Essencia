@@ -1,27 +1,27 @@
 # -*- coding: utf-8 -*-
 """
-DUAS TRAJETÓRIAS. UMA NOVA FORÇA. — Flávia & Elande | FORMA e My Home
+DUAS TRAJETÓRIAS, UMA NOVA FORÇA — Flávia & Elandi | FORMA e My Home
 
-Só conteúdo. A identidade visual é a mesma de sempre: painel claro sobre a
-textura de ondas, Outfit, acento terracota (padrao-ka/ka_layout.py e
-padrao-ka/ka_paginas.py) — a mesma da Base Estratégica do Lucas e das outras
-apresentações da Flávia.
+Só conteúdo. A identidade visual é a de sempre: painel claro sobre a textura
+de ondas, Outfit, acento terracota (padrao-ka/ka_layout.py e
+padrao-ka/ka_paginas.py).
 
-A diagramação segue a regra que a Kelly fixou em outubro: **um título e um
-bloco de texto por página**. Sem eyebrow, sem linha de abertura em outro
-corpo, sem frase de destaque com filete embaixo. Onde o conteúdo é de campos
-(entregas, papéis, atributos), ele vira colunas ou palavras — rótulo e texto
-lado a lado, nunca empilhados.
+A diagramação segue a regra da Kelly: **um título e um bloco de texto por
+página**. Sem eyebrow, sem linha de abertura em outro corpo, sem frase de
+destaque com filete embaixo. Onde o conteúdo é de campos (atributos, papéis,
+as duas empresas), ele vira camadas ou colunas — rótulo e texto lado a lado,
+nunca empilhados.
 
-Por isso o roteiro dela de 10 slides sai aqui em 21 páginas: cada slide do
-documento carregava até quatro blocos (rótulo, atributos, lista, citação e
-fecho), e empilhar os quatro é exatamente o que a regra proíbe. O texto é o
-dela, palavra por palavra, na ordem dela.
+Versão de 21/10/2026. O texto é o dela, palavra por palavra, na ordem dela.
+Duas observações sobre a estrutura, assinaladas e não silenciosas:
 
-Uma correção de ordem, assinalada e não silenciosa: no documento, o sumário
-lista "Papéis e responsabilidades" em 04, mas o slide correspondente vem
-depois de "Onde nasce a potência" e de "Os pontos de atenção". O sumário
-aqui foi renumerado para seguir a ordem da narrativa que ela escreveu.
+1. **Não há sumário.** O roteiro desta versão não traz seções, e inventar
+   nomes de capítulo seria escrever por cima dela. É uma narrativa contínua,
+   e lê melhor assim. Se quiser índice, basta nomear as três partes
+   (a Flávia, o Elandi, o encontro).
+2. **"O próximo capítulo" é título de duas páginas** — a 02 e a 21. No
+   roteiro dela isso é proposital: abre e fecha o documento. Ficou como ela
+   escreveu.
 
 **As fotografias ainda não existem.** Cada página que pede imagem traz a
 MARCAÇÃO dela: a área exata que a foto vai ocupar, com o briefing do que
@@ -31,216 +31,284 @@ entra ali. No dia em que o arquivo com o nome declarado em `foto` entrar em
     python3 clientes/flavia-muccelin/gerar.py sociedade
 """
 
-MARCA = "Flávia & Elande"
-DOCUMENTO = "Duas Trajetórias. Uma Nova Força."
+MARCA = "Flávia & Elandi"
+DOCUMENTO = "Duas Trajetórias, Uma Nova Força"
 RODAPE = False          # sem pílula e sem logo no pé, como ela pediu
-ARQUIVO = "Duas-Trajetorias-Uma-Nova-Forca-Flavia-e-Elande"
+ARQUIVO = "Duas-Trajetorias-Uma-Nova-Forca-Flavia-e-Elandi"
 
 # As imagens que a apresentação pede. Os arquivos ainda não existem — cada
 # página mostra a marcação até que eles cheguem em assets/ com estes nomes.
 IMG = {
-    "flavia": "sociedade-flavia-retrato.png",
-    "elande": "sociedade-elande-retrato.png",
-    "dupla": "sociedade-flavia-elande.png",
-    "rotina": "sociedade-rotina-noite.png",
+    "portao": "sociedade-casa-portao.png",
+    "forma": "sociedade-ambiente-forma.png",
+    "myhome": "sociedade-produto-my-home.png",
+    "flavia": "sociedade-flavia-equipe.png",
+    "elandi": "sociedade-elandi-retrato.png",
+    "dupla": "sociedade-flavia-elandi.png",
 }
 
 PAGINAS = [
     {"tipo": "abertura"},
 
+    # ——————————————————————————————————————————— 01
     {"tipo": "capa",
-     "titulo": ["DUAS TRAJETÓRIAS.", "UMA NOVA FORÇA."],
-     "subtitulo": ["Flávia & Elande", "FORMA e My Home"],
+     "titulo": ["DUAS TRAJETÓRIAS,", "UMA NOVA FORÇA"],
+     "subtitulo": ["Flávia & Elandi", "FORMA e My Home"],
      "assinatura": ["Método Marca", "com Essência ©"],
      "data": "Outubro/2026"},
 
     {"tipo": "declaracao",
-     "linhas": ["O encontro de duas competências",
+     "linhas": ["Duas histórias que podem se encontrar",
                 "para construir o próximo capítulo",
                 "da FORMA e da My Home."]},
 
-    {"tipo": "sumario", "itens": [
-        ("01", "A força que construiu"),
-        ("02", "A força que chega para estruturar"),
-        ("03", "O valor singular de cada um"),
-        ("04", "Onde nasce a potência"),
-        ("05", "Os pontos de atenção"),
-        ("06", "Papéis e responsabilidades"),
-        ("07", "A nova fase dos negócios"),
-    ]},
-
-    # ————————————————————————————— 01 A FORÇA QUE CONSTRUIU
-    {"tipo": "palavras", "titulo": "Flávia · essência empreendedora",
-     "foto": IMG["flavia"], "lado": "direita",
-     "imagem": "Retrato da Flávia, meio corpo, em obra ou em ambiente de "
-               "trabalho. Olhar direto, postura de quem conduz. Luz natural, "
-               "sem pose de estúdio.",
-     "palavras": ["Autonomia", "Inconformismo", "Visão", "Realização"]},
-
-    {"tipo": "lista",
-     "titulo": "A força que não aceita limites como destino.",
-     "itens": [
-         "Superou as limitações de sua origem sem aceitá-las como destino.",
-         "Rompeu estruturas profissionais que restringiam sua capacidade de "
-         "criar.",
-         "Transformou conhecimento técnico em negócio, liderança e "
-         "reputação.",
-         "Enxerga oportunidades onde outros enxergam obstáculos ou descarte.",
-     ],
-     "marcar_ultimo": True,
-     "fecho": "Sua força singular: transformar aquilo que ainda não existe "
-              "em algo que as pessoas podem viver, utilizar e valorizar."},
-
-    # ——————————————————— 02 A FORÇA QUE CHEGA PARA ESTRUTURAR
-    {"tipo": "palavras", "titulo": "Elande · essência profissional",
-     "foto": IMG["elande"], "lado": "esquerda",
-     "imagem": "Retrato do Elande, meio corpo, em ambiente de escritório ou "
-               "de gestão. Expressão serena e atenta. Mesma luz e mesmo "
-               "enquadramento do retrato da Flávia — os dois precisam "
-               "conversar lado a lado.",
-     "palavras": ["Responsabilidade", "Critério", "Consistência",
-                  "Previsibilidade"]},
-
-    {"tipo": "lista",
-     "titulo": "A força que enxerga o que sustenta uma conquista.",
-     "itens": [
-         "Construiu sua carreira assumindo responsabilidades de gestão e "
-         "controladoria.",
-         "Aprendeu a olhar além do faturamento, considerando custos, margens "
-         "e consequências.",
-         "Valoriza processos que tornam a empresa menos dependente de uma "
-         "única pessoa.",
-         "Reconhece a liderança da Flávia e quer contribuir sem substituir "
-         "sua maneira de empreender.",
-     ],
-     "marcar_ultimo": True,
-     "fecho": "Sua força singular: transformar conhecimento e informação em "
-              "decisões que protegem o futuro."},
-
-    {"tipo": "declaracao",
-     "linhas": ["“Eu tô bem preparado em não ser",
-                "um obstáculo, e sim ser",
-                "um agregador.”"],
-     "apoio": "Elande, em entrevista."},
-
-    # ——————————————————————— 03 O VALOR SINGULAR DE CADA UM
-    {"tipo": "colunas",
-     "titulo": "Duas competências. Duas responsabilidades essenciais.",
-     "colunas": [
-         ("Flávia — fazer o negócio avançar",
-          "Visão de mercado, relacionamento, produto, inovação, liderança e "
-          "direção comercial."),
-         ("Elande — dar condições para o avanço",
-          "Controladoria, custos, fluxo de caixa, planejamento, gestão "
-          "financeira e administrativa."),
-     ],
-     "fecho": "Flávia deve preservar a liberdade de empreender. Elande deve "
-              "ter autonomia real para estruturar e conduzir sua área. "
-              "Nenhum dos dois deve precisar administrar o trabalho do "
-              "outro."},
-
-    # ————————————————————————————— 04 ONDE NASCE A POTÊNCIA
-    {"tipo": "colunas",
-     "titulo": "Ele não chega para frear. Ela não precisa continuar "
-               "carregando tudo.",
-     "foto": IMG["dupla"], "lado": "esquerda",
-     "imagem": "Flávia e Elande juntos, em conversa de trabalho — mesa, "
-               "planta, obra ou escritório. Interação real, não retrato "
-               "posado lado a lado.",
-     "colunas": [
-         ("Flávia entrega",
-          "Visão, oportunidades, velocidade e capacidade de realização."),
-         ("Elande entrega",
-          "Clareza financeira, planejamento, estrutura e segurança para "
-          "decidir."),
+    # ——————————————————————————————————————————— 02
+    {"tipo": "texto", "titulo": "O próximo capítulo",
+     "paragrafos": [
+         "A FORMA e a My Home chegaram até aqui impulsionadas pela visão, "
+         "pelo conhecimento e pela liderança de Flávia.",
+         "Agora, o crescimento abre espaço para uma nova contribuição: a "
+         "experiência de Elandi em gestão e estruturação de grandes "
+         "operações.",
      ]},
 
-    {"tipo": "foto_cheia", "foto": IMG["rotina"],
-     "imagem": "A rotina que a frase descreve: mesa de trabalho em casa à "
-               "noite, luminária acesa, computador e papéis. Pode ser sem "
-               "pessoa — o que importa é a hora.",
-     "linhas": ["“Hoje pra pagar boleto, ela paga",
-                "boleto em casa, oito hora da noite.”"],
-     "apoio": "Elande, em entrevista."},
-
-    {"tipo": "declaracao",
-     "linhas": ["Mais capacidade de crescer.",
-                "Menos dependência individual."],
-     "apoio": "O maior ganho dessa união não é dividir o trabalho. É "
-              "devolver à Flávia tempo para criar oportunidades e dar ao "
-              "Elande espaço para construir uma gestão mais sólida."},
-
-    # ————————————————————————————— 05 OS PONTOS DE ATENÇÃO
-    {"tipo": "declaracao",
-     "linhas": ["Autonomia não é ausência de limites.",
-                "Controle não é poder de veto."]},
-
-    {"tipo": "lista", "titulo": "Flávia precisa",
-     "itens": [
-         "Delegar sem retomar tudo para si.",
-         "Respeitar critérios financeiros acordados.",
-         "Confiar na autonomia de gestão dele.",
-         "Compartilhar informações e planos com antecedência.",
-     ]},
-
-    {"tipo": "lista", "titulo": "Elande precisa",
-     "itens": [
-         "Orientar sem interferir em todas as decisões.",
-         "Compreender a velocidade do negócio.",
-         "Confiar no conhecimento comercial e técnico dela.",
-         "Oferecer alternativas, não apenas apontar riscos.",
-     ],
-     "fecho": "O equilíbrio não está em um ceder sempre ao outro. Está em "
-              "cada um assumir plenamente sua responsabilidade."},
-
-    # ——————————————————————— 06 PAPÉIS E RESPONSABILIDADES
-    {"tipo": "colunas", "titulo": "Papéis claros. Decisões compartilhadas.",
-     "colunas": [
-         ("Flávia lidera",
-          "Mercado, clientes, posicionamento, produto, desenvolvimento de "
-          "oportunidades e direção comercial e produtiva."),
-         ("Elande lidera",
-          "Finanças, controladoria, custos, fluxo de caixa, orçamento, "
-          "controles administrativos e gestão dos recursos sob sua "
-          "responsabilidade."),
-         ("Os dois decidem",
-          "Grandes investimentos, expansão, endividamento, prioridades "
-          "estratégicas e decisões que comprometam significativamente a "
-          "capacidade financeira ou operacional das empresas."),
-     ],
-     "fecho": "A regra: decisões do dia a dia devem ter responsáveis "
-              "definidos; decisões que alteram o futuro dos negócios "
-              "precisam reunir os dois olhares. Esta é uma proposta de "
-              "divisão de responsabilidades para validação entre os sócios, "
-              "não um organograma já acordado."},
-
-    # ——————————————————————— 07 A NOVA FASE DOS NEGÓCIOS
-    {"tipo": "texto",
-     "titulo": "A liberdade que ela conquistou. A segurança que ele aprendeu "
-               "a construir.",
-     # três parágrafos não são a página de um bloco só: o corpo volta aos
-     # 21pt da escala, que é o tamanho padrão — não é reduzir, é recusar o
-     # aumento que a página de uma ideia só recebe
+    # ——————————————————————————————————————————— 03
+    {"tipo": "texto", "foto": IMG["portao"], "lado": "direita",
+     "imagem": "O lugar da história: a casa além do portão, ou o próprio "
+               "portão. Pode ser a casa de hoje, já dela. Imagem de "
+               "arquitetura, sem pessoas.",
+     "titulo": "A menina que não aceitou os limites",
      "tam_corpo": 21,
      "paragrafos": [
-         "Flávia passou a vida conquistando liberdade para fazer acontecer. "
-         "Elande construiu uma carreira aprendendo a sustentar decisões e "
-         "resultados.",
-         "Agora, o desafio é fazer com que essas duas forças deixem de "
-         "existir apenas como apoio pessoal e se transformem em uma parceria "
-         "profissional estruturada.",
-         "O futuro da FORMA e da My Home não deve depender de quem consegue "
-         "carregar mais responsabilidades, mas da capacidade dos dois de "
-         "construir uma empresa que funcione melhor, cresça com consistência "
-         "e preserve aquilo que a tornou especial.",
+         "Aos 13 anos, Flávia era a filha do caseiro que sonhava com a casa "
+         "além do portão.",
+         "Enquanto a realidade mostrava o que não podia ter, ela imaginava o "
+         "que poderia conquistar.",
+         "Hoje, é proprietária daquele lugar.",
+     ]},
+
+    # ——————————————————————————————————————————— 04
+    {"tipo": "lista", "titulo": "Um padrão que atravessa sua história",
+     "itens": [
+         "A origem humilde parecia delimitar seu futuro.",
+         "A função de projetista limitava seu crescimento.",
+         "As franquias restringiam sua liberdade de criar.",
+         "As sobras tinham um destino previsto.",
+     ],
+     "marcar_ultimo": True,
+     "fecho": "Flávia encontrou possibilidades onde tudo parecia "
+              "determinado."},
+
+    # ——————————————————————————————————————————— 05
+    {"tipo": "camadas", "titulo": "A essência empreendedora de Flávia",
+     "camadas": [
+         ("Inconformismo", "Para questionar limites."),
+         ("Imaginação", "Para enxergar possibilidades."),
+         ("Autonomia", "Para construir à sua maneira."),
+         ("Liderança", "Para mobilizar pessoas e realizar."),
+     ]},
+
+    # ——————————————————————————————————————————— 06
+    {"tipo": "texto", "foto": IMG["forma"], "lado": "esquerda",
+     "imagem": "Um ambiente assinado pela FORMA — marcenaria, acabamento, "
+               "projeto entregue. O trabalho, não as pessoas.",
+     "titulo": "A FORMA como expressão de sua essência",
+     "tam_corpo": 21,
+     "paragrafos": [
+         "Flávia encontrou uma empresa existente e enxergou o que ela ainda "
+         "poderia se tornar.",
+         "Trouxe sua experiência, desenvolveu pessoas, elevou padrões e "
+         "imprimiu sua visão.",
+         "A FORMA tornou-se expressão de sua liberdade de criar.",
+     ]},
+
+    # ——————————————————————————————————————————— 07
+    {"tipo": "texto", "foto": IMG["myhome"], "lado": "direita",
+     "imagem": "Um produto My Home — o que nasceu da sobra. Pode ser a peça "
+               "pronta, em uso, ou o material antes de virar produto.",
+     "titulo": "A My Home revela outra face dessa força",
+     "tam_corpo": 21,
+     "paragrafos": [
+         "Onde havia materiais destinados ao descarte, Flávia enxergou novas "
+         "possibilidades.",
+         "Guardou sobras por aproximadamente um ano até encontrar um "
+         "caminho.",
+         "A My Home nasceu dessa capacidade de dar novos destinos ao que "
+         "parecia não ter mais valor.",
+     ]},
+
+    # ——————————————————————————————————————————— 08
+    {"tipo": "texto", "foto": IMG["flavia"], "lado": "esquerda",
+     "imagem": "Flávia com a equipe, ou conduzindo uma conversa de trabalho. "
+               "Liderança em ação, não retrato posado.",
+     "titulo": "Flávia é mais do que a fundadora",
+     "tam_corpo": 21,
+     "paragrafos": [
+         "Sua presença se reflete nos produtos, no relacionamento com "
+         "clientes e na cultura da equipe.",
+         "Ela não apenas identifica oportunidades. Consegue mobilizar "
+         "pessoas para transformá-las em realidade.",
+         "Sua liderança tornou-se parte da identidade das empresas.",
+     ]},
+
+    # ——————————————————————————————————————————— 09
+    {"tipo": "texto", "titulo": "Uma nova etapa exige uma nova estrutura",
+     "paragrafos": [
+         "A capacidade de Flávia de resolver e realizar impulsionou o "
+         "crescimento.",
+         "Mas a expansão trouxe novas responsabilidades e decisões.",
+         "O próximo desafio é ampliar a capacidade de gestão sem perder "
+         "aquilo que torna sua liderança tão valiosa.",
+     ]},
+
+    # ——————————————————————————————————————————— 10
+    {"tipo": "texto", "foto": IMG["elandi"], "lado": "esquerda",
+     "imagem": "Retrato do Elandi, meio corpo, em ambiente de gestão ou "
+               "escritório. Expressão serena e atenta, luz natural.",
+     "titulo": "Elandi, uma trajetória de gestão",
+     "tam_corpo": 21,
+     "paragrafos": [
+         "Elandi começou a trabalhar aos 14 anos.",
+         "Construiu quatro décadas de experiência profissional, atuando em "
+         "grandes empresas e ocupando posições de gestão e controladoria.",
+         "Desenvolveu uma visão que conecta operação, recursos, planejamento "
+         "e resultados.",
+     ]},
+
+    # ——————————————————————————————————————————— 11
+    {"tipo": "camadas", "titulo": "A essência profissional de Elandi",
+     "camadas": [
+         ("Discernimento", "Para compreender cenários."),
+         ("Visão sistêmica", "Para conectar decisões e consequências."),
+         ("Rigor", "Para proteger resultados."),
+         ("Responsabilidade", "Para construir continuidade."),
+     ]},
+
+    # ——————————————————————————————————————————— 12
+    {"tipo": "texto",
+     "titulo": "O olhar de quem compreende a complexidade",
+     "paragrafos": [
+         "Ao analisar a expansão para mercados a centenas de quilômetros, "
+         "Elandi considera custos operacionais, margens, logística e "
+         "mudanças tributárias.",
+         "Seu olhar não se limita ao resultado de uma venda.",
+         "Busca compreender como cada decisão afeta a operação e a saúde "
+         "financeira do negócio.",
+     ]},
+
+    # ——————————————————————————————————————————— 13
+    {"tipo": "texto", "titulo": "Um olhar que vai além dos números",
+     "paragrafos": [
+         "Elandi também compreende o valor da experiência entregue.",
+         "Para ele, uma montagem 99,99% correta ainda pode deixar no cliente "
+         "a lembrança de um único detalhe mal resolvido.",
+         "Esse olhar conecta eficiência operacional, qualidade e reputação.",
+     ]},
+
+    # ——————————————————————————————————————————— 14
+    {"tipo": "texto", "titulo": "Responsabilidade é construir continuidade",
+     "paragrafos": [
+         "Após quase 20 anos na mesma empresa, Elandi vem preparando sua "
+         "transição e transmitindo conhecimento à equipe.",
+         "Não quer apenas concluir bem sua trajetória.",
+         "Quer deixar condições para que o trabalho continue funcionando sem "
+         "sua presença.",
+     ]},
+
+    # ——————————————————————————————————————————— 15
+    {"tipo": "foto_cheia", "foto": IMG["dupla"],
+     "imagem": "Flávia e Elandi juntos, em conversa de trabalho — mesa, "
+               "projeto, obra ou escritório. Interação real, não retrato "
+               "posado lado a lado. Imagem ampla, que aguente a frase por "
+               "cima.",
+     "linhas": ["“Eu tô bem preparado para não ser",
+                "um obstáculo, e sim ser um agregador.”"],
+     "apoio": "Elandi, em entrevista."},
+
+    {"tipo": "texto", "titulo": "A maturidade de quem sabe somar",
+     "paragrafos": [
+         "Elandi reconhece a liderança e o conhecimento de Flávia.",
+         "Sua intenção é colocar a própria experiência a serviço de uma "
+         "construção que já conhece, acompanha e valoriza.",
+     ]},
+
+    # ——————————————————————————————————————————— 16
+    {"tipo": "colunas", "titulo": "O papel singular de cada um",
+     "colunas": [
+         ("Flávia",
+          "Representa a força criadora, a identidade e a direção dos "
+          "negócios."),
+         ("Elandi",
+          "Pode representar a inteligência de gestão que estrutura e dá "
+          "sustentação à expansão."),
+     ],
+     "fecho": "Um papel não substitui o outro. São competências que se "
+              "encontram em torno de uma mesma ambição."},
+
+    # ——————————————————————————————————————————— 17
+    {"tipo": "texto", "titulo": "Uma ambição compartilhada",
+     "paragrafos": [
+         "Elandi também enxerga o potencial de crescimento das marcas.",
+         "Vê a FORMA ampliando sua presença estadual e a My Home alcançando "
+         "o mercado nacional.",
+         "Ele compartilha a visão de futuro e traz a experiência necessária "
+         "para ajudar a planejar sua realização.",
+     ]},
+
+    # ——————————————————————————————————————————— 18
+    {"tipo": "colunas", "titulo": "Duas empresas, diferentes exigências",
+     "colunas": [
+         ("FORMA",
+          "Combina personalização, alto valor agregado e complexidade "
+          "produtiva."),
+         ("My Home",
+          "Trabalha com produtos próprios, comércio eletrônico e potencial "
+          "de escala."),
+     ],
+     "fecho": "A inteligência de gestão precisa considerar as "
+              "particularidades de cada modelo, suas margens, investimentos "
+              "e necessidades operacionais."},
+
+    # ——————————————————————————————————————————— 19
+    {"tipo": "colunas", "titulo": "Onde cada um pode gerar mais valor",
+     "colunas": [
+         ("Flávia",
+          "Permanece como referência na visão de mercado, nos clientes, nos "
+          "produtos, na inovação e na liderança."),
+         ("Elandi",
+          "Pode assumir maior protagonismo na gestão financeira, "
+          "controladoria, custos, planejamento e administração."),
+     ],
+     "fecho": "A oportunidade está em ampliar a autonomia e a contribuição "
+              "de ambos."},
+
+    # ——————————————————————————————————————————— 20
+    {"tipo": "texto", "titulo": "Uma parceria que evolui a empresa",
+     "paragrafos": [
+         "Flávia já construiu conhecimento, reputação, processos e uma "
+         "equipe capaz de entregar sua visão.",
+         "A chegada de Elandi pode fortalecer essa estrutura com mais "
+         "inteligência financeira, planejamento e capacidade de decisão.",
+         "Não se trata de mudar a essência do negócio, mas de preparar sua "
+         "próxima etapa.",
+     ]},
+
+    # ——————————————————————————————————————————— 21
+    {"tipo": "texto", "titulo": "O próximo capítulo",
+     "paragrafos": [
+         "Flávia passou a vida mostrando que os limites não precisam "
+         "determinar o futuro.",
+         "Elandi construiu sua carreira compreendendo como transformar "
+         "decisões em resultados duradouros.",
+         "Agora, duas experiências podem se somar em torno daquilo que ambos "
+         "acreditam ser possível construir.",
      ]},
 
     {"tipo": "declaracao",
-     "linhas": ["Ela não precisa perder sua liberdade",
-                "para a empresa crescer.",
-                "Ele não precisa limitar essa liberdade",
-                "para proteger a empresa."],
-     "apoio": "A potência está em fazer as duas coisas acontecerem juntas."},
+     "linhas": ["A próxima conquista não é",
+                "apenas chegar mais longe."],
+     "apoio": "É fazer com que tudo o que foi construído tenha condições de "
+              "continuar crescendo."},
 
     {"tipo": "fecho", "frase": "OBRIGADA!"},
 ]
