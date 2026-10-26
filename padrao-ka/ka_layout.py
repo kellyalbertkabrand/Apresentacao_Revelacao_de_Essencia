@@ -15,7 +15,7 @@ Uso minimo:
 
     from ka_layout import Deck
     d = Deck(documento="REVELAÇÃO DE ESSÊNCIA", marca="NOME DA MARCA")
-    s = d.pagina("Conceito", "Por que começamos pela essência?")
+    s = d.pagina("Conceito", "Por que a essência vem primeiro?")
     d.corpo(s, 4.15, "Texto do slide.")
     d.salvar("saida.pptx")
 """

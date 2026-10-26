@@ -66,9 +66,9 @@ PAGINAS = [
          "O que essa essência revela sobre o papel que Lucas pode ocupar."),
     ]},
 
-    # 04 — por que começamos pela essência
+    # 04 — por que a essencia vem primeiro
     {"tipo": "texto", "eyebrow": "Conceito", "foto": IMG[3], "lado": "direita",
-     "titulo": "Por que começamos pela essência?",
+     "titulo": "Por que a essência vem primeiro?",
      "lead": "Uma marca pessoal não começa no que o profissional vende. "
              "Começa na maneira como ele enxerga o mundo e atribui "
              "significado ao próprio trabalho.",
@@ -86,7 +86,7 @@ PAGINAS = [
 
     # 06 — método
     {"tipo": "colunas", "eyebrow": "Método",
-     "titulo": "Como chegamos à revelação",
+     "titulo": "Como se chega à revelação",
      "lead": "A essência não é um adjetivo, nem uma frase bonita criada para "
              "comunicação. Ela aparece quando momentos aparentemente "
              "diferentes revelam uma mesma lógica.",

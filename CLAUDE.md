@@ -88,6 +88,43 @@ A página sai com a **marcação**: a área exata que a imagem vai ocupar,
 identificada. Quando o arquivo entrar em `assets/` com esse nome, a marcação
 some e nada muda de lugar. Detalhe em `padrao-ka/ROTEIRO-DECLARATIVO.md`.
 
+## A voz dos documentos: terceira pessoa
+
+**Nada de primeira pessoa do plural.** Sem "nossa origem", "nossos valores",
+"assumimos responsabilidade", "mudar nossa essência", "o que precisamos
+preservar". Pedido da Kelly em outubro/2026, e vale para **todas** as
+apresentações.
+
+A razão é prática, não estilística: na primeira pessoa o documento só
+funciona lido de dentro, e o mesmo arquivo precisa servir para apresentar a
+marca a um sócio, a um candidato, a um parceiro ou ao mercado. Em terceira
+pessoa ele afirma; na primeira, ele desabafa.
+
+| Em vez de | Escrever |
+|---|---|
+| Nossa origem · Nossos valores | A origem · Os valores |
+| Assumimos responsabilidade pelo resultado. | Responsabilidade pelo resultado. |
+| Temos liberdade para propor. | Liberdade para propor. |
+| O que precisamos preservar | O que preservar · O que precisa ser preservado |
+| Crescer sem perder o que nos torna diferentes. | Crescer sem perder o que torna estas empresas diferentes. |
+| O desafio não é mudar nossa essência. | O desafio não é mudar a essência. |
+| Por que começamos pela essência? | Por que a essência vem primeiro? |
+
+Nos valores e nos atributos, o infinitivo e o substantivo resolvem melhor que
+a conjugação: "Aprender, melhorar e ampliar as possibilidades" diz o mesmo
+que "Buscamos aprender…" e cabe em qualquer leitor.
+
+**Duas exceções, e só estas duas:**
+
+- **O manifesto.** É o gênero em que a marca fala — a primeira pessoa ali é
+  convenção, e costuma ser o "nós" universal, não o corporativo.
+- **A fala de exemplo.** Numa página de tom de voz, a frase que a marca diz
+  ao cliente ("Antes do produto, precisamos entender o impacto…") é citação
+  de discurso, não afirmação sobre a marca.
+
+Para conferir antes de entregar, a varredura está em
+`padrao-ka/conferir_voz.py`.
+
 ## Gatilho: "brand book" / "manual de marca"
 
 Um brand book **não** é apresentação: é manual. Outra diagramação — cabeçalho

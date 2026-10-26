@@ -290,7 +290,7 @@ PAGINAS = [
          ("Palavras próprias", "Continuidade · escolha",
           "Proteção · sucessão · dignidade financeira · liquidez · "
           "possibilidades · responsabilidade · consequência."),
-         ("Nunca usamos", "~~Tragédia · urgência~~",
+         ("Nunca usar", "~~Tragédia · urgência~~",
           "~~Fatalidade · desespero · oportunidade imperdível · a melhor "
           "proteção do mercado.~~ Nada que venda pelo susto."),
      ],

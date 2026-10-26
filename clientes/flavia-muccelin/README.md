@@ -14,8 +14,19 @@ A Revelação tem **roteiro fixo** e gerador próprio. A apresentação da
 sociedade tem roteiro próprio e usa o **roteiro declarativo**
 ([`padrao-ka/ROTEIRO-DECLARATIVO.md`](../../padrao-ka/ROTEIRO-DECLARATIVO.md)).
 
-A identidade visual é a mesma nas duas, e é a mesma do Lucas: painel claro
+A identidade visual é a mesma em todas, e é a mesma do Lucas: painel claro
 sobre a textura de ondas, Outfit, acento terracota.
+
+**A voz é de terceira pessoa em todas elas.** Sem "nossa origem", "nossos
+valores", "assumimos responsabilidade", "mudar nossa essência" — pedido da
+Kelly, e por um motivo prático: na primeira pessoa o documento só funciona
+lido de dentro, e o mesmo arquivo precisa apresentar a marca a um sócio, a um
+candidato ou ao mercado. A regra está em [`CLAUDE.md`](../../CLAUDE.md) e a
+varredura em `padrao-ka/conferir_voz.py`:
+
+```bash
+python3 padrao-ka/conferir_voz.py
+```
 
 ---
 

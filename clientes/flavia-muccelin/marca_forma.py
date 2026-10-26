@@ -71,7 +71,7 @@ PAGINAS = [
         ("03", "Cultura em ação",
          "Comportamentos da equipe e experiência entregue ao cliente."),
         ("04", "Percepção e coerência",
-         "O que o mercado reconhece e o que precisamos fortalecer."),
+         "O que o mercado reconhece e o que precisa ser fortalecido."),
     ]},
 
     # ═══════════════════════════════════════ 01 ORIGEM E CRENÇAS
@@ -162,19 +162,19 @@ PAGINAS = [
 
     # ═══════════════════════════════ 04 PERCEPÇÃO E COERÊNCIA
     {"tipo": "divisor", "numero": "04", "nome": "Percepção e coerência",
-     "apoio": "O que o mercado reconhece e o que precisamos fortalecer.",
+     "apoio": "O que o mercado reconhece e o que precisa ser fortalecido.",
      "foto": IMG["div4"],
      "imagem": "Um ambiente entregue e em uso, assinado pela Forma. Plano "
                "aberto, luz natural, sem pessoas."},
 
     {"tipo": "colunas",
-     "titulo": "Nosso valor não está apenas no que produzimos. Está na "
-               "confiança que construímos.",
+     "titulo": "O valor da Forma não está apenas no que ela produz. Está "
+               "na confiança que ela constrói.",
      "colunas": [
          ("O que o mercado reconhece",
           "Arquitetos e clientes destacam domínio técnico, qualidade dos "
           "acabamentos, parceria e cuidado na execução."),
-         ("O que precisamos preservar",
+         ("O que precisa ser preservado",
           "A capacidade de personalizar, a proximidade com o cliente e a "
           "responsabilidade pelo resultado, mesmo com o crescimento "
           "industrial."),

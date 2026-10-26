@@ -61,7 +61,7 @@ PAGINAS = [
         ("03", "Cultura em ação",
          "Comportamentos da equipe e experiência entregue ao cliente."),
         ("04", "Percepção e coerência",
-         "O que o mercado reconhece e o que precisamos construir."),
+         "O que o mercado reconhece e o que precisa ser construído."),
     ]},
 
     # ═══════════════════════════════════════ 01 ORIGEM E CRENÇAS
@@ -151,7 +151,7 @@ PAGINAS = [
 
     # ═══════════════════════════════ 04 PERCEPÇÃO E COERÊNCIA
     {"tipo": "divisor", "numero": "04", "nome": "Percepção e coerência",
-     "apoio": "O que o mercado reconhece e o que precisamos construir.",
+     "apoio": "O que o mercado reconhece e o que precisa ser construído.",
      "foto": IMG["div4"],
      "imagem": "Produtos My Home em uso numa casa real — a marca vivendo no "
                "ambiente do cliente."},
@@ -163,7 +163,7 @@ PAGINAS = [
          ("O que já é reconhecido",
           "Arquitetos valorizam a capacidade da My Home de executar soluções "
           "técnicas, detalhes e acabamentos especiais."),
-         ("O que precisamos construir",
+         ("O que precisa ser construído",
           "Uma identidade independente, reconhecida pelo consumidor pela "
           "originalidade dos produtos, pela criatividade e pela confiança na "
           "experiência de compra."),

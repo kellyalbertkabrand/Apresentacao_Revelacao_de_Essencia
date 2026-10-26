@@ -35,7 +35,7 @@ SECOES = [
 
 # ---------------------------------------------------------------- abertura
 PORQUE = {
-    "titulo": "Por que começamos pela essência?",
+    "titulo": "Por que a essência vem primeiro?",
     "lead": "A Forma e a My Home são negócios distintos, mas nasceram e se "
             "desenvolveram a partir da visão de uma mesma fundadora.",
     "corpo": "Em marcas fortemente ligadas à fundadora, compreender a história "
@@ -51,7 +51,7 @@ PERGUNTA = ["O que já fazia parte de quem", "a Flávia é antes da Forma",
             "e da My Home?"]
 
 METODO = {
-    "titulo": "Como chegamos à revelação",
+    "titulo": "Como se chega à revelação",
     "lead": "A essência não é definida por uma característica isolada. Ela se "
             "revela quando diferentes momentos da trajetória apresentam uma "
             "mesma lógica.",
@@ -192,7 +192,7 @@ IKIGAI = {
         "Onde encontra realização?",
         "Como deseja contribuir para outras pessoas?",
     ],
-    "fecho": "Não buscamos apenas aquilo que ela gosta de fazer, e sim o que "
+    "fecho": "Não se busca apenas aquilo que ela gosta de fazer, e sim o que "
              "faz uma realização ter significado para a Flávia.",
 }
 

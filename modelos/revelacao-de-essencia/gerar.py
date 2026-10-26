@@ -88,7 +88,7 @@ def montar(C, pasta):
     d.fio(s, ML, 3.55 + len(C.SECOES) * 0.95, 13.4)
     d.rodape(s)
 
-    # 04 — por que começamos pela essência
+    # 04 — por que a essencia vem primeiro
     s, x, lg = d.com_foto("Conceito", C.PORQUE["titulo"],
                           foto("04-metodo"), alterna())
     d.texto(s, x, 4.40, lg, C.PORQUE["lead"], T_LEAD, TINTA, LIGHT, h=1.2)
@@ -105,7 +105,7 @@ def montar(C, pasta):
     d.texto(s, x, 4.30, lg, C.PERGUNTA, T_DISPLAY * 0.78, TINTA, LIGHT,
             espaco=1.26)
 
-    # 06 — como chegamos à revelação
+    # 06 — como se chega a revelacao
     s = d.pagina("Método", C.METODO["titulo"])
     d.texto(s, ML, 4.25, 14.0, C.METODO["lead"], T_CORPO, CORPO, LIGHT, h=1.1)
     for i, (nome, desc) in enumerate(C.METODO["dimensoes"]):
