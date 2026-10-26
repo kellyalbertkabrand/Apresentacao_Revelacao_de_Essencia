@@ -121,6 +121,12 @@ As 15 páginas do roteiro saem em 24: os cinco "ABERTURA DO TEMA" viram
 divisores de verdade, e cada frase-tese que ela escreveu em negrito ganha a
 sua página de silêncio em vez de ficar empilhada embaixo do parágrafo.
 
+**As duas empresas andam juntas aqui.** Forma e My Home dividem a mesma
+cultura organizacional — é a Cultura de *Marca* que se separa em duas
+apresentações, não esta. As duas aparecem nomeadas na capa e o texto fala
+sempre no plural; **"a empresa" no singular está errado neste documento**,
+porque apaga a My Home.
+
 ### Duas observações
 
 1. O documento trazia **dois sumários** — um de capa e o do SLIDE 02. Valeu

@@ -27,18 +27,25 @@ sua própria página de silêncio em vez de ficar empilhada embaixo do
 parágrafo. É a regra de sempre — um título e um bloco por página — levada ao
 limite visual.
 
-Três observações, assinaladas e não silenciosas:
+Quatro observações, assinaladas e não silenciosas:
 
-1. **A voz é de terceira pessoa.** O roteiro veio em primeira pessoa do
+1. **A cultura organizacional é das DUAS empresas, juntas.** Forma e My
+   Home dividem a mesma cultura — é a Cultura de *Marca* que se separa em
+   duas apresentações, não esta. Por isso as duas aparecem nomeadas na capa
+   e o texto fala sempre no plural ("as duas empresas acreditam", "a Forma e
+   a My Home não se limitam ao problema"), nunca "a empresa" no singular. Na
+   primeira passagem para terceira pessoa o singular entrou sem querer e
+   apagou a My Home do documento; está corrigido.
+2. **A voz é de terceira pessoa.** O roteiro veio em primeira pessoa do
    plural ("nossa origem", "assumimos responsabilidade", "mudar nossa
    essência") e a Kelly pediu para tirar. Em documento de cultura isso não é
    preciosismo: na primeira pessoa o texto só funciona lido de dentro, e o
    mesmo documento precisa servir para apresentar a cultura a um sócio, a um
    candidato ou a um parceiro. Em terceira pessoa ele afirma; na primeira,
    ele desabafa. O conteúdo é o dela — o que mudou foi quem fala.
-2. O documento trazia **dois sumários**: um de capa e o do SLIDE 02. Valeu o
+3. O documento trazia **dois sumários**: um de capa e o do SLIDE 02. Valeu o
    do slide 02, que é o que está dentro da apresentação.
-3. Os nomes citados no slide 09 — Letícia, Mapinha e Joel — ficaram como ela
+4. Os nomes citados no slide 09 — Letícia, Mapinha e Joel — ficaram como ela
    escreveu. Se a apresentação for para a equipe inteira, vale conferir se
    todos topam ser citados.
 
@@ -76,7 +83,7 @@ PAGINAS = [
 
     # ——————————————————————————————————————————— 01 CAPA
     {"tipo": "capa",
-     "titulo": ["O QUE DEFINE", "ESTA CULTURA"],
+     "titulo": ["O QUE DEFINE", "A FORMA E A MY HOME"],
      "subtitulo": ["Cultura Organizacional", "FORMA e My Home"],
      "assinatura": ["Método Marca", "com Essência ©"],
      "data": "Outubro/2026"},
@@ -90,9 +97,9 @@ PAGINAS = [
     {"tipo": "sumario", "titulo": "A cultura", "itens": [
         ("01", "A origem", "De onde vem o jeito de pensar."),
         ("02", "Os valores",
-         "Aquilo em que a empresa acredita e como ela lidera."),
+         "Aquilo em que as duas empresas acreditam e como lideram."),
         ("03", "O jeito de trabalhar",
-         "Os comportamentos e as relações que a definem."),
+         "Os comportamentos e as relações que definem as duas."),
         ("04", "A cultura na prática",
          "Como as crenças aparecem no dia a dia."),
         ("05", "O futuro", "O que preservar e o que desenvolver."),
@@ -122,13 +129,13 @@ PAGINAS = [
 
     {"tipo": "declaracao",
      "linhas": ["Diante de uma dificuldade,",
-                "a empresa não se limita ao problema.",
-                "Procura possibilidades para resolvê-lo."],
+                "a Forma e a My Home não se limitam ao problema.",
+                "Procuram possibilidades para resolvê-lo."],
      "apoio": "A crença de origem."},
 
     # ═══════════════════════════════════════════ 02 NOSSOS VALORES
     {"tipo": "divisor", "numero": "02", "nome": "Os valores",
-     "apoio": "Aquilo em que a empresa acredita e como ela lidera.",
+     "apoio": "Aquilo em que as duas empresas acreditam e como lideram.",
      "foto": IMG["div2"],
      "imagem": "Alguém da equipe concentrado no trabalho — o cuidado "
                "aparecendo na mão e no olhar. Plano fechado."},
@@ -174,7 +181,7 @@ PAGINAS = [
 
     # ═══════════════════════════════════ 03 NOSSO JEITO DE TRABALHAR
     {"tipo": "divisor", "numero": "03", "nome": "O jeito de trabalhar",
-     "apoio": "Os comportamentos e as relações que a definem.",
+     "apoio": "Os comportamentos e as relações que definem as duas.",
      "foto": IMG["div3"],
      "imagem": "A oficina em movimento, com várias pessoas trabalhando ao "
                "mesmo tempo. Plano aberto, o coletivo em ação."},
@@ -198,7 +205,7 @@ PAGINAS = [
     {"tipo": "texto", "foto": IMG["relacoes"], "lado": "direita",
      "imagem": "Duas ou três pessoas da equipe conversando no trabalho — "
                "proximidade real, sem pose. Pode ser um momento de pausa.",
-     "titulo": "A proximidade é uma força desta cultura.",
+     "titulo": "A proximidade é uma força nas duas empresas.",
      "tam_corpo": 21,
      "paragrafos": [
          "As pessoas descrevem um ambiente marcado por acolhimento, "
