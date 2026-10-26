@@ -199,25 +199,35 @@ class DeckNarrativo(Deck):
         if larg < 1.60:
             return
         nota = spec.get("imagem") or ""
-        tam = T_MINI if baixo else T_CORPO
-        h_nota = altura(nota, tam, larg) if nota else 0.0
-        salto = 0.78 if baixo else 0.96      # do rotulo ate a nota
-        bloco = 0.34 + 0.32 + (h_nota + 0.30 if nota else 0.0)
+
         if baixo:
-            # a nota de producao encosta no pe do padrao e sobe dali; se o
-            # texto da pagina desceu demais, ela cede e desce com ele
+            # Em tela cheia a marcacao e NOTA DE PRODUCAO, nao composicao:
+            # rotulo e briefing na MESMA linha, corpo miudo, encostados no pe
+            # do padrao. Empilhar os dois nao cabe quando o nome da secao
+            # ocupa duas linhas — e era ai que a nota atravessava o fundo.
             cx = x + ML
-            cy = 9.40 - (salto + h_nota if nota else 0.66)
+            larg_n = larg - 1.05      # o espaco que o rotulo come na 1a linha
+            h_nota = altura(nota, T_MINI, larg_n) if nota else 0.0
+            cy = 9.40 - (h_nota if nota else 0.40)
             if piso is not None:
                 cy = max(cy, piso)
-        else:
-            cx = x + (w - larg) / 2.0
-            cy = y + (h - bloco) / 2.0
-            self.fio(s, cx, cy, 1.30, cor_rot, esp=0.03)
+            tf = self.caixa(s, cx, cy, larg, h_nota + 0.12)
+            par = self.par(tf, primeiro=True)
+            self.txt(par, "IMAGEM   ", T_ROTULO, cor_rot, SEMI, spc=3.0)
+            if nota:
+                self.txt(par, nota, T_MINI, cor_txt, LIGHT)
+            self._areas.append((cx - 0.2, cy - 0.2, larg + 0.4, h_nota + 0.5))
+            return
+
+        h_nota = altura(nota, T_CORPO, larg) if nota else 0.0
+        bloco = 0.34 + 0.32 + (h_nota + 0.30 if nota else 0.0)
+        cx = x + (w - larg) / 2.0
+        cy = y + (h - bloco) / 2.0
+        self.fio(s, cx, cy, 1.30, cor_rot, esp=0.03)
         self.texto(s, cx, cy + 0.34, larg, "IMAGEM", T_ROTULO, cor_rot, SEMI,
                    spc=3.0, h=0.32)
         if nota:
-            self.texto(s, cx, cy + salto, larg, nota, tam, cor_txt, LIGHT,
+            self.texto(s, cx, cy + 0.96, larg, nota, T_CORPO, cor_txt, LIGHT,
                        h=h_nota + 0.1)
         # o rotulo pertence a area da foto: a centragem vertical da pagina
         # move o texto do conteudo, nunca a marcacao
@@ -726,7 +736,20 @@ class DeckNarrativo(Deck):
             y += h + 0.50
         larg = (LG - 1.70) / 2
         meio = X + larg + 0.85
-        topo = max(y, 5.00)
+        # A coluna mais longa manda, e ela e medida pela altura REAL do
+        # texto, nao pela contagem de itens: quatro itens que quebram em duas
+        # linhas ocupam o dobro do que a conta por item previa, e era por ai
+        # que a ultima linha saia do painel. Antes de reduzir o corpo, o
+        # bloco sobe — perder ar no topo custa menos que perder dois pontos.
+        for tam in (T_LEAD, T_CORPO, T_MINI):
+            gap = 0.22 if tam == T_LEAD else 0.14
+            pior = max(sum(altura(i, tam, larg, 1.3) + 0.08 + gap
+                           for i in lado[1])
+                       for lado in (spec["esquerda"], spec["direita"])) - gap
+            topo = min(max(y, 5.00), FIM + 0.30 - 0.72 - pior)
+            if topo >= y:
+                break
+        topo = max(topo, y)
         fundo = topo
         for i, (rot, itens) in enumerate([spec["esquerda"], spec["direita"]]):
             cx = X + i * (larg + 1.70)
@@ -735,12 +758,6 @@ class DeckNarrativo(Deck):
             self.rotulo(s, rot, cx, topo + 0.30, larg,
                         ACENTO if i == 0 else CLARO)
             yy = topo + 0.72
-            # a coluna mais longa manda no corpo: duas listas de tamanhos
-            # diferentes precisam terminar dentro da mesma pagina
-            n_max = max(len(spec["esquerda"][1]), len(spec["direita"][1]))
-            tam = T_LEAD if (FIM - topo - 0.80) / max(1, n_max) >= 0.52 \
-                else T_CORPO
-            gap = 0.22 if tam == T_LEAD else 0.14
             for item in itens:
                 h = altura(item, tam, larg, 1.3) + 0.08
                 self.texto(s, cx, yy, larg, item, tam, TINTA, LIGHT, h=h)

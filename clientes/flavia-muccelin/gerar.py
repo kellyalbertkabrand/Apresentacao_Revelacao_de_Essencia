@@ -25,7 +25,7 @@ sys.path.insert(0, os.path.join(RAIZ, "padrao-ka"))
 
 from ka_paginas import DeckNarrativo  # noqa: E402
 
-DECKS = ("sociedade", "cultura")
+DECKS = ("sociedade", "cultura", "marca-forma", "marca-my-home")
 
 
 def carregar(nome):

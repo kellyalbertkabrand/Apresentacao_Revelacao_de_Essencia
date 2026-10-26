@@ -43,7 +43,7 @@ a liberdade de ordenar as páginas.
 | `palavras` | palavras soltas como composição | `palavras`, `grade`, `tam`, `destaque` |
 | `camadas` | rótulo → leitura, lado a lado: a escada de significado | `camadas`: `(rótulo, texto)`, `cabecalhos` |
 | `fluxo` | passos encadeados na horizontal, com seta | `passos`, `sintese` |
-| `contraste` | dois campos em oposição, separados por `×` | `esquerda`, `direita`: `(rótulo, [itens])` |
+| `contraste` | dois campos em oposição, separados por `×`; o lado esquerdo leva o acento | `esquerda`, `direita`: `(rótulo, [itens])`, `destaque` |
 | `alternativas` | "em vez de / preferir" — a troca de linguagem | `pares`, `rot_evitar`, `rot_preferir` |
 | `ficha` | prancha-resumo em duas colunas | `campos`: `(rótulo, valor)` |
 | `ikigai` | os quatro anéis + as quatro leituras | `campos`, `centro` |

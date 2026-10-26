@@ -7,6 +7,8 @@ Duas entregas, dois motores.
 | `conteudo.py` | Revelação de Essência — origem identitária da fundadora | 31 | `python3 modelos/revelacao-de-essencia/gerar.py clientes/flavia-muccelin` |
 | `sociedade.py` | Duas trajetórias, uma nova força — Flávia & Elandi | 26 | `python3 clientes/flavia-muccelin/gerar.py sociedade` |
 | `cultura.py` | Cultura Organizacional — FORMA e My Home | 24 | `python3 clientes/flavia-muccelin/gerar.py cultura` |
+| `marca_forma.py` | Cultura de Marca — FORMA | 21 | `python3 clientes/flavia-muccelin/gerar.py marca-forma` |
+| `marca_my_home.py` | Cultura de Marca — My Home | 21 | `python3 clientes/flavia-muccelin/gerar.py marca-my-home` |
 
 A Revelação tem **roteiro fixo** e gerador próprio. A apresentação da
 sociedade tem roteiro próprio e usa o **roteiro declarativo**
@@ -140,3 +142,51 @@ python3 padrao-ka/rostos.py clientes/flavia-muccelin/assets
 python3 clientes/flavia-muccelin/gerar.py cultura
 padrao-ka/conferir.sh clientes/flavia-muccelin/Cultura-Organizacional-Forma-e-My-Home.pptx
 ```
+
+---
+
+## Cultura de Marca — duas apresentações, uma por marca
+
+O roteiro da Kelly veio como **um** documento cobrindo as duas marcas; ela
+pediu **duas apresentações separadas**. São dois módulos de conteúdo com a
+**mesma estrutura de quatro seções**, a mesma ordem e os mesmos arquétipos —
+é o que faz as duas serem lidas como irmãs sem serem a mesma coisa.
+
+| | FORMA | My Home |
+|---|---|---|
+| Capa | `FORMA` · Precisão que realiza. | `MY HOME` · Criatividade que transforma. |
+| 01 | Origem e crenças | Origem e crenças |
+| 02 | Personalidade e expressão | Personalidade e expressão |
+| 03 | Cultura em ação | Cultura em ação |
+| 04 | Percepção e coerência | Percepção e coerência |
+| Essência | Transformar complexidade em confiança. | Transformar possibilidades em criação. |
+
+**Nenhuma página do miolo fala da outra marca.** As duas exceções são as
+duas últimas páginas antes do fecho: a síntese (slide 13 do roteiro), que
+compara as duas, e a frase que a fecha. É proposital — uma cultura de marca
+precisa dizer onde a marca está, e na apresentação da My Home essa página
+carrega justamente o ponto que o conteúdo levanta: ela **não deve ser
+percebida apenas como o braço operacional da Forma**. Se preferir cada marca
+sozinha do começo ao fim, são duas páginas para tirar de cada arquivo.
+
+Na síntese, a marca dona da apresentação fica **à esquerda**, com o filete de
+acento; a irmã fica à direita, em filete neutro.
+
+### As catorze imagens
+
+Sete por apresentação: as quatro viradas de seção em tela cheia, duas de
+conteúdo e a da essência.
+
+| FORMA | My Home |
+|---|---|
+| `forma-div-origem.png` | `myhome-div-origem.png` |
+| `forma-div-personalidade.png` | `myhome-div-personalidade.png` |
+| `forma-div-cultura-em-acao.png` | `myhome-div-cultura-em-acao.png` |
+| `forma-div-percepcao.png` | `myhome-div-percepcao.png` |
+| `forma-projeto-complexo.png` | `myhome-sobras-material.png` |
+| `forma-detalhe-acabamento.png` | `myhome-produtos-variedade.png` |
+| `forma-ambiente-entregue.png` | `myhome-produto-em-casa.png` |
+
+O briefing de cada uma está na própria página, na marcação. Quando os
+arquivos entrarem em `assets/` com esses nomes, as marcações somem e nada
+muda de lugar.
