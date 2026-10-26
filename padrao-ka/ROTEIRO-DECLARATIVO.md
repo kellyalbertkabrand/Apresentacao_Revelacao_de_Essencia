@@ -35,13 +35,13 @@ a liberdade de ordenar as páginas.
 | `abertura` | logos sobre a textura | — |
 | `capa` | título em caixa alta sobre a textura, traço no canto e barra de assinatura | `titulo` (lista), `subtitulo` (lista: nome + descritor), `assinatura`, `data`, `foto` (opcional) |
 | `sumario` | índice numerado | `itens`: `(num, nome[, descrição])` |
-| `divisor` | virada de seção | `numero`, `nome`, `apoio` |
+| `divisor` | virada de seção; com `foto`, vira **tela cheia de imagem** | `numero`, `nome`, `apoio`, `foto`, `veu` |
 | `declaracao` | **a página de silêncio**: uma frase grande e muito ar | `linhas`, `apoio`, `eyebrow`, `marcar` |
 | `texto` | eyebrow, título, filete, lead, parágrafos, destaque | `titulo`, `lead`, `paragrafos`, `itens`, `destaque` |
 | `lista` | itens com ponto; vira duas colunas se a lista for longa | `lead`, `itens`, `destaque`, `fecho`, `grade` |
 | `colunas` | 2–4 colunas de `(rótulo, texto)` | `colunas`, `equacao`, `fecho` |
 | `palavras` | palavras soltas como composição | `palavras`, `grade`, `tam`, `destaque` |
-| `camadas` | rótulo → leitura, empilhados: a escada de significado | `camadas`: `(rótulo, texto)` |
+| `camadas` | rótulo → leitura, lado a lado: a escada de significado | `camadas`: `(rótulo, texto)`, `cabecalhos` |
 | `fluxo` | passos encadeados na horizontal, com seta | `passos`, `sintese` |
 | `contraste` | dois campos em oposição, separados por `×` | `esquerda`, `direita`: `(rótulo, [itens])` |
 | `alternativas` | "em vez de / preferir" — a troca de linguagem | `pares`, `rot_evitar`, `rot_preferir` |
@@ -149,9 +149,10 @@ ocupar e a identifica:
 - `imagem` é o briefing — o que entra ali, para quem vai fotografar ou
   escolher.
 
-Isso vale para os três tratamentos: tira vertical, faixa horizontal e
-`foto_cheia` (que marca a página inteira em tom escuro, com o rótulo no pé
-para não disputar com a frase).
+Isso vale para os quatro tratamentos: tira vertical, faixa horizontal,
+`foto_cheia` e `divisor` com foto — nestes dois últimos a página inteira é
+marcada em tom escuro, e o rótulo vira **nota de produção no pé**, alinhada
+à margem do texto e em corpo miúdo, para não disputar com a frase.
 
 **O ganho não é a marcação em si, é o que ela garante:** a página aprovada
 com marcação é a MESMA página que recebe a foto depois. No dia em que o
@@ -161,6 +162,37 @@ tamanho do corpo, nem a quebra das linhas. Não há rediagramação.
 
 A marcação também não entra na centragem vertical da página: ela pertence à
 área da imagem, não ao bloco de texto.
+
+### A virada de seção é onde a fotografia rende mais
+
+Numa página de conteúdo a foto divide espaço com o texto. Na virada de tema
+não há texto para dividir — só o numeral, o nome da seção e uma linha de
+apoio. Por isso `divisor` aceita `foto`: a imagem toma a página inteira, o
+véu garante o contraste e o nome da seção sai em branco por cima.
+
+```python
+{"tipo": "divisor", "numero": "03", "nome": "Nosso jeito de trabalhar",
+ "apoio": "Os comportamentos e as relações que nos definem.",
+ "foto": "cultura-div-jeito-de-trabalhar.png",
+ "imagem": "A oficina em movimento, com várias pessoas trabalhando ao "
+           "mesmo tempo. Plano aberto, o coletivo em ação."},
+```
+
+Quando o pedido é "o mais visual possível", é por aqui que se começa — antes
+de inventar qualquer elemento novo.
+
+### Camadas com cabeçalho: a tabela de duas colunas
+
+`cabecalhos` escreve os dois títulos de coluna **uma vez só**, acima da
+escada. É o que transforma a camada numa tabela de duas colunas sem encher a
+página de cartõezinhos:
+
+```python
+{"tipo": "camadas", "titulo": "Crescer sem perder o que nos torna diferentes.",
+ "cabecalhos": ("O que precisamos preservar", "O que precisamos desenvolver"),
+ "camadas": [("Proximidade", "Lideranças capazes de manter os mesmos princípios."),
+             ("Autonomia", "Critérios e responsabilidades compartilhados.")]},
+```
 
 ---
 

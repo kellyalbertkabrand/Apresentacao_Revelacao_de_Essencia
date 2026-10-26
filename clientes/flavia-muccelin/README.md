@@ -6,6 +6,7 @@ Duas entregas, dois motores.
 |---|---|---|---|
 | `conteudo.py` | Revelação de Essência — origem identitária da fundadora | 31 | `python3 modelos/revelacao-de-essencia/gerar.py clientes/flavia-muccelin` |
 | `sociedade.py` | Duas trajetórias, uma nova força — Flávia & Elandi | 26 | `python3 clientes/flavia-muccelin/gerar.py sociedade` |
+| `cultura.py` | Cultura Organizacional — FORMA e My Home | 24 | `python3 clientes/flavia-muccelin/gerar.py cultura` |
 
 A Revelação tem **roteiro fixo** e gerador próprio. A apresentação da
 sociedade tem roteiro próprio e usa o **roteiro declarativo**
@@ -82,4 +83,60 @@ python3 padrao-ka/conferir_rostos.py \
 
 ```bash
 padrao-ka/conferir.sh clientes/flavia-muccelin/Duas-Trajetorias-Uma-Nova-Forca-Flavia-e-Elandi.pptx
+```
+
+---
+
+## Cultura Organizacional — FORMA e My Home
+
+A Kelly pediu **o mais visual possível**, dentro da estrutura, das cores e do
+layout padrão. No padrão KA isso não é encher a página de caixas: é usar os
+arquétipos que carregam a ideia na forma, e deixar o parágrafo corrido só
+onde ele é mesmo necessário.
+
+| Arquétipo | Papel | Páginas |
+|---|---|---|
+| `divisor` com foto | a virada de tema em tela cheia de imagem | 5 |
+| `declaracao` | a página de silêncio: uma frase, muito ar | 6 |
+| `camadas` | rótulo e leitura lado a lado — valores e a tabela do futuro | 2 |
+| `colunas` | os três comportamentos, em paralelo | 1 |
+| `lista` | a cultura nas pequenas decisões | 1 |
+| `foto_cheia` | o princípio cultural, em tela cheia | 1 |
+| `texto` | só onde o conteúdo é mesmo narrativa | 4 |
+
+As 15 páginas do roteiro saem em 24: os cinco "ABERTURA DO TEMA" viram
+divisores de verdade, e cada frase-tese que ela escreveu em negrito ganha a
+sua página de silêncio em vez de ficar empilhada embaixo do parágrafo.
+
+### Duas observações
+
+1. O documento trazia **dois sumários** — um de capa e o do SLIDE 02. Valeu
+   o do slide 02, que é o que está dentro da apresentação.
+2. Os nomes citados no slide 09 — **Letícia, Mapinha e Joel** — ficaram como
+   ela escreveu. Se a apresentação for para a equipe inteira, vale conferir
+   se todos topam ser citados.
+
+### As dez imagens
+
+| Arquivo esperado em `assets/` | O que é |
+|---|---|
+| `cultura-div-origem.png` | virada 01 — a primeira oficina, o lugar onde começou |
+| `cultura-div-valores.png` | virada 02 — alguém concentrado no trabalho, plano fechado |
+| `cultura-div-jeito-de-trabalhar.png` | virada 03 — a oficina em movimento, plano aberto |
+| `cultura-div-pratica.png` | virada 04 — montagem na casa do cliente |
+| `cultura-div-futuro.png` | virada 05 — um ambiente entregue, imagem de horizonte |
+| `cultura-oficina-forma.png` | o ofício: marcenaria, máquina, material |
+| `cultura-flavia-equipe.png` | Flávia com a equipe, liderança próxima |
+| `cultura-equipe-conversa.png` | duas ou três pessoas conversando no trabalho |
+| `cultura-maos-trabalho.png` | mãos, ferramenta, acabamento — detalhe fechado |
+| `cultura-time-completo.png` | o time completo, tela cheia na página do princípio |
+
+Enquanto não existirem, cada página mostra a **marcação**: a área exata com o
+briefing. Quando entrarem em `assets/` com esses nomes, a marcação some e
+nada muda de lugar.
+
+```bash
+python3 padrao-ka/rostos.py clientes/flavia-muccelin/assets
+python3 clientes/flavia-muccelin/gerar.py cultura
+padrao-ka/conferir.sh clientes/flavia-muccelin/Cultura-Organizacional-Forma-e-My-Home.pptx
 ```

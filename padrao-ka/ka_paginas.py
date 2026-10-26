@@ -201,12 +201,13 @@ class DeckNarrativo(Deck):
         nota = spec.get("imagem") or ""
         tam = T_MINI if baixo else T_CORPO
         h_nota = altura(nota, tam, larg) if nota else 0.0
+        salto = 0.78 if baixo else 0.96      # do rotulo ate a nota
         bloco = 0.34 + 0.32 + (h_nota + 0.30 if nota else 0.0)
         if baixo:
-            # a nota encosta no pe do padrao e sobe dali; se o texto da
-            # pagina desceu demais, ela cede e desce com ele
-            cx = x + ML - 0.00
-            cy = 9.55 - (0.96 + h_nota if nota else 0.66)
+            # a nota de producao encosta no pe do padrao e sobe dali; se o
+            # texto da pagina desceu demais, ela cede e desce com ele
+            cx = x + ML
+            cy = 9.40 - (salto + h_nota if nota else 0.66)
             if piso is not None:
                 cy = max(cy, piso)
         else:
@@ -216,7 +217,7 @@ class DeckNarrativo(Deck):
         self.texto(s, cx, cy + 0.34, larg, "IMAGEM", T_ROTULO, cor_rot, SEMI,
                    spc=3.0, h=0.32)
         if nota:
-            self.texto(s, cx, cy + 0.96, larg, nota, tam, cor_txt, LIGHT,
+            self.texto(s, cx, cy + salto, larg, nota, tam, cor_txt, LIGHT,
                        h=h_nota + 0.1)
         # o rotulo pertence a area da foto: a centragem vertical da pagina
         # move o texto do conteudo, nunca a marcacao
@@ -555,7 +556,7 @@ class DeckNarrativo(Deck):
         if not caminho and spec.get("foto"):
             # o fundo ja foi desenhado la em cima, antes do texto
             self.marcacao(s, 0, 0, LARG, ALT, spec, escuro=True, baixo=True,
-                          piso=y + 0.62, fundo=False)
+                          piso=y + 0.40, fundo=False)
         self.rodape(s, sobre_foto=True)
         return s
 
@@ -764,6 +765,15 @@ class DeckNarrativo(Deck):
         y = self.cabeca(s, spec, x=X, w=LG, y=y0)
         itens = spec["camadas"]
         topo = max(y, 4.20)
+        cab = spec.get("cabecalhos")
+        if cab:
+            # os dois titulos de coluna, escritos uma vez so acima da
+            # escada. E o que transforma a camada em tabela de duas colunas
+            # sem encher a pagina de cartoes
+            self.rotulo(s, cab[0], X, topo, min(5.20, LG * 0.37), CLARO)
+            self.rotulo(s, cab[1], X + min(5.60, LG * 0.40), topo,
+                        LG - min(5.60, LG * 0.40), ACENTO)
+            topo += 0.56
         larg = LG - min(5.60, LG * 0.40)
         # Cada degrau tem a altura do seu proprio texto. Dividir o espaco em
         # partes iguais estoura a pagina quando uma das leituras e longa.
@@ -1077,24 +1087,47 @@ class DeckNarrativo(Deck):
         """Virada de tema. O filete e a linha de apoio acompanham a altura
         REAL do nome da secao — com um valor fixo, um nome de duas linhas
         empurrava o filete para longe e a frase ficava solta no meio do
-        nada."""
-        s = self.slide()
+        nada.
+
+        Com `foto`, a virada vira pagina inteira de imagem: e o lugar em que
+        a fotografia rende mais, porque nao disputa com texto nenhum."""
+        cheia = bool(spec.get("foto"))
+        caminho = self.arquivo(spec.get("foto"))
+        if cheia:
+            s = self.slide(painel=False)
+            if caminho:
+                foco, _ = self._enquadrar(caminho, LARG, ALT,
+                                          spec.get("foco", 0.5))
+                self.foto(s, 0, 0, LARG, ALT, caminho, foco=foco)
+                self.veu(s, 0, 0, LARG, ALT, TINTA, spec.get("veu", 0.58))
+            else:
+                self.bloco(s, 0, 0, LARG, ALT, MARCA_ESCURO)
+            cor_num = MARCA_ACENTO_ESCURO if not caminho else ACENTO
+            cor_nome, cor_fio, cor_apoio = BRANCO, CLARO, BRANCO
+        else:
+            s = self.slide()
+            cor_num, cor_nome, cor_fio, cor_apoio = ACENTO, TINTA, FIO, CLARO
         y = 4.20
-        self.texto(s, ML, y, 4.0, spec["numero"], T_ROTULO, ACENTO, SEMI,
+        self.texto(s, ML, y, 4.0, spec["numero"], T_ROTULO, cor_num, SEMI,
                    spc=3.0, h=0.3)
         nome = spec["nome"].upper()
         tam = T_DIVISOR if len(nome) <= 16 else 68
         n = linhas(nome, tam, 14.0)
         y_nome = y + 0.60
-        self.texto(s, ML, y_nome, 14.0, nome, tam, TINTA, LIGHT, espaco=1.0,
-                   h=n * tam / 72.0 * 1.3)
+        self.texto(s, ML, y_nome, 14.0, nome, tam, cor_nome, LIGHT,
+                   espaco=1.0, h=n * tam / 72.0 * 1.3)
         y_fio = y_nome + n * tam / 72.0 * ENTRELINHA + 0.34
-        self.fio(s, ML, y_fio, W)
+        self.fio(s, ML, y_fio, W, cor_fio)
+        fim = y_fio
         if spec.get("apoio"):
+            h = altura(spec["apoio"], T_LEAD, 13.0)
             self.texto(s, ML, y_fio + 0.30, 13.0, spec["apoio"], T_LEAD,
-                       CLARO, LIGHT,
-                       h=altura(spec["apoio"], T_LEAD, 13.0) + 0.1)
-        self.rodape(s)
+                       cor_apoio, LIGHT, h=h + 0.1)
+            fim = y_fio + 0.30 + h
+        if cheia and not caminho:
+            self.marcacao(s, 0, 0, LARG, ALT, spec, escuro=True, baixo=True,
+                          piso=fim + 0.40, fundo=False)
+        self.rodape(s, sobre_foto=cheia)
         return s
 
     def pg_capa(self, spec):
