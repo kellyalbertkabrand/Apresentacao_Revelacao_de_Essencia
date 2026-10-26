@@ -1,14 +1,12 @@
 # Flávia Pereira Muccelin — FORMA e My Home
 
-Duas entregas, dois motores.
+Três entregas, dois motores.
 
 | Arquivo | O que é | Páginas | Como gerar |
 |---|---|---|---|
 | `conteudo.py` | Revelação de Essência — origem identitária da fundadora | 31 | `python3 modelos/revelacao-de-essencia/gerar.py clientes/flavia-muccelin` |
 | `sociedade.py` | Duas trajetórias, uma nova força — Flávia & Elandi | 26 | `python3 clientes/flavia-muccelin/gerar.py sociedade` |
-| `cultura.py` | Cultura Organizacional — FORMA e My Home | 24 | `python3 clientes/flavia-muccelin/gerar.py cultura` |
-| `marca_forma.py` | Cultura de Marca — FORMA | 21 | `python3 clientes/flavia-muccelin/gerar.py marca-forma` |
-| `marca_my_home.py` | Cultura de Marca — My Home | 21 | `python3 clientes/flavia-muccelin/gerar.py marca-my-home` |
+| `cultura.py` | Cultura Organizacional **e** de Marca — FORMA e My Home | 40 | `python3 clientes/flavia-muccelin/gerar.py cultura` |
 
 A Revelação tem **roteiro fixo** e gerador próprio. A apresentação da
 sociedade tem roteiro próprio e usa o **roteiro declarativo**
@@ -100,55 +98,64 @@ padrao-ka/conferir.sh clientes/flavia-muccelin/Duas-Trajetorias-Uma-Nova-Forca-F
 
 ---
 
-## Cultura Organizacional — FORMA e My Home
+## Cultura Organizacional e de Marca — uma apresentação só
 
-A Kelly pediu **o mais visual possível**, dentro da estrutura, das cores e do
-layout padrão. No padrão KA isso não é encher a página de caixas: é usar os
-arquétipos que carregam a ideia na forma, e deixar o parágrafo corrido só
-onde ele é mesmo necessário.
+**As três apresentações de cultura viraram uma.** A Kelly foi clara: a
+cultura organizacional e as duas culturas de marca vivem no mesmo documento.
+Faz sentido — a organizacional é compartilhada pelas duas empresas, e separar
+as marcas em arquivos distintos obrigava o leitor a abrir três para entender
+uma coisa só.
+
+`marca_forma.py` e `marca_my_home.py` foram aposentados; o conteúdo atual é o
+roteiro novo de 19 slides que ela mandou, e vive inteiro em `cultura.py`.
+O histórico dos arquivos antigos está no git.
+
+As 19 páginas saem em **40**, pela regra de sempre — um título e um bloco de
+texto por página. Cada slide carregava de três a cinco blocos (definição,
+método, elementos, crença, valores, personalidade, expressão), e empilhar
+isso é o que a regra proíbe.
 
 | Arquétipo | Papel | Páginas |
 |---|---|---|
-| `divisor` com foto | a virada de tema em tela cheia de imagem | 5 |
-| `declaracao` | a página de silêncio: uma frase, muito ar | 6 |
-| `camadas` | rótulo e leitura lado a lado — valores e a tabela do futuro | 2 |
-| `colunas` | os três comportamentos, em paralelo | 1 |
-| `lista` | a cultura nas pequenas decisões | 1 |
-| `foto_cheia` | o princípio cultural, em tela cheia | 1 |
-| `texto` | só onde o conteúdo é mesmo narrativa | 4 |
+| `divisor` com foto | as cinco viradas de seção, em tela cheia de imagem | 5 |
+| `declaracao` | a página de silêncio: uma crença, uma descoberta | 8 |
+| `colunas` | os campos em paralelo — comportamento, experiência, percepção | 8 |
+| `camadas` | rótulo e leitura lado a lado — valores, tensões, síntese | 3 |
+| `palavras` | os elementos investigados e a liderança | 3 |
+| `contraste` | as duas essências culturais, separadas pelo × | 1 |
+| `foto_cheia` | a essência de cada marca, em tela cheia | 2 |
+| `texto` | só onde o conteúdo é mesmo narrativa | 7 |
 
-As 15 páginas do roteiro saem em 24: os cinco "ABERTURA DO TEMA" viram
-divisores de verdade, e cada frase-tese que ela escreveu em negrito ganha a
-sua página de silêncio em vez de ficar empilhada embaixo do parágrafo.
+### Cinco seções, não quatro
 
-**As duas empresas andam juntas aqui.** Forma e My Home dividem a mesma
-cultura organizacional — é a Cultura de *Marca* que se separa em duas
-apresentações, não esta. As duas aparecem nomeadas na capa e o texto fala
-sempre no plural; **"a empresa" no singular está errado neste documento**,
-porque apaga a My Home.
+O sumário do roteiro traz quatro seções (organizacional, marca Forma, marca
+My Home, síntese), mas o corpo abre "02. CULTURA DE MARCA" com o conceito e o
+método **antes** de entrar em cada marca. Como esse conceito vale para as
+duas, ele virou a seção 02 e as marcas passaram a 03 e 04 — assim o sumário e
+as viradas contam a mesma história.
 
-### Duas observações
-
-1. O documento trazia **dois sumários** — um de capa e o do SLIDE 02. Valeu
-   o do slide 02, que é o que está dentro da apresentação.
-2. Os nomes citados no slide 09 — **Letícia, Mapinha e Joel** — ficaram como
-   ela escreveu. Se a apresentação for para a equipe inteira, vale conferir
-   se todos topam ser citados.
+| | Seção |
+|---|---|
+| 01 | Cultura organizacional |
+| 02 | Cultura de marca — o conceito e o método |
+| 03 | Cultura de marca Forma |
+| 04 | Cultura de marca My Home |
+| 05 | Síntese |
 
 ### As dez imagens
 
 | Arquivo esperado em `assets/` | O que é |
 |---|---|
-| `cultura-div-origem.png` | virada 01 — a primeira oficina, o lugar onde começou |
-| `cultura-div-valores.png` | virada 02 — alguém concentrado no trabalho, plano fechado |
-| `cultura-div-jeito-de-trabalhar.png` | virada 03 — a oficina em movimento, plano aberto |
-| `cultura-div-pratica.png` | virada 04 — montagem na casa do cliente |
-| `cultura-div-futuro.png` | virada 05 — um ambiente entregue, imagem de horizonte |
-| `cultura-oficina-forma.png` | o ofício: marcenaria, máquina, material |
-| `cultura-flavia-equipe.png` | Flávia com a equipe, liderança próxima |
-| `cultura-equipe-conversa.png` | duas ou três pessoas conversando no trabalho |
-| `cultura-maos-trabalho.png` | mãos, ferramenta, acabamento — detalhe fechado |
-| `cultura-time-completo.png` | o time completo, tela cheia na página do princípio |
+| `cultura-div-organizacional.png` | virada 01 — a oficina em movimento, plano aberto |
+| `cultura-div-marca.png` | virada 02 — detalhe de acabamento, plano fechado |
+| `cultura-div-forma.png` | virada 03 — projeto complexo em execução |
+| `cultura-div-my-home.png` | virada 04 — a bancada de criação, protótipo |
+| `cultura-div-sintese.png` | virada 05 — o time completo das duas operações |
+| `cultura-oficina-forma.png` | a origem do ofício, onde tudo começou |
+| `cultura-projeto-forma.png` | conversa técnica sobre o projeto |
+| `cultura-produto-my-home.png` | o material antes de virar produto |
+| `cultura-ambiente-forma.png` | ambiente entregue — tela cheia da essência da Forma |
+| `cultura-produto-em-casa.png` | produto no ambiente — tela cheia da essência da My Home |
 
 Enquanto não existirem, cada página mostra a **marcação**: a área exata com o
 briefing. Quando entrarem em `assets/` com esses nomes, a marcação some e
@@ -157,53 +164,6 @@ nada muda de lugar.
 ```bash
 python3 padrao-ka/rostos.py clientes/flavia-muccelin/assets
 python3 clientes/flavia-muccelin/gerar.py cultura
-padrao-ka/conferir.sh clientes/flavia-muccelin/Cultura-Organizacional-Forma-e-My-Home.pptx
+padrao-ka/conferir.sh clientes/flavia-muccelin/Cultura-Organizacional-e-de-Marca-Forma-e-My-Home.pptx
+python3 padrao-ka/conferir_voz.py clientes/flavia-muccelin
 ```
-
----
-
-## Cultura de Marca — duas apresentações, uma por marca
-
-O roteiro da Kelly veio como **um** documento cobrindo as duas marcas; ela
-pediu **duas apresentações separadas**. São dois módulos de conteúdo com a
-**mesma estrutura de quatro seções**, a mesma ordem e os mesmos arquétipos —
-é o que faz as duas serem lidas como irmãs sem serem a mesma coisa.
-
-| | FORMA | My Home |
-|---|---|---|
-| Capa | `FORMA` · Precisão que realiza. | `MY HOME` · Criatividade que transforma. |
-| 01 | Origem e crenças | Origem e crenças |
-| 02 | Personalidade e expressão | Personalidade e expressão |
-| 03 | Cultura em ação | Cultura em ação |
-| 04 | Percepção e coerência | Percepção e coerência |
-| Essência | Transformar complexidade em confiança. | Transformar possibilidades em criação. |
-
-**Nenhuma página do miolo fala da outra marca.** As duas exceções são as
-duas últimas páginas antes do fecho: a síntese (slide 13 do roteiro), que
-compara as duas, e a frase que a fecha. É proposital — uma cultura de marca
-precisa dizer onde a marca está, e na apresentação da My Home essa página
-carrega justamente o ponto que o conteúdo levanta: ela **não deve ser
-percebida apenas como o braço operacional da Forma**. Se preferir cada marca
-sozinha do começo ao fim, são duas páginas para tirar de cada arquivo.
-
-Na síntese, a marca dona da apresentação fica **à esquerda**, com o filete de
-acento; a irmã fica à direita, em filete neutro.
-
-### As catorze imagens
-
-Sete por apresentação: as quatro viradas de seção em tela cheia, duas de
-conteúdo e a da essência.
-
-| FORMA | My Home |
-|---|---|
-| `forma-div-origem.png` | `myhome-div-origem.png` |
-| `forma-div-personalidade.png` | `myhome-div-personalidade.png` |
-| `forma-div-cultura-em-acao.png` | `myhome-div-cultura-em-acao.png` |
-| `forma-div-percepcao.png` | `myhome-div-percepcao.png` |
-| `forma-projeto-complexo.png` | `myhome-sobras-material.png` |
-| `forma-detalhe-acabamento.png` | `myhome-produtos-variedade.png` |
-| `forma-ambiente-entregue.png` | `myhome-produto-em-casa.png` |
-
-O briefing de cada uma está na própria página, na marcação. Quando os
-arquivos entrarem em `assets/` com esses nomes, as marcações somem e nada
-muda de lugar.

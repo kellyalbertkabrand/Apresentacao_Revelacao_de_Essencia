@@ -577,9 +577,19 @@ class DeckNarrativo(Deck):
         Numa pagina de frase as linhas sao escritas a mao: cada uma e uma
         unidade de sentido. Se o corpo for grande demais para a largura, a
         linha quebra sozinha no meio e a intencao se perde — por isso o
-        tamanho sai da linha mais longa, nao de uma tabela."""
-        maior = max((len(l) for l in linhas_), default=1)
-        return max(piso, min(teto, largura / (CHAR * max(maior, 1))))
+        tamanho sai da linha mais longa, nao de uma tabela.
+
+        A linha mais longa e MEDIDA na propria Outfit. Contar caractere
+        tratava "iii" e "MMM" como a mesma coisa e errava para menos: numa
+        frase de 28 caracteres sobravam cinco polegadas de painel vazio e a
+        pagina de silencio entrava um terco menor do que podia."""
+        maior = max(linhas_, key=len, default="")
+        if not maior:
+            return teto
+        tam = teto
+        while tam > piso and largura_texto(maior, tam) > largura:
+            tam -= 1
+        return max(piso, tam)
 
     def pg_declaracao(self, spec):
         """A pagina de silencio: uma frase grande e muito ar."""
@@ -1065,10 +1075,18 @@ class DeckNarrativo(Deck):
         """Indice. Ate oito temas cabem numa coluna; acima disso vai para
         duas, senao o filete de um item corta o nome do seguinte."""
         s = self.slide()
-        # o titulo do sumario fica ACIMA do painel, em Ultra-Bold, como no
-        # arquivo final da Kelly
-        self.texto(s, 1.82, 0.88, 12.0, spec.get("titulo", "Sumário").upper(),
-                   T_SUMARIO, TINTA, ULTRA, espaco=1.0, h=T_SUMARIO / 60.0)
+        # O titulo do sumario fica ACIMA do painel, em Ultra-Bold, como no
+        # arquivo final da Kelly. Ele tem UMA linha de espaco: em duas, o
+        # texto transborda a caixa e cai por cima do primeiro item. Por isso
+        # o corpo cede ate caber — e so o titulo do sumario cede assim,
+        # porque aqui a alternativa e a colisao.
+        titulo_s = spec.get("titulo", "Sumário").upper()
+        tam_s = T_SUMARIO
+        while tam_s > 46 and largura_texto(titulo_s, tam_s) > 15.4:
+            tam_s -= 2
+        self.texto(s, 1.82, 0.88 + (T_SUMARIO - tam_s) / 150.0, 15.6,
+                   titulo_s, tam_s, TINTA, ULTRA, espaco=1.0,
+                   h=tam_s / 60.0)
         itens = spec["itens"]
         colunas = spec.get("grade", 1 if len(itens) <= 8 else 2)
         por_col = int(math.ceil(len(itens) / colunas))
