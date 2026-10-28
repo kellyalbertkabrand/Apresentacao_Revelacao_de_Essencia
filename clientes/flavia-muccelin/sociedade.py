@@ -77,8 +77,7 @@ PAGINAS = [
      "imagem": "O lugar da história: a casa além do portão, ou o próprio "
                "portão. Pode ser a casa de hoje, já dela. Imagem de "
                "arquitetura, sem pessoas.",
-     "titulo": "A menina que não aceitou os limites",
-     "tam_corpo": 21,
+     "titulo": "A menina que **não aceitou os limites**",
      "paragrafos": [
          "Aos 13 anos, Flávia era a filha do caseiro que sonhava com a casa "
          "além do portão.",
@@ -88,7 +87,7 @@ PAGINAS = [
      ]},
 
     # ——————————————————————————————————————————— 04
-    {"tipo": "lista", "titulo": "Um padrão que atravessa sua história",
+    {"tipo": "lista", "titulo": "**Um padrão** que atravessa sua história",
      "itens": [
          "A origem humilde parecia delimitar seu futuro.",
          "A função de projetista limitava seu crescimento.",
@@ -100,7 +99,7 @@ PAGINAS = [
               "determinado."},
 
     # ——————————————————————————————————————————— 05
-    {"tipo": "camadas", "titulo": "A essência empreendedora de Flávia",
+    {"tipo": "camadas", "titulo": "A **essência** empreendedora de Flávia",
      "camadas": [
          ("Inconformismo", "Para questionar limites."),
          ("Imaginação", "Para enxergar possibilidades."),
@@ -112,8 +111,7 @@ PAGINAS = [
     {"tipo": "texto", "foto": IMG["forma"], "lado": "esquerda",
      "imagem": "Um ambiente assinado pela FORMA — marcenaria, acabamento, "
                "projeto entregue. O trabalho, não as pessoas.",
-     "titulo": "A FORMA como expressão de sua essência",
-     "tam_corpo": 21,
+     "titulo": "**A FORMA** como expressão de sua essência",
      "paragrafos": [
          "Flávia encontrou uma empresa existente e enxergou o que ela ainda "
          "poderia se tornar.",
@@ -126,8 +124,7 @@ PAGINAS = [
     {"tipo": "texto", "foto": IMG["myhome"], "lado": "direita",
      "imagem": "Um produto My Home — o que nasceu da sobra. Pode ser a peça "
                "pronta, em uso, ou o material antes de virar produto.",
-     "titulo": "A My Home revela outra face dessa força",
-     "tam_corpo": 21,
+     "titulo": "A **My Home** revela outra face dessa força",
      "paragrafos": [
          "Onde havia materiais destinados ao descarte, Flávia enxergou novas "
          "possibilidades.",
@@ -141,8 +138,7 @@ PAGINAS = [
     {"tipo": "texto", "foto": IMG["flavia"], "lado": "esquerda",
      "imagem": "Flávia com a equipe, ou conduzindo uma conversa de trabalho. "
                "Liderança em ação, não retrato posado.",
-     "titulo": "Flávia é mais do que a fundadora",
-     "tam_corpo": 21,
+     "titulo": "Flávia é **mais do que a fundadora**",
      "paragrafos": [
          "Sua presença se reflete nos produtos, no relacionamento com "
          "clientes e na cultura da equipe.",
@@ -152,7 +148,7 @@ PAGINAS = [
      ]},
 
     # ——————————————————————————————————————————— 09
-    {"tipo": "texto", "titulo": "Uma nova etapa exige uma nova estrutura",
+    {"tipo": "texto", "titulo": "**Uma nova** etapa exige uma nova estrutura",
      "paragrafos": [
          "A capacidade de Flávia de resolver e realizar impulsionou o "
          "crescimento.",
@@ -165,8 +161,7 @@ PAGINAS = [
     {"tipo": "texto", "foto": IMG["elandi"], "lado": "esquerda",
      "imagem": "Retrato do Elandi, meio corpo, em ambiente de gestão ou "
                "escritório. Expressão serena e atenta, luz natural.",
-     "titulo": "Elandi, uma trajetória de gestão",
-     "tam_corpo": 21,
+     "titulo": "**Elandi,** uma trajetória de gestão",
      "paragrafos": [
          "Elandi começou a trabalhar aos 14 anos.",
          "Construiu quatro décadas de experiência profissional, atuando em "
@@ -176,7 +171,7 @@ PAGINAS = [
      ]},
 
     # ——————————————————————————————————————————— 11
-    {"tipo": "camadas", "titulo": "A essência profissional de Elandi",
+    {"tipo": "camadas", "titulo": "A **essência** profissional de Elandi",
      "camadas": [
          ("Discernimento", "Para compreender cenários."),
          ("Visão sistêmica", "Para conectar decisões e consequências."),
@@ -186,7 +181,7 @@ PAGINAS = [
 
     # ——————————————————————————————————————————— 12
     {"tipo": "texto",
-     "titulo": "O olhar de quem compreende a complexidade",
+     "titulo": "O olhar de quem **compreende a complexidade**",
      "paragrafos": [
          "Ao analisar a expansão para mercados a centenas de quilômetros, "
          "Elandi considera custos operacionais, margens, logística e "
@@ -197,7 +192,7 @@ PAGINAS = [
      ]},
 
     # ——————————————————————————————————————————— 13
-    {"tipo": "texto", "titulo": "Um olhar que vai além dos números",
+    {"tipo": "texto", "titulo": "Um olhar que vai **além dos números**",
      "paragrafos": [
          "Elandi também compreende o valor da experiência entregue.",
          "Para ele, uma montagem 99,99% correta ainda pode deixar no cliente "
@@ -206,7 +201,7 @@ PAGINAS = [
      ]},
 
     # ——————————————————————————————————————————— 14
-    {"tipo": "texto", "titulo": "Responsabilidade é construir continuidade",
+    {"tipo": "texto", "titulo": "Responsabilidade é **construir continuidade**",
      "paragrafos": [
          "Após quase 20 anos na mesma empresa, Elandi vem preparando sua "
          "transição e transmitindo conhecimento à equipe.",
@@ -225,7 +220,7 @@ PAGINAS = [
                 "um obstáculo, e sim ser um agregador.”"],
      "apoio": "Elandi, em entrevista."},
 
-    {"tipo": "texto", "titulo": "A maturidade de quem sabe somar",
+    {"tipo": "texto", "titulo": "A maturidade de quem **sabe somar**",
      "paragrafos": [
          "Elandi reconhece a liderança e o conhecimento de Flávia.",
          "Sua intenção é colocar a própria experiência a serviço de uma "
@@ -270,7 +265,7 @@ PAGINAS = [
               "e necessidades operacionais."},
 
     # ——————————————————————————————————————————— 19
-    {"tipo": "colunas", "titulo": "Onde cada um pode gerar mais valor",
+    {"tipo": "colunas", "titulo": "Onde cada um pode **gerar mais valor**",
      "colunas": [
          ("Flávia",
           "Permanece como referência na visão de mercado, nos clientes, nos "
@@ -283,7 +278,7 @@ PAGINAS = [
               "de ambos."},
 
     # ——————————————————————————————————————————— 20
-    {"tipo": "texto", "titulo": "Uma parceria que evolui a empresa",
+    {"tipo": "texto", "titulo": "Uma parceria que **evolui as empresas**",
      "paragrafos": [
          "Flávia já construiu conhecimento, reputação, processos e uma "
          "equipe capaz de entregar sua visão.",

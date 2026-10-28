@@ -24,7 +24,7 @@ delas é negociável:
 2. **A hierarquia vem da escala e do ar, não do peso.** Título grande em
    **CAIXA ALTA e peso leve** — a força vem do tamanho e do espaço, nunca do
    negrito. Títulos de página e nomes de seção são sempre em caixa alta.
-3. **Um único acento quente.** O terracota `#A9724A` aparece em filetes de
+3. **Um único acento quente.** O terracota `#CC754E` aparece em filetes de
    1,3", pontos de lista e numerais de seção. Nunca em área grande.
 
 ---
@@ -60,8 +60,9 @@ as páginas com foto sangrando dispensam o painel.
 | Títulos e frases | `#1C1C1A` | `TINTA` |
 | Corpo de texto | `#6B6B66` | `CORPO` |
 | Eyebrow, legenda, rodapé | `#A5A49F` | `CLARO` |
-| Filetes | `#DFDDD7` | `FIO` |
-| Acento terracota | `#A9724A` | `ACENTO` |
+| Filetes | `#A5A49F` | `FIO` |
+| Acento terracota | `#CC754E` | `ACENTO` |
+| Frase de declaração | `#323330` | `GRAFITE` |
 
 ---
 
@@ -108,37 +109,34 @@ casa o nome composto, cai na mesma face para todos os pesos e a prévia mente.
 padrao-ka/instalar-fontes.sh      # uma vez por máquina
 ```
 
-Escala fechada — **não inventar tamanhos fora desta tabela**:
+Escala fechada — **não inventar tamanhos fora desta tabela**. Ela foi
+**medida no arquivo que a Kelly diagramou à mão** em outubro/2026, forma por
+forma. O mapeamento completo, com a geometria e os quatro tratamentos de
+imagem, está em [PADRAO-KELLY.md](PADRAO-KELLY.md).
 
 | Constante | pt | Onde |
 |---|---|---|
-| `T_DIVISOR` | 94 | nome da seção, na virada de tema |
+| `T_DIVISOR` | 143,5 | nome da seção, na virada de tema (Bold, à direita) |
+| `T_FECHO` | 95 | o OBRIGADA! da última página |
 | `T_SUMARIO` | 78 | título do sumário, acima do painel |
 | `T_CAPA` | 75 | título da capa |
-| `T_DISPLAY` | 74 | frase grande que abre uma etapa |
-| `T_H1` | 42 | título de página |
+| `T_DIV_APOIO` | 65 | a linha de apoio da virada |
+| `T_H1` | 42 | título de página — Light, com a frase-chave em Bold |
+| `T_DISPLAY` | 37 | a frase da página de declaração |
 | `T_SUBCAPA` | 30 | subtítulo da capa |
-| `T_FRASE` | 29 | aspas de citação |
+| `T_LISTA` | 30 | item de lista — maior que o corpo, e em tinta |
+| `T_FRASE` | 28 | a frase no cartão sobre a fotografia |
 | `T_ASSINATURA` | 26,8 | assinatura do método, na capa |
-| `T_LEAD` | 24 | linha de abertura |
-| `T_MEDIO` | 23 | frase forte, item de lista forte |
-| `T_CORPO` | 21 | corpo |
+| `T_CORPO` · `T_LEAD` · `T_MEDIO` | 25 | corpo, abertura e rótulo de coluna |
 | `T_DATA` | 19,5 | data, na capa |
-| `T_RODAPE` | 17 | rodapé |
-| `T_MINI` | 17 | legenda miúda |
-| `T_ROTULO` | 14 | eyebrow e rótulo em caixa alta |
+| `T_CAMADA_ROT` | 18 | rótulo da camada (Semi-Bold, espacejado) |
+| `T_RODAPE` · `T_MINI` | 17 | rodapé e legenda miúda |
+| `T_ROTULO` | 14 | rótulo miúdo em caixa alta |
 
-> **Esta tabela foi MEDIDA, não estimada.** O arquivo final da Kelly reporta
-> a página em 1920 px para 20", ou seja 96 px/in, então `pt = px × 0,75`.
->
-> A primeira transcrição deste padrão chutou a escala e saiu pequena demais —
-> o nome da seção vinha **34% menor**, a frase de abertura **38% menor**, o
-> rodapé **29% menor**, o corpo **19% menor**. Decks gerados antes da medição
-> carregam o erro.
->
-> Lead, corpo, legenda e rótulo ficam no topo da faixa medida (o arquivo
-> dela usa 22/18 numa página e 24/19 noutra): em projeção o corpo menor
-> não se lê.
+**A entrelinha é EXATA**, não múltiplo da altura de linha da fonte: 1,40 do
+corpo no texto e 1,37 no título, gravados em pontos. É assim no arquivo dela,
+e tem um efeito colateral bom — a conta de altura passa a ser a própria
+medida (`linhas × corpo × espaço`), sem fator de correção.
 
 ### A escala legada
 

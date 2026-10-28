@@ -47,14 +47,15 @@ from pptx.oxml.xmlchemy import OxmlElement  # noqa: E402
 from rostos import foco as foco_cabeca  # noqa: E402
 from ka_layout import (  # noqa: E402
     EMU,
-    ACENTO, BRANCO, CLARO, CORPO, FIO, PAINEL, TINTA,
+    ACENTO, BRANCO, CLARO, CORPO, FIO, GRAFITE, PAINEL, TINTA,
     BOLD, LIGHT, SANS, SANS_LIGHT, SANS_SEMI, SEMI,
-    T_CAPA, T_CORPO, T_DISPLAY, T_DIVISOR, T_FRASE, T_H1, T_LEAD, T_MEDIO,
+    T_CAPA, T_CORPO, T_DISPLAY, T_DIVISOR, T_DIV_APOIO, T_FRASE, T_H1,
+    T_LEAD, T_LISTA, T_CAMADA_ROT, T_MEDIO,
     T_MINI, T_RODAPE, T_ROTULO, T_SUMARIO, T_SUBCAPA, T_ASSINATURA,
-    T_DATA, MEDIO, REG, ULTRA,
+    T_DATA, T_FECHO, MEDIO, REG, ULTRA,
     ALT, LARG, ML, MR, W, Y_EYE, Y_H1, Y_RODAPE,
     LOGO_KA, SIMBOLO_IKIGAI, TRACO,
-    Deck,
+    Deck, partes, sem_marcas,
 )
 
 # ------------------------------------------------------------------ medidas
@@ -123,7 +124,10 @@ def linhas(texto, tam, largura):
 # corpo: a Outfit declara 1,26 em e o LibreOffice usa 1,20. Medir pelo corpo
 # puro subestimava toda caixa em ~20% — era por isso que o filete de acento
 # cortava a ultima linha do paragrafo mesmo com a contagem de linhas certa.
-ENTRELINHA = 1.24
+# A entrelinha e gravada EXATA (ver Deck.texto): 1,40 do corpo no texto,
+# 1,37 no titulo. Nao ha mais fator de correcao da altura de linha da fonte —
+# o que se escreve e o que o PowerPoint compoe, e por isso a medida fecha.
+ENTRELINHA = 1.0
 
 
 def altura(texto, tam, largura, espaco=1.4):
@@ -180,7 +184,7 @@ class DeckNarrativo(Deck):
 
     # ------------------------------------------------ marcacao de imagem
     def marcacao(self, s, x, y, w, h, spec, escuro=False, baixo=False,
-                 piso=None, fundo=True):
+                 piso=None, fundo=True, raio=None):
         """A area reservada para uma fotografia que ainda nao existe.
 
         Nao e um lugar vazio: e a fotografia desenhada em negativo. Ocupa a
@@ -192,7 +196,7 @@ class DeckNarrativo(Deck):
         por cima da frase."""
         if fundo:
             self.bloco(s, x, y, w, h,
-                       MARCA_ESCURO if escuro else MARCA_FUNDO)
+                       MARCA_ESCURO if escuro else MARCA_FUNDO, raio=raio)
         cor_rot = MARCA_ACENTO_ESCURO if escuro else ACENTO
         cor_txt = MARCA_SOBRE_ESCURO if escuro else CORPO
         larg = min(w - 1.30, 12.60 if baixo else 8.60)
@@ -234,11 +238,12 @@ class DeckNarrativo(Deck):
         self._areas.append((cx - 0.2, cy - 0.2, larg + 0.4, bloco + 0.4))
 
     def _por_foto(self, s, x, y, w, h, caminho, foco, spec, escuro=False,
-                  baixo=False, piso=None):
+                  baixo=False, piso=None, raio=None):
         """A fotografia — ou, enquanto ela nao existe, a marcacao dela."""
         if caminho:
-            return self.foto(s, x, y, w, h, caminho, foco=foco)
-        return self.marcacao(s, x, y, w, h, spec, escuro, baixo, piso)
+            return self.foto(s, x, y, w, h, caminho, foco=foco, raio=raio)
+        return self.marcacao(s, x, y, w, h, spec, escuro, baixo, piso,
+                             raio=raio)
 
     def _faixa_cabe(self, caminho, fatia):
         """A cabeca sobrevive a uma faixa horizontal dessa altura?"""
@@ -302,18 +307,21 @@ class DeckNarrativo(Deck):
         titulo = spec.get("titulo")
         if not titulo:
             return y
-        # Titulo de pagina em CAIXA ALTA. Caixa alta ocupa cerca de 10% mais
-        # largura que caixa baixa, entao a conta de linhas usa o texto ja
-        # convertido — senao o titulo quebra onde o calculo nao previu.
+        # Titulo de pagina em CAIXA ALTA, com a frase-chave em Bold (o `**`
+        # do conteudo). Caixa alta ocupa cerca de 10% mais largura que caixa
+        # baixa, entao a conta de linhas usa o texto ja convertido — e sem os
+        # marcadores, que nao se imprimem. Bold e mais largo que Light, e a
+        # FOLGA da medida cobre essa diferenca.
         titulo = (titulo.upper() if isinstance(titulo, str)
                   else [l.upper() for l in titulo])
         tam = spec.get("tam_titulo", T_H1)
-        n = linhas(titulo, tam, w) if isinstance(titulo, str) else len(titulo)
+        nu = sem_marcas(titulo)
+        n = linhas(nu, tam, w) if isinstance(titulo, str) else len(titulo)
         self.titulo(s, titulo, x, y, w, tam, cor)
         # O filete sai da altura REAL do titulo, nao de uma estimativa: num
         # titulo de duas linhas a conta antiga encostava o filete no texto, e
         # num de uma linha sobrava um vao.
-        fim = y + n * tam / 72.0 * 1.14 * ENTRELINHA + 0.20
+        fim = y + n * tam / 72.0 * 1.37 + 0.20
         self.fio(s, x, fim, w, FIO if cor is TINTA else CLARO)
         return fim + 0.38
 
@@ -336,7 +344,7 @@ class DeckNarrativo(Deck):
                 h = altura(spec["lead"], tam_lead * k, w) + 0.12
                 blocos.append(("lead", h)); total += h + gap_lead * k
             for par in spec.get("paragrafos", []):
-                h = altura(par, tam_corpo * k, w) + 0.10
+                h = altura(sem_marcas(par), tam_corpo * k, w) + 0.10
                 blocos.append(("par", h, par)); total += h + gap_par * k
             for item in spec.get("itens", []):
                 h = max(0.40, altura(item, tam_corpo * k, w - 0.5) + 0.06)
@@ -371,7 +379,8 @@ class DeckNarrativo(Deck):
                            LIGHT, h=b[1])
                 y += b[1] + gap_lead * k
             elif b[0] == "par":
-                self.texto(s, x, y, w, b[2], tam_corpo * k, cor, LIGHT, h=b[1])
+                self.texto_rico(s, x, y, w, b[2], tam_corpo * k, cor, LIGHT,
+                                h=b[1])
                 y += b[1] + gap_par * k
             elif b[0] == "item":
                 self.ponto(s, x + 0.05, y + 0.17, 0.085, CLARO)
@@ -443,6 +452,22 @@ class DeckNarrativo(Deck):
                     spec = dict(spec, fatia=precisa)
 
         s = self.slide(painel=False)
+
+        if lado == "solta":
+            # A imagem SOLTA: um retangulo de cantos arredondados pousado
+            # sobre o painel, a direita, sem sangrar. E o tratamento que a
+            # Kelly mais usou — a foto convive com o painel em vez de
+            # substituir metade dele.
+            self.bloco(s, PAINEL_M, PAINEL_M, LARG - 2 * PAINEL_M,
+                       ALT - 2 * PAINEL_M - 0.55, PAINEL, raio=0.18)
+            x_img = spec.get("x_imagem", 11.95)
+            w_img = spec.get("larg_imagem", 6.95)
+            h_img = spec.get("alt_imagem", 7.85)
+            y_img = (ALT - 0.55) / 2.0 - h_img / 2.0
+            self._por_foto(s, x_img, y_img, w_img, h_img, caminho,
+                           spec.get("foco", 0.5), spec, raio=0.18)
+            self._col = (ML, x_img - ML - 0.50)
+            return s, Y_H1, FUNDO
 
         if lado in ("direita", "esquerda"):
             v = max(self.FATIA_V_MIN, spec.get("fatia_v", self.FATIA_V_MIN))
@@ -530,48 +555,50 @@ class DeckNarrativo(Deck):
         return self.pg_texto(spec)
 
     def pg_foto_cheia(self, spec):
-        """Fotografia em tela cheia com veu; texto branco por cima."""
+        """Fotografia em tela cheia com um CARTAO claro por cima.
+
+        No arquivo da Kelly a frase sobre a foto nao vem em branco com veu:
+        vem num cartao do mesmo claro do painel, encostado no alto a direita.
+        O veu escurece a imagem inteira para salvar o texto; o cartao
+        preserva a fotografia e ainda assim garante leitura."""
         s = self.slide(painel=False)
         caminho = self.arquivo(spec.get("foto"))
         if caminho:
             foco, _ = self._enquadrar(caminho, LARG, ALT, spec.get("foco", 0.5))
             self.foto(s, 0, 0, LARG, ALT, caminho, foco=foco)
-            self.veu(s, 0, 0, LARG, ALT, TINTA, spec.get("veu", 0.58))
         elif spec.get("foto"):
-            # a imagem ainda nao existe: a pagina inteira vira a marcacao
-            # dela. O fundo entra agora; o rotulo so no fim, quando se sabe
-            # onde o texto terminou
             self.bloco(s, 0, 0, LARG, ALT, MARCA_ESCURO)
         else:
             self.veu(s, 0, 0, LARG, ALT, TINTA, spec.get("veu", 0.58))
+
         linhas_ = spec.get("linhas") or [spec.get("titulo", "")]
-        tam = spec.get("tam") or self._tam_display(linhas_, 15.4)
-        # a frase sai com entrelinha 1,26 e a fonte ainda tem a sua propria
-        # altura de linha: sem ENTRELINHA o bloco mede 20% a menos do que
-        # ocupa, e o filete de acento acaba por cima da segunda linha
-        alt_bloco = len(linhas_) * tam / 72.0 * 1.26 * ENTRELINHA
-        y = (ALT - alt_bloco) / 2 - 0.30
-        if spec.get("eyebrow"):
-            self.texto(s, ML, y - 0.62, W, spec["eyebrow"].upper(), T_ROTULO,
-                       BRANCO, SANS, spc=3.0, h=0.32)
-        self.texto(s, ML, y, 15.4, linhas_, tam, BRANCO, LIGHT, espaco=1.26,
-                   h=alt_bloco + 0.30)
-        y = pe(y, len(linhas_), tam, 1.26) + 0.26
-        if spec.get("apoio"):
-            self.fio(s, ML, y, 1.30, ACENTO, esp=0.03)
-            h = altura(spec["apoio"], T_CORPO, 13.0)
-            self.texto(s, ML, y + 0.30, 13.0, spec["apoio"], T_CORPO, BRANCO,
-                       LIGHT, h=h + 0.1)
-            y += 0.30 + h
+        larg = spec.get("larg_cartao", 8.54)
+        recuo = 0.62
+        lg = larg - 2 * recuo
+        tam = spec.get("tam", T_FRASE)
+        while tam > 18 and max(linhas(l, tam, lg)
+                               for l in sem_marcas(linhas_)) > 1:
+            tam -= 1
+        alt_frase = len(linhas_) * tam / 72.0 * 1.34
+        h_apoio = (altura(sem_marcas(spec["apoio"]), T_MINI, lg)
+                   if spec.get("apoio") else 0.0)
+        alt = recuo + alt_frase + (0.18 + h_apoio if h_apoio else 0.0) + recuo
+        x = spec.get("x_cartao", LARG - larg - 0.0)
+        y = spec.get("y_cartao", 1.125)
+        self.bloco(s, x, y, larg, alt, PAINEL, raio=0.18)
+        self.texto_rico(s, x + recuo, y + recuo, lg, linhas_, tam, TINTA,
+                        LIGHT, espaco=1.34, h=alt_frase + 0.12)
+        if h_apoio:
+            self.texto(s, x + recuo, y + recuo + alt_frase + 0.18, lg,
+                       spec["apoio"], T_MINI, CORPO, LIGHT, h=h_apoio + 0.1)
         if not caminho and spec.get("foto"):
-            # o fundo ja foi desenhado la em cima, antes do texto
             self.marcacao(s, 0, 0, LARG, ALT, spec, escuro=True, baixo=True,
-                          piso=y + 0.40, fundo=False)
+                          piso=y + alt + 0.50, fundo=False)
         self.rodape(s, sobre_foto=True)
         return s
 
     # ---------------------------------------------------- paginas tipograficas
-    def _tam_display(self, linhas_, largura, teto=T_DISPLAY, piso=30):
+    def _tam_display(self, linhas_, largura, teto=T_DISPLAY, piso=24):
         """Corpo que faz as quebras do autor valerem.
 
         Numa pagina de frase as linhas sao escritas a mao: cada uma e uma
@@ -595,14 +622,14 @@ class DeckNarrativo(Deck):
         """A pagina de silencio: uma frase grande e muito ar."""
         s = self.slide()
         linhas_ = spec.get("linhas", [])
-        tam = spec.get("tam") or self._tam_display(linhas_, 15.4)
+        tam = spec.get("tam") or self._tam_display(sem_marcas(linhas_), 15.4)
         # a frase sai com entrelinha 1,26 e a fonte ainda tem a sua propria
         # altura de linha: sem ENTRELINHA o bloco mede 20% a menos do que
         # ocupa, e o filete de acento acaba por cima da segunda linha
-        alt_bloco = len(linhas_) * tam / 72.0 * 1.26 * ENTRELINHA
+        alt_bloco = len(linhas_) * tam / 72.0 * 1.40
         extra = 0.0
         if spec.get("apoio"):
-            extra = 0.90 + altura(spec["apoio"], T_CORPO, 13.0)
+            extra = 0.90 + altura(sem_marcas(spec["apoio"]), T_CORPO, 13.0)
         y = (9.60 + 1.10 - alt_bloco - extra) / 2
         if spec.get("eyebrow"):
             # o eyebrow sobe um pouco: colado, o filete de acento parecia
@@ -611,12 +638,13 @@ class DeckNarrativo(Deck):
                        ACENTO if spec.get("marcar") else CLARO, SEMI if
                        spec.get("marcar") else SANS, spc=3.0, h=0.32)
         self.fio(s, ML, y - 0.44, 1.30, ACENTO, esp=0.03)
-        self.texto(s, ML, y, 15.4, linhas_, tam, TINTA, LIGHT, espaco=1.26,
-                   h=alt_bloco + 0.30)
+        self.texto_rico(s, ML, y, 15.4, linhas_, tam, GRAFITE, LIGHT,
+                        espaco=1.40, h=alt_bloco + 0.30)
         if spec.get("apoio"):
-            self.texto(s, ML, pe(y, len(linhas_), tam, 1.26) + 0.42, 13.0,
-                       spec["apoio"], T_CORPO, CORPO, LIGHT,
-                       h=altura(spec["apoio"], T_CORPO, 13.0) + 0.1)
+            self.texto_rico(s, ML, pe(y, len(linhas_), tam, 1.40) + 0.42, 13.0,
+                            spec["apoio"], T_CORPO, CORPO, LIGHT,
+                            h=altura(sem_marcas(spec["apoio"]), T_CORPO, 13.0)
+                            + 0.1)
         self.rodape(s)
         return s
 
@@ -648,13 +676,20 @@ class DeckNarrativo(Deck):
         fundo = y
         for i, (rot, desc) in enumerate(cols):
             cx = X + i * (larg + GAP)
-            self.fio(s, cx, y, larg)
-            self.texto(s, cx, y + 0.28, larg, rot, T_MEDIO, TINTA, LIGHT,
-                       h=altura(rot, T_MEDIO, larg, 1.2) + 0.1)
-            dy = y + 0.30 + altura(rot, T_MEDIO, larg, 1.2) + 0.26
-            h = altura(desc, T_CORPO, larg) + 0.1
-            self.texto(s, cx, dy, larg, desc, T_CORPO, CORPO, LIGHT, h=h)
+            # o filete da coluna e GROSSO e de ACENTO: e ele que abre o
+            # campo. O da camada e fino e cinza; sao dois papeis diferentes
+            self.bloco(s, cx, y, larg, 0.062, ACENTO)
+            h_rot = altura(sem_marcas(rot), T_MEDIO, larg, 1.40) + 0.1
+            self.texto_rico(s, cx, y + 0.30, larg, rot, T_MEDIO, TINTA, LIGHT,
+                            h=h_rot)
+            dy = y + 0.30 + h_rot + 0.22
+            h = altura(sem_marcas(desc), T_CORPO, larg) + 0.1
+            self.texto_rico(s, cx, dy, larg, desc, T_CORPO, CORPO, LIGHT, h=h)
             fundo = max(fundo, dy + h)
+        # o divisor vertical entre duas colunas, no mesmo acento
+        if n == 2:
+            self.bloco(s, X + larg + GAP / 2 - 0.011, y + 0.34, 0.021,
+                       max(0.6, fundo - y - 0.50), ACENTO)
         if spec.get("equacao"):
             tf = self.caixa(s, X, min(fundo + 0.45, 8.45), LG, 0.55)
             p = self.par(tf, True, align=PP_ALIGN.CENTER)
@@ -666,10 +701,14 @@ class DeckNarrativo(Deck):
             self.txt(p, spec["equacao"][-1], T_MEDIO, TINTA, SEMI)
             fundo = min(fundo + 0.45, 8.45) + 0.55
         if spec.get("fecho"):
-            h = altura(spec["fecho"], T_CORPO, min(13.4, LG)) + 0.1
-            self.texto(s, X, min(fundo + 0.45, FIM - h + 0.3),
-                       min(13.4, LG), spec["fecho"], T_CORPO, CORPO, LIGHT,
-                       h=h)
+            # centrado, e nao alinhado a esquerda: no arquivo dela o fecho de
+            # uma pagina de colunas fica no eixo, costurando as duas
+            lg = min(11.28, LG)
+            h = altura(sem_marcas(spec["fecho"]), T_CORPO, lg) + 0.1
+            self.texto_rico(s, X + (LG - lg) / 2.0,
+                            min(fundo + 0.62, FIM - h + 0.3), lg,
+                            spec["fecho"], T_CORPO, CORPO, LIGHT,
+                            align=PP_ALIGN.CENTER, h=h)
         self._fechar(s, spec)
         return s
 
@@ -808,9 +847,11 @@ class DeckNarrativo(Deck):
         # espremida: encolher a caixa abaixo do que o texto ocupa nao faz o
         # texto encolher — faz ele invadir a linha de baixo.
         espaco = FIM + 0.30 - topo
-        escala = [T_LEAD, T_CORPO, T_MINI] if larg >= 7.0 else [T_CORPO, T_MINI]
+        escala = [T_CORPO, T_MEDIO, T_MINI] if larg >= 7.0 else [T_CORPO,
+                                                                 T_MINI]
         for tam_desc in escala:
-            alturas = [max(0.72, altura(desc, tam_desc, larg, 1.35) + 0.44)
+            alturas = [max(0.72, altura(sem_marcas(desc), tam_desc, larg, 1.40)
+                           + 0.44)
                        for _, desc in itens]
             if sum(alturas) <= espaco:
                 break
@@ -821,10 +862,13 @@ class DeckNarrativo(Deck):
         for i, (rot, desc) in enumerate(itens):
             ultimo = i == len(itens) - 1
             self.fio(s, X, yy, LG)
-            self.rotulo(s, rot, X, yy + 0.26, min(5.20, LG * 0.37),
-                        ACENTO if ultimo else CLARO)
-            self.texto(s, X + min(5.60, LG * 0.40), yy + 0.18, larg, desc,
-                       tam_desc, TINTA, LIGHT, h=alturas[i] - 0.26)
+            # O rotulo e Semi-Bold de 18pt, espacejado, em TINTA — so o
+            # ultimo degrau recebe o acento, para fechar a escada.
+            self.texto(s, X, yy + 0.30, min(5.20, LG * 0.37), rot.upper(),
+                       T_CAMADA_ROT, ACENTO if ultimo else TINTA, SEMI,
+                       spc=2.82, h=0.40)
+            self.texto_rico(s, X + min(5.60, LG * 0.40), yy + 0.22, larg, desc,
+                            tam_desc, TINTA, LIGHT, h=alturas[i] - 0.30)
             yy += alturas[i]
         # o acento fecha a escada por baixo. Em cima da ultima linha ele
         # parece sublinhar a penultima, que e justamente a que nao importa
@@ -872,13 +916,16 @@ class DeckNarrativo(Deck):
         # passos iguais subestima o item que quebra em duas linhas, e era por
         # isso que o filete de acento do fecho atravessava a ultima linha.
         def medir(tam):
-            alturas = [max(0.46, altura(i, tam, largura - 0.48, 1.38) + 0.06)
+            alturas = [max(0.46, altura(sem_marcas(i), tam, largura - 0.576,
+                                       1.40) + 0.06)
                        for i in itens]
             pior = max(sum(alturas[c * por_col:(c + 1) * por_col])
                        for c in range(colunas))
             return alturas, pior
 
-        for tam in (T_LEAD, T_CORPO, T_MINI):
+        # O item de lista le em 30pt — maior que o corpo, e em tinta cheia.
+        # A lista nao e texto corrido: cada linha e uma afirmacao.
+        for tam in (T_LISTA, T_CORPO, T_MINI):
             alturas, pior = medir(tam)
             if pior <= disponivel:
                 break
@@ -891,11 +938,11 @@ class DeckNarrativo(Deck):
             yy = y
             for i in range(c * por_col, min(len(itens), (c + 1) * por_col)):
                 item = itens[i]
-                self.ponto(s, cx + 0.05, yy + 0.16, 0.085,
-                           ACENTO if i == len(itens) - 1 and
-                           spec.get("marcar_ultimo") else CLARO)
-                self.texto(s, cx + 0.48, yy, largura - 0.48, item, tam, TINTA,
-                           LIGHT, h=alturas[i])
+                # O marcador e um QUADRADO de acento, nao um ponto cinza: no
+                # arquivo da Kelly ele tem 0,112" e e a unica cor da pagina.
+                self.bloco(s, cx + 0.004, yy + 0.19, 0.112, 0.112, ACENTO)
+                self.texto_rico(s, cx + 0.576, yy, largura - 0.576, item, tam,
+                                TINTA, LIGHT, h=alturas[i])
                 yy += alturas[i] + folga
             fundo = max(fundo, yy - folga)
         if spec.get("destaque"):
@@ -1119,46 +1166,62 @@ class DeckNarrativo(Deck):
         return s
 
     def pg_divisor(self, spec):
-        """Virada de tema. O filete e a linha de apoio acompanham a altura
-        REAL do nome da secao — com um valor fixo, um nome de duas linhas
-        empurrava o filete para longe e a frase ficava solta no meio do
-        nada.
+        """A virada de tema, no formato que a Kelly diagramou: o nome da
+        secao GIGANTE em Bold, alinhado a direita, e a linha de apoio logo
+        abaixo, no mesmo eixo. Sem painel — a textura corre de borda a borda.
 
-        Com `foto`, a virada vira pagina inteira de imagem: e o lugar em que
-        a fotografia rende mais, porque nao disputa com texto nenhum."""
-        cheia = bool(spec.get("foto"))
+        O nome cede corpo ate caber na largura: 143,5pt e o teto, nao uma
+        obrigacao, e "CULTURA ORGANIZACIONAL" nao cabe em 143,5pt nenhum.
+
+        Com `foto`, a mesma composicao entra em branco sobre a imagem."""
         caminho = self.arquivo(spec.get("foto"))
+        cheia = bool(spec.get("foto"))
+        s = self.slide(painel=False)
         if cheia:
-            s = self.slide(painel=False)
             if caminho:
                 foco, _ = self._enquadrar(caminho, LARG, ALT,
                                           spec.get("foco", 0.5))
                 self.foto(s, 0, 0, LARG, ALT, caminho, foco=foco)
-                self.veu(s, 0, 0, LARG, ALT, TINTA, spec.get("veu", 0.58))
+                self.veu(s, 0, 0, LARG, ALT, TINTA, spec.get("veu", 0.52))
             else:
                 self.bloco(s, 0, 0, LARG, ALT, MARCA_ESCURO)
+            cor_nome = BRANCO
+            cor_apoio = BRANCO
             cor_num = MARCA_ACENTO_ESCURO if not caminho else ACENTO
-            cor_nome, cor_fio, cor_apoio = BRANCO, CLARO, BRANCO
         else:
-            s = self.slide()
-            cor_num, cor_nome, cor_fio, cor_apoio = ACENTO, TINTA, FIO, CLARO
-        y = 4.20
-        self.texto(s, ML, y, 4.0, spec["numero"], T_ROTULO, cor_num, SEMI,
-                   spc=3.0, h=0.3)
+            cor_nome, cor_apoio, cor_num = TINTA, TINTA, ACENTO
+
+        DIR = 18.875          # a borda direita, medida no arquivo dela
+        larg = DIR - ML
         nome = spec["nome"].upper()
-        tam = T_DIVISOR if len(nome) <= 16 else 68
-        n = linhas(nome, tam, 14.0)
-        y_nome = y + 0.60
-        self.texto(s, ML, y_nome, 14.0, nome, tam, cor_nome, LIGHT,
-                   espaco=1.0, h=n * tam / 72.0 * 1.3)
-        y_fio = y_nome + n * tam / 72.0 * ENTRELINHA + 0.34
-        self.fio(s, ML, y_fio, W, cor_fio)
-        fim = y_fio
-        if spec.get("apoio"):
-            h = altura(spec["apoio"], T_LEAD, 13.0)
-            self.texto(s, ML, y_fio + 0.30, 13.0, spec["apoio"], T_LEAD,
-                       cor_apoio, LIGHT, h=h + 0.1)
-            fim = y_fio + 0.30 + h
+        tam = spec.get("tam_nome", T_DIVISOR)
+        while tam > 46 and largura_texto(nome, tam) > larg:
+            tam -= 2.5
+        alt_nome = tam / 72.0 * 1.10
+
+        apoio = spec.get("apoio")
+        tam_ap = spec.get("tam_apoio", T_DIV_APOIO)
+        n_ap = 0
+        if apoio:
+            while tam_ap > 24 and largura_texto(apoio, tam_ap) > larg:
+                tam_ap -= 2
+            n_ap = linhas(apoio, tam_ap, larg)
+        alt_ap = n_ap * tam_ap / 72.0 * 1.16 if apoio else 0.0
+
+        # o bloco inteiro centrado na altura da pagina
+        bloco = alt_nome + (0.28 + alt_ap if apoio else 0.0)
+        y = (ALT - bloco) / 2.0 - 0.25
+        if spec.get("numero"):
+            self.texto(s, ML, y - 0.52, larg, spec["numero"], T_ROTULO,
+                       cor_num, SEMI, spc=3.0, align=PP_ALIGN.RIGHT, h=0.32)
+        self.texto(s, ML, y, larg, nome, tam, cor_nome, BOLD, espaco=1.10,
+                   align=PP_ALIGN.RIGHT, h=alt_nome + 0.20)
+        fim = y + alt_nome
+        if apoio:
+            self.texto(s, ML, fim + 0.28, larg, apoio, tam_ap, cor_apoio,
+                       LIGHT, espaco=1.16, align=PP_ALIGN.RIGHT,
+                       h=alt_ap + 0.15)
+            fim = fim + 0.28 + alt_ap
         if cheia and not caminho:
             self.marcacao(s, 0, 0, LARG, ALT, spec, escuro=True, baixo=True,
                           piso=fim + 0.40, fundo=False)
@@ -1264,7 +1327,8 @@ class DeckNarrativo(Deck):
     # Paginas cuja posicao e desenhada a mao e nao deve ser recentrada: a
     # capa tem a barra de assinatura presa embaixo, a abertura e o fecho sao
     # composicao de logos, e o sumario nasce preenchendo o painel inteiro.
-    SEM_CENTRAR = ("capa", "abertura", "fecho", "sumario")
+    SEM_CENTRAR = ("capa", "abertura", "fecho", "sumario",
+                   "divisor", "foto_cheia")
 
     def centrar(self, s, tipo):
         """Centra verticalmente o bloco de conteudo da pagina.

@@ -82,7 +82,7 @@ PAGINAS = [
 
     # 02 — QUEM É LUCAS MARTINI
     {"tipo": "texto", "foto": IMG[1], "lado": "esquerda",
-     "titulo": "Quem é Lucas Martini",
+     "titulo": "Quem é **Lucas Martini**",
      "paragrafos": [
          "Especialista em Proteção & Sucessão, com mais de dez anos de "
          "atuação.",
@@ -92,7 +92,7 @@ PAGINAS = [
      ]},
 
     # 03 — CAUSA, LIDERANÇA E TRIBO
-    {"tipo": "colunas", "titulo": "Causa, liderança e tribo",
+    {"tipo": "colunas", "titulo": "**Causa**, liderança e tribo",
      "colunas": [
          ("Causa",
           "Ampliar a cultura de proteção e preparação antes do imprevisto."),
@@ -113,7 +113,7 @@ PAGINAS = [
 
     # 05 — PÚBLICO-ALVO E PERSONA
     {"tipo": "texto", "foto": IMG[13], "lado": "direita",
-     "titulo": "Público-alvo e persona",
+     "titulo": "**Público-alvo** e persona",
      "paragrafos": [
          "Profissionais, empresários, sócios e famílias que possuem "
          "responsabilidades financeiras, patrimoniais ou sucessórias e "
@@ -201,7 +201,7 @@ PAGINAS = [
      ]},
 
     # 13 — ARQUITETURA DA MARCA
-    {"tipo": "colunas", "titulo": "Arquitetura da marca",
+    {"tipo": "colunas", "titulo": "**Arquitetura** da marca",
      "colunas": [
          ("Marca pessoal", "Lucas Martini"),
          ("Atuação", "Proteção & Sucessão"),

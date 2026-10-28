@@ -60,7 +60,7 @@ PAGINAS = [
          "recomendação.",
      ]},
 
-    {"tipo": "lista", "titulo": "O que o conteúdo precisa fazer",
+    {"tipo": "lista", "titulo": "O que o conteúdo **precisa fazer**",
      "itens": ["Educar antes de vender.",
                "Despertar necessidades que muitas vezes não são percebidas.",
                "Reforçar confiança.",
@@ -79,7 +79,7 @@ PAGINAS = [
      ]},
 
     {"tipo": "texto", "foto": IMG[13], "lado": "esquerda",
-     "titulo": "01 · Proteção antes do imprevisto",
+     "titulo": "01 · **Proteção** antes do imprevisto",
      "tam_titulo": 38,
      "paragrafos": [
          "Conteúdos que façam a pessoa perceber vulnerabilidades que "
@@ -89,7 +89,7 @@ PAGINAS = [
      ]},
 
     {"tipo": "texto",
-     "titulo": "02 · Sucessão e continuidade",
+     "titulo": "02 · **Sucessão** e continuidade",
      "tam_titulo": 38,
      "paragrafos": [
          "Mostrar que patrimônio e empresa precisam de estratégia para "
@@ -100,7 +100,7 @@ PAGINAS = [
      ]},
 
     {"tipo": "texto", "foto": IMG[9], "lado": "direita",
-     "titulo": "03 · Planejamento na prática",
+     "titulo": "03 · **Planejamento** na prática",
      "tam_titulo": 38,
      "paragrafos": [
          "Traduzir situações complexas para decisões simples e "
@@ -111,7 +111,7 @@ PAGINAS = [
      ]},
 
     {"tipo": "texto",
-     "titulo": "04 · Proteção em vida",
+     "titulo": "04 · **Proteção em vida**",
      "tam_titulo": 38,
      "paragrafos": [
          "Romper a associação de seguro apenas com morte. O próprio Lucas "
@@ -123,7 +123,7 @@ PAGINAS = [
      ]},
 
     {"tipo": "texto", "foto": IMG[8], "lado": "esquerda",
-     "titulo": "05 · Prova e autoridade",
+     "titulo": "05 · **Prova** e autoridade",
      "tam_titulo": 38,
      "paragrafos": [
          "Mostrar aquilo que já foi construído sem transformar a comunicação "
@@ -134,7 +134,7 @@ PAGINAS = [
      ]},
 
     # ————————————————————————————— 03 DISTRIBUIÇÃO
-    {"tipo": "camadas", "titulo": "Distribuição do conteúdo",
+    {"tipo": "camadas", "titulo": "**Distribuição** do conteúdo",
      "camadas": [
          ("40%", "Educação e planejamento: proteção, riscos, escolhas e "
                  "tomada de decisão."),
@@ -169,7 +169,7 @@ PAGINAS = [
               "situação real — nunca um produto."},
 
     # ——————————————————————————————— 05 CRONOGRAMA
-    {"tipo": "colunas", "titulo": "Cronograma de publicações",
+    {"tipo": "colunas", "titulo": "**Cronograma** de publicações",
      "colunas": [
          ("Segunda", "Reel educativo, para despertar."),
          ("Quarta", "Carrossel ou card, para aprofundar."),
@@ -207,7 +207,7 @@ PAGINAS = [
 
     # ———————————————————————— 07 REGRA CENTRAL E DIREÇÃO
     {"tipo": "texto", "foto": IMG[11], "lado": "direita",
-     "titulo": "A regra central",
+     "titulo": "A **regra central**",
      "paragrafos": [
          "O conteúdo de Lucas não deve começar pelo produto. Deve começar "
          "por uma situação, uma pergunta ou uma consequência que faça o "
@@ -222,7 +222,7 @@ PAGINAS = [
                 "estrutura financeira continuaria funcionando?")],
      "rot_evitar": "Em vez de", "rot_preferir": "Prefira"},
 
-    {"tipo": "camadas", "titulo": "Direção final",
+    {"tipo": "camadas", "titulo": "**Direção** final",
      "camadas": [
          ("Despertar", "Para aquilo que ainda não foi pensado."),
          ("Explicar", "O que parece complexo."),

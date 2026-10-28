@@ -31,6 +31,47 @@ padrão KA. Não inventar outro estilo.
    prévia em PNG para inspeção visual.
 4. Commitar no branch de trabalho e entregar o `.pptx` com `SendUserFile`.
 
+## O FORMATO: medido no arquivo que a Kelly diagramou
+
+Em outubro/2026 a Kelly rediagramou à mão a apresentação *Duas Trajetórias,
+Uma Nova Força* e pediu que **todas** as apresentações do Projeto Marca com
+Essência sigam aquele formato. O mapeamento completo — paleta, escala,
+geometria e os quatro tratamentos de imagem — está em
+**`padrao-ka/PADRAO-KELLY.md`**, e é de leitura obrigatória antes de mexer
+em layout. O essencial:
+
+- **Corpo 25pt** Light em `#6B6B66`. **Título 42pt** em caixa alta.
+- **Item de lista 30pt** em tinta cheia, com quadrado de acento de 0,112".
+- **Virada de seção**: nome em **143,5pt Bold alinhado à direita**, sem
+  painel, com a linha de apoio em 65pt no mesmo eixo.
+- **Filete `#A5A49F`** (não um tom mais claro) e **acento `#CC754E`**.
+- **Entrelinha exata**: 1,40 do corpo no texto, 1,37 no título.
+- **Fecho em 95pt.**
+
+### A assinatura do formato: o título em dois pesos
+
+A frase-chave do título vem em **Bold**, na mesma linha e no mesmo corpo. No
+conteúdo, marca-se com `**`:
+
+```python
+{"tipo": "texto", "titulo": "A menina que **não aceitou os limites**", ...}
+```
+
+Vale em parágrafo, item de lista, camada e coluna. Título de duas ou três
+palavras fica **sem** marcação: o negrito só funciona enquanto for exceção.
+
+### Espaço para imagem — quatro tratamentos
+
+| Tratamento | Como pedir |
+|---|---|
+| Tira de 7,60" sangrando | `"lado": "direita"` ou `"esquerda"` |
+| **Imagem solta**, cantos arredondados, sobre o painel | `"lado": "solta"` |
+| Tela cheia com **cartão claro** para a frase | `tipo: "foto_cheia"` |
+| Virada de seção em tela cheia | `tipo: "divisor"` + `foto` |
+
+Na página de frase sobre fotografia **não há mais véu**: o texto vai num
+cartão do mesmo claro do painel, no alto à direita.
+
 ## O padrão de página pedido pela Kelly (outubro/2026)
 
 **Um título e um bloco de texto. Nada empilhado.** Palavras dela:

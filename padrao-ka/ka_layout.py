@@ -41,12 +41,15 @@ TRACO = os.path.join(ASSETS, "traco.png")
 SIMBOLO_IKIGAI = os.path.join(ASSETS, "simbolo-ikigai.png")
 
 # ------------------------------------------------------------------ paleta
+# MEDIDA no arquivo que a Kelly diagramou a mao (outubro/2026) e que passou
+# a ser o padrao do Projeto Marca com Essencia. Ver PADRAO-KELLY.md.
 PAINEL = RGBColor(0xF8, 0xF7, 0xF2)   # painel claro sobre a textura
-TINTA = RGBColor(0x1C, 0x1C, 0x1A)    # titulos e frases
+TINTA = RGBColor(0x1C, 0x1C, 0x1A)    # titulos, listas e camadas
 CORPO = RGBColor(0x6B, 0x6B, 0x66)    # corpo de texto
-CLARO = RGBColor(0xA5, 0xA4, 0x9F)    # eyebrow, legenda, rodape
-FIO = RGBColor(0xDF, 0xDD, 0xD7)      # filetes
-ACENTO = RGBColor(0xA9, 0x72, 0x4A)   # terracota — uso minimo
+CLARO = RGBColor(0xA5, 0xA4, 0x9F)    # legenda, rodape — e o filete
+FIO = RGBColor(0xA5, 0xA4, 0x9F)      # filetes: o mesmo cinza, nao um mais claro
+GRAFITE = RGBColor(0x32, 0x33, 0x30)  # a frase de declaracao
+ACENTO = RGBColor(0xCC, 0x75, 0x4E)   # terracota — uso minimo
 BRANCO = RGBColor(0xFF, 0xFF, 0xFF)
 
 # ------------------------------------------------- tipografia (so Outfit)
@@ -88,20 +91,41 @@ Y_RODAPE = 10.32
 # Lead e corpo ficam no topo da faixa medida (o arquivo dela usa 22/18 numa
 # pagina e 24/19 noutra) porque em projecao o corpo menor nao se le.
 T_CAPA = 75              # titulo da capa
-T_DIVISOR = 94           # nome da secao, na virada de tema
-T_DISPLAY = 74           # frase grande que abre uma etapa
+T_DIVISOR = 143.5        # nome da secao, na virada de tema
+T_DIV_APOIO = 65         # a linha de apoio da virada, abaixo do nome
+T_DISPLAY = 37           # a frase grande da pagina de declaracao
 T_H1 = 42                # titulo de pagina
-T_FRASE = 29             # aspas de citacao
-T_MEDIO = 23             # frase forte, item de lista forte
-T_LEAD = 24              # linha de abertura
-T_CORPO = 21             # corpo
+T_FRASE = 28             # aspas de citacao, no cartao sobre a foto
+T_MEDIO = 25             # frase forte, rotulo de coluna
+T_LEAD = 25              # linha de abertura — igual ao corpo
+T_CORPO = 25             # corpo
+T_LISTA = 30             # item de lista: maior que o corpo, e em tinta
+T_CAMADA_ROT = 18        # rotulo da camada, Semi-Bold espacejado
 T_MINI = 17              # legenda miuda
 T_RODAPE = 17            # rodape
 T_SUMARIO = 78           # titulo do sumario, acima do painel
 T_SUBCAPA = 30           # subtitulo da capa
 T_ASSINATURA = 26.8      # assinatura do metodo, na capa
 T_DATA = 19.5            # data, na capa
-T_ROTULO = 14           # eyebrow e rotulo em caixa alta
+T_FECHO = 95             # o OBRIGADA! da ultima pagina
+T_ROTULO = 14            # eyebrow e rotulo miudo em caixa alta
+
+
+def partes(texto):
+    """Quebra o texto nos `**` em pares (trecho, e_forte)."""
+    saida, forte = [], False
+    for pedaco in texto.split("**"):
+        if pedaco:
+            saida.append((pedaco, forte))
+        forte = not forte
+    return saida or [(texto, False)]
+
+
+def sem_marcas(texto):
+    """O mesmo texto sem os `**` — e o que se mede."""
+    if isinstance(texto, (list, tuple)):
+        return [t.replace("**", "") for t in texto]
+    return texto.replace("**", "")
 
 
 def _modelo_base():
@@ -120,12 +144,15 @@ ESCALA_LEGADA = {
     "CAPA": 76, "DIVISOR": 62, "DISPLAY": 46, "H1": 38, "FRASE": 28,
     "MEDIO": 22, "LEAD": 17, "CORPO": 14.5, "MINI": 12, "RODAPE": 12,
     "ROTULO": 9.5, "SUMARIO": 44, "SUBCAPA": 22, "ASSINATURA": 17, "DATA": 12,
+    "LISTA": 18, "DIV_APOIO": 28, "CAMADA_ROT": 11, "FECHO": 47,
 }
 ESCALA_KA = {
     "CAPA": T_CAPA, "DIVISOR": T_DIVISOR, "DISPLAY": T_DISPLAY, "H1": T_H1,
     "FRASE": T_FRASE, "MEDIO": T_MEDIO, "LEAD": T_LEAD, "CORPO": T_CORPO,
     "MINI": T_MINI, "RODAPE": T_RODAPE, "ROTULO": T_ROTULO,
-    "SUMARIO": T_SUMARIO, "SUBCAPA": T_SUBCAPA, "ASSINATURA": T_ASSINATURA, "DATA": T_DATA,
+    "SUMARIO": T_SUMARIO, "SUBCAPA": T_SUBCAPA, "ASSINATURA": T_ASSINATURA,
+    "DATA": T_DATA, "LISTA": T_LISTA, "DIV_APOIO": T_DIV_APOIO,
+    "CAMADA_ROT": T_CAMADA_ROT, "FECHO": T_FECHO,
 }
 
 
@@ -246,12 +273,40 @@ class Deck:
 
     def texto(self, s, x, y, w, itens, tam, cor, fonte=LIGHT,
               align=PP_ALIGN.LEFT, espaco=1.4, h=None, italic=False, spc=None):
+        """`espaco` e a entrelinha em MULTIPLOS DO CORPO, gravada EXATA.
+
+        O arquivo que a Kelly diagramou grava entrelinha exata — 35pt para
+        corpo de 25, 57,4pt para titulo de 42 — e nao um multiplo da altura
+        de linha da fonte. Gravar exato tem duas consequencias boas: a
+        composicao bate com a dela ao ponto, e a conta de altura passa a ser
+        a propria medida (linhas x corpo x espaco), sem fator de correcao."""
         if isinstance(itens, str):
             itens = [itens]
         tf = self.caixa(s, x, y, w, h or (len(itens) * tam / 72.0 * espaco + 0.3))
         for i, t in enumerate(itens):
-            self.txt(self.par(tf, primeiro=(i == 0), align=align, espaco=espaco),
-                     t, tam, cor, fonte, italic, spc)
+            par = self.par(tf, primeiro=(i == 0), align=align, espaco=espaco)
+            par.line_spacing = Pt(tam * espaco)
+            self.txt(par, t, tam, cor, fonte, italic, spc)
+        return tf
+
+    def texto_rico(self, s, x, y, w, itens, tam, cor, fonte=LIGHT,
+                   forte=None, align=PP_ALIGN.LEFT, espaco=1.4, h=None,
+                   spc=None):
+        """Igual ao `texto`, mas o trecho entre ** sai no peso forte.
+
+        E a assinatura do padrao: no titulo, a frase-chave vem em Bold e o
+        resto em Light, na MESMA linha e no mesmo corpo. O peso marca o que
+        a pagina esta dizendo — nao o tamanho, nao a cor."""
+        if isinstance(itens, str):
+            itens = [itens]
+        forte = forte or BOLD
+        tf = self.caixa(s, x, y, w, h or (len(itens) * tam / 72.0 * espaco + 0.3))
+        for i, t in enumerate(itens):
+            par = self.par(tf, primeiro=(i == 0), align=align, espaco=espaco)
+            par.line_spacing = Pt(tam * espaco)
+            for pedaco, negrito in partes(t):
+                self.txt(par, pedaco, tam, cor, forte if negrito else fonte,
+                         spc=spc)
         return tf
 
     def foto(self, s, x, y, w, h, caminho, raio=None, foco=0.5):
@@ -303,10 +358,20 @@ class Deck:
         self.texto(s, x, y, w, texto.upper(), self.T["ROTULO"], cor, SEMI, spc=2.2,
                    h=0.28)
 
-    def titulo(self, s, texto, x=ML, y=Y_H1, w=W, tam=None, cor=TINTA):
-        """H1 em caixa baixa e peso leve: a forca vem do tamanho e do ar."""
+    def titulo(self, s, texto, x=ML, y=Y_H1, w=W, tam=None, cor=TINTA,
+               espaco=1.37):
+        """H1 em CAIXA ALTA e peso leve, com a frase-chave em Bold.
+
+        O marcador e o `**` no proprio titulo do conteudo:
+
+            "titulo": "A menina que **não aceitou os limites**"
+
+        Sem marcador, o titulo inteiro sai em Light — como sempre foi."""
         tam = self.T["H1"] if tam is None else tam
-        return self.texto(s, x, y, w, texto, tam, cor, LIGHT, espaco=1.14)
+        itens = [texto] if isinstance(texto, str) else list(texto)
+        itens = [t.upper() for t in itens]
+        return self.texto_rico(s, x, y, w, itens, tam, cor, LIGHT,
+                               espaco=espaco)
 
     def rodape(self, s):
         """Pilula clara com a identificacao do documento + logo KA a direita."""
@@ -414,12 +479,12 @@ class Deck:
     def fecho(self, frase="MUITO OBRIGADA!", parceiro=LOGO_PARCEIRO):
         """A7 — ultima pagina: agradecimento e assinatura, sem painel."""
         s = self.slide(painel=False)
-        self.texto(s, ML, 4.05, 15.0, frase, self.T["CAPA"] * 0.62, TINTA, LIGHT,
-                   espaco=1.1)
-        self.logo(s, LOGO_KELLY, ML, 5.95, 3.55)
+        self.texto(s, ML, 2.90, 15.0, frase, self.T["FECHO"], TINTA, LIGHT,
+                   espaco=1.12)
+        self.logo(s, LOGO_KELLY, 1.125, 5.75, 4.835)
         if parceiro:
             self.fio_v(s, 6.20, 5.75, 1.25, CLARO, esp=0.014)
-            self.logo(s, parceiro, 6.95, 5.90, 3.60)
+            self.logo(s, parceiro, 6.642, 5.81, 3.60)
         return s
 
     # ---------------------------------------------------------------- saida

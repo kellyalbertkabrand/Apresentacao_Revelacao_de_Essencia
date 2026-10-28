@@ -97,7 +97,7 @@ PAGINAS = [
      "imagem": "A oficina com várias pessoas trabalhando ao mesmo tempo. "
                "Plano aberto, o coletivo em ação."},
 
-    {"tipo": "texto", "titulo": "O que é cultura organizacional?",
+    {"tipo": "texto", "titulo": "O que é **cultura organizacional**?",
      "paragrafos": [
          "É o conjunto de crenças, valores, comportamentos e práticas "
          "compartilhadas que orientam a maneira como as pessoas trabalham, "
@@ -105,7 +105,6 @@ PAGINAS = [
      ]},
 
     {"tipo": "texto", "titulo": "Como foi mapeada",
-     "tam_corpo": 21,
      "paragrafos": [
          "A análise considerou a história da fundadora, entrevistas com oito "
          "colaboradores, relatos da liderança e depoimentos de clientes e "
@@ -122,8 +121,7 @@ PAGINAS = [
     {"tipo": "texto", "foto": IMG["origem"], "lado": "direita",
      "imagem": "A origem do ofício: a primeira oficina, uma máquina em "
                "operação, ou o lugar onde tudo começou.",
-     "titulo": "Não aceitar o limite como resposta definitiva.",
-     "tam_corpo": 21,
+     "titulo": "Não aceitar o limite como **resposta definitiva**.",
      "paragrafos": [
          "A trajetória de Flávia revela uma mentalidade recorrente: diante "
          "das limitações, buscar novas possibilidades.",
@@ -138,7 +136,7 @@ PAGINAS = [
      "apoio": "A crença de origem."},
 
     {"tipo": "camadas",
-     "titulo": "Liberdade para agir. Responsabilidade para entregar.",
+     "titulo": "**Liberdade** para agir. **Responsabilidade** para entregar.",
      "camadas": [
          ("Comprometimento", "Responsabilidade pelo resultado."),
          ("Autonomia", "Liberdade para encontrar soluções."),
@@ -158,7 +156,7 @@ PAGINAS = [
                 "que precisa ser realizado."],
      "apoio": "A crença compartilhada."},
 
-    {"tipo": "colunas", "titulo": "A cultura se revela diante dos problemas.",
+    {"tipo": "colunas", "titulo": "A cultura se revela **diante dos problemas**.",
      "colunas": [
          ("Resolver",
           "Tomar iniciativa sem depender de ordens para cada decisão."),
@@ -178,7 +176,7 @@ PAGINAS = [
      "apoio": "A descoberta cultural."},
 
     {"tipo": "camadas",
-     "titulo": "O crescimento exige a evolução da cultura.",
+     "titulo": "O crescimento exige a **evolução da cultura**.",
      "cabecalhos": ("Força identificada", "Desafio do crescimento"),
      "camadas": [
          ("Proximidade", "Desenvolver novas lideranças."),
@@ -201,7 +199,7 @@ PAGINAS = [
      "imagem": "Um detalhe de acabamento em plano fechado — a junção, a "
                "borda, a textura. A identidade vista de perto."},
 
-    {"tipo": "texto", "titulo": "O que é cultura de marca?",
+    {"tipo": "texto", "titulo": "O que é **cultura de marca**?",
      "paragrafos": [
          "É o conjunto de crenças, valores e princípios que orientam a "
          "identidade de uma marca, manifestando-se em seus comportamentos, "
@@ -209,7 +207,6 @@ PAGINAS = [
      ]},
 
     {"tipo": "texto", "titulo": "Como foi mapeada",
-     "tam_corpo": 21,
      "paragrafos": [
          "A análise cruzou a história e as intenções da fundadora, os "
          "documentos de identidade verbal, as percepções dos colaboradores e "
@@ -234,7 +231,7 @@ PAGINAS = [
     {"tipo": "texto", "foto": IMG["forma"], "lado": "direita",
      "imagem": "Uma conversa técnica sobre o projeto — prancha, amostra de "
                "material, desenho na mesa.",
-     "titulo": "A liberdade de criar exige a capacidade de realizar.",
+     "titulo": "A liberdade de criar exige a **capacidade de realizar**.",
      "paragrafos": [
          "A Forma representa a liberdade conquistada para executar projetos "
          "sem ficar restrita às limitações dos sistemas padronizados.",
@@ -245,7 +242,7 @@ PAGINAS = [
                 "uma execução à sua altura."],
      "apoio": "A crença central da Forma."},
 
-    {"tipo": "colunas", "titulo": "Os valores e a personalidade da Forma",
+    {"tipo": "colunas", "titulo": "Os valores e a personalidade da **Forma**",
      "colunas": [
          ("Valores",
           "Precisão · Personalização · Responsabilidade · Confiança · "
@@ -256,7 +253,7 @@ PAGINAS = [
               "e pela competência."},
 
     {"tipo": "colunas",
-     "titulo": "O verdadeiro alto padrão é a tranquilidade de quem confia.",
+     "titulo": "O verdadeiro alto padrão é a **tranquilidade de quem confia**.",
      "colunas": [
          ("Comportamento",
           "Compreender o projeto, antecipar dificuldades, encontrar soluções "
@@ -269,7 +266,7 @@ PAGINAS = [
               "resultado final, mas na tranquilidade proporcionada durante "
               "todo o processo."},
 
-    {"tipo": "colunas", "titulo": "Transformar complexidade em confiança.",
+    {"tipo": "colunas", "titulo": "Transformar complexidade em **confiança**.",
      "colunas": [
          ("Percepção reconhecida",
           "Arquitetos e clientes destacam domínio técnico, qualidade de "
@@ -295,8 +292,7 @@ PAGINAS = [
     {"tipo": "texto", "foto": IMG["myhome"], "lado": "esquerda",
      "imagem": "O material antes de virar produto — a sobra, o retalho, a "
                "chapa separada. O ponto de partida.",
-     "titulo": "Enxergar possibilidades onde outros enxergam limites.",
-     "tam_corpo": 21,
+     "titulo": "Enxergar **possibilidades** onde outros enxergam limites.",
      "paragrafos": [
          "A My Home nasceu do inconformismo diante do desperdício e da "
          "capacidade de transformar materiais descartados em novas criações.",
@@ -310,7 +306,7 @@ PAGINAS = [
                 "foi originalmente pensado."],
      "apoio": "A crença central da My Home."},
 
-    {"tipo": "colunas", "titulo": "Os valores e a personalidade da My Home",
+    {"tipo": "colunas", "titulo": "Os valores e a personalidade da **My Home**",
      "colunas": [
          ("Valores",
           "Inventividade · Transformação · Originalidade · Qualidade · "
@@ -319,7 +315,7 @@ PAGINAS = [
      ]},
 
     {"tipo": "colunas",
-     "titulo": "Criar não é improvisar. É transformar com conhecimento.",
+     "titulo": "Criar não é improvisar. É **transformar com conhecimento**.",
      "colunas": [
          ("Comportamento",
           "Experimentar possibilidades, compartilhar ideias, dominar "
@@ -331,7 +327,7 @@ PAGINAS = [
      "fecho": "O significado da experiência: a criatividade transforma "
               "materiais e objetos em novas possibilidades para a casa."},
 
-    {"tipo": "colunas", "titulo": "Transformar possibilidades em criação.",
+    {"tipo": "colunas", "titulo": "Transformar possibilidades em **criação**.",
      "colunas": [
          ("Percepção reconhecida",
           "Arquitetos valorizam a capacidade técnica da My Home para "
@@ -356,7 +352,7 @@ PAGINAS = [
                "trabalho cheio de gente. Plano aberto."},
 
     {"tipo": "camadas",
-     "titulo": "Uma cultura compartilhada. Duas identidades de marca.",
+     "titulo": "Uma cultura compartilhada. **Duas identidades de marca**.",
      "camadas": [
          ("Cultura organizacional",
           "Proximidade, autonomia, cooperação e responsabilidade pelo "
