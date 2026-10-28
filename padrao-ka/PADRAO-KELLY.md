@@ -115,6 +115,11 @@ texto; o cartão preserva a fotografia e ainda assim garante leitura.
 O marcador de lista é um **quadrado de acento de 0,112"**, não um ponto
 cinza — e é a única cor da página.
 
+Numa escada de seis degraus o corpo da leitura **não desce**: antes disso a
+escada sobe até encostar no título e, se ainda faltar, aperta o ar de cada
+degrau de 0,44" para 0,38". Perder três centésimos de polegada de ar custa
+menos que perder oito pontos de corpo.
+
 O rótulo da camada é espacejado em **2,82pt por caractere**, e esse
 espacejamento entra na conta de largura: num rótulo de 27 letras ele soma mais
 de uma polegada. Cada degrau tem a altura do **maior** dos dois lados — um

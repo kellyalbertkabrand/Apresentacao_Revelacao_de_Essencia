@@ -1,6 +1,6 @@
 # Flávia Pereira Muccelin — FORMA e My Home
 
-Quatro entregas, dois motores.
+Cinco entregas, dois motores.
 
 | Arquivo | O que é | Páginas | Como gerar |
 |---|---|---|---|
@@ -8,6 +8,7 @@ Quatro entregas, dois motores.
 | `sociedade.py` | Duas trajetórias, uma nova força — Flávia & Elandi | 26 | `python3 clientes/flavia-muccelin/gerar.py sociedade` |
 | `cultura.py` | Cultura Organizacional **e** de Marca — FORMA e My Home | 40 | `python3 clientes/flavia-muccelin/gerar.py cultura` |
 | `marcas_unicas.py` | O que torna essas marcas únicas — a versão longa, no formato mapeado | 60 | `python3 clientes/flavia-muccelin/gerar.py marcas_unicas` |
+| `base_my_home.py` | Base Estratégica da Marca — My Home \| Casa Criativa | 45 | `python3 clientes/flavia-muccelin/gerar.py base_my_home` |
 
 A Revelação tem **roteiro fixo** e gerador próprio. A apresentação da
 sociedade tem roteiro próprio e usa o **roteiro declarativo**
@@ -225,5 +226,58 @@ mesma foto serve às duas apresentações — e dois são novos:
 ```bash
 python3 clientes/flavia-muccelin/gerar.py marcas_unicas
 padrao-ka/conferir.sh clientes/flavia-muccelin/O-Que-Torna-Essas-Marcas-Unicas-Forma-e-My-Home.pptx
+python3 padrao-ka/conferir_voz.py clientes/flavia-muccelin
+```
+
+---
+
+## Base Estratégica da Marca — My Home | Casa Criativa
+
+Mesmo formato das outras, e a mesma regra: **um título e um bloco de texto por
+página**. Os 17 slides do roteiro saem em **45 páginas** porque quase todos
+carregavam três, quatro, cinco blocos — causa + liderança + tribo; público +
+persona + oportunidade + desejo; seis pilares + a síntese.
+
+**Sem viradas de seção.** São catorze seções: numerar cada uma com a virada de
+143,5pt dobraria o documento e transformaria a leitura numa sequência de capas.
+O sumário em duas colunas dá conta da estrutura — é o mesmo caminho da Base
+Estratégica do Lucas, a referência viva desse tipo de entrega.
+
+| Arquétipo | Papel | Páginas |
+|---|---|---|
+| `declaracao` | a página de silêncio: a essência, as descobertas, o posicionamento central | 13 |
+| `texto` | narrativa e diretrizes — quem é, princípio, posicionamento, relação com a Forma | 12 |
+| `camadas` | rótulo e leitura lado a lado: personalidade, pilares, DNA, tom de voz, arquitetura | 8 |
+| `colunas` | causa/liderança/tribo, público/persona, Golden Circle | 3 |
+| `palavras` | o DNA e a voz, como composição | 2 |
+| `manifesto` | o manifesto, em duas páginas de duas colunas | 2 |
+| `foto_cheia` | a assinatura de marca proposta, em tela cheia | 1 |
+
+### Três decisões de estrutura
+
+1. **Os seis pilares viraram duas páginas** — "os pilares da criação" (01–03) e
+   "os pilares da entrega" (04–06). Numa página só, as seis leituras caíam para
+   17pt; em duas, elas leem no corpo do padrão. A numeração dela foi mantida.
+2. **O manifesto ocupa duas páginas.** São quatorze parágrafos: numa página de
+   duas colunas eles sairiam espremidos. A quebra é no "Porque a My Home nunca
+   foi apenas sobre transformar materiais" — o ponto em que o texto passa da
+   história para a declaração.
+3. **O monograma MH ganhou página própria.** Dentro da camada "na identidade
+   visual" ele empurrava a leitura para 17pt; sozinho, é o que de fato é —
+   uma recomendação concreta de identidade.
+
+### As cinco imagens
+
+| Arquivo esperado em `assets/` | O que é |
+|---|---|
+| `myhome-sobras-materiais.png` | o material antes de virar produto — a essência |
+| `myhome-producao-bancada.png` | a bancada de produção — quem é a My Home |
+| `myhome-material-guardado.png` | o estoque de sobras guardado — o princípio central |
+| `myhome-produto-ambiente.png` | o produto no ambiente |
+| `myhome-colecao-ambiente.png` | o ambiente com várias peças — tela cheia da assinatura |
+
+```bash
+python3 clientes/flavia-muccelin/gerar.py base_my_home
+padrao-ka/conferir.sh clientes/flavia-muccelin/Base-Estrategica-da-Marca-My-Home.pptx
 python3 padrao-ka/conferir_voz.py clientes/flavia-muccelin
 ```

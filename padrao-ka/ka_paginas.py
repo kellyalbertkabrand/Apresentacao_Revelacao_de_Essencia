@@ -731,8 +731,18 @@ class DeckNarrativo(Deck):
             # uma pagina de colunas fica no eixo, costurando as duas
             lg = min(11.28, LG)
             h = altura(sem_marcas(spec["fecho"]), T_CORPO, lg) + 0.1
-            self.texto_rico(s, X + (LG - lg) / 2.0,
-                            min(fundo + 0.62, FIM - h + 0.3), lg,
+            base = fundo + 0.62
+            if base > FIM - h + 0.3:
+                # nao ha pagina para o fecho. Empurrar para cima e pior que
+                # nao ter fecho: ele entra POR CIMA da coluna mais longa. O
+                # texto e que precisa ceder — avisa no build.
+                self.avisos.append(
+                    "o fecho nao cabe em \"%s\": a coluna mais longa precisa "
+                    "de %.2f\" a menos"
+                    % (sem_marcas(spec.get("titulo") or "?"),
+                       base - (FIM - h + 0.3)))
+                base = FIM - h + 0.3
+            self.texto_rico(s, X + (LG - lg) / 2.0, base, lg,
                             spec["fecho"], T_CORPO, CORPO, LIGHT,
                             align=PP_ALIGN.CENTER, h=h)
         self._fechar(s, spec)
@@ -856,37 +866,50 @@ class DeckNarrativo(Deck):
         X, LG = self._col
         y = self.cabeca(s, spec, x=X, w=LG, y=y0)
         itens = spec["camadas"]
-        topo = max(y, 4.20)
         cab = spec.get("cabecalhos")
-        if cab:
-            # os dois titulos de coluna, escritos uma vez so acima da
-            # escada. E o que transforma a camada em tabela de duas colunas
-            # sem encher a pagina de cartoes
-            self.rotulo(s, cab[0], X, topo, min(5.20, LG * 0.37), CLARO)
-            self.rotulo(s, cab[1], X + min(5.60, LG * 0.40), topo,
-                        LG - min(5.60, LG * 0.40), ACENTO)
-            topo += 0.56
         larg = LG - min(5.60, LG * 0.40)
-        # Cada degrau tem a altura do seu proprio texto. Dividir o espaco em
-        # partes iguais estoura a pagina quando uma das leituras e longa.
-        # Quando nao cabe, o corpo desce um degrau ANTES de a linha ser
-        # espremida: encolher a caixa abaixo do que o texto ocupa nao faz o
-        # texto encolher — faz ele invadir a linha de baixo.
-        espaco = FIM + 0.30 - topo
-        escala = [T_CORPO, T_MEDIO, T_MINI] if larg >= 7.0 else [T_CORPO,
-                                                                 T_MINI]
         larg_rot = min(5.20, LG * 0.37)
         # o degrau tem a altura do maior dos dois lados: um rotulo que quebra
         # em duas linhas precisa de espaco tanto quanto uma leitura longa
         n_rot = [linhas_rotulo(rot.upper(), T_CAMADA_ROT, larg_rot, 2.82)
                  for rot, _ in itens]
         alt_rot = [n * T_CAMADA_ROT / 72.0 * 1.30 for n in n_rot]
-        for tam_desc in escala:
+        # Cada degrau tem a altura do seu proprio texto. Dividir o espaco em
+        # partes iguais estoura a pagina quando uma das leituras e longa.
+        # Antes de reduzir o corpo, a escada SOBE: perder ar no topo custa
+        # menos que perder oito pontos de corpo — com seis degraus, o piso
+        # de 4,20" sozinho jogava a leitura inteira para 17pt. So depois de
+        # a escada encostar no titulo e que o corpo desce um degrau, porque
+        # encolher a caixa abaixo do que o texto ocupa nao faz o texto
+        # encolher: faz ele invadir a linha de baixo.
+        piso = y + (0.56 if cab else 0.0)
+        teto = max(piso, 4.20 + (0.56 if cab else 0.0))
+        # A ordem das tentativas: primeiro o corpo do padrao com o ar de
+        # sempre; depois o mesmo corpo com o ar apertado (0,38" = os 0,30 do
+        # alinhamento do rotulo mais um respiro, o minimo que nao encosta); so
+        # entao o corpo menor. Com seis degraus a escada passava do limite por
+        # tres centesimos de polegada — e perdia oito pontos de corpo por
+        # causa deles.
+        for tam_desc, ar in ((T_CORPO, 0.44), (T_CORPO, 0.38), (T_MINI, 0.44)):
             alturas = [max(0.72, altura(sem_marcas(desc), tam_desc, larg, 1.40)
-                           + 0.44, alt_rot[i] + 0.52)
+                           + ar, alt_rot[i] + 0.52)
                        for i, (_, desc) in enumerate(itens)]
-            if sum(alturas) <= espaco:
+            topo = min(teto, max(piso, FIM + 0.30 - sum(alturas)))
+            # a tolerancia de um centesimo de polegada nao e folga: e que o
+            # topo sai de FIM - soma, e comparar soma com FIM - topo depois
+            # disso e comparar um float consigo mesmo. Sem ela, a escada que
+            # cabe EXATO (seis degraus, o caso comum) era reprovada por um
+            # erro de arredondamento e caia oito pontos de corpo.
+            if sum(alturas) <= FIM + 0.30 - topo + 0.01:
                 break
+        espaco = FIM + 0.30 - topo
+        if cab:
+            # os dois titulos de coluna, escritos uma vez so acima da
+            # escada. E o que transforma a camada em tabela de duas colunas
+            # sem encher a pagina de cartoes
+            self.rotulo(s, cab[0], X, topo - 0.56, larg_rot, CLARO)
+            self.rotulo(s, cab[1], X + min(5.60, LG * 0.40), topo - 0.56,
+                        larg, ACENTO)
         folga = espaco - sum(alturas)
         if folga > 0:
             alturas = [a + min(0.42, folga / len(itens)) for a in alturas]
@@ -1118,11 +1141,14 @@ class DeckNarrativo(Deck):
     def pg_manifesto(self, spec):
         """Texto longo em duas colunas, com muito ar. O manifesto."""
         s = self.slide()
-        self.cabeca(s, spec)
+        # o corpo comeca abaixo do titulo e do filete, nao num 3,30 fixo: com
+        # titulo de uma linha o 3,30 caia EM CIMA do filete, e a primeira
+        # linha da coluna da esquerda cobria a regua da pagina
+        y = self.cabeca(s, spec)
         paragrafos = spec["paragrafos"]
         larg = (W - 1.10) / 2
         meio = int(math.ceil(len(paragrafos) / 2))
-        topo = 3.30
+        topo = max(3.30, y + 0.10)
         reservado = 0.75 if spec.get("assinatura") else 0.0
         espaco = FUNDO + 0.25 - topo - reservado
         colunas = (paragrafos[:meio], paragrafos[meio:])
