@@ -1,12 +1,13 @@
 # Flávia Pereira Muccelin — FORMA e My Home
 
-Três entregas, dois motores.
+Quatro entregas, dois motores.
 
 | Arquivo | O que é | Páginas | Como gerar |
 |---|---|---|---|
 | `conteudo.py` | Revelação de Essência — origem identitária da fundadora | 31 | `python3 modelos/revelacao-de-essencia/gerar.py clientes/flavia-muccelin` |
 | `sociedade.py` | Duas trajetórias, uma nova força — Flávia & Elandi | 26 | `python3 clientes/flavia-muccelin/gerar.py sociedade` |
 | `cultura.py` | Cultura Organizacional **e** de Marca — FORMA e My Home | 40 | `python3 clientes/flavia-muccelin/gerar.py cultura` |
+| `marcas_unicas.py` | O que torna essas marcas únicas — a versão longa, no formato mapeado | 60 | `python3 clientes/flavia-muccelin/gerar.py marcas_unicas` |
 
 A Revelação tem **roteiro fixo** e gerador próprio. A apresentação da
 sociedade tem roteiro próprio e usa o **roteiro declarativo**
@@ -165,5 +166,64 @@ nada muda de lugar.
 python3 padrao-ka/rostos.py clientes/flavia-muccelin/assets
 python3 clientes/flavia-muccelin/gerar.py cultura
 padrao-ka/conferir.sh clientes/flavia-muccelin/Cultura-Organizacional-e-de-Marca-Forma-e-My-Home.pptx
+python3 padrao-ka/conferir_voz.py clientes/flavia-muccelin
+```
+
+---
+
+## O que torna essas marcas únicas — a versão longa
+
+Roteiro novo, mandado pela Kelly depois do mapeamento do arquivo que ela
+rediagramou à mão. É a mesma matéria de `cultura.py`, muito mais funda: os
+depoimentos nominais, as três situações da equipe, a tabela de forças e
+desafios, os pontos de atenção e as duas essências culturais.
+
+**Ela não substitui `cultura.py`.** As duas convivem: aquela é o roteiro de
+19 slides, esta é o de 23. Se a Kelly quiser aposentar a primeira, é só
+tirá-la de `DECKS` em `gerar.py` — o histórico fica no git.
+
+As 23 páginas saem em **60**, pela regra de sempre: um título e um bloco de
+texto por página.
+
+### Quatro seções numeradas, como no sumário dela
+
+O roteiro tem uma virada "CULTURA DE MARCA · FORMA E MY HOME" que não está no
+sumário — é o conceito que vale para as duas marcas. Ela entra **sem
+número**, como ponte, e as quatro seções do sumário ficam intactas. As
+viradas internas do roteiro ("História e origem", "Comportamentos e
+experiência", "Percepção externa e coerência") também são sem número: só as
+quatro seções levam numeral e fotografia, e é isso que mantém a hierarquia
+legível com doze viradas no documento.
+
+| | Seção |
+|---|---|
+| 01 | Cultura organizacional |
+| 02 | Cultura de marca Forma |
+| 03 | Cultura de marca My Home |
+| 04 | Síntese |
+
+### As pessoas aparecem com nome
+
+Tanyllo, Pâmella, Letícia, Mapinha, Joel, Weudes, Júlia Matsuda, Rodrigues,
+Nathaly e Júlio César são citados nominalmente, como no roteiro — e duas
+falas vão entre aspas, do Joel e da Pâmella. **Vale confirmar com cada um
+antes de a apresentação circular fora da empresa.**
+
+As duas falas ficam na primeira pessoa porque são citação de discurso, não
+afirmação sobre a marca: é a exceção que o CLAUDE.md prevê.
+
+### As imagens
+
+Dez páginas pedem fotografia. Oito nomes são os mesmos de `cultura.py` — a
+mesma foto serve às duas apresentações — e dois são novos:
+
+| Arquivo esperado em `assets/` | O que é |
+|---|---|
+| `cultura-obra-cliente.png` | a obra em andamento — tela cheia da fala do Joel |
+| `cultura-producao-my-home.png` | a produção da My Home — tela cheia da fala da Pâmella |
+
+```bash
+python3 clientes/flavia-muccelin/gerar.py marcas_unicas
+padrao-ka/conferir.sh clientes/flavia-muccelin/O-Que-Torna-Essas-Marcas-Unicas-Forma-e-My-Home.pptx
 python3 padrao-ka/conferir_voz.py clientes/flavia-muccelin
 ```

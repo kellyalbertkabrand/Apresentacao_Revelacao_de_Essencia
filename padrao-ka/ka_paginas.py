@@ -53,7 +53,7 @@ from ka_layout import (  # noqa: E402
     T_LEAD, T_LISTA, T_CAMADA_ROT, T_MEDIO,
     T_MINI, T_RODAPE, T_ROTULO, T_SUMARIO, T_SUBCAPA, T_ASSINATURA,
     T_DATA, T_FECHO, MEDIO, REG, ULTRA,
-    ALT, LARG, ML, MR, W, Y_EYE, Y_H1, Y_RODAPE,
+    ALT, LARG, ML, MR, PAINEL_M, W, Y_EYE, Y_H1, Y_RODAPE,
     LOGO_KA, SIMBOLO_IKIGAI, TRACO,
     Deck, partes, sem_marcas,
 )
@@ -82,21 +82,47 @@ CHAR = 0.0103
 # familia: medir por ela e errar sempre para o lado seguro.
 FONTE_MEDIDA = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                             "fontes", "Outfit1Light.ttf")
+# A Bold e visivelmente mais larga que a Light. No unico lugar em que o
+# display sai em Bold — o nome da secao na virada —, medir pela Light faz a
+# conta de caber errar para menos e a linha quebra sozinha no meio do nome.
+FONTE_BOLD = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                          "fontes", "Outfit1Bold.ttf")
+FONTE_SEMI = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                          "fontes", "Outfit1SemiBold.ttf")
 FOLGA = 1.03         # o LibreOffice e o PowerPoint quebram um fio antes
 _FONTES = {}
 
 
-def _fonte(tam):
-    chave = round(tam, 1)
+def _fonte(tam, arquivo=None):
+    chave = (round(tam, 1), arquivo or FONTE_MEDIDA)
     if chave not in _FONTES:
         from PIL import ImageFont
-        _FONTES[chave] = ImageFont.truetype(FONTE_MEDIDA, int(round(tam * 4)))
+        _FONTES[chave] = ImageFont.truetype(chave[1], int(round(tam * 4)))
     return _FONTES[chave]
 
 
-def largura_texto(texto, tam):
+def largura_texto(texto, tam, arquivo=None):
     """Largura real do texto, em polegadas, medida na propria fonte."""
-    return _fonte(tam).getlength(texto) / 4.0 / 72.0 * FOLGA
+    return _fonte(tam, arquivo).getlength(texto) / 4.0 / 72.0 * FOLGA
+
+
+def linhas_rotulo(texto, tam, largura, spc):
+    """Quantas linhas o rotulo espacejado ocupa.
+
+    O espacejamento nao e detalhe: 2,82pt por caractere num rotulo de 27
+    letras somam mais de uma polegada, e era por isso que "PROXIMIDADE COM A
+    FUNDADORA" quebrava em duas linhas sem que a conta percebesse."""
+    n, atual = 1, ""
+    for palavra in texto.split():
+        teste = (atual + " " + palavra).strip()
+        larg = (largura_texto(teste, tam, FONTE_SEMI)
+                + len(teste) * spc / 72.0)
+        if not atual or larg <= largura:
+            atual = teste
+        else:
+            n += 1
+            atual = palavra
+    return n
 
 
 def linhas(texto, tam, largura):
@@ -849,10 +875,16 @@ class DeckNarrativo(Deck):
         espaco = FIM + 0.30 - topo
         escala = [T_CORPO, T_MEDIO, T_MINI] if larg >= 7.0 else [T_CORPO,
                                                                  T_MINI]
+        larg_rot = min(5.20, LG * 0.37)
+        # o degrau tem a altura do maior dos dois lados: um rotulo que quebra
+        # em duas linhas precisa de espaco tanto quanto uma leitura longa
+        n_rot = [linhas_rotulo(rot.upper(), T_CAMADA_ROT, larg_rot, 2.82)
+                 for rot, _ in itens]
+        alt_rot = [n * T_CAMADA_ROT / 72.0 * 1.30 for n in n_rot]
         for tam_desc in escala:
             alturas = [max(0.72, altura(sem_marcas(desc), tam_desc, larg, 1.40)
-                           + 0.44)
-                       for _, desc in itens]
+                           + 0.44, alt_rot[i] + 0.52)
+                       for i, (_, desc) in enumerate(itens)]
             if sum(alturas) <= espaco:
                 break
         folga = espaco - sum(alturas)
@@ -864,9 +896,9 @@ class DeckNarrativo(Deck):
             self.fio(s, X, yy, LG)
             # O rotulo e Semi-Bold de 18pt, espacejado, em TINTA — so o
             # ultimo degrau recebe o acento, para fechar a escada.
-            self.texto(s, X, yy + 0.30, min(5.20, LG * 0.37), rot.upper(),
+            self.texto(s, X, yy + 0.30, larg_rot, rot.upper(),
                        T_CAMADA_ROT, ACENTO if ultimo else TINTA, SEMI,
-                       spc=2.82, h=0.40)
+                       spc=2.82, h=max(0.40, alt_rot[i] + 0.10))
             self.texto_rico(s, X + min(5.60, LG * 0.40), yy + 0.22, larg, desc,
                             tam_desc, TINTA, LIGHT, h=alturas[i] - 0.30)
             yy += alturas[i]
@@ -1195,7 +1227,7 @@ class DeckNarrativo(Deck):
         larg = DIR - ML
         nome = spec["nome"].upper()
         tam = spec.get("tam_nome", T_DIVISOR)
-        while tam > 46 and largura_texto(nome, tam) > larg:
+        while tam > 46 and largura_texto(nome, tam, FONTE_BOLD) > larg:
             tam -= 2.5
         alt_nome = tam / 72.0 * 1.10
 

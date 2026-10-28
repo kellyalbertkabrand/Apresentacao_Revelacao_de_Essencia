@@ -97,7 +97,8 @@ da página.
 Outfit, acento terracota — a de sempre. Os prints do brand book que ela
 mandou eram referência de **limpeza de texto**, não de layout.
 
-Referência viva: `clientes/lucas-martini/base_estrategica.py` — 18 páginas.
+Referência viva: `clientes/flavia-muccelin/marcas_unicas.py` — 60 páginas no
+formato medido, e `clientes/lucas-martini/base_estrategica.py` — 18 páginas.
 
 ## Gatilho: "base estratégica" / apresentação com roteiro próprio
 

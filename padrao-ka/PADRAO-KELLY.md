@@ -115,6 +115,12 @@ texto; o cartão preserva a fotografia e ainda assim garante leitura.
 O marcador de lista é um **quadrado de acento de 0,112"**, não um ponto
 cinza — e é a única cor da página.
 
+O rótulo da camada é espacejado em **2,82pt por caractere**, e esse
+espacejamento entra na conta de largura: num rótulo de 27 letras ele soma mais
+de uma polegada. Cada degrau tem a altura do **maior** dos dois lados — um
+rótulo que quebra em duas linhas precisa de espaço tanto quanto uma leitura
+longa.
+
 ## 6. A virada de seção
 
 Sem painel. A textura corre de borda a borda e o nome da seção entra
@@ -123,6 +129,10 @@ A borda direita é **18,875"** — medida nos dois divisores dela.
 
 O nome **cede corpo até caber**: 143,5pt é o teto, não uma obrigação.
 "CULTURA ORGANIZACIONAL" não cabe em 143,5pt largura nenhuma.
+
+E o cálculo de caber é feito **na Bold**, não na Light. É o único display do
+padrão que sai em Bold, e a Bold é visivelmente mais larga: medindo pela Light,
+"HISTÓRIA E ORIGEM" passava na conta e quebrava em duas linhas no arquivo.
 
 ## 7. Uma ressalva honesta: dois slides fora do padrão
 
