@@ -14,7 +14,7 @@ Cada deck sai em **`.pptx` e `.pdf`** na própria pasta.
 |---|---|---|
 | `revelacao.py` | Revelação de Essência — origem identitária do fundador | 30 |
 | `base_estrategica.py` | Base Estratégica da Marca — na diagramação do brand book | 18 |
-| `plano_conteudo.py` | Plano de Conteúdo — eixos, formatos e cronograma | 23 |
+| `plano_conteudo.py` | Plano de Conteúdo — eixos, formatos, cronograma e as publicações | 32 |
 | `brandbook.py` | Brand Book — a mesma base em formato de manual | 27 |
 | `assets/` | as 14 fotografias | — |
 | `assets/marca/origem/` | as páginas da identidade, como vieram do Canva | — |
@@ -123,9 +123,38 @@ Cinco fotografias, nenhuma repetida em páginas seguidas.
 ## O Plano de Conteúdo
 
 Mesma identidade e mesma régua da Base: **um título e um bloco de texto**.
-São 23 páginas — objetivo, os cinco eixos da linha editorial, distribuição,
-formatos, cronograma, o ciclo mensal de quatro semanas, a regra central e a
-direção final.
+São 32 páginas — objetivo, os cinco eixos da linha editorial, distribuição,
+formatos, cronograma, o ciclo mensal de quatro semanas, a regra central, a
+direção final e, na seção 08, as publicações já produzidas.
+
+### 08 · Publicações no Instagram
+
+A Kelly mandou a versão dela do plano com uma seção nova no fim — os
+carrosséis diagramados no Canva, cada um com a sua legenda — e pediu a
+adaptação para o padrão KA. Os cards vieram dos três designs do Canva
+(`MARTINI_CARROSSEL_01`, `02` e `03`) e estão em `assets/post-c1-a.png` …
+`post-c3-h.png`.
+
+Cada carrossel ocupa duas páginas: uma de `texto`, com o título e a legenda
+inteira, e uma (ou duas) de `publicacao`, com a prancha de cards em ordem,
+marcados por letra. O arquétipo está em
+[`padrao-ka/ROTEIRO-DECLARATIVO.md`](../../padrao-ka/ROTEIRO-DECLARATIVO.md).
+
+| Carrossel | Cards | Páginas de prancha |
+|---|---|---|
+| 01 · Quem é Lucas Martini | 9 (A–I) | duas, A–E e F–I, com `"colunas": 5` nas duas |
+| 02 · O que Proteção & Sucessão resolve | 7 (A–G) | uma, 4 + 3 |
+| 03 · Como o planejamento é construído | 8 (A–H) | uma, 4 + 4 |
+
+**Duas ressalvas, e elas são reais:**
+
+1. **Os cards estão em 400 × 500 px**, a prévia que a API do Canva entrega.
+   O download em resolução cheia (1080 × 1350) está bloqueado pela rede da
+   sessão — o ambiente `apresentacoes`, com os hosts do Canva liberados, já
+   está criado para a próxima sessão. Trocar as imagens em `assets/` pelos
+   PNG de 1080 px e rodar o gerador outra vez resolve, sem mexer em layout.
+2. **O Reel 01 entrou como página reservada**: a legenda não veio com o
+   resto, e a capa está marcada como imagem a produzir.
 
 Dois itens que a skill do KA pede num Plano de Comunicação e que **não** estão
 aqui, porque dependem de decisão da Kelly:

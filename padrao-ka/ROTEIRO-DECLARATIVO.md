@@ -49,6 +49,7 @@ a liberdade de ordenar as páginas.
 | `ikigai` | os quatro anéis + as quatro leituras | `campos`, `centro` |
 | `manifesto` | texto longo em duas colunas | `paragrafos`, `assinatura` |
 | `foto_cheia` | foto em tela cheia com véu, texto branco | `foto`, `linhas`, `apoio`, `veu`, `foco` |
+| `publicacao` | a prancha de cards de um carrossel, letra por letra | `cards`, `rotulos`, `colunas`, `proporcao`, `eyebrow` |
 | `fecho` | agradecimento e assinatura | `frase` |
 
 Todos aceitam `eyebrow`, `titulo` e `tam_titulo`. Todos os que aceitam
@@ -59,6 +60,38 @@ maior, com filete de acento em cima. O `fecho` é a última frase do mesmo
 bloco: mesmo corpo, mesma cor, sem filete. **No padrão clean de outubro o
 que se usa é o `fecho`** — o destaque é justamente o empilhamento que a
 Kelly recusou.
+
+### A página de publicação
+
+Quando a entrega mostra **o post como ele vai ao ar** — os cards de um
+carrossel, em ordem —, o arquétipo é `publicacao`:
+
+```python
+{"tipo": "publicacao", "eyebrow": "Carrossel 01 · cards A–E",
+ "cards": ["post-c1-a.png", "post-c1-b.png", "post-c1-c.png",
+           "post-c1-d.png", "post-c1-e.png"]},
+```
+
+O card entra na proporção do Instagram (4:5), com canto arredondado e a
+letra embaixo, no acento — a mesma marcação por letra que se usa para falar
+de cada card com o cliente. Três coisas valem a pena saber:
+
+- **A página não leva título de 42pt.** Ela é uma prancha de imagens, e o
+  título comeria dois terços da altura útil: com ele, o card de um carrossel
+  de nove cai para 2,0" de largura; sem ele, vai a 2,88". A identificação
+  fica no rótulo pequeno, e o carrossel já foi apresentado na página
+  anterior, com a legenda.
+- **O número de colunas não se escolhe no conteúdo.** O motor testa de uma
+  em diante e fica com a que dá o card maior, medindo largura e altura — e o
+  card cede largura quando é a altura que aperta, nunca o contrário.
+- **`colunas` fixa a grade** quando um carrossel ocupa duas páginas. Cinco
+  cards numa e quatro na outra sairiam em tamanhos diferentes se cada página
+  escolhesse sozinha; com `"colunas": 5` nas duas, o card tem o mesmo
+  tamanho e a fileira de quatro centra sozinha.
+
+A legenda do post **não** entra nesta página: ela é a página anterior, de
+`texto`, com o título do carrossel e a legenda inteira no corpo do padrão —
+um título e um bloco, como manda a régua.
 
 ---
 

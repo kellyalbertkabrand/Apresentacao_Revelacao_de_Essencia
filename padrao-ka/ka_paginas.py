@@ -1019,6 +1019,71 @@ class DeckNarrativo(Deck):
         self._fechar(s, spec)
         return s
 
+    def pg_publicacao(self, spec):
+        """A publicacao como ela vai ao ar: a prancha de cards do carrossel.
+
+        O card entra na proporcao do Instagram (4:5), com canto arredondado
+        e a letra embaixo, no acento — a mesma marcacao por letra que a
+        Kelly usa para falar de cada card com o cliente.
+
+        A pagina nao leva titulo de 42pt: ela e uma prancha de imagens, e o
+        titulo comeria dois tercos da altura util — com ele, o card de um
+        carrossel de nove caia para 2,0" de largura; sem ele, vai a 2,88".
+        A identificacao fica no rotulo pequeno, e o carrossel ja foi
+        apresentado na pagina anterior, com a legenda.
+
+        O numero de colunas nao e escolhido no conteudo: o motor testa de
+        uma em diante e fica com a que da o CARD MAIOR, medindo a largura e
+        a altura disponiveis — e o card cede largura quando e a altura que
+        aperta, nunca o contrario."""
+        s, y0, FIM = self._abrir(spec)
+        X, LG = self._col
+        y = self.cabeca(s, spec, x=X, w=LG, y=y0)
+        cards = spec.get("cards") or []
+        if not cards:
+            self._fechar(s, spec)
+            return s
+        rotulos = spec.get("rotulos") or list(
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[:len(cards)])
+        prop = spec.get("proporcao", 1.25)      # 4:5, o card do Instagram
+        GAP, ROT = 0.30, 0.40
+        topo, fundo = y, FIM + 0.35
+        bw, bh = LG, fundo - topo
+
+        melhor = (0.0, 1)
+        # `colunas` fixa a grade: e o que mantem o card do mesmo tamanho
+        # quando um carrossel ocupa duas paginas — cinco cards numa e quatro
+        # na outra sairiam em tamanhos diferentes se cada pagina escolhesse
+        # sozinha, e a prancha perderia a unidade
+        fixa = spec.get("colunas")
+        for cols in ([fixa] if fixa else range(1, len(cards) + 1)):
+            linhas_ = int(math.ceil(len(cards) / cols))
+            w = min((bw - GAP * (cols - 1)) / cols,
+                    ((bh - GAP * (linhas_ - 1)) / linhas_ - ROT) / prop)
+            if w > melhor[0]:
+                melhor = (w, cols)
+        w, cols = melhor
+        h = w * prop
+        linhas_ = int(math.ceil(len(cards) / cols))
+        alt = linhas_ * (h + ROT) + GAP * (linhas_ - 1)
+        y0g = topo + (bh - alt) / 2.0
+
+        for i, nome in enumerate(cards):
+            li, co = i // cols, i % cols
+            nesta = min(cols, len(cards) - li * cols)
+            lw = nesta * w + GAP * (nesta - 1)
+            cx = X + (bw - lw) / 2.0 + co * (w + GAP)
+            cy = y0g + li * (h + ROT + GAP)
+            caminho = self.arquivo(nome)
+            self._por_foto(s, cx, cy, w, h, caminho, spec.get("foco", 0.5),
+                           spec, raio=0.12)
+            if i < len(rotulos):
+                self.texto(s, cx, cy + h + 0.06, w, rotulos[i], T_ROTULO,
+                           ACENTO, SEMI, spc=3.0, align=PP_ALIGN.CENTER,
+                           h=0.30)
+        self._fechar(s, spec)
+        return s
+
     def pg_ficha(self, spec):
         """A prancha-resumo: rotulo pequeno e valor, em duas colunas.
 
@@ -1379,14 +1444,14 @@ class DeckNarrativo(Deck):
         "camadas": "pg_camadas", "lista": "pg_lista", "ficha": "pg_ficha",
         "alternativas": "pg_alternativas", "ikigai": "pg_ikigai",
         "manifesto": "pg_manifesto", "foto": "pg_foto",
-        "foto_cheia": "pg_foto_cheia",
+        "foto_cheia": "pg_foto_cheia", "publicacao": "pg_publicacao",
     }
 
     # Paginas cuja posicao e desenhada a mao e nao deve ser recentrada: a
     # capa tem a barra de assinatura presa embaixo, a abertura e o fecho sao
     # composicao de logos, e o sumario nasce preenchendo o painel inteiro.
     SEM_CENTRAR = ("capa", "abertura", "fecho", "sumario",
-                   "divisor", "foto_cheia")
+                   "divisor", "foto_cheia", "publicacao")
 
     def centrar(self, s, tipo):
         """Centra verticalmente o bloco de conteudo da pagina.

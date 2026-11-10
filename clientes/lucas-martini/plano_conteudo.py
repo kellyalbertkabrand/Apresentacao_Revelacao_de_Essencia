@@ -47,6 +47,7 @@ PAGINAS = [
         ("05", "Cronograma de publicações"),
         ("06", "Ciclo mensal"),
         ("07", "Regra central e direção"),
+        ("08", "Publicações no Instagram"),
     ]},
 
     # ——————————————————————————————— 01 OBJETIVO
@@ -229,6 +230,87 @@ PAGINAS = [
          ("Provar", "A autoridade construída."),
          ("Permanecer presente",
           "Para que, quando surgir a necessidade, Lucas seja lembrado."),
+     ]},
+
+    # ——————————————————————— 08 PUBLICAÇÕES NO INSTAGRAM
+    {"tipo": "texto", "titulo": "Publicações para o **Instagram**",
+     "paragrafos": [
+         "As três primeiras publicações já estão produzidas: um carrossel "
+         "de apresentação, um sobre o que Proteção & Sucessão resolve e um "
+         "sobre como o planejamento é construído.",
+         "Cada uma entra aqui com os cards na ordem em que vão ao ar e com "
+         "a legenda pronta para publicação.",
+     ]},
+
+    # ——————————————————————————————————— carrossel 01
+    {"tipo": "texto",
+     "titulo": "Carrossel 01 · **Quem é Lucas Martini**",
+     "paragrafos": [
+         "Confiança não se constrói em uma apresentação. Ela se constrói ao "
+         "longo do tempo, nas decisões, nas entregas e na forma como você "
+         "permanece presente quando o cliente precisa.",
+         "É assim que enxergo minha trajetória profissional.",
+         "Mais do que os anos de experiência ou os reconhecimentos, o que "
+         "mais valorizo é saber que muitas relações começaram com uma "
+         "indicação e se transformaram em confiança de longo prazo.",
+         "É isso que continuo construindo todos os dias.",
+         "#Proteção #Sucessão #Confiança #Planejamento #Continuidade",
+     ]},
+
+    {"tipo": "publicacao", "eyebrow": "Carrossel 01 · cards A–E",
+     "cards": ["post-c1-a.png", "post-c1-b.png", "post-c1-c.png",
+               "post-c1-d.png", "post-c1-e.png"]},
+
+    {"tipo": "publicacao", "eyebrow": "Carrossel 01 · cards F–I",
+     "rotulos": ["F", "G", "H", "I"], "colunas": 5,
+     "cards": ["post-c1-f.png", "post-c1-g.png", "post-c1-h.png",
+               "post-c1-i.png"]},
+
+    # ——————————————————————————————————— carrossel 02
+    {"tipo": "texto",
+     "titulo": "Carrossel 02 · **O que Proteção & Sucessão resolve**",
+     "paragrafos": [
+         "O verdadeiro valor de um planejamento aparece quando a vida exige "
+         "decisões que ninguém gostaria de tomar com pressa.",
+         "Ter recursos disponíveis, alternativas e uma estrutura preparada "
+         "muda completamente a forma de atravessar um momento difícil.",
+         "Por isso, proteção não é pensar no pior. É cuidar, hoje, daquilo "
+         "que você não gostaria de ver comprometido amanhã.",
+         "#Proteção #Sucessão #Patrimônio #Planejamento #Continuidade",
+     ]},
+
+    {"tipo": "publicacao", "eyebrow": "Carrossel 02 · cards A–G",
+     "cards": ["post-c2-a.png", "post-c2-b.png", "post-c2-c.png",
+               "post-c2-d.png", "post-c2-e.png", "post-c2-f.png",
+               "post-c2-g.png"]},
+
+    # ——————————————————————————————————— carrossel 03
+    {"tipo": "texto",
+     "titulo": "Carrossel 03 · **Como o planejamento é construído**",
+     "paragrafos": [
+         "Um planejamento só faz sentido quando consegue acompanhar a vida "
+         "real. Famílias mudam. Empresas crescem. Patrimônios evoluem. "
+         "Responsabilidades também.",
+         "Por isso, não acredito em uma decisão tomada hoje e esquecida por "
+         "anos. Planejar também significa revisar, acompanhar e ajustar "
+         "quando a realidade muda.",
+         "Porque a melhor estratégia não é a mais complexa. É aquela que "
+         "continua fazendo sentido para você ao longo do tempo.",
+         "#Planejamento #Proteção #Sucessão #Estratégia #Patrimônio",
+     ]},
+
+    {"tipo": "publicacao", "eyebrow": "Carrossel 03 · cards A–H",
+     "cards": ["post-c3-a.png", "post-c3-b.png", "post-c3-c.png",
+               "post-c3-d.png", "post-c3-e.png", "post-c3-f.png",
+               "post-c3-g.png", "post-c3-h.png"]},
+
+    # ——————————————————————————————————————————— reel 01
+    {"tipo": "texto", "foto": "reel-01.png", "lado": "solta",
+     "imagem": "Capa do reel 01 — vídeo ainda em produção.",
+     "titulo": "Reel 01",
+     "paragrafos": [
+         "A peça está em produção. A legenda entra nesta página quando o "
+         "roteiro for aprovado.",
      ]},
 
     {"tipo": "fecho", "frase": "OBRIGADA!"},
