@@ -127,6 +127,23 @@ São 32 páginas — objetivo, os cinco eixos da linha editorial, distribuição
 formatos, cronograma, o ciclo mensal de quatro semanas, a regra central, a
 direção final e, na seção 08, as publicações já produzidas.
 
+### O plano no padrão KA de apresentações
+
+A Kelly pediu o Plano de Conteúdo no **Padrão de apresentações KA** (a skill
+`apresentacao-ka`), no mesmo visual da Base Estratégica da FORMA ilustrada, e
+não no gerador Python deste repositório. Esse deck vive agora num artefato do
+tipo Slides, com o design system KA instalado: 38 slides em 1920 × 1080, papel
+`#F8F7F2`, marinho só nas viradas, caramelo `#D86F2A`, Outfit, rodapé com o
+logo da VM Rocks e desenhos em traço técnico do universo do Lucas.
+
+`Plano-de-Conteudo-Lucas-Martini-KA.pptx` é a exportação desse deck (um slide
+por imagem, 16:9). O `plano_conteudo.py` continua aqui como o roteiro antigo,
+do motor Python.
+
+Os carrosséis seguem a diagramação do arquivo dela: título e legenda na coluna
+da esquerda, cards à direita em 2 + 3, 3 + 4 e 4 + 4, cada um marcado por
+letra.
+
 ### 08 · Publicações no Instagram
 
 A Kelly mandou a versão dela do plano com uma seção nova no fim — os
