@@ -132,7 +132,7 @@ direção final e, na seção 08, as publicações já produzidas.
 A Kelly pediu o Plano de Conteúdo no **Padrão de apresentações KA** (a skill
 `apresentacao-ka`), no mesmo visual da Base Estratégica da FORMA ilustrada, e
 não no gerador Python deste repositório. Esse deck vive agora num artefato do
-tipo Slides, com o design system KA instalado: 38 slides em 1920 × 1080, papel
+tipo Slides, com o design system KA instalado: 48 slides em 1920 × 1080, papel
 `#F8F7F2`, marinho só nas viradas, caramelo `#D86F2A`, Outfit, rodapé com o
 logo da VM Rocks e desenhos em traço técnico do universo do Lucas.
 
@@ -142,7 +142,9 @@ do motor Python.
 
 Os carrosséis seguem a diagramação do arquivo dela: título e legenda na coluna
 da esquerda, cards à direita em 2 + 3, 3 + 4 e 4 + 4, cada um marcado por
-letra.
+letra. Logo depois de cada um vêm as **páginas de leitura**: só os cards, três
+por slide em 541 × 676 px, para o cliente conseguir ler o que está escrito
+neles — nove páginas ao todo (três por carrossel).
 
 A seção das publicações fecha com três páginas de perfil: a sugestão de nome,
 bio e conteúdo fixo; o perfil como está hoje; e **a simulação** — as duas
