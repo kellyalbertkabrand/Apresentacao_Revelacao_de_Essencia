@@ -21,6 +21,7 @@ IMG = os.path.join(EDIT, 'img')
 os.makedirs(IMG, exist_ok=True)
 
 LARG, ALT = 1920, 1080
+ALTURA_LINHA = 1.122      # altura da caixa de texto da Outfit, em ems
 EMU_W = 12192000
 K = EMU_W / LARG                      # 6350 EMU por px
 def E(v): return Emu(int(round(v * K)))
@@ -188,7 +189,11 @@ def forma_retangulo(slide, it):
 def forma_texto(slide, it, folga=0.0):
     b = it['b']
     cx, cy, cw, ch = b['cx'], b['cy'], b['cw'], b['ch']
-    tb = slide.shapes.add_textbox(E(cx), E(cy + folga), E(cw), E(ch + 40))
+    # O navegador centra a linha dentro da entrelinha; o PowerPoint apoia o texto
+    # mais abaixo. ALTURA_LINHA e a altura real da Outfit (ascendente + descendente)
+    # medida contra o LibreOffice: sem este ajuste o corpo desce ~5px.
+    ajuste = -(it['lh'] - ALTURA_LINHA * it['tam']) / 2.0
+    tb = slide.shapes.add_textbox(E(cx), E(cy + folga + ajuste), E(cw), E(ch + 40))
     tf = tb.text_frame
     tf.word_wrap = not it.get('nowrap')
     tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0

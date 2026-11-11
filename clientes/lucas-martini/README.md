@@ -127,6 +127,29 @@ São 32 páginas — objetivo, os cinco eixos da linha editorial, distribuição
 formatos, cronograma, o ciclo mensal de quatro semanas, a regra central, a
 direção final e, na seção 08, as publicações já produzidas.
 
+### A Revelação e a Base Estratégica no padrão KA
+
+Em novembro a Kelly pediu as duas primeiras entregas do Lucas — a **Revelação
+de Essência** e a **Base Estratégica da Marca** — no mesmo padrão visual do
+Plano de Conteúdo. O texto é o dela, transcrito; o que mudou foi a
+diagramação.
+
+| Arquivo | Páginas | Roteiro |
+|---|---|---|
+| `Revelacao-de-Essencia-Lucas-Martini-KA.pptx` | 29 | `revelacao_ka.py` |
+| `Base-Estrategica-da-Marca-Lucas-Martini-KA.pptx` | 19 | `base_estrategica_ka.py` |
+
+Os dois roteiros montam o HTML com `padrao-ka/paginas-html/ka_gerador.py` e
+viram PowerPoint editável com `padrao-ka/slides-para-pptx/`. As fotos são as
+mesmas de `assets/`, já usadas nas versões anteriores.
+
+Três frases mudaram de voz, pela regra da terceira pessoa do CLAUDE.md:
+"por que começamos pela essência" virou **"por que a essência vem primeiro"**,
+"como chegamos à revelação" virou **"como a revelação é construída"** e
+"conseguimos identificar os padrões" virou **"é na sua trajetória que aparecem
+os padrões"**. O manifesto da Base ficou na primeira pessoa — é a exceção
+prevista.
+
 ### O plano no padrão KA de apresentações
 
 A Kelly pediu o Plano de Conteúdo no **Padrão de apresentações KA** (a skill
