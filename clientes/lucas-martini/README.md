@@ -136,9 +136,13 @@ tipo Slides, com o design system KA instalado: 48 slides em 1920 × 1080, papel
 `#F8F7F2`, marinho só nas viradas, caramelo `#D86F2A`, Outfit, rodapé com o
 logo da VM Rocks e desenhos em traço técnico do universo do Lucas.
 
-`Plano-de-Conteudo-Lucas-Martini-KA.pptx` é a exportação desse deck (um slide
-por imagem, 16:9). O `plano_conteudo.py` continua aqui como o roteiro antigo,
-do motor Python.
+`Plano-de-Conteudo-Lucas-Martini-KA.pptx` é a exportação desse deck — e é um
+**PowerPoint editável**, não um slide-imagem: cada texto é caixa de texto na
+Outfit certa, cada filete é forma, cada foto é imagem. Quem converte é
+`padrao-ka/slides-para-pptx/`, que mede o slide no navegador e repõe o que
+mediu em OOXML; `blobs-do-artefato.json` é o mapa dos blobs do artefato para
+os arquivos de `assets/`, que a conversão pede. O `plano_conteudo.py` continua
+aqui como o roteiro antigo, do motor Python.
 
 Os carrosséis seguem a diagramação do arquivo dela: título e legenda na coluna
 da esquerda, cards à direita em 2 + 3, 3 + 4 e 4 + 4, cada um marcado por
