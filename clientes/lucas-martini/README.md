@@ -144,6 +144,15 @@ Os carrosséis seguem a diagramação do arquivo dela: título e legenda na colu
 da esquerda, cards à direita em 2 + 3, 3 + 4 e 4 + 4, cada um marcado por
 letra.
 
+A seção das publicações fecha com três páginas de perfil: a sugestão de nome,
+bio e conteúdo fixo; o perfil como está hoje; e **a simulação** — as duas
+opções de foto, os cinco ícones de destaque (SOBRE, PROTEÇÃO, SUCESSÃO,
+EMPRESAS, RECONHECIMENTO, do arquivo `ICONES_DESTAQUES_LUCAS_MARTINI` do
+Canva) e o perfil montado com a bio nova, os destaques e as três primeiras
+publicações. O mockup do celular é desenhado em HTML e renderizado em
+1290 × 2796; o fonte está em `mock.html`, no diretório de trabalho da
+apresentação.
+
 ### 08 · Publicações no Instagram
 
 A Kelly mandou a versão dela do plano com uma seção nova no fim — os
