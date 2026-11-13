@@ -83,6 +83,7 @@ tipografia; o documento continua composto na Outfit, e a página diz isso.
 | `paleta` | amostras de cor com código e uso | `cores`: `(nome, hex, uso)` |
 | `marca` | versões do logo, cada uma no seu fundo | `versoes`: `(nome, arquivo, fundo, legenda)` |
 | `tipografia` | espécimes e hierarquia | `familias`, `nota` |
+| `aplicacoes` | a marca nas peças: uma foto grande ao lado do texto, ou uma fileira delas | `fotos`: `(arquivo, legenda)`, `texto`, `nota`, `y` |
 | `fecho` | logo, frase e assinatura | `frase`, `assinatura` |
 
 Todos aceitam `olho` (o rótulo de acento acima do título) e `tom`

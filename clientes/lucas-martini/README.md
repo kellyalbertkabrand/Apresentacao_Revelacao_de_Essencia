@@ -15,7 +15,7 @@ Cada deck sai em **`.pptx` e `.pdf`** na própria pasta.
 | `revelacao.py` | Revelação de Essência — origem identitária do fundador | 30 |
 | `base_estrategica.py` | Base Estratégica da Marca — na diagramação do brand book | 18 |
 | `plano_conteudo.py` | Plano de Conteúdo — eixos, formatos, cronograma e as publicações | 32 |
-| `brandbook.py` | Brand Book — a mesma base em formato de manual | 27 |
+| `brandbook.py` | Brand Book — a mesma base em formato de manual | 29 |
 | `assets/` | as 14 fotografias | — |
 | `assets/marca/origem/` | as páginas da identidade, como vieram do Canva | — |
 | `vetorizar.py` | refaz os logotipos em vetor — SVG, PDF e PNG de 4000 px | — |
@@ -24,7 +24,7 @@ Cada deck sai em **`.pptx` e `.pdf`** na própria pasta.
 
 ## O brand book
 
-A Base Estratégica tem 30 páginas de apresentação; o brand book tem 27 de
+A Base Estratégica tem 30 páginas de apresentação; o brand book tem 29 de
 **manual**, na diagramação do Brand Book KA 2026
 ([`padrao-ka/BRAND-BOOK.md`](../../padrao-ka/BRAND-BOOK.md)) e vestido com a
 identidade do Lucas: verde `#4A534E`, dourado do escudo, areia e papel.
@@ -42,6 +42,13 @@ derivação, não transcrição**, e precisam do aval da Kelly:
 2. **"O que preserva a marca"** (usos do logo) — regras de respiro,
    contraste, proporção e tamanho mínimo. São as regras usuais de manual,
    escritas para este escudo.
+
+**As aplicações** (páginas 24 e 25) entraram em novembro, com os mockups que
+a Kelly mandou: o conjunto de papelaria numa página, e cartão, bloco e caneta
+numa fileira na seguinte. Os arquivos estão em `assets/aplicacoes/` e o
+arquétipo `aplicacoes` ficou em `padrao-ka/ka_brandbook.py`, para servir em
+qualquer manual. A página 20 continua sendo **as versões do logo** — ela é
+normativa, diz qual versão usar onde, e por isso não virou fotografia.
 
 Duas observações de produção:
 

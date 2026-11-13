@@ -2,7 +2,7 @@
 """
 BRAND BOOK — Lucas Martini | Proteção & Sucessão
 
-A mesma Base Estratégica, em formato de manual: 26 páginas na diagramação do
+A mesma Base Estratégica, em formato de manual: 29 páginas na diagramação do
 Brand Book KA 2026 (cabeçalho com paginação, capítulos numerados, título à
 esquerda e conteúdo à direita), vestida com a identidade visual do Lucas —
 verde profundo, dourado e o escudo LM.
@@ -57,6 +57,13 @@ V_PRETO = os.path.join(MARCA_DIR, "lm-horizontal-preto.png")
 V_VERTICAL_PRETO = os.path.join(MARCA_DIR, "lm-vertical-preto.png")
 V_CLARO = os.path.join(MARCA_DIR, "lm-vertical-branco.png")
 
+# As aplicações: as peças reais com a marca impressa.
+APL = os.path.join(AQUI, "assets", "aplicacoes")
+A_CONJUNTO = os.path.join(APL, "conjunto.png")
+A_CARTOES = os.path.join(APL, "cartoes.png")
+A_BLOCO = os.path.join(APL, "bloco.png")
+A_CANETA = os.path.join(APL, "caneta.png")
+
 PAGINAS = [
     # 01 — capa
     {"tipo": "capa", "titulo": "Brand Book", "edicao": "Edição 2026",
@@ -84,7 +91,7 @@ PAGINAS = [
           "Para quem ela fala e sobre o que ela fala."),
          ("03", "Voz", "Como ela se comporta e como ela escreve."),
          ("04", "Identidade visual",
-          "O logo, as cores e a tipografia — e o que preserva tudo isso."),
+          "O logo, as cores, a tipografia e a marca aplicada nas peças."),
          ("05", "Manifesto", "A marca em palavras, e a marca em uma página."),
      ]},
 
@@ -300,7 +307,7 @@ PAGINAS = [
 
     # ————————————————————————————————————— 04 IDENTIDADE VISUAL
     {"tipo": "divisor", "numero": "04", "nome": ["Identidade", "visual"],
-     "legenda": "O escudo, o verde e o dourado."},
+     "legenda": "O escudo, o verde, o dourado — e a marca no papel."},
 
     # 20 — as versões da marca
     {"tipo": "marca", "olho": "Logotipo", "titulo": "As versões da marca",
@@ -370,6 +377,27 @@ PAGINAS = [
      "nota": "Os espécimes desta página estão compostos na fonte deste "
              "documento. As fontes oficiais da marca são a Allrounder, no "
              "logotipo, e a DM Sans, no texto."},
+
+    # 24 — as aplicações
+    {"tipo": "aplicacoes", "olho": "Aplicações", "titulo": "A marca aplicada",
+     "y": 3.70,
+     "texto": ["O sistema só se prova fora da tela. Dourado sobre o verde "
+               "profundo nas peças de assinatura; o mesmo escudo em preto "
+               "sobre o papel claro, quando a impressão é de uma cor.",
+               "**O escudo nunca aparece sozinho na peça de contato.** "
+               "Acompanha sempre o nome e a linha de atuação — é assim que "
+               "a marca é reconhecida."],
+     "fotos": [(A_CONJUNTO, "Papelaria institucional · cartão, bloco e caneta")]},
+
+    # 25 — as peças, uma a uma
+    {"tipo": "aplicacoes", "olho": "Aplicações", "titulo": "As peças",
+     "y": 3.95,
+     "fotos": [(A_CARTOES, "Cartão de visita"),
+               (A_BLOCO, "Bloco de anotações"),
+               (A_CANETA, "Caneta")],
+     "nota": "Verde profundo e dourado nas faces de assinatura; papel e "
+             "preto onde a informação precisa ser lida. O contraste entre "
+             "as duas faces é o que dá volume ao conjunto."},
 
     # ——————————————————————————————————————————— 05 MANIFESTO
     {"tipo": "divisor", "numero": "05", "nome": "Manifesto",

@@ -665,6 +665,50 @@ class Brandbook(Deck):
                             tinta, gap=0.18)
         return s
 
+    def pg_aplicacoes(self, spec):
+        """A marca aplicada: a prova de que o sistema sai da tela e funciona
+        no papel. Uma foto grande ao lado do texto, ou uma fileira delas com
+        a legenda embaixo — a mesma grade da página de versões do logo."""
+        from PIL import Image as _Im
+        tom = spec.get("tom", "claro")
+        s = self.pagina(tom, spec.get("trama"))
+        tinta, corpo, acento, fio = self.tinta(tom)
+        if spec.get("olho"):
+            self.olho(s, spec["olho"], COL_E, Y_TITULO - 0.52, acento)
+        fotos = spec["fotos"]
+        raio = spec.get("raio", 0.14)
+        if len(fotos) == 1:
+            self.titulo_pagina(s, spec["titulo"], tom, fio_ate=COL_E + LARG_E)
+            self.paragrafos(s, COL_E, spec.get("y", 3.70), LARG_E,
+                            spec.get("texto", []), T_CORPO, corpo, tinta)
+            caminho, legenda = fotos[0]
+            x = spec.get("x_foto", 9.40)
+            w = MR - x
+            iw, ih = _Im.open(caminho).size
+            h = w * ih / iw
+            topo = (ALT - h) / 2.0
+            self.foto(s, x, topo, w, h, caminho, raio=raio)
+            if legenda:
+                self.texto(s, x, topo + h + 0.26, w, legenda, T_MINI, corpo,
+                           LIGHT, h=0.30)
+            return s
+        self.titulo_pagina(s, spec["titulo"], tom, fio_ate=MR)
+        n = len(fotos)
+        gap = spec.get("gap", 0.60)
+        larg = (W - gap * (n - 1)) / n
+        alturas = [larg * _Im.open(c).size[1] / _Im.open(c).size[0]
+                   for c, _ in fotos]
+        y = spec.get("y", 4.10)
+        for i, (caminho, legenda) in enumerate(fotos):
+            x = ML + i * (larg + gap)
+            self.foto(s, x, y, larg, alturas[i], caminho, raio=raio)
+            self.texto(s, x, y + alturas[i] + 0.30, larg, legenda.upper(),
+                       T_OLHO * 1.1, tinta, SEMI, spc=2.2, h=0.34)
+        if spec.get("nota"):
+            self.paragrafos(s, ML, y + max(alturas) + 0.86, W * 0.62,
+                            [spec["nota"]], T_MINI, corpo, tinta, gap=0.20)
+        return s
+
     def pg_tipografia(self, spec):
         """O alfabeto da marca, em tamanho que dá para ver."""
         tom = spec.get("tom", "claro")
@@ -756,13 +800,14 @@ class Brandbook(Deck):
         "texto": "pg_texto", "lista": "pg_lista", "colunas": "pg_colunas",
         "numerais": "pg_numerais", "declaracao": "pg_declaracao",
         "pares": "pg_pares", "meia": "pg_meia", "paleta": "pg_paleta",
-        "marca": "pg_marca", "tipografia": "pg_tipografia", "fecho": "pg_fecho",
+        "marca": "pg_marca", "tipografia": "pg_tipografia",
+        "aplicacoes": "pg_aplicacoes", "fecho": "pg_fecho",
     }
 
     # Paginas desenhadas a mao, que nao se recentram: capa, abertura, fecho,
     # divisor de capitulo e a pagina de indice, que ja nasce preenchendo.
     SEM_CENTRAR = ("capa", "capa_ka", "abertura", "fecho", "divisor",
-                   "indice", "declaracao", "meia")
+                   "indice", "declaracao", "meia", "aplicacoes")
 
     def centrar(self, s, tipo):
         """Centra verticalmente o bloco de conteudo.
