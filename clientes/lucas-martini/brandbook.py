@@ -223,7 +223,7 @@ PAGINAS = [
      "titulo": ["Quem carrega", "responsabilidade"],
      "resumo": ["Quatro perfis diferentes com uma coisa em comum: existe algo "
                 "ou alguém que depende das decisões de cada um."],
-     "rotulo": "A tribo", "y_direita": 2.30,
+     "rotulo": "A tribo", "y_direita": 2.00,
      "itens": [
          "**Quem produz a própria renda** — profissionais liberais, "
          "autônomos, executivos e especialistas;",
@@ -379,7 +379,8 @@ PAGINAS = [
 
     # 23 — tipografia
     {"tipo": "tipografia", "olho": "Tipografia",
-     "titulo": "A tipografia", "y": 4.25, "tam": 44,
+     "titulo": "A tipografia", "y": 3.60, "tam": 44,
+     "passo": 1.38, "respiro": 0.32,
      "familias": [
          ("Assinatura · Allrounder", "Outfit 1 Light",
           "Lucas Martini",
@@ -395,8 +396,8 @@ PAGINAS = [
           "frase que a pessoa leva embora — nunca a frase inteira."),
      ],
      "nota": "Os espécimes desta página estão compostos na fonte deste "
-             "documento. As fontes oficiais da marca são a Allrounder, no "
-             "logotipo, e a DM Sans, no texto."},
+             "documento. As fontes oficiais são a Allrounder, no logotipo, "
+             "e a DM Sans, no texto."},
 
     # 24 — as aplicações
     {"tipo": "aplicacoes", "olho": "Aplicações", "titulo": "A marca aplicada",

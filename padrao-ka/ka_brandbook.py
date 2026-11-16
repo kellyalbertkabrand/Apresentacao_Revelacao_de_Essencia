@@ -45,14 +45,15 @@ TRAMA_DIREITA = os.path.join(ASSETS, "trama-direita.png")
 TRAMA_PE = os.path.join(ASSETS, "trama-pe.png")
 
 # ------------------------------------------------------------------- grade
-ML, MR = 1.00, 19.00          # margens
+ML, MR = 1.15, 18.55          # margens — o retângulo de respiro da página
 W = MR - ML
-COL_E, LARG_E = 1.00, 7.60    # coluna da esquerda: o título e o resumo
-COL_D, LARG_D = 10.85, 7.50   # coluna da direita: o conteúdo
-Y_CABECA = 0.68               # linha do cabeçalho
+COL_E, LARG_E = 1.15, 7.50    # coluna da esquerda: o título e o resumo
+COL_D, LARG_D = 10.85, 7.70   # coluna da direita: o conteúdo
+X_TRILHO = 19.05              # o trilho vertical, entre a margem e a borda
+Y_CABECA = 0.68               # linha do cabeçalho (só no modo horizontal)
 Y_TITULO = 1.90               # primeira linha do título
 Y_CORPO = 2.05                # primeira linha da coluna da direita
-FUNDO = 10.30                 # nada de texto abaixo disto
+FUNDO = 10.10                 # nada de texto abaixo disto
 
 # -------------------------------------------------------------- tipografia
 T_TITULO = 45       # título de página, caixa alta e peso leve
@@ -155,22 +156,41 @@ class Brandbook(Deck):
         return s
 
     def cabecalho(self, s, tom):
-        """Filete de acento, nome do documento e a paginação. É ele que faz
-        o documento parecer manual, e não apresentação."""
+        """O trilho da direita: o nome do documento na vertical, lendo de
+        baixo para cima, e o número da página embaixo dele, rente à margem.
+
+        Na horizontal o cabeçalho disputava a linha do título; de pé, na
+        faixa que sobra entre a margem e a borda, ele identifica a página
+        sem ocupar nada do conteúdo."""
         _, _, acento, _ = self.tinta(tom)
         suave = self.p["suave"] if tom != "escuro" else self.p["corpo_escuro"]
+
+        def de_pe(y, alt):
+            tb = s.shapes.add_textbox(self.e(X_TRILHO), self.e(y),
+                                      self.e(0.62), self.e(alt))
+            # o trilho e moldura, nao conteudo: fica fora da centragem
+            tb.name = "trilho"
+            tf = tb.text_frame
+            tf.word_wrap = True
+            tf.margin_left = tf.margin_right = 0
+            tf.margin_top = tf.margin_bottom = 0
+            bodyPr = tf._txBody.find(qn("a:bodyPr"))
+            bodyPr.set("vert", "vert270")   # lê de baixo para cima
+            return tf
+
         if self.cabecalho_documento:
-            self.bloco(s, 0.98, Y_CABECA - 0.02, 0.022, 0.26, acento)
-            self.texto(s, 1.12, Y_CABECA, 9.0,
-                       "%s %s" % (self.documento, self.marca), T_CABECA,
-                       suave, SEMI, spc=2.6, h=0.30)
+            tf = de_pe(4.20, FUNDO - 0.80 - 4.20)
+            p = self.par(tf, primeiro=True, align=PP_ALIGN.LEFT)
+            self.txt(p, self.documento.upper().replace(" ", ""), T_CABECA,
+                     suave, LIGHT, spc=2.8)
+            self.txt(p, "  |  ", T_CABECA, acento, LIGHT, spc=2.8)
+            self.txt(p, self.marca.upper(), T_CABECA, suave, SEMI, spc=2.8)
         if tom != "escuro":
             # a paginacao e do miolo claro; nas viradas e nas paginas de
             # silencio ela so suja o canto
-            self.texto(s, MR - 4.0, Y_CABECA, 4.0,
-                       "%02d / %02d" % (self.n, self.total or self.n),
-                       T_CABECA, acento, SEMI, spc=2.6, h=0.30,
-                       align=PP_ALIGN.RIGHT)
+            tf = de_pe(FUNDO - 0.58, 0.52)
+            p = self.par(tf, primeiro=True, align=PP_ALIGN.LEFT)
+            self.txt(p, "%02d" % self.n, T_CABECA, acento, SEMI, spc=2.0)
 
     # ----------------------------------------------------------- tipografia
     def rico(self, p, texto, tam, cor, forte, fonte=LIGHT, fonte_forte=SEMI,
@@ -734,11 +754,11 @@ class Brandbook(Deck):
             self.olho(s, nome, ML, y, acento, w=W)
             self.texto(s, ML, y + 0.38, 12.6, amostra, spec.get("tam", 46),
                        tinta, fonte, espaco=1.1, h=0.95)
-            self.paragrafos(s, 13.60, y + 0.46, 5.40, [uso], T_MINI, corpo,
-                            tinta, gap=0.18)
-            y += 1.62
+            self.paragrafos(s, 13.60, y + 0.46, MR - 13.60, [uso], T_MINI,
+                            corpo, tinta, gap=0.18)
+            y += spec.get("passo", 1.62)
             self.fio(s, ML, y, W, fio, esp=0.008)
-            y += 0.46
+            y += spec.get("respiro", 0.46)
         if spec.get("nota"):
             self.paragrafos(s, ML, y + 0.20, W * 0.72, [spec["nota"]], T_MINI,
                             self.p["suave"], corpo)
@@ -899,8 +919,8 @@ class Brandbook(Deck):
                 continue
             if larg >= 19.0 or alt >= 8.0:
                 continue
-            # o cabecalho e a paginacao ficam onde estao
-            if sh.top / float(EMU) < 1.10:
+            # o cabecalho, o trilho e a paginacao ficam onde estao
+            if sh.top / float(EMU) < 1.10 or sh.name == "trilho":
                 continue
             moveis.append(sh)
         if not moveis:

@@ -62,6 +62,12 @@ PALETA = {
 }
 ```
 
+O cabeçalho é um **trilho vertical na margem direita**: o nome do documento
+de pé, lendo de baixo para cima, e o número da página no pé do trilho. A
+margem é de 1,15" nos quatro lados (`ML`, `MR`, `FUNDO`), e o trilho vive em
+`X_TRILHO`, na faixa entre a margem e a borda — nunca dentro da coluna de
+texto.
+
 A tipografia **não** é parâmetro: é a Outfit, como em todo o padrão KA. Se a
 marca do cliente tem fonte própria, ela é **nomeada** na página de
 tipografia; o documento continua composto na Outfit, e a página diz isso.

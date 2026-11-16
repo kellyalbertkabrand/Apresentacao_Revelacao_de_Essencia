@@ -70,9 +70,16 @@ Duas observações de produção:
   pertencer a ele e não à página. O arquétipo é o `creditos`, novo em
   `ka_brandbook.py`.
 
+- **O cabeçalho virou um trilho vertical na margem direita.** `BRANDBOOK |
+  LUCAS MARTINI` sobe de pé, rente à borda, e o número da página fica logo
+  abaixo, no pé do trilho — fora da coluna de texto, como a Kelly pediu em
+  novembro. A margem do documento abriu para 1,15" nos quatro lados e o
+  fundo subiu para 10,10".
+
 - **As páginas verdes não têm paginação.** O número é do miolo claro; na
-  virada de capítulo e na página de silêncio ele só sujava o canto. O nome do
-  documento continua no cabeçalho.
+  virada de capítulo e na página de silêncio ele só sujava o canto. Nas
+  viradas com fotografia o trilho fica coberto pela foto, que sangra até a
+  borda — é a única página em que o nome do documento não aparece.
 
 - **As viradas de capítulo têm fotografia do Lucas.** A foto ocupa a metade
   direita e sangra nas três bordas; o nome do capítulo fica na metade escura.
