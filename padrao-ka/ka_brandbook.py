@@ -164,9 +164,13 @@ class Brandbook(Deck):
             self.texto(s, 1.12, Y_CABECA, 9.0,
                        "%s %s" % (self.documento, self.marca), T_CABECA,
                        suave, SEMI, spc=2.6, h=0.30)
-        self.texto(s, MR - 4.0, Y_CABECA, 4.0,
-                   "%02d / %02d" % (self.n, self.total or self.n), T_CABECA,
-                   acento, SEMI, spc=2.6, h=0.30, align=PP_ALIGN.RIGHT)
+        if tom != "escuro":
+            # a paginacao e do miolo claro; nas viradas e nas paginas de
+            # silencio ela so suja o canto
+            self.texto(s, MR - 4.0, Y_CABECA, 4.0,
+                       "%02d / %02d" % (self.n, self.total or self.n),
+                       T_CABECA, acento, SEMI, spc=2.6, h=0.30,
+                       align=PP_ALIGN.RIGHT)
 
     # ----------------------------------------------------------- tipografia
     def rico(self, p, texto, tam, cor, forte, fonte=LIGHT, fonte_forte=SEMI,
@@ -765,6 +769,39 @@ class Brandbook(Deck):
                        self.p["suave"], LIGHT, align=PP_ALIGN.CENTER, h=0.40)
         return s
 
+    def pg_creditos(self, spec):
+        """A ultima pagina: quem realizou, e o que cada um fez.
+
+        Dois logotipos empilhados, o sinal de mais entre eles e, sob cada um,
+        a linha do que coube a cada escritorio."""
+        from PIL import Image as _Im
+        tom = spec.get("tom", "escuro")
+        s = self.pagina(tom, spec.get("trama"), cabecalho=False)
+        tinta, corpo, acento, _ = self.tinta(tom)
+        y = spec.get("y", 2.30)
+        if spec.get("olho"):
+            self.texto(s, 0, y, LARG, spec["olho"].upper(), T_OLHO, corpo,
+                       SEMI, spc=5.0, align=PP_ALIGN.CENTER, h=0.34)
+        y += spec.get("respiro", 1.00)
+        for i, (caminho, larg, legenda) in enumerate(spec["logos"]):
+            if i:
+                tam = spec.get("tam_mais", 40)
+                self.texto(s, 0, y, LARG, "+", tam, acento, LIGHT,
+                           align=PP_ALIGN.CENTER, h=tam / 72.0 * 1.4)
+                y += tam / 72.0 * 1.4 + 0.60
+            iw, ih = _Im.open(caminho).size
+            alt = larg * ih / iw
+            self.logo(s, caminho, (LARG - larg) / 2.0, y, larg)
+            y += alt + 0.46
+            self.texto(s, 0, y, LARG, legenda, T_MINI, corpo, LIGHT,
+                       align=PP_ALIGN.CENTER, h=0.34)
+            y += 1.00
+        if spec.get("assinatura"):
+            self.texto(s, 0, spec.get("y_assinatura", 9.70), LARG,
+                       spec["assinatura"], T_MINI, corpo, LIGHT,
+                       align=PP_ALIGN.CENTER, h=0.34)
+        return s
+
     def pg_indice(self, spec):
         """O conteúdo do documento. Com até seis temas cabe uma coluna, com
         a legenda ao lado; acima disso vai para duas, só número e nome."""
@@ -810,12 +847,14 @@ class Brandbook(Deck):
         "pares": "pg_pares", "meia": "pg_meia", "paleta": "pg_paleta",
         "marca": "pg_marca", "tipografia": "pg_tipografia",
         "aplicacoes": "pg_aplicacoes", "fecho": "pg_fecho",
+        "creditos": "pg_creditos",
     }
 
     # Paginas desenhadas a mao, que nao se recentram: capa, abertura, fecho,
     # divisor de capitulo e a pagina de indice, que ja nasce preenchendo.
     SEM_CENTRAR = ("capa", "capa_ka", "abertura", "fecho", "divisor",
-                   "indice", "declaracao", "meia", "aplicacoes")
+                   "indice", "declaracao", "meia", "aplicacoes",
+                   "creditos")
 
     def centrar(self, s, tipo):
         """Centra verticalmente o bloco de conteudo.

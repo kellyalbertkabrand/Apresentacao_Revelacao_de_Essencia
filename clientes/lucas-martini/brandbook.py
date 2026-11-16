@@ -75,6 +75,11 @@ F_GRUPO = os.path.join(FOTOS, "07_lucas_apresentando_grupo.png")
 F_JANELA = os.path.join(FOTOS, "03_lucas_janela_entardecer.png")
 F_CORREDOR = os.path.join(FOTOS, "14_retrato_lucas_corredor.png")
 
+# As assinaturas de quem realizou, em versão clara para o verde da marca.
+PADRAO = os.path.join(os.path.dirname(os.path.dirname(AQUI)), "padrao-ka")
+LOGO_KA = os.path.join(PADRAO, "assets", "logo-ka-claro.png")
+LOGO_VM = os.path.join(PADRAO, "assets", "logo-vm-rocks-claro.png")
+
 PAGINAS = [
     # 01 — capa
     {"tipo": "capa", "titulo": "Brand Book", "edicao": "Edição 2026",
@@ -452,8 +457,13 @@ PAGINAS = [
          "**Personalidade.** Autoridade discreta.",
      ]},
 
-    # 27 — fecho
-    {"tipo": "fecho", "frase": "Proteção & Sucessão",
-     "assinatura": "Método Marca com Essência ©   ·   KA | Inteligência para Marcas",
-     "logo_largura": 6.6, "logo_y": 3.80, "y": 6.95},
+    # 29 — realizado por
+    {"tipo": "creditos", "tom": "escuro", "olho": "Realizado por",
+     "y": 2.30, "respiro": 1.05,
+     "logos": [
+         (LOGO_KA, 6.10,
+          "Base Estratégica da Marca e Identidade Verbal"),
+         (LOGO_VM, 4.40,
+          "Identidade Visual das Redes Sociais"),
+     ]},
 ]

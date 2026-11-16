@@ -62,6 +62,16 @@ Duas observações de produção:
   `assets/marca/vetor/` continuam no repositório como histórico — **não
   usar**.
 
+- **A última página credita quem fez o quê**: "Realizado por", a assinatura
+  do KA com *Base Estratégica da Marca e Identidade Verbal*, o mais em
+  dourado e a da VM Rocks com *Identidade Visual das Redes Sociais* — tudo
+  sobre o verde da marca do Lucas, não sobre o verde do KA. O arquétipo é o
+  `creditos`, novo em `ka_brandbook.py`.
+
+- **As páginas verdes não têm paginação.** O número é do miolo claro; na
+  virada de capítulo e na página de silêncio ele só sujava o canto. O nome do
+  documento continua no cabeçalho.
+
 - **As viradas de capítulo têm fotografia do Lucas.** A foto ocupa a metade
   direita e sangra nas três bordas; o nome do capítulo fica na metade escura.
   São cinco, uma a cada cinco ou seis páginas: retrato na 01, atendimento na
