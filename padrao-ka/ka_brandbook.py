@@ -346,27 +346,35 @@ class Brandbook(Deck):
     def pg_divisor(self, spec):
         """Virada de capítulo: página inteira de cor, numeral, nome em bold."""
         tom = spec.get("tom", "escuro")
-        s = self.pagina(tom, TRAMA_DIREITA, cabecalho=True)
+        s = self.pagina(tom, None if spec.get("foto") else TRAMA_DIREITA,
+                        cabecalho=True)
         self.trama(s, TRAMA_CANTO, 0.30)
         tinta, _, acento, _ = self.tinta(tom)
-        if self.logos.get("escudo"):
+        if spec.get("foto"):
+            # a fotografia ocupa a metade direita e sangra pelas três bordas;
+            # o texto fica na metade escura, onde sempre esteve
+            corte = spec.get("corte", 10.40)
+            self.foto(s, corte, 0, LARG - corte, ALT, spec["foto"],
+                      foco=spec.get("foco", 0.35))
+        if self.logos.get("escudo") and not spec.get("foto"):
             # a marca d'agua e sombra, nao ilustracao: entra quase apagada e
             # sangra pela direita, como as letras gigantes do brand book KA
             self.marca_dagua(s, self.logos["escudo"], 12.40, 0.60, 9.10,
                              spec.get("agua", 0.13))
+        larg_txt = (spec.get("corte", 10.40) - ML - 0.80) if spec.get("foto") else 12.0
         self.texto(s, ML, 4.55, 6.0, spec["numero"], T_DIV_NUM, acento, LIGHT,
                    h=T_DIV_NUM / 72.0 * 1.3)
         nome = spec["nome"]
         if isinstance(nome, str):
             nome = [nome]
         nome = [n.upper() for n in nome]
-        self.texto(s, ML, 5.90, 12.0, nome, T_DIV_NOME, tinta, BOLD,
+        self.texto(s, ML, 5.90, larg_txt, nome, T_DIV_NOME, tinta, BOLD,
                    espaco=1.05, h=len(nome) * T_DIV_NOME / 72.0 * 1.05 * 1.24)
         y = 5.90 + len(nome) * T_DIV_NOME / 72.0 * 1.05 * 1.24 + 0.28
         self.fio(s, ML, y, 1.30, acento, esp=0.018)
         if spec.get("legenda"):
-            self.texto(s, ML, y + 0.26, 12.0, spec["legenda"].upper(), T_OLHO,
-                       tinta, SEMI, spc=3.0, h=0.32)
+            self.texto(s, ML, y + 0.26, larg_txt, spec["legenda"].upper(),
+                       T_OLHO, tinta, SEMI, spc=3.0, h=0.32)
         return s
 
     def pg_lista(self, spec):

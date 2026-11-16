@@ -52,14 +52,22 @@ normativa, diz qual versão usar onde, e por isso não virou fotografia.
 
 Duas observações de produção:
 
-- **Os logotipos vêm agora do arquivo original do cliente.** A primeira
-  versão do manual usava os logos refeitos em vetor (`vetorizar.py`), e eles
-  picavam os traços afilados que acompanham "Proteção & Sucessão" e chapavam
-  o degradê do dourado. Em novembro a Kelly mandou o `LOGO Lucas Martini
-  Cores.pptx`: as oito versões saem de lá, renderizadas em 600 dpi e
-  recortadas do fundo chapado por `padrao-ka/extrair_logos.py`. Ficam em
-  `assets/marca/original/`. O `vetorizar.py` e a pasta `assets/marca/vetor/`
-  continuam no repositório como histórico — **não usar**.
+- **Os logotipos são os PNG que a Kelly exportou do Canva.** Primeiro o
+  manual usou os logos refeitos em vetor (`vetorizar.py`), que picavam os
+  traços afilados de "Proteção & Sucessão" e chapavam o degradê do dourado.
+  Depois tentei recortar a arte da página renderizada (`extrair_logos.py`).
+  O que valeu foi o terceiro caminho: a Kelly exportou as nove versões em PNG
+  com transparência, e elas entraram inteiras, só aparadas na margem vazia.
+  Ficam em `assets/marca/original/`. O `vetorizar.py` e a pasta
+  `assets/marca/vetor/` continuam no repositório como histórico — **não
+  usar**.
+
+- **As viradas de capítulo têm fotografia do Lucas.** A foto ocupa a metade
+  direita e sangra nas três bordas; o nome do capítulo fica na metade escura.
+  São cinco, uma a cada cinco ou seis páginas: retrato na 01, atendimento na
+  02, apresentação na 03, janela na 04, corredor na 05. O arquétipo `divisor`
+  ganhou os campos `foto`, `foco` e `corte` — sem foto, ele volta a usar a
+  marca d'água do escudo.
 
 - **O logotipo saiu do Canva em 592 px de largura** — foi o que a API
   entregou; o download em alta está bloqueado pela política de rede. Por

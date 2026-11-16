@@ -66,6 +66,15 @@ A_CARTOES = os.path.join(APL, "cartoes.png")
 A_BLOCO = os.path.join(APL, "bloco.png")
 A_CANETA = os.path.join(APL, "caneta.png")
 
+# As fotografias do Lucas: uma em cada virada de capítulo, a cada cinco ou
+# seis páginas. Ocupam a metade direita e sangram nas três bordas.
+FOTOS = os.path.join(AQUI, "assets")
+F_RETRATO = os.path.join(FOTOS, "01_retrato_corporativo_prudential.png")
+F_CASAL = os.path.join(FOTOS, "13_lucas_ouvindo_casal.png")
+F_GRUPO = os.path.join(FOTOS, "07_lucas_apresentando_grupo.png")
+F_JANELA = os.path.join(FOTOS, "03_lucas_janela_entardecer.png")
+F_CORREDOR = os.path.join(FOTOS, "14_retrato_lucas_corredor.png")
+
 PAGINAS = [
     # 01 — capa
     {"tipo": "capa", "titulo": "Brand Book", "edicao": "Edição 2026",
@@ -99,6 +108,7 @@ PAGINAS = [
 
     # ——————————————————————————————————————————— 01 A MARCA
     {"tipo": "divisor", "numero": "01", "nome": "A marca",
+     "foto": F_RETRATO, "foco": 0.50,
      "legenda": "O que levou anos para ser construído tem um nome."},
 
     # 05 — o que esta marca é
@@ -200,6 +210,7 @@ PAGINAS = [
 
     # ——————————————————————————————— 02 PÚBLICO E TERRITÓRIO
     {"tipo": "divisor", "numero": "02", "nome": ["Público", "e território"],
+     "foto": F_CASAL, "foco": 0.62,
      "legenda": "Para quem a marca fala, e sobre o que ela fala."},
 
     # 12 — quem carrega responsabilidade
@@ -253,6 +264,7 @@ PAGINAS = [
 
     # ——————————————————————————————————————————————— 03 VOZ
     {"tipo": "divisor", "numero": "03", "nome": "Voz",
+     "foto": F_GRUPO, "foco": 0.58,
      "legenda": "Autoridade discreta: provar, não proclamar."},
 
     # 16 — personalidade
@@ -309,6 +321,7 @@ PAGINAS = [
 
     # ————————————————————————————————————— 04 IDENTIDADE VISUAL
     {"tipo": "divisor", "numero": "04", "nome": ["Identidade", "visual"],
+     "foto": F_JANELA, "foco": 0.42,
      "legenda": "O escudo, o verde, o dourado — e a marca no papel."},
 
     # 20 — as versões da marca
@@ -403,6 +416,7 @@ PAGINAS = [
 
     # ——————————————————————————————————————————— 05 MANIFESTO
     {"tipo": "divisor", "numero": "05", "nome": "Manifesto",
+     "foto": F_CORREDOR, "foco": 0.46,
      "legenda": "A marca em palavras, e a marca em uma página."},
 
     # 25 — manifesto
