@@ -52,6 +52,15 @@ normativa, diz qual versão usar onde, e por isso não virou fotografia.
 
 Duas observações de produção:
 
+- **Os logotipos vêm agora do arquivo original do cliente.** A primeira
+  versão do manual usava os logos refeitos em vetor (`vetorizar.py`), e eles
+  picavam os traços afilados que acompanham "Proteção & Sucessão" e chapavam
+  o degradê do dourado. Em novembro a Kelly mandou o `LOGO Lucas Martini
+  Cores.pptx`: as oito versões saem de lá, renderizadas em 600 dpi e
+  recortadas do fundo chapado por `padrao-ka/extrair_logos.py`. Ficam em
+  `assets/marca/original/`. O `vetorizar.py` e a pasta `assets/marca/vetor/`
+  continuam no repositório como histórico — **não usar**.
+
 - **O logotipo saiu do Canva em 592 px de largura** — foi o que a API
   entregou; o download em alta está bloqueado pela política de rede. Por
   isso ele foi **refeito em vetor** (`vetorizar.py`): o brand book usa
