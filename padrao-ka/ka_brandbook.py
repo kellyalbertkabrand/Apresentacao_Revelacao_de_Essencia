@@ -45,11 +45,11 @@ TRAMA_DIREITA = os.path.join(ASSETS, "trama-direita.png")
 TRAMA_PE = os.path.join(ASSETS, "trama-pe.png")
 
 # ------------------------------------------------------------------- grade
-ML, MR = 1.15, 18.55          # margens — o retângulo de respiro da página
+ML, MR = 1.15, 18.20          # margens — o retângulo de respiro da página
 W = MR - ML
 COL_E, LARG_E = 1.15, 7.50    # coluna da esquerda: o título e o resumo
-COL_D, LARG_D = 10.85, 7.70   # coluna da direita: o conteúdo
-X_TRILHO = 19.05              # o trilho vertical, entre a margem e a borda
+COL_D, LARG_D = 10.85, 7.35   # coluna da direita: o conteúdo
+X_TRILHO = 19.25              # o trilho vertical, entre a margem e a borda
 Y_CABECA = 0.68               # linha do cabeçalho (só no modo horizontal)
 Y_TITULO = 1.90               # primeira linha do título
 Y_CORPO = 2.05                # primeira linha da coluna da direita
@@ -178,7 +178,9 @@ class Brandbook(Deck):
             bodyPr.set("vert", "vert270")   # lê de baixo para cima
             return tf
 
-        if self.cabecalho_documento:
+        if self.cabecalho_documento and tom != "escuro":
+            # nas paginas verdes o trilho sai inteiro: nome e numero. Elas
+            # sao viradas e paginas de silencio — nao se procura nada nelas
             tf = de_pe(4.20, FUNDO - 0.80 - 4.20)
             p = self.par(tf, primeiro=True, align=PP_ALIGN.LEFT)
             self.txt(p, self.documento.upper().replace(" ", ""), T_CABECA,
