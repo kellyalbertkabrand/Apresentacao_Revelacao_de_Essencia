@@ -772,34 +772,59 @@ class Brandbook(Deck):
     def pg_creditos(self, spec):
         """A ultima pagina: quem realizou, e o que cada um fez.
 
-        Dois logotipos empilhados, o sinal de mais entre eles e, sob cada um,
-        a linha do que coube a cada escritorio."""
+        As assinaturas ficam lado a lado, com o sinal de mais entre elas e,
+        sob cada uma, a linha do que coube a cada escritorio — na largura
+        exata do logotipo, para que a legenda pertenca a ele e nao a pagina.
+        Com `disposicao: "coluna"` elas voltam a ficar empilhadas."""
         from PIL import Image as _Im
         tom = spec.get("tom", "escuro")
         s = self.pagina(tom, spec.get("trama"), cabecalho=False)
         tinta, corpo, acento, _ = self.tinta(tom)
-        y = spec.get("y", 2.30)
-        if spec.get("olho"):
-            self.texto(s, 0, y, LARG, spec["olho"].upper(), T_OLHO, corpo,
-                       SEMI, spc=5.0, align=PP_ALIGN.CENTER, h=0.34)
-        y += spec.get("respiro", 1.00)
-        for i, (caminho, larg, legenda) in enumerate(spec["logos"]):
-            if i:
-                tam = spec.get("tam_mais", 40)
-                self.texto(s, 0, y, LARG, "+", tam, acento, LIGHT,
-                           align=PP_ALIGN.CENTER, h=tam / 72.0 * 1.4)
-                y += tam / 72.0 * 1.4 + 0.60
+        logos = spec["logos"]
+        tam_mais = spec.get("tam_mais", 34)
+        alt_mais = tam_mais / 72.0 * 1.4
+        medidas = []
+        for caminho, larg, legenda in logos:
             iw, ih = _Im.open(caminho).size
-            alt = larg * ih / iw
-            self.logo(s, caminho, (LARG - larg) / 2.0, y, larg)
-            y += alt + 0.46
-            self.texto(s, 0, y, LARG, legenda, T_MINI, corpo, LIGHT,
-                       align=PP_ALIGN.CENTER, h=0.34)
-            y += 1.00
-        if spec.get("assinatura"):
-            self.texto(s, 0, spec.get("y_assinatura", 9.70), LARG,
-                       spec["assinatura"], T_MINI, corpo, LIGHT,
-                       align=PP_ALIGN.CENTER, h=0.34)
+            medidas.append(larg * ih / iw)
+
+        if spec.get("olho"):
+            self.texto(s, 0, spec.get("y", 3.70), LARG, spec["olho"].upper(),
+                       T_OLHO, corpo, SEMI, spc=5.0, align=PP_ALIGN.CENTER,
+                       h=0.34)
+
+        if spec.get("disposicao") == "coluna":
+            y = spec.get("y", 3.70) + spec.get("respiro", 1.05)
+            for i, (caminho, larg, legenda) in enumerate(logos):
+                if i:
+                    self.texto(s, 0, y, LARG, "+", tam_mais, acento, LIGHT,
+                               align=PP_ALIGN.CENTER, h=alt_mais)
+                    y += alt_mais + 0.60
+                self.logo(s, caminho, (LARG - larg) / 2.0, y, larg)
+                y += medidas[i] + 0.46
+                self.texto(s, (LARG - larg) / 2.0, y, larg, legenda, T_MINI,
+                           corpo, LIGHT, align=PP_ALIGN.CENTER, h=0.34)
+                y += 1.00
+            return s
+
+        gap = spec.get("gap", 1.10)
+        larg_mais = 0.60
+        total = (sum(l[1] for l in logos)
+                 + (len(logos) - 1) * (2 * gap + larg_mais))
+        x = (LARG - total) / 2.0
+        topo = spec.get("y_logos", 5.40)
+        centro = topo + max(medidas) / 2.0
+        y_legenda = topo + max(medidas) + spec.get("respiro_legenda", 0.56)
+        for i, (caminho, larg, legenda) in enumerate(logos):
+            if i:
+                self.texto(s, x, centro - alt_mais / 2.0, larg_mais, "+",
+                           tam_mais, acento, LIGHT, align=PP_ALIGN.CENTER,
+                           h=alt_mais)
+                x += larg_mais + gap
+            self.logo(s, caminho, x, centro - medidas[i] / 2.0, larg)
+            self.texto(s, x, y_legenda, larg, legenda, T_MINI, corpo, LIGHT,
+                       align=PP_ALIGN.CENTER, h=0.80, espaco=1.35)
+            x += larg + gap
         return s
 
     def pg_indice(self, spec):

@@ -459,11 +459,11 @@ PAGINAS = [
 
     # 29 — realizado por
     {"tipo": "creditos", "tom": "escuro", "olho": "Realizado por",
-     "y": 2.30, "respiro": 1.05,
+     "y": 3.80, "y_logos": 5.40, "gap": 1.10, "tam_mais": 32,
      "logos": [
-         (LOGO_KA, 6.10,
+         (LOGO_KA, 4.60,
           "Base Estratégica da Marca e Identidade Verbal"),
-         (LOGO_VM, 4.40,
+         (LOGO_VM, 3.20,
           "Identidade Visual das Redes Sociais"),
      ]},
 ]
