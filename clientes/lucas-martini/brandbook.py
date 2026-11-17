@@ -59,6 +59,7 @@ V_PRETO = os.path.join(MARCA_DIR, "lm-horizontal-preto.png")
 V_VERTICAL_PRETO = os.path.join(MARCA_DIR, "lm-vertical-preto.png")
 V_CLARO = os.path.join(MARCA_DIR, "lm-vertical-branco.png")
 V_ESCUDO = os.path.join(MARCA_DIR, "lm-escudo-ouro.png")
+V_DOURADO_VERTICAL = os.path.join(MARCA_DIR, "lm-vertical-ouro.png")
 
 # As aplicações: as peças reais com a marca impressa.
 APL = os.path.join(AQUI, "assets", "aplicacoes")
@@ -516,12 +517,15 @@ PAGINAS = [
     # 29 — realizado por
     {"tipo": "creditos", "tom": "escuro",
      "olho": ["Brandbook criado", "e desenvolvidos por:"],
-     "marca": V_CLARO, "marca_largura": 4.30, "y_marca": 2.35,
-     "y": 4.65, "y_logos": 6.55, "gap": 0.70, "tam_mais": 28,
+     "y": 3.95, "y_logos": 5.85, "gap": 0.70, "tam_mais": 28,
      "logos": [
          (LOGO_KA, 3.90,
           ["Base Estratégica da Marca", "e Identidade Verbal"]),
          (LOGO_VM, 2.70,
           ["Identidade Visual", "das Redes Sociais"]),
      ]},
+
+    # 31 — a marca fecha o manual
+    {"tipo": "creditos", "tom": "escuro",
+     "marca": V_DOURADO_VERTICAL, "marca_largura": 6.20, "y_marca": 4.35},
 ]

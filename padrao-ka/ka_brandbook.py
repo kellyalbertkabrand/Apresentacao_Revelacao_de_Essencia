@@ -892,7 +892,7 @@ class Brandbook(Deck):
         tom = spec.get("tom", "escuro")
         s = self.pagina(tom, spec.get("trama"), cabecalho=False)
         tinta, corpo, acento, _ = self.tinta(tom)
-        logos = spec["logos"]
+        logos = spec.get("logos") or []
         tam_mais = spec.get("tam_mais", 34)
         alt_mais = tam_mais / 72.0 * 1.4
         medidas = []
@@ -931,6 +931,8 @@ class Brandbook(Deck):
                 y += 1.00
             return s
 
+        if not logos:
+            return s
         gap = spec.get("gap", 1.10)
         larg_mais = 0.60
         total = (sum(l[1] for l in logos)

@@ -15,7 +15,7 @@ Cada deck sai em **`.pptx` e `.pdf`** na própria pasta.
 | `revelacao.py` | Revelação de Essência — origem identitária do fundador | 30 |
 | `base_estrategica.py` | Base Estratégica da Marca — na diagramação do brand book | 18 |
 | `plano_conteudo.py` | Plano de Conteúdo — eixos, formatos, cronograma e as publicações | 32 |
-| `brandbook.py` | Brand Book — a mesma base em formato de manual | 29 |
+| `brandbook.py` | Brand Book — a mesma base em formato de manual | 32 |
 | `assets/` | as 14 fotografias | — |
 | `assets/marca/origem/` | as páginas da identidade, como vieram do Canva | — |
 | `vetorizar.py` | refaz os logotipos em vetor — SVG, PDF e PNG de 4000 px | — |
@@ -24,7 +24,7 @@ Cada deck sai em **`.pptx` e `.pdf`** na própria pasta.
 
 ## O brand book
 
-A Base Estratégica tem 30 páginas de apresentação; o brand book tem 29 de
+A Base Estratégica tem 30 páginas de apresentação; o brand book tem 32 de
 **manual**, na diagramação do Brand Book KA 2026
 ([`padrao-ka/BRAND-BOOK.md`](../../padrao-ka/BRAND-BOOK.md)) e vestido com a
 identidade do Lucas: verde `#4A534E`, dourado do escudo, areia e papel.
@@ -106,8 +106,10 @@ Duas observações de produção:
   retícula, filete afilado e marca d'água, em `assets/grafismos/`, recortados
   do próprio logotipo e das páginas escuras do manual.
 
-- **A última página fecha com a marca do Lucas** na versão clara e, abaixo
-  dela, quem fez o quê: as duas
+- **As duas últimas páginas**: a penúltima credita quem fez o quê, e a
+  última é só a marca do Lucas, em dourado sobre o verde — o documento
+  fecha na marca, não na assinatura de quem a construiu. Na de créditos,
+  as duas
   assinaturas lado a lado sob *Brandbook criado e desenvolvidos por:* — KA
   com *Base Estratégica da Marca e Identidade Verbal*, VM Rocks com
   *Identidade Visual das Redes Sociais* — e o mais em dourado entre elas, sobre o verde da marca do Lucas, não sobre o verde do
