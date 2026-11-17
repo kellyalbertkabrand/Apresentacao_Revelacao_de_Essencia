@@ -52,19 +52,18 @@ normativa, diz qual versão usar onde, e por isso não virou fotografia.
 
 Duas observações de produção:
 
-- **A capa é a fotografia do prédio, desfocada e escurecida.** O borrão e o
-  véu são feitos antes, por `capa_fundo.py` — `capa-original.png` é o
-  recorte 16:9 da foto da Kelly, `capa-fundo.png` é a versão que entra na
-  capa. Fazer o desfoque dentro do arquivo dependeria do programa que o
-  abre; assim a capa é a mesma em qualquer lugar.
+- **A capa é a arte que a Kelly fechou**: a fotografia do prédio com véu e
+  a marca horizontal em dourado, em `assets/capa/capa-arte.png`. O arquivo
+  já vem com a marca dentro, então a página entra com `"logo": False` e o
+  único texto é *BRAND BOOK*, abaixo do logotipo.
+
+  `capa_fundo.py` continua aqui: foi ele que preparou as provas de desfoque
+  e véu (`capa-fundo-preto.png`, `capa-fundo-verde.png`) a partir de
+  `capa-original.png`. Serve para refazer o fundo se a foto mudar.
 
   ```bash
   python3 clientes/lucas-martini/capa_fundo.py --blur 9 --veu 0.26 0.42
   ```
-
-  O script escreve as duas provas: `capa-fundo-preto.png`, de véu preto, que
-  deixa o azul do céu, e `capa-fundo-verde.png`, puxada para o verde da
-  marca. Quem entra na capa é a que estiver copiada em `capa-fundo.png`.
 
 - **A página das versões mostra cinco, e as legendas dizem o que cada uma
   é.** Antes eram quatro, e a terceira prometia "avatar, carimbo" numa

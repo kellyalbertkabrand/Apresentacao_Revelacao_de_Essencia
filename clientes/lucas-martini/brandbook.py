@@ -82,13 +82,12 @@ LOGO_KA = os.path.join(PADRAO, "assets", "logo-ka-claro.png")
 LOGO_VM = os.path.join(PADRAO, "assets", "logo-vm-rocks-claro.png")
 
 # A fotografia da capa: o prédio do escritório, desfocado e escurecido.
-CAPA_FUNDO = os.path.join(AQUI, "assets", "capa", "capa-fundo.png")
+CAPA_FUNDO = os.path.join(AQUI, "assets", "capa", "capa-arte.png")
 
 PAGINAS = [
     # 01 — capa
-    {"tipo": "capa", "titulo": "Brand Book", "edicao": "Edição 2026",
-     "foto": CAPA_FUNDO,
-     "logo_largura": 7.6, "logo_y": 3.05, "y_titulo": 6.75},
+    {"tipo": "capa", "titulo": "Brand Book", "foto": CAPA_FUNDO,
+     "logo": False, "y_titulo": 7.95},
 
     # 02 — para que serve
     {"tipo": "texto", "olho": "Antes de começar",

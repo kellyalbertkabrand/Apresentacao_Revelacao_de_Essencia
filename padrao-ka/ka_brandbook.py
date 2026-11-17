@@ -276,7 +276,8 @@ class Brandbook(Deck):
         else:
             self.trama(s, TRAMA_CANTO, 0.35)
         logo = self.logos.get("capa") or self.logos.get("escuro")
-        if logo:
+        # com `logo: False` a arte da capa ja traz a marca dentro dela
+        if logo and spec.get("logo", True):
             lg = spec.get("logo_largura", 7.2)
             self.logo(s, logo, (LARG - lg) / 2, spec.get("logo_y", 3.30), lg)
         self.texto(s, 0, spec.get("y_titulo", 6.65), LARG,
