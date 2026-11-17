@@ -59,7 +59,7 @@ Duas observações de produção:
   abre; assim a capa é a mesma em qualquer lugar.
 
   ```bash
-  python3 clientes/lucas-martini/capa_fundo.py --blur 10 --veu 0.42 0.56
+  python3 clientes/lucas-martini/capa_fundo.py --blur 9 --veu 0.26 0.42
   ```
 
   O script escreve as duas provas: `capa-fundo-preto.png`, de véu preto, que
