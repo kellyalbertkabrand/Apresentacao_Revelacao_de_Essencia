@@ -114,6 +114,12 @@ Duas observações de produção:
   fundo subiu para 10,10" e a coluna de texto termina em 18,20": entre ela e
   o trilho, em 19,25", ficou **mais de uma polegada de respiro**.
 
+- **As linhas dos parágrafos saem equilibradas.** Nada de palavra sozinha
+  na última linha: a caixa aperta até onde o texto ainda cabe no mesmo
+  número de linhas, e a quebra se reparte. Na página do público o bloco da
+  direita subiu para 1,70" por causa disso — equilibrada, a frase de fecho
+  ocupa uma linha a mais.
+
 - **As páginas verdes não têm trilho nenhum**: nem o nome do documento, nem
   o número. São viradas de capítulo e páginas de silêncio — ninguém procura
   nada nelas, e o canto limpo é o que faz a página respirar.

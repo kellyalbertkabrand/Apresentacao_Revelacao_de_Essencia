@@ -227,7 +227,7 @@ PAGINAS = [
      "titulo": ["Quem carrega", "responsabilidade"],
      "resumo": ["Quatro perfis diferentes com uma coisa em comum: existe algo "
                 "ou alguém que depende das decisões de cada um."],
-     "rotulo": "A tribo", "y_direita": 2.00,
+     "rotulo": "A tribo", "y_direita": 1.70,
      "itens": [
          "**Quem produz a própria renda** — profissionais liberais, "
          "autônomos, executivos e especialistas;",

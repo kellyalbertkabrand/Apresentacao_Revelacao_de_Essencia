@@ -36,7 +36,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ka_layout import (  # noqa: E402
     ALT, EMU, LARG, BOLD, LIGHT, MEDIO, REG, SEMI, ULTRA, Deck,
 )
-from ka_paginas import altura, largura_texto, linhas  # noqa: E402
+from ka_paginas import (  # noqa: E402
+    ENTRELINHA, FONTE_SEMI, altura, largura_texto, linhas,
+)
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 ASSETS = os.path.join(AQUI, "assets")
@@ -69,6 +71,77 @@ T_DIV_NUM = 58      # numeral do divisor de capítulo
 T_DIV_NOME = 70     # nome do capítulo, em bold
 T_CAPA = 21         # "BRAND BOOK" na capa
 T_CAPA_MINI = 12.5  # edição, na capa
+
+
+def _palavras_ricas(texto):
+    """As palavras do texto com o peso de cada uma: o ** pesa mais."""
+    pedacos, resto = [], texto
+    while resto:
+        for marca, forte in (("**", True), ("~~", False)):
+            if resto.startswith(marca) and marca in resto[2:]:
+                fim = resto.index(marca, 2)
+                pedacos.append((resto[2:fim], forte))
+                resto = resto[fim + 2:]
+                break
+        else:
+            corte = len(resto)
+            for marca in ("**", "~~"):
+                i = resto.find(marca)
+                if i > 0:
+                    corte = min(corte, i)
+            pedacos.append((resto[:corte], False))
+            resto = resto[corte:]
+    palavras = []
+    for trecho, forte in pedacos:
+        for i, palavra in enumerate(trecho.split()):
+            palavras.append((palavra, forte))
+    return palavras
+
+
+def linhas_ricas(texto, tam, largura):
+    """Quantas linhas o texto ocupa medindo cada palavra no seu peso.
+
+    O negrito e mais largo que o peso leve: medir tudo em Light subestima a
+    frase que vem inteira em semibold, e e assim que o paragrafo estoura a
+    caixa."""
+    palavras = _palavras_ricas(texto)
+    if not palavras:
+        return 0
+    n, atual = 1, []
+    for palavra, forte in palavras:
+        teste = atual + [(palavra, forte)]
+        larg = sum(largura_texto(p, tam, FONTE_SEMI if f else None)
+                   for p, f in teste)
+        larg += largura_texto(" ", tam) * (len(teste) - 1)
+        if not atual or larg <= largura:
+            atual = teste
+        else:
+            n += 1
+            atual = [(palavra, forte)]
+    return n
+
+
+def equilibrio(texto, tam, largura):
+    """A largura em que o texto se reparte em linhas de peso parecido.
+
+    A quebra automatica enche a primeira linha e larga o resto na ultima —
+    e assim que nasce a palavra orfa, sozinha embaixo de uma linha cheia.
+    Aqui a caixa e apertada ate o limite em que o texto ainda ocupa o mesmo
+    numero de linhas: com menos espaco, a quebra se distribui sozinha e
+    ninguem precisa marcar a mao onde a linha termina."""
+    if not texto:
+        return largura
+    n = linhas_ricas(texto, tam, largura)
+    if n < 2:
+        return largura
+    baixo, alto = largura / n, largura
+    for _ in range(22):
+        meio = (baixo + alto) / 2.0
+        if linhas_ricas(texto, tam, meio) <= n:
+            alto = meio
+        else:
+            baixo = meio
+    return min(largura, alto + 0.03)
 
 
 def _cor(hexa):
@@ -228,12 +301,15 @@ class Brandbook(Deck):
                 r.font._rPr.set("strike", "sngStrike")
 
     def paragrafos(self, s, x, y, w, textos, tam, cor, forte, espaco=1.45,
-                   gap=0.28, fonte=LIGHT):
-        """Coluna de parágrafos medida linha a linha."""
+                   gap=0.28, fonte=LIGHT, equilibrar=True):
+        """Coluna de parágrafos medida linha a linha, com as linhas pesando
+        o mesmo. Ver `equilibrio`."""
         for t in textos:
             limpo = t.replace("**", "").replace("~~", "")
-            h = altura(limpo, tam, w, espaco) + 0.06
-            tf = self.caixa(s, x, y, w, h)
+            larg = equilibrio(t, tam, w) if equilibrar else w
+            n = linhas_ricas(t, tam, larg)
+            h = n * tam / 72.0 * espaco * ENTRELINHA + 0.06
+            tf = self.caixa(s, x, y, larg, h)
             self.rico(self.par(tf, True, espaco=espaco), t, tam, cor, forte,
                       fonte=fonte)
             y += h + gap

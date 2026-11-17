@@ -62,6 +62,13 @@ PALETA = {
 }
 ```
 
+Os parágrafos saem com as **linhas equilibradas**: em vez de encher a
+primeira linha e largar uma palavra órfã na última, a caixa é apertada até o
+limite em que o texto ainda ocupa o mesmo número de linhas, e a quebra se
+distribui sozinha. A medida é feita palavra a palavra, cada uma no seu peso
+— o negrito é mais largo que o leve, e medir tudo em Light estourava a
+caixa. Para desligar numa página, `equilibrar=False` na chamada.
+
 O cabeçalho é um **trilho vertical na margem direita**: o nome do documento
 de pé, lendo de baixo para cima, e o número da página no pé do trilho. A
 margem é de 1,15" nos quatro lados (`ML`, `MR`, `FUNDO`), e o trilho vive em
