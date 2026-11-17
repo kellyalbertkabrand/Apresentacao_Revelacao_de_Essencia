@@ -691,8 +691,11 @@ class Brandbook(Deck):
             if alt_logo > h * 0.62:
                 alt_logo = h * 0.62
                 lg = alt_logo * iw / ih
-            self.logo(s, caminho, x + (larg - lg) / 2, y + (h - alt_logo) / 2,
-                      lg)
+            pic = self.logo(s, caminho, x + (larg - lg) / 2,
+                            y + (h - alt_logo) / 2, lg)
+            # o logo tem de descer junto com o quadrado na hora de centrar a
+            # pagina: parado, ele sobe dentro do proprio quadro
+            pic.name = "marca-logo"
             self.texto(s, x, y + h + 0.28, larg, nome.upper(), T_OLHO * 1.1,
                        tinta, SEMI, spc=2.2, h=0.34)
             self.paragrafos(s, x, y + h + 0.66, larg, [legenda], T_MINI, corpo,
@@ -917,7 +920,8 @@ class Brandbook(Deck):
         for sh in s.shapes:
             larg = sh.width / float(EMU)
             alt = sh.height / float(EMU)
-            if sh.shape_type == MSO_SHAPE_TYPE.PICTURE:
+            if (sh.shape_type == MSO_SHAPE_TYPE.PICTURE
+                    and not sh.name.startswith("marca-logo")):
                 continue
             if larg >= 19.0 or alt >= 8.0:
                 continue
