@@ -487,7 +487,7 @@ class Brandbook(Deck):
         self.fio(s, ML, y, 1.30, acento, esp=0.018)
         if spec.get("legenda"):
             self.texto(s, ML, y + 0.26, larg_txt, spec["legenda"].upper(),
-                       T_OLHO, tinta, SEMI, spc=3.0, h=0.32)
+                       T_OLHO * 1.12, tinta, SEMI, spc=2.2, h=0.36)
         return s
 
     def pg_lista(self, spec):
@@ -624,12 +624,18 @@ class Brandbook(Deck):
         if spec.get("olho"):
             self.olho(s, spec["olho"], ML, spec.get("y", 5.30) - 0.60, acento)
         y = spec.get("y", 5.30)
-        alt = len(linhas_) * tam / 72.0 * 1.14 * 1.24
+        # a caixa alta e do titulo. Num texto longo — um manifesto de doze
+        # linhas — ela tira o perfil das palavras e a leitura trava: por
+        # isso `caixa_alta: False` devolve a frase ao desenho normal, com
+        # mais entrelinha, que e o que a minuscula pede
+        alta = spec.get("caixa_alta", True)
+        espaco = spec.get("espaco", 1.14 if alta else 1.34)
+        alt = len(linhas_) * tam / 72.0 * espaco * 1.24
         tf = self.caixa(s, ML, y, 16.0, alt + 0.2)
         for i, linha in enumerate(linhas_):
-            p = self.par(tf, primeiro=(i == 0), espaco=1.14)
-            self.rico(p, linha.upper(), tam, tinta, acento, fonte=LIGHT,
-                      fonte_forte=BOLD)
+            p = self.par(tf, primeiro=(i == 0), espaco=espaco)
+            self.rico(p, linha.upper() if alta else linha, tam, tinta, acento,
+                      fonte=LIGHT, fonte_forte=SEMI if not alta else BOLD)
         if spec.get("apoio"):
             self.paragrafos(s, ML, y + alt + 0.55, 12.0, spec["apoio"],
                             T_CORPO, corpo, tinta)

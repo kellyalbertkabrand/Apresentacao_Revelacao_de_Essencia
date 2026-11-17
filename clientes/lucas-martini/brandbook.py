@@ -39,7 +39,7 @@ PALETA = {
     "acento": "AE8C4E",         # dourado sobre papel
     "acento_escuro": "E3C88B",  # dourado sobre o verde
     "sobre_escuro": "F2F0E9",   # texto sobre o verde
-    "corpo_escuro": "C8CCC6",   # corpo sobre o verde
+    "corpo_escuro": "D6DAD3",   # corpo sobre o verde — claro o bastante
 }
 
 # Os logotipos vêm de `assets/marca/original/`: a arte do próprio arquivo do
@@ -482,8 +482,8 @@ PAGINAS = [
      "legenda": "A marca em palavras, e a marca em uma página."},
 
     # 25 — manifesto
-    {"tipo": "declaracao", "tom": "escuro", "olho": "Manifesto", "y": 2.95,
-     "tam": 31, "agua": True,
+    {"tipo": "declaracao", "tom": "escuro", "olho": "Manifesto", "y": 2.85,
+     "tam": 28, "agua": True, "caixa_alta": False, "espaco": 1.34,
      "linhas": ["Há coisas que levam anos para construir.",
                 "Uma carreira. Uma família. Uma empresa. Um patrimônio.",
                 "E nenhuma delas deveria ficar completamente",

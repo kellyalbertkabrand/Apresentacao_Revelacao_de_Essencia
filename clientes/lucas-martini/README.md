@@ -106,6 +106,18 @@ Duas observações de produção:
   retícula, filete afilado e marca d'água, em `assets/grafismos/`, recortados
   do próprio logotipo e das páginas escuras do manual.
 
+- **O manifesto saiu da caixa alta.** Doze linhas em maiúscula tiram o
+  perfil das palavras e travam a leitura — caixa alta é do título, não de
+  texto corrido. O arquétipo `declaracao` ganhou `caixa_alta: False`, que
+  devolve a frase ao desenho normal e abre a entrelinha de 1,14 para 1,34,
+  que é o que a minúscula pede. A frase de destaque passa de Bold para
+  Semi-Bold: no corpo baixo, o Bold empastava.
+
+  Nas outras páginas verdes o corpo clareou de `#C8CCC6` para `#D6DAD3`, e a
+  linha de apoio das viradas cresceu de 12,5 para 14pt com menos
+  espacejamento. A frase da crença fundadora continua em caixa alta: ali são
+  duas linhas de título, e é para elas que a caixa alta serve.
+
 - **As duas últimas páginas**: a penúltima credita quem fez o quê, e a
   última é só a marca do Lucas, em dourado sobre o verde — o documento
   fecha na marca, não na assinatura de quem a construiu. Na de créditos,
