@@ -52,6 +52,25 @@ normativa, diz qual versão usar onde, e por isso não virou fotografia.
 
 Duas observações de produção:
 
+- **Duas versões vinham com uma placa grudada.** No arquivo do cliente, a
+  horizontal preta e a horizontal prata traziam, atrás de "Proteção &
+  Sucessão", um retângulo da cor do slide em que foram desenhadas — areia
+  numa, verde na outra. Sobre aquele fundo a placa some; sobre o papel do
+  manual vira um tarjão. `padrao-ka/tirar_placa.py` desfaz a composição: o
+  que era tinta sobre a placa volta a ser tinta sobre nada, com a borda e o
+  fiapo de contorno junto. Se o cliente reexportar as versões, é preciso
+  passar o script de novo:
+
+  ```bash
+  python3 padrao-ka/tirar_placa.py assets/marca/original/lm-horizontal-preto.png \
+      --placa CEC3B5 --tinta 000000 --piso 0.50 --folga 5
+  python3 padrao-ka/tirar_placa.py assets/marca/original/lm-horizontal-prata.png \
+      --placa 4A534E --tinta FFFFFF --x-min 300 --piso 0.45 --folga 5
+  ```
+
+  `versoes-da-marca-prova.png` mostra as nove versões sobre magenta: é como
+  se confere se sobrou alguma placa escondida.
+
 - **Os logotipos são os PNG que a Kelly exportou do Canva.** Primeiro o
   manual usou os logos refeitos em vetor (`vetorizar.py`), que picavam os
   traços afilados de "Proteção & Sucessão" e chapavam o degradê do dourado.
