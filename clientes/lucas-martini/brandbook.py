@@ -58,6 +58,7 @@ V_DOURADO = os.path.join(MARCA_DIR, "lm-horizontal-ouro.png")
 V_PRETO = os.path.join(MARCA_DIR, "lm-horizontal-preto.png")
 V_VERTICAL_PRETO = os.path.join(MARCA_DIR, "lm-vertical-preto.png")
 V_CLARO = os.path.join(MARCA_DIR, "lm-vertical-branco.png")
+V_ESCUDO = os.path.join(MARCA_DIR, "lm-escudo-ouro.png")
 
 # As aplicações: as peças reais com a marca impressa.
 APL = os.path.join(AQUI, "assets", "aplicacoes")
@@ -80,9 +81,13 @@ PADRAO = os.path.join(os.path.dirname(os.path.dirname(AQUI)), "padrao-ka")
 LOGO_KA = os.path.join(PADRAO, "assets", "logo-ka-claro.png")
 LOGO_VM = os.path.join(PADRAO, "assets", "logo-vm-rocks-claro.png")
 
+# A fotografia da capa: o prédio do escritório, desfocado e escurecido.
+CAPA_FUNDO = os.path.join(AQUI, "assets", "capa", "capa-fundo.png")
+
 PAGINAS = [
     # 01 — capa
     {"tipo": "capa", "titulo": "Brand Book", "edicao": "Edição 2026",
+     "foto": CAPA_FUNDO,
      "logo_largura": 7.6, "logo_y": 3.05, "y_titulo": 6.75},
 
     # 02 — para que serve
@@ -331,16 +336,23 @@ PAGINAS = [
 
     # 20 — as versões da marca
     {"tipo": "marca", "olho": "Logotipo", "titulo": "As versões da marca",
-     "y": 4.35, "altura": 2.95,
+     "y": 4.20, "altura": 2.45,
      "versoes": [
          ("Principal", V_DOURADO, "4A534E",
-          "Dourado sobre o verde da marca. É a versão de assinatura."),
+          "Escudo e nome na mesma linha, dourado sobre o verde. É a "
+          "assinatura: use esta sempre que couber."),
          ("Monocromática", V_PRETO, "F6F4EF",
-          "Preto sobre papel. Documento, contrato, impressão em uma cor."),
-         ("Vertical", V_VERTICAL_PRETO, "CEC3B5",
-          "Para espaços estreitos: avatar, carimbo, assinatura de e-mail."),
-         ("Sobre fotografia", V_CLARO, "2C322E",
-          "Versão clara, só quando o fundo for escuro o bastante."),
+          "A mesma versão em preto, para o que é impresso em uma cor: "
+          "documento, contrato, proposta."),
+         ("Nome completo", V_VERTICAL_PRETO, "CEC3B5",
+          "Escudo acima, Lucas Martini embaixo. Para quando a marca se "
+          "apresenta: capa, placa, primeira página."),
+         ("Sobre fundo escuro", V_CLARO, "2C322E",
+          "A versão clara. Sobre o verde da marca e sobre fotografia, desde "
+          "que o fundo seja escuro o bastante."),
+         ("O escudo", V_ESCUDO, "4A534E",
+          "Sozinho, só onde a marca já foi reconhecida: avatar, selo, "
+          "carimbo, ícone."),
      ]},
 
     # 21 — o que preserva a marca

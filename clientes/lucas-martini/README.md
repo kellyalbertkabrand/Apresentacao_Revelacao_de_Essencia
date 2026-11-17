@@ -52,6 +52,19 @@ normativa, diz qual versão usar onde, e por isso não virou fotografia.
 
 Duas observações de produção:
 
+- **A capa é a fotografia do prédio, desfocada e escurecida.** O borrão e o
+  véu são feitos antes, em `assets/capa/` — `capa-original.png` é o recorte
+  16:9 da foto da Kelly, `capa-fundo.png` é a versão que entra na capa.
+  Fazer o desfoque dentro do arquivo dependeria do programa que o abre;
+  assim a capa é a mesma em qualquer lugar. `capa-fundo-preto.png` e
+  `capa-fundo-verde.png` são as duas provas: véu preto, que deixa o azul do
+  céu, e véu no verde da marca.
+
+- **A página das versões mostra cinco, e as legendas dizem o que cada uma
+  é.** Antes eram quatro, e a terceira prometia "avatar, carimbo" numa
+  versão larga demais para isso — quem resolve avatar e carimbo é o escudo
+  sozinho, que agora está lá.
+
 - **Duas versões vinham com uma placa grudada.** No arquivo do cliente, a
   horizontal preta e a horizontal prata traziam, atrás de "Proteção &
   Sucessão", um retângulo da cor do slide em que foram desenhadas — areia

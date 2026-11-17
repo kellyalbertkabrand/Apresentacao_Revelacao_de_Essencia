@@ -263,8 +263,18 @@ class Brandbook(Deck):
 
     # ------------------------------------------------------------ arquétipos
     def pg_capa(self, spec):
-        s = self.pagina("escuro", TRAMA_DIREITA, cabecalho=False)
-        self.trama(s, TRAMA_CANTO, 0.35)
+        """A capa: a marca no meio, o nome do documento embaixo.
+
+        Com `foto`, a imagem toma a página inteira no lugar da trama — ela
+        já vem escurecida e desfocada do pré-processo, porque borrão e véu
+        feitos aqui dependeriam do programa que abre o arquivo."""
+        s = self.pagina("escuro", None if spec.get("foto") else TRAMA_DIREITA,
+                        cabecalho=False)
+        if spec.get("foto"):
+            self.foto(s, 0, 0, LARG, ALT, spec["foto"],
+                      foco=spec.get("foco", 0.5))
+        else:
+            self.trama(s, TRAMA_CANTO, 0.35)
         logo = self.logos.get("capa") or self.logos.get("escuro")
         if logo:
             lg = spec.get("logo_largura", 7.2)
