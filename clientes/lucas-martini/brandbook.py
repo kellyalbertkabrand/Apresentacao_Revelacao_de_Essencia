@@ -87,7 +87,7 @@ CAPA_FUNDO = os.path.join(AQUI, "assets", "capa", "capa-arte.png")
 PAGINAS = [
     # 01 — capa
     {"tipo": "capa", "titulo": "Brand Book", "foto": CAPA_FUNDO,
-     "logo": False, "y_titulo": 7.95},
+     "logo": False, "y_titulo": 7.95, "edicao": "2026"},
 
     # 02 — para que serve
     {"tipo": "texto", "olho": "Antes de começar",
