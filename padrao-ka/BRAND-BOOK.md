@@ -99,7 +99,7 @@ tipografia; o documento continua composto na Outfit, e a página diz isso.
 | `aplicacoes` | a marca nas peças: uma foto grande ao lado do texto, ou uma fileira delas | `fotos`: `(arquivo, legenda)`, `texto`, `nota`, `y` |
 | `fecho` | logo, frase e assinatura | `frase`, `assinatura` |
 | `instagram` | a marca na rede: perfil num celular, destaques e feed | `texto`, `icones`: `(arquivo, nome)`, `celular`, `posts` |
-| `creditos` | a última página: as assinaturas lado a lado e o que coube a cada uma | `olho`, `logos`: `(arquivo, largura, legenda)`, `gap`, `tam_mais`, `disposicao` |
+| `creditos` | a última página: a marca do cliente no alto e, embaixo, as assinaturas de quem fez | `marca`, `olho`, `logos`: `(arquivo, largura, legenda)`, `gap`, `tam_mais`, `disposicao` |
 
 Todos aceitam `olho` (o rótulo de acento acima do título) e `tom`
 (`claro`, `escuro` ou `areia`).

@@ -106,7 +106,8 @@ Duas observações de produção:
   retícula, filete afilado e marca d'água, em `assets/grafismos/`, recortados
   do próprio logotipo e das páginas escuras do manual.
 
-- **A última página credita quem fez o quê**: "Realizado por", as duas
+- **A última página fecha com a marca do Lucas** na versão clara e, abaixo
+  dela, quem fez o quê: as duas
   assinaturas lado a lado sob *Brandbook criado e desenvolvidos por:* — KA
   com *Base Estratégica da Marca e Identidade Verbal*, VM Rocks com
   *Identidade Visual das Redes Sociais* — e o mais em dourado entre elas, sobre o verde da marca do Lucas, não sobre o verde do

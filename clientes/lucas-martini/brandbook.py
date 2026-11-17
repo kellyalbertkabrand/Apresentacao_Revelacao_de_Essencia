@@ -516,7 +516,8 @@ PAGINAS = [
     # 29 — realizado por
     {"tipo": "creditos", "tom": "escuro",
      "olho": ["Brandbook criado", "e desenvolvidos por:"],
-     "y": 3.95, "y_logos": 5.85, "gap": 0.70, "tam_mais": 28,
+     "marca": V_CLARO, "marca_largura": 4.30, "y_marca": 2.35,
+     "y": 4.65, "y_logos": 6.55, "gap": 0.70, "tam_mais": 28,
      "logos": [
          (LOGO_KA, 3.90,
           ["Base Estratégica da Marca", "e Identidade Verbal"]),

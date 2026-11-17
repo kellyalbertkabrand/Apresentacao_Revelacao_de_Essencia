@@ -900,6 +900,14 @@ class Brandbook(Deck):
             iw, ih = _Im.open(caminho).size
             medidas.append(larg * ih / iw)
 
+        if spec.get("marca"):
+            # a marca do cliente fecha o documento; as de quem fez vem
+            # embaixo, menores, com o que coube a cada uma
+            from PIL import Image as _Im
+            larg_m = spec.get("marca_largura", 4.20)
+            iw, ih = _Im.open(spec["marca"]).size
+            self.logo(s, spec["marca"], (LARG - larg_m) / 2.0,
+                      spec.get("y_marca", 2.45), larg_m)
         if spec.get("olho"):
             linhas_olho = spec["olho"]
             if isinstance(linhas_olho, str):
