@@ -67,6 +67,24 @@ A_CARTOES = os.path.join(APL, "cartoes.png")
 A_BLOCO = os.path.join(APL, "bloco.png")
 A_CANETA = os.path.join(APL, "caneta.png")
 
+# A marca na rede e os grafismos
+INSTA = os.path.join(AQUI, "assets", "instagram")
+I_CELULAR = os.path.join(INSTA, "perfil-simulado.png")
+I_ICONES = [(os.path.join(INSTA, "icone-sobre.png"), "Sobre"),
+            (os.path.join(INSTA, "icone-protecao.png"), "Proteção"),
+            (os.path.join(INSTA, "icone-sucessao.png"), "Sucessão"),
+            (os.path.join(INSTA, "icone-empresas.png"), "Empresas"),
+            (os.path.join(INSTA, "icone-reconhecimento.png"), "Reconhec.")]
+I_POSTS = [os.path.join(AQUI, "assets", "post-c1-a.png"),
+           os.path.join(AQUI, "assets", "post-c2-a.png"),
+           os.path.join(AQUI, "assets", "post-c3-a.png"),
+           os.path.join(AQUI, "assets", "post-c1-e.png")]
+
+GRAF = os.path.join(AQUI, "assets", "grafismos")
+G_RETICULA = os.path.join(GRAF, "reticula.png")
+G_FILETE = os.path.join(GRAF, "filete.png")
+G_AGUA = os.path.join(GRAF, "marca-dagua.png")
+
 # As fotografias do Lucas: uma em cada virada de capítulo, a cada cinco ou
 # seis páginas. Ocupam a metade direita e sangram nas três bordas.
 FOTOS = os.path.join(AQUI, "assets")
@@ -111,7 +129,8 @@ PAGINAS = [
           "Para quem ela fala e sobre o que ela fala."),
          ("03", "Voz", "Como ela se comporta e como ela escreve."),
          ("04", "Identidade visual",
-          "O logo, as cores, a tipografia e a marca aplicada nas peças."),
+          "O logo, as cores, a tipografia e a marca aplicada: peças, "
+          "rede e grafismos."),
          ("05", "Manifesto", "A marca em palavras, e a marca em uma página."),
      ]},
 
@@ -331,7 +350,7 @@ PAGINAS = [
     # ————————————————————————————————————— 04 IDENTIDADE VISUAL
     {"tipo": "divisor", "numero": "04", "nome": ["Identidade", "visual"],
      "foto": F_JANELA, "foco": 0.42,
-     "legenda": "O escudo, o verde, o dourado — e a marca no papel."},
+     "legenda": "O escudo, o verde, o dourado — e a marca aplicada."},
 
     # 20 — as versões da marca
     {"tipo": "marca", "olho": "Logotipo", "titulo": "As versões da marca",
@@ -431,6 +450,31 @@ PAGINAS = [
              "preto onde a informação precisa ser lida. O contraste entre "
              "as duas faces é o que dá volume ao conjunto."},
 
+    # 26 — a marca no Instagram
+    {"tipo": "instagram", "olho": "Aplicações",
+     "titulo": "A marca no Instagram", "y": 3.40,
+     "texto": [
+         "**O avatar é a foto, não o escudo.** Marca pessoal se reconhece "
+         "pelo rosto; o escudo assina as peças, não o perfil.",
+         "Nos destaques a marca aparece como marca: ícone em dourado sobre "
+         "o verde, um por território de conversa.",
+         "No feed o logotipo entra pequeno, no pé do card. Quem assina é a "
+         "composição — verde, dourado e a serifa do nome.",
+     ],
+     "icones": I_ICONES, "celular": I_CELULAR, "posts": I_POSTS},
+
+    # 27 — grafismos
+    {"tipo": "aplicacoes", "olho": "Grafismos", "titulo": "Os grafismos",
+     "y": 4.05,
+     "fotos": [(G_RETICULA, "Retícula"),
+               (G_FILETE, "Filete afilado"),
+               (G_AGUA, "Marca d'água")],
+     "nota": "Três grafismos, e só. A retícula cobre as páginas escuras e dá "
+             "textura sem desenhar nada. O filete ladeia a assinatura, separa "
+             "blocos e abre citação. A marca d'água é o escudo a 13%, "
+             "sangrando pela borda — é sombra, não ilustração: se for lida "
+             "como imagem, está forte demais."},
+
     # ——————————————————————————————————————————— 05 MANIFESTO
     {"tipo": "divisor", "numero": "05", "nome": "Manifesto",
      "foto": F_CORREDOR, "foco": 0.46,
@@ -470,12 +514,13 @@ PAGINAS = [
      ]},
 
     # 29 — realizado por
-    {"tipo": "creditos", "tom": "escuro", "olho": "Realizado por",
-     "y": 3.80, "y_logos": 5.40, "gap": 1.10, "tam_mais": 32,
+    {"tipo": "creditos", "tom": "escuro",
+     "olho": ["Brandbook criado", "e desenvolvidos por:"],
+     "y": 3.95, "y_logos": 5.85, "gap": 0.70, "tam_mais": 28,
      "logos": [
-         (LOGO_KA, 4.60,
+         (LOGO_KA, 3.90,
           ["Base Estratégica da Marca", "e Identidade Verbal"]),
-         (LOGO_VM, 3.20,
+         (LOGO_VM, 2.70,
           ["Identidade Visual", "das Redes Sociais"]),
      ]},
 ]

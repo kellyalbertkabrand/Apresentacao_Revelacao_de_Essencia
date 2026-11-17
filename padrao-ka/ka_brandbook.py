@@ -901,9 +901,13 @@ class Brandbook(Deck):
             medidas.append(larg * ih / iw)
 
         if spec.get("olho"):
-            self.texto(s, 0, spec.get("y", 3.70), LARG, spec["olho"].upper(),
-                       T_OLHO, corpo, SEMI, spc=5.0, align=PP_ALIGN.CENTER,
-                       h=0.34)
+            linhas_olho = spec["olho"]
+            if isinstance(linhas_olho, str):
+                linhas_olho = [linhas_olho]
+            self.texto(s, 0, spec.get("y", 3.70), LARG,
+                       [l.upper() for l in linhas_olho], T_OLHO, corpo, SEMI,
+                       spc=5.0, align=PP_ALIGN.CENTER, espaco=1.9,
+                       h=0.34 * len(linhas_olho))
 
         if spec.get("disposicao") == "coluna":
             y = spec.get("y", 3.70) + spec.get("respiro", 1.05)
@@ -937,6 +941,66 @@ class Brandbook(Deck):
             self.texto(s, x, y_legenda, larg, legenda, T_MINI, corpo, LIGHT,
                        align=PP_ALIGN.CENTER, h=0.80, espaco=1.35)
             x += larg + gap
+        return s
+
+    def pg_instagram(self, spec):
+        """A marca na rede: o perfil num celular, os destaques e o feed.
+
+        É a única página em que a marca aparece dentro de uma interface que
+        não é dela — por isso o que se mostra aqui é onde ela entra e onde
+        ela sai de cena."""
+        from PIL import Image as _Im
+        tom = spec.get("tom", "claro")
+        s = self.pagina(tom, spec.get("trama"))
+        tinta, corpo, acento, _ = self.tinta(tom)
+        if spec.get("olho"):
+            self.olho(s, spec["olho"], COL_E, Y_TITULO - 0.52, acento)
+        self.titulo_pagina(s, spec["titulo"], tom, fio_ate=MR)
+
+        y = spec.get("y", 3.30)
+        fim_texto = y
+        if spec.get("texto"):
+            fim_texto = self.paragrafos(s, COL_E, y, LARG_E - 0.9,
+                                        spec["texto"], T_CORPO * 0.92, corpo,
+                                        tinta)
+
+        # os destaques, embaixo do texto
+        icones = spec.get("icones") or []
+        if icones:
+            # os destaques entram abaixo do texto, onde quer que ele acabe
+            yi = max(spec.get("y_icones", 6.95), fim_texto + 0.80)
+            self.olho(s, "Destaques", COL_E, yi - 0.46, acento)
+            lado = spec.get("icone", 0.92)
+            passo = lado + 0.30
+            for i, (caminho, nome) in enumerate(icones):
+                x = COL_E + i * passo
+                self.foto(s, x, yi, lado, lado, caminho, raio=lado / 2.0)
+                self.texto(s, x - 0.18, yi + lado + 0.16, lado + 0.36,
+                           nome.upper(), T_OLHO * 0.82, corpo, SEMI, spc=1.2,
+                           h=0.26, align=PP_ALIGN.CENTER)
+
+        # o perfil, num celular
+        if spec.get("celular"):
+            alt_cel = spec.get("altura_celular", 6.10)
+            iw, ih = _Im.open(spec["celular"]).size
+            larg_cel = alt_cel * iw / ih
+            x_cel = spec.get("x_celular", 9.55)
+            self.olho(s, "Perfil", x_cel, y - 0.40, acento)
+            self.foto(s, x_cel, y, larg_cel, alt_cel, spec["celular"],
+                      raio=0.18)
+
+        # o feed, numa grade de quatro
+        posts = spec.get("posts") or []
+        if posts:
+            x0 = spec.get("x_feed", 13.30)
+            gap = 0.26
+            larg = (MR - x0 - gap) / 2.0
+            alt = larg * 5.0 / 4.0
+            self.olho(s, "Feed", x0, y - 0.40, acento)
+            for i, caminho in enumerate(posts[:4]):
+                x = x0 + (i % 2) * (larg + gap)
+                yy = y + (i // 2) * (alt + gap)
+                self.foto(s, x, yy, larg, alt, caminho, raio=0.10)
         return s
 
     def pg_indice(self, spec):
@@ -983,7 +1047,8 @@ class Brandbook(Deck):
         "numerais": "pg_numerais", "declaracao": "pg_declaracao",
         "pares": "pg_pares", "meia": "pg_meia", "paleta": "pg_paleta",
         "marca": "pg_marca", "tipografia": "pg_tipografia",
-        "aplicacoes": "pg_aplicacoes", "fecho": "pg_fecho",
+        "aplicacoes": "pg_aplicacoes", "instagram": "pg_instagram",
+        "fecho": "pg_fecho",
         "creditos": "pg_creditos",
     }
 
@@ -991,7 +1056,7 @@ class Brandbook(Deck):
     # divisor de capitulo e a pagina de indice, que ja nasce preenchendo.
     SEM_CENTRAR = ("capa", "capa_ka", "abertura", "fecho", "divisor",
                    "indice", "declaracao", "meia", "aplicacoes",
-                   "creditos")
+                   "creditos", "instagram")
 
     def centrar(self, s, tipo):
         """Centra verticalmente o bloco de conteudo.

@@ -99,10 +99,17 @@ Duas observações de produção:
   `assets/marca/vetor/` continuam no repositório como histórico — **não
   usar**.
 
+- **A marca no Instagram e os grafismos** fecham o capítulo 04. A página da
+  rede mostra o perfil num celular, os cinco destaques e quatro cards do
+  feed — os arquivos vieram do Plano de Conteúdo e ficam em
+  `assets/instagram/`. A dos grafismos mostra os três que a marca tem:
+  retícula, filete afilado e marca d'água, em `assets/grafismos/`, recortados
+  do próprio logotipo e das páginas escuras do manual.
+
 - **A última página credita quem fez o quê**: "Realizado por", as duas
-  assinaturas lado a lado — KA com *Base Estratégica da Marca e Identidade
-  Verbal*, VM Rocks com *Identidade Visual das Redes Sociais* — e o mais em
-  dourado entre elas, sobre o verde da marca do Lucas, não sobre o verde do
+  assinaturas lado a lado sob *Brandbook criado e desenvolvidos por:* — KA
+  com *Base Estratégica da Marca e Identidade Verbal*, VM Rocks com
+  *Identidade Visual das Redes Sociais* — e o mais em dourado entre elas, sobre o verde da marca do Lucas, não sobre o verde do
   KA. Cada legenda é composta na largura exata do seu logotipo, para
   pertencer a ele e não à página. O arquétipo é o `creditos`, novo em
   `ka_brandbook.py`.
