@@ -179,8 +179,14 @@ a do KA.
 2. Montar com **`padrao-ka/ka_brandbook.py`** (`Brandbook`).
 3. Conferir com `padrao-ka/conferir.sh <arquivo>.pptx --fundo 10.30`.
 
-A tipografia continua sendo a Outfit. Fonte própria do cliente é **nomeada**
-na página de tipografia, não usada no documento.
+**A tipografia é a do cliente**, não a do KA — o brand book é o único
+documento do padrão em que isso vale. A divisão é display / texto /
+assinatura, e está nas constantes `TIT`, `LIGHT` e `ASSINATURA` no alto de
+`ka_brandbook.py`; trocar é mudar esses nomes e pôr os `.ttf` em
+`padrao-ka/fontes/`, porque a medida acompanha sozinha. A fonte que o
+escritório não pode licenciar para o arquivo (Canva não libera o `.ttf`) é
+**nomeada** na página de tipografia e substituída pela mais próxima que se
+possa licenciar.
 
 Referência viva: `clientes/lucas-martini/brandbook.py` — 27 páginas.
 

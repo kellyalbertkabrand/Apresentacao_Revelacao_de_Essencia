@@ -75,9 +75,38 @@ margem é de 1,15" nos quatro lados (`ML`, `MR`, `FUNDO`), e o trilho vive em
 `X_TRILHO`, na faixa entre a margem e a borda — nunca dentro da coluna de
 texto.
 
-A tipografia **não** é parâmetro: é a Outfit, como em todo o padrão KA. Se a
-marca do cliente tem fonte própria, ela é **nomeada** na página de
-tipografia; o documento continua composto na Outfit, e a página diz isso.
+## A tipografia é do cliente
+
+O brand book é o único documento do padrão que veste a **tipografia da
+marca do cliente**, e não a do escritório. A divisão é sempre a mesma, e
+está no alto de `ka_brandbook.py`:
+
+| Camada | O que compõe | Constantes |
+|---|---|---|
+| **Display** | título de página, numeral e nome de capítulo | `TIT`, `TIT_SEMI` |
+| **Texto** | corpo, rótulo, legenda, numeração | `LIGHT`, `REG`, `SEMI`, `BOLD` |
+| **Assinatura** | a linha que acompanha o logotipo | `ASSINATURA` |
+
+Trocar a tipografia de um brand book é mudar esses nomes e pôr os `.ttf`
+em `padrao-ka/fontes/`. **A medida refaz sozinha**: `F_CORPO`,
+`F_CORPO_SEMI` e `F_TIT` apontam para os arquivos com que o texto é
+medido, e `linhas`/`altura` aceitam o arquivo como parâmetro. Nada muda de
+lugar na grade.
+
+Duas regras seguem valendo. O peso vem do **nome** da fonte, nunca de
+negrito sintético — por isso cada peso é uma família própria (`DM Sans
+Light`, `DM Sans SemiBold`). E a fonte que o escritório **não pode
+licenciar** para o arquivo é nomeada na página de tipografia e substituída
+no documento pela mais próxima que se pode: é o caso da Allrounder e da
+Codec Pro do Lucas Martini, que têm licença só de Canva.
+
+### Lucas Martini
+
+| Camada | Oficial | No arquivo |
+|---|---|---|
+| Display | Allrounder (Identity Letters) | EB Garamond |
+| Texto | DM Sans | DM Sans — a própria |
+| Assinatura | Codec Pro (Zetafonts) | Outfit 1 |
 
 ## 3. Os quatorze arquétipos
 
@@ -115,7 +144,7 @@ que a página de vocabulário usa para o que a marca não diz, com `~~`:
 "~~Fatalidade · desespero · oportunidade imperdível~~"
 ```
 
-O peso vem do nome da fonte (Outfit 1 Semi-Bold), nunca de negrito sintético.
+O peso vem do nome da fonte (DM Sans SemiBold), nunca de negrito sintético.
 
 ## 5. A marca d'água
 

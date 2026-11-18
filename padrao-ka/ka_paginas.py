@@ -125,20 +125,24 @@ def linhas_rotulo(texto, tam, largura, spc):
     return n
 
 
-def linhas(texto, tam, largura):
+def linhas(texto, tam, largura, arquivo=None):
     """Quantas linhas um texto ocupa nessa largura — medido, nao estimado.
 
     Repete a quebra por palavra que o PowerPoint faz. Sem a fonte no disco
-    cai na conta por caractere, que e grosseira mas nunca subestima."""
+    cai na conta por caractere, que e grosseira mas nunca subestima.
+
+    `arquivo` mede noutra fonte que nao a do padrao KA — e o que o brand
+    book usa, porque ali a tipografia e a do cliente e uma serifada quebra
+    noutro lugar que a Outfit."""
     if not texto:
         return 0
-    if not os.path.exists(FONTE_MEDIDA):
+    if not os.path.exists(arquivo or FONTE_MEDIDA):
         por_linha = max(8, largura / (CHAR * tam))
         return max(1, int(math.ceil(len(texto) / por_linha)))
     n, atual = 1, ""
     for palavra in texto.split():
         teste = (atual + " " + palavra).strip()
-        if not atual or largura_texto(teste, tam) <= largura:
+        if not atual or largura_texto(teste, tam, arquivo) <= largura:
             atual = teste
         else:
             n += 1
@@ -156,8 +160,9 @@ def linhas(texto, tam, largura):
 ENTRELINHA = 1.0
 
 
-def altura(texto, tam, largura, espaco=1.4):
-    return linhas(texto, tam, largura) * tam / 72.0 * espaco * ENTRELINHA
+def altura(texto, tam, largura, espaco=1.4, arquivo=None):
+    return (linhas(texto, tam, largura, arquivo)
+            * tam / 72.0 * espaco * ENTRELINHA)
 
 
 # Sobra de entrelinha embaixo da ultima linha, em ems. A caixa de texto mede

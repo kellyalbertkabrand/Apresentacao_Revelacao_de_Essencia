@@ -37,7 +37,7 @@ from ka_layout import (  # noqa: E402
     ALT, EMU, LARG, BOLD, LIGHT, MEDIO, REG, SEMI, ULTRA, Deck,
 )
 from ka_paginas import (  # noqa: E402
-    ENTRELINHA, FONTE_SEMI, altura, largura_texto, linhas,
+    ENTRELINHA, altura, largura_texto, linhas,
 )
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
@@ -45,6 +45,52 @@ ASSETS = os.path.join(AQUI, "assets")
 TRAMA_CANTO = os.path.join(ASSETS, "trama-canto.png")
 TRAMA_DIREITA = os.path.join(ASSETS, "trama-direita.png")
 TRAMA_PE = os.path.join(ASSETS, "trama-pe.png")
+FONTES = os.path.join(AQUI, "fontes")
+
+# ------------------------------------------------- a tipografia do cliente
+# O brand book e o unico documento do padrao KA que veste a tipografia da
+# marca do cliente, e nao a do escritorio. No Lucas Martini sao duas
+# familias e uma divisao limpa:
+#
+#   display (titulo de pagina, numeral e nome de capitulo) — a serifada
+#   texto   (corpo, rotulo, legenda, rodape, numeracao)    — a DM Sans
+#
+# A serifada do arquivo e a EB Garamond: ela entra no lugar da Allrounder,
+# que e a oficial da marca mas tem licenca so de Canva. Trocar e so soltar
+# os .ttf da Allrounder em padrao-ka/fontes/ e mudar os tres nomes aqui —
+# a medida refaz sozinha e nada muda de lugar.
+TIT = "EB Garamond"               # titulo de pagina e numeral de capitulo
+TIT_MEDIO = "EB Garamond Medium"
+TIT_SEMI = "EB Garamond SemiBold"  # nome do capitulo, na virada
+TIT_BOLD = "EB Garamond Bold"
+
+LIGHT = "DM Sans Light"           # corpo — o peso padrao do texto
+REG = "DM Sans"                   # rodape e texto neutro
+MEDIO = "DM Sans Medium"
+SEMI = "DM Sans SemiBold"         # rotulos, numerais e destaque
+BOLD = "DM Sans Bold"
+ULTRA = "DM Sans Bold"
+
+# A fonte da assinatura "PROTECAO & SUCESSAO": no logotipo ela e a Codec
+# Pro, que tambem so tem licenca de Canva. Onde a frase aparece composta
+# (e nao como arte do logo) ela sai na geometrica do padrao, espacejada do
+# mesmo jeito — o desenho e o mesmo genero.
+ASSINATURA = "Outfit 1"
+
+# as fontes com que o texto e medido — ver ka_paginas.largura_texto
+F_CORPO = os.path.join(FONTES, "DMSansLight.ttf")
+F_CORPO_SEMI = os.path.join(FONTES, "DMSansSemiBold.ttf")
+F_TIT = os.path.join(FONTES, "EBGaramondRegular.ttf")
+F_TIT_SEMI = os.path.join(FONTES, "EBGaramondSemiBold.ttf")
+
+
+def _linhas(texto, tam, largura, arquivo=None):
+    return linhas(texto, tam, largura, arquivo or F_CORPO)
+
+
+def _altura(texto, tam, largura, espaco=1.4, arquivo=None):
+    return altura(texto, tam, largura, espaco, arquivo or F_CORPO)
+
 
 # ------------------------------------------------------------------- grade
 ML, MR = 1.15, 18.20          # margens — o retângulo de respiro da página
@@ -110,9 +156,9 @@ def linhas_ricas(texto, tam, largura):
     n, atual = 1, []
     for palavra, forte in palavras:
         teste = atual + [(palavra, forte)]
-        larg = sum(largura_texto(p, tam, FONTE_SEMI if f else None)
+        larg = sum(largura_texto(p, tam, F_CORPO_SEMI if f else F_CORPO)
                    for p, f in teste)
-        larg += largura_texto(" ", tam) * (len(teste) - 1)
+        larg += largura_texto(" ", tam, F_CORPO) * (len(teste) - 1)
         if not atual or larg <= largura:
             atual = teste
         else:
@@ -134,14 +180,22 @@ def equilibrio(texto, tam, largura):
     n = linhas_ricas(texto, tam, largura)
     if n < 2:
         return largura
-    baixo, alto = largura / n, largura
+    # Piso: a caixa nunca pode ficar mais estreita que a palavra mais larga
+    # do texto. A contagem de linhas nao parte palavra — uma caixa menor que
+    # a palavra ainda "cabe" na conta, mas o PowerPoint corta a palavra no
+    # meio (responsabilid/ade). O piso e o que impede isso.
+    piso = max(largura_texto(p, tam, F_CORPO_SEMI if f else F_CORPO)
+               for p, f in _palavras_ricas(texto))
+    baixo, alto = max(largura / n, piso), largura
+    if baixo >= alto:
+        return largura
     for _ in range(22):
         meio = (baixo + alto) / 2.0
         if linhas_ricas(texto, tam, meio) <= n:
             alto = meio
         else:
             baixo = meio
-    return min(largura, alto + 0.03)
+    return min(largura, max(alto + 0.03, piso))
 
 
 def _cor(hexa):
@@ -328,9 +382,9 @@ class Brandbook(Deck):
             titulo = [titulo]
         titulo = [t.upper() for t in titulo]
         n = len(titulo)
-        self.texto(s, x, y, 9.2, titulo, tam, tinta, LIGHT, espaco=1.16,
+        self.texto(s, x, y, 9.2, titulo, tam, tinta, TIT, espaco=1.16,
                    spc=0.6, h=n * tam / 72.0 * 1.16 * 1.24 + 0.1)
-        larg = max(largura_texto(t, tam) + n * 0.02 for t in titulo)
+        larg = max(largura_texto(t, tam, F_TIT) + n * 0.02 for t in titulo)
         y_fio = y + (n - 0.42) * tam / 72.0 * 1.16 * 1.24
         x_fio = x + larg + 0.55
         self.fio(s, x_fio, y_fio, (fio_ate or 8.90) - x_fio,
@@ -445,7 +499,7 @@ class Brandbook(Deck):
                             T_CORPO, corpo, tinta)
         if spec.get("marcado"):
             yy = y + (0.0 if not spec.get("resumo") else
-                      sum(altura(t.replace("**", ""), T_CORPO, LARG_E - 0.6, 1.45)
+                      sum(_altura(t.replace("**", ""), T_CORPO, LARG_E - 0.6, 1.45)
                           + 0.34 for t in spec["resumo"]) + 0.30)
             self.texto(s, COL_E, yy, LARG_E - 0.6,
                        [l.upper() for l in spec["marcado"]], T_CORPO * 0.86,
@@ -475,13 +529,13 @@ class Brandbook(Deck):
             self.marca_dagua(s, self.logos["escudo"], 12.40, 0.60, 9.10,
                              spec.get("agua", 0.13))
         larg_txt = (spec.get("corte", 10.40) - ML - 0.80) if spec.get("foto") else 12.0
-        self.texto(s, ML, 4.55, 6.0, spec["numero"], T_DIV_NUM, acento, LIGHT,
+        self.texto(s, ML, 4.55, 6.0, spec["numero"], T_DIV_NUM, acento, TIT,
                    h=T_DIV_NUM / 72.0 * 1.3)
         nome = spec["nome"]
         if isinstance(nome, str):
             nome = [nome]
         nome = [n.upper() for n in nome]
-        self.texto(s, ML, 5.90, larg_txt, nome, T_DIV_NOME, tinta, BOLD,
+        self.texto(s, ML, 5.90, larg_txt, nome, T_DIV_NOME, tinta, TIT_SEMI,
                    espaco=1.05, h=len(nome) * T_DIV_NOME / 72.0 * 1.05 * 1.24)
         y = 5.90 + len(nome) * T_DIV_NOME / 72.0 * 1.05 * 1.24 + 0.28
         self.fio(s, ML, y, 1.30, acento, esp=0.018)
@@ -512,9 +566,9 @@ class Brandbook(Deck):
         # o respiro de 0,30" por item e o que joga o ultimo item para fora
         tam = T_CORPO
         for tam in (T_CORPO, T_CORPO * 0.92, T_MINI):
-            alturas = [altura(i.replace("**", ""), tam, LARG_D - 0.55, 1.42)
+            alturas = [_altura(i.replace("**", ""), tam, LARG_D - 0.55, 1.42)
                        for i in itens]
-            fecho_h = (altura(spec["fecho"].replace("**", ""), tam, LARG_D,
+            fecho_h = (_altura(spec["fecho"].replace("**", ""), tam, LARG_D,
                               1.45) + 0.40) if spec.get("fecho") else 0.0
             total = sum(alturas) + 0.52 * len(itens) + 0.22 + fecho_h
             if yy + total <= FUNDO:
@@ -554,7 +608,7 @@ class Brandbook(Deck):
         y = spec.get("y", 4.60)
         # o filete fica na MESMA linha em todas as colunas: um nome que
         # quebra em duas linhas nao pode baixar so o seu filete
-        alt_nome = max(linhas(nome.upper().replace("~~", ""), T_NOME, larg)
+        alt_nome = max(_linhas(nome.upper().replace("~~", ""), T_NOME, larg)
                        for _, nome, *_ in colunas) * T_NOME / 72.0 * 1.45
         fundo_col = y
         for i, col in enumerate(colunas):
@@ -563,7 +617,7 @@ class Brandbook(Deck):
             texto = col[2] if len(col) > 2 else ""
             if rot:
                 self.olho(s, rot, x, y, acento, w=larg)
-            nl = linhas(nome.upper().replace("~~", ""), T_NOME, larg)
+            nl = _linhas(nome.upper().replace("~~", ""), T_NOME, larg)
             tf = self.caixa(s, x, y + 0.40, larg,
                             nl * T_NOME / 72.0 * 1.45 + 0.1)
             self.rico(self.par(tf, True, espaco=1.14), nome.upper(), T_NOME,
@@ -600,9 +654,9 @@ class Brandbook(Deck):
         for i, (nome, texto) in enumerate(itens):
             x = ML + i * (larg + gap)
             self.texto(s, x, y, larg, "%02d" % (i + 1), T_NUMERO, acento,
-                       LIGHT, h=T_NUMERO / 72.0 * 1.30)
+                       TIT, h=T_NUMERO / 72.0 * 1.30)
             ny = y + T_NUMERO / 72.0 * 1.30 + 0.06
-            nlin = linhas(nome.upper(), T_OLHO * 1.12, larg)
+            nlin = _linhas(nome.upper(), T_OLHO * 1.12, larg)
             self.texto(s, x, ny, larg, nome.upper(), T_OLHO * 1.12, tinta,
                        SEMI, spc=2.2, espaco=1.45,
                        h=nlin * T_OLHO * 1.12 / 72.0 * 1.9)
@@ -661,8 +715,8 @@ class Brandbook(Deck):
         for fator in (0.95, 0.88, 0.80):
             tam_par = T_CORPO * fator
             total = sum(
-                1.28 + altura(e, tam_par, LARG_D, 1.42)
-                + altura(pr, tam_par, LARG_D, 1.42)
+                1.28 + _altura(e, tam_par, LARG_D, 1.42)
+                + _altura(pr, tam_par, LARG_D, 1.42)
                 for e, pr in spec["pares"])
             if yy + total <= FUNDO:
                 break
@@ -670,13 +724,13 @@ class Brandbook(Deck):
             self.fio(s, COL_D, yy, LARG_D, fio, esp=0.008)
             yy += 0.20
             self.olho(s, rot_e, COL_D, yy, self.p["suave"], w=LARG_D)
-            h = altura(evitar, tam_par, LARG_D, 1.42)
+            h = _altura(evitar, tam_par, LARG_D, 1.42)
             tf = self.caixa(s, COL_D, yy + 0.34, LARG_D, h + 0.1)
             self.rico(self.par(tf, True, espaco=1.42), "~~%s~~" % evitar,
                       tam_par, self.p["acento"], self.p["acento"])
             yy += 0.34 + h + 0.30
             self.olho(s, rot_p, COL_D, yy, acento, w=LARG_D)
-            h2 = altura(preferir, tam_par, LARG_D, 1.42)
+            h2 = _altura(preferir, tam_par, LARG_D, 1.42)
             tf = self.caixa(s, COL_D, yy + 0.34, LARG_D, h2 + 0.1)
             self.rico(self.par(tf, True, espaco=1.42), preferir,
                       tam_par, tinta, tinta)
@@ -848,10 +902,12 @@ class Brandbook(Deck):
             self.olho(s, spec["olho"], COL_E, Y_TITULO - 0.52, acento)
         self.titulo_pagina(s, spec["titulo"], tom, fio_ate=MR)
         y = spec.get("y", 4.20)
-        for nome, fonte, amostra, uso in spec["familias"]:
+        for familia in spec["familias"]:
+            nome, fonte, amostra, uso = familia[:4]
+            spc = familia[4] if len(familia) > 4 else None
             self.olho(s, nome, ML, y, acento, w=W)
             self.texto(s, ML, y + 0.38, 12.6, amostra, spec.get("tam", 46),
-                       tinta, fonte, espaco=1.1, h=0.95)
+                       tinta, fonte, espaco=1.1, h=0.95, spc=spc)
             self.paragrafos(s, 13.60, y + 0.46, MR - 13.60, [uso], T_MINI,
                             corpo, tinta, gap=0.18)
             y += spec.get("passo", 1.62)

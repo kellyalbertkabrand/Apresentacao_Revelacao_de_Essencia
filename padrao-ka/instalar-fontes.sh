@@ -12,4 +12,4 @@ mkdir -p "$HOME/.fonts"
 cp "$AQUI"/fontes/*.ttf "$HOME/.fonts/"
 fc-cache -f >/dev/null
 echo "fontes instaladas:"
-fc-list | grep -iE "outfit|playfair|plex" | sed 's/.*: //' | sort -u
+fc-list | grep -iE "outfit|playfair|plex|dm sans|garamond" | sed 's/.*: //' | sort -u

@@ -16,8 +16,14 @@ territórios e da personalidade já definidos, porque todo brand book precisa
 delas e a Base não as trazia escritas.
 """
 import os
+import sys
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(AQUI)),
+                                "padrao-ka"))
+
+# os nomes das fontes da marca vivem no motor — ver ka_brandbook.py
+from ka_brandbook import ASSINATURA, LIGHT, TIT  # noqa: E402
 MARCA_DIR = os.path.join(AQUI, "assets", "marca", "original")
 
 MARCA = "Lucas Martini"
@@ -254,12 +260,12 @@ PAGINAS = [
          "**Quem sustenta outras pessoas** — pilares financeiros da família, "
          "cuja ausência alteraria a estrutura econômica de casa;",
          "**Quem responde por uma empresa** — empresários, sócios e "
-         "pessoas-chave de negócios dependentes de indivíduos específicos;",
+         "pessoas-chave de quem o negócio depende;",
          "**Quem construiu patrimônio** — famílias e sócios que precisam "
          "organizar transferência, liquidez e sucessão.",
      ],
-     "fecho": "São pessoas que decidem com responsabilidade sobre outros. "
-              "**Falar com elas é falar de consequência, nunca de medo.**"},
+     "fecho": "Decidem com responsabilidade sobre outros. **Falar com elas "
+              "é falar de consequência, nunca de medo.**"},
 
     # 13 — territórios de comunicação
     {"tipo": "lista", "olho": "Territórios de comunicação",
@@ -413,22 +419,21 @@ PAGINAS = [
      "titulo": "A tipografia", "y": 3.60, "tam": 44,
      "passo": 1.38, "respiro": 0.32,
      "familias": [
-         ("Assinatura · Allrounder", "Outfit 1 Light",
+         ("Display · Allrounder", TIT,
           "Lucas Martini",
-          "A serifada do logotipo. Vive no logo e na assinatura — não é "
-          "fonte de texto corrido."),
-         ("Texto · DM Sans", "Outfit 1 Light",
-          "Proteção & Sucessão",
-          "A sem-serifa de apoio: títulos, corpo e legenda. Caixa alta "
-          "espacejada nos rótulos, sempre com espacejamento largo."),
-         ("Hierarquia", "Outfit 1 Semi-Bold",
-          "Clareza antes de volume",
-          "Título grande em peso leve; destaque em semibold. O peso marca a "
-          "frase que a pessoa leva embora — nunca a frase inteira."),
+          "A serifada da marca: logotipo, título de página e nome de "
+          "capítulo. Não compõe texto corrido."),
+         ("Texto · DM Sans", LIGHT,
+          "Proteção e sucessão",
+          "A sem-serifa de apoio: corpo, rótulo e legenda. Light no "
+          "texto, SemiBold no destaque."),
+         ("Assinatura · Codec Pro", ASSINATURA,
+          "PROTEÇÃO & SUCESSÃO",
+          "Só na assinatura do logotipo, em caixa alta e com "
+          "espacejamento largo.", 4.6),
      ],
-     "nota": "Os espécimes desta página estão compostos na fonte deste "
-             "documento. As fontes oficiais são a Allrounder, no logotipo, "
-             "e a DM Sans, no texto."},
+     "nota": "Três fontes, três funções: a serifada dá o nome, a DM Sans "
+             "dá o texto, a Codec Pro dá a assinatura."},
 
     # 24 — as aplicações
     {"tipo": "aplicacoes", "olho": "Aplicações", "titulo": "A marca aplicada",
