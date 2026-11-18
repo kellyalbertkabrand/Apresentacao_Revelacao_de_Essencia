@@ -177,7 +177,7 @@ a do KA.
 1. Ler **`padrao-ka/BRAND-BOOK.md`** — a grade, os 14 arquétipos e a paleta
    como parâmetro.
 2. Montar com **`padrao-ka/ka_brandbook.py`** (`Brandbook`).
-3. Conferir com `padrao-ka/conferir.sh <arquivo>.pptx --fundo 10.30`.
+3. Conferir com `padrao-ka/conferir.sh <arquivo>.pptx --fundo 10.10`.
 
 **A tipografia é a do cliente**, não a do KA — o brand book é o único
 documento do padrão em que isso vale. A divisão é display / texto /
@@ -188,7 +188,10 @@ escritório não pode licenciar para o arquivo (Canva não libera o `.ttf`) é
 **nomeada** na página de tipografia e substituída pela mais próxima que se
 possa licenciar.
 
-Referência viva: `clientes/lucas-martini/brandbook.py` — 27 páginas.
+Referência viva: `clientes/lucas-martini/brandbook.py` — 32 páginas.
+
+O roteiro completo — os cinco capítulos, as 32 páginas e os erros que já
+custaram rodada — está na skill `.claude/skills/brand-book-ka/SKILL.md`.
 
 ## Gatilho: "revelação de essência"
 

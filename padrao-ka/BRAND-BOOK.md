@@ -20,7 +20,8 @@ d.salvar("Brand-Book.pptx")
 ```
 
 Referência viva: [`clientes/lucas-martini/brandbook.py`](../clientes/lucas-martini/brandbook.py)
-— 27 páginas.
+— 32 páginas, cinco capítulos. O roteiro página a página está na skill
+`.claude/skills/brand-book-ka/SKILL.md`.
 
 ---
 
@@ -29,16 +30,13 @@ Referência viva: [`clientes/lucas-martini/brandbook.py`](../clientes/lucas-mart
 | | Medida |
 |---|---|
 | Página | 20" × 11,25" |
-| Margens | 1,00" à esquerda, 19,00" à direita |
-| Coluna da esquerda | x 1,00" · largura 7,60" — o título e o resumo |
-| Coluna da direita | x 10,85" · largura 7,50" — o conteúdo |
-| Cabeçalho | y 0,68" |
-| Primeira linha do título | y 1,90" |
-| Pé útil | 10,30" — nada de texto abaixo disto |
-
-O cabeçalho é o que faz o documento parecer manual: um filete vertical de
-acento, o nome do documento e da marca em caixa alta espacejada à esquerda, e
-a paginação `NN / total` à direita.
+| Margens | 1,15" à esquerda, 18,20" à direita (`ML`, `MR`) |
+| Coluna da esquerda | x 1,15" · largura 7,50" — o título e o resumo |
+| Coluna da direita | x 10,85" · largura 7,35" — o conteúdo |
+| Trilho vertical | x 19,25" (`X_TRILHO`) |
+| Primeira linha do título | y 1,90" (`Y_TITULO`) |
+| Primeira linha da coluna direita | y 2,05" (`Y_CORPO`) |
+| Pé útil | **10,10"** — nada de texto abaixo disto |
 
 ## 2. A paleta é parâmetro
 
@@ -108,7 +106,7 @@ Codec Pro do Lucas Martini, que têm licença só de Canva.
 | Texto | DM Sans | DM Sans — a própria |
 | Assinatura | Codec Pro (Zetafonts) | Outfit 1 |
 
-## 3. Os quatorze arquétipos
+## 3. Os dezoito arquétipos
 
 | `tipo` | O que é | Campos |
 |---|---|---|
@@ -158,8 +156,13 @@ A trama de pontos (`trama.py` gera as três variantes) é a única textura.
 ## 6. Conferência
 
 O brand book não tem painel: a página inteira é área útil, e o limite passa
-a ser 10,30".
+a ser 10,10".
 
 ```bash
-padrao-ka/conferir.sh <arquivo>.pptx --fundo 10.30
+padrao-ka/conferir.sh <arquivo>.pptx --fundo 10.10
+python3 padrao-ka/conferir_voz.py clientes/<cliente>/brandbook.py
 ```
+
+O conferidor pega vazamento pelo pé. **Colisão de blocos e palavra cortada
+no meio só o olho pega** — gerar o contato em PNG do PDF e ler as páginas,
+uma a uma, antes de entregar.
