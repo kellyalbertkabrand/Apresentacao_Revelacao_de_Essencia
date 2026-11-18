@@ -1,6 +1,6 @@
 ---
 name: "brand-book-ka"
-description: "Monta o brand book (manual de marca) de um cliente do KA Inteligência para Marcas no modelo medido no Brand Book do Lucas Martini — 5 capítulos, 32 páginas, grade de duas colunas, trilho vertical, paleta e tipografia do cliente — e entrega em PPTX editável e PDF. USE SEMPRE que a Kelly pedir brand book, brandbook, manual de marca, manual de identidade, guia de marca, book da marca, ou pedir para adaptar/ajustar/revisar um brand book já feito. Também quando disser 'no modelo do Lucas', 'igual ao brand book do Lucas Martini' ou 'manual da marca X'."
+description: "Monta o brand book (manual de marca) de um cliente do KA Inteligência para Marcas no modelo medido no Brand Book do Lucas Martini — 5 capítulos, 32 páginas, grade de duas colunas, trilho vertical, paleta e tipografia do cliente — e entrega em PPTX editável e PDF. USE SEMPRE que a Kelly pedir brand book, brandbook, manual de marca, manual de identidade, guia de marca, book da marca, ou pedir para adaptar/ajustar/revisar um brand book já feito. Também quando disser 'no modelo do Lucas', 'igual ao brand book do Lucas Martini' ou 'manual da marca X'. Monta pelas duas vias: pelo repositório (ka_brandbook.py, PPTX+PDF) ou como artefato do tipo Slides em qualquer conversa, com a mesma grade e a mesma escala."
 ---
 
 # Brand Book KA — o modelo do Lucas Martini
@@ -17,7 +17,26 @@ Escreva sempre em português.
 
 ---
 
-## 1. Fluxo
+## 0. Duas vias
+
+O brand book se monta de dois jeitos, e o que muda é só o montador — **o
+roteiro, a grade e a escala são os mesmos**.
+
+| Via | Quando | Montador | Entrega |
+|---|---|---|---|
+| **A · Repositório** | há o repositório `apresentacoes/` | `padrao-ka/ka_brandbook.py` | `.pptx` editável + `.pdf` |
+| **B · Artefato** | qualquer conversa do claude.ai | artefato do tipo **Slides** | página publicada, link, exporta PPTX/PDF |
+
+A via A é a entrega para o cliente: PPTX editável, medido na própria fonte,
+conferido pelo pé. A via B é para **ver, revisar e compartilhar por link** —
+e é a única possível quando não há repositório.
+
+Quando houver as duas, a via A manda: o arquivo que o cliente recebe é o
+`.pptx`.
+
+---
+
+## 1. Via A — o repositório
 
 1. **Ler `padrao-ka/BRAND-BOOK.md`** — a grade, os 18 arquétipos e a paleta
    como parâmetro. Este arquivo é o contrato; a skill é o roteiro.
@@ -47,7 +66,170 @@ caber: **cortar texto** (regra do CLAUDE.md).
 
 ---
 
-## 2. O roteiro: 5 capítulos, 32 páginas
+## 2. Via B — o artefato
+
+Mesmo roteiro, mesma grade, mesma escala — traduzidos para a tela. A página
+do artefato é **1920 × 1080 px**, e a conversão é exata: a página do brand
+book tem 20", logo **1" = 96 px** e **1pt = 4/3 px**. Nada é reinventado.
+
+### Começar
+
+Publicar com `type_url` do tipo **Slides**
+(`https://claude.ai/artifact/8jTsAFQMFDb2oA8MsPJ2eL`), um `title`, sem
+arquivos, `auto_open: "after_first_write"`. O resultado traz a `url` e as
+instruções do tipo; seguir dali.
+
+**Sem design system.** O design system KA é a identidade do *escritório*, e
+o brand book é o único documento que veste a do **cliente**. Então
+`designSystems: []`, sem `project/ds/`, e a paleta do cliente declarada à
+mão no `project/deck.css`. Dizer isso à Kelly em uma linha na entrega — é
+escolha, não esquecimento.
+
+### Os arquivos
+
+- `project/deck.json` — `"v":5`, `lists:"css"`, `format` apontando para
+  `project/deck.css`, `order` com os 32 ids, `sections` com os cinco
+  capítulos, `cover` na capa e `faces` com as três fontes.
+- `project/deck.css` — as variáveis da paleta e a grade. Uma vez só.
+- `project/slides/<id>.html` — um `<section>` por página.
+
+Ids legíveis, que digam a página: `capa`, `para-que-serve`, `conteudo`,
+`cap1-marca`, `o-que-e`, `crenca`, … Assim o link `#slide-7` e a conversa
+sobre o documento falam a mesma língua.
+
+### As fontes
+
+EB Garamond e DM Sans **estão no Google Fonts** — na tela elas renderizam
+de verdade, o que o PPTX não consegue com as oficiais:
+
+```json
+"faces": {
+  "eb-garamond": {"family": "EB Garamond",
+    "href": "https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400..700&display=swap"},
+  "dm-sans": {"family": "DM Sans",
+    "href": "https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300..700&display=swap"},
+  "outfit": {"family": "Outfit",
+    "href": "https://fonts.googleapis.com/css2?family=Outfit:wght@300..700&display=swap"}
+}
+```
+
+**Aqui o peso vem do `font-weight`, não do nome da fonte.** É a única regra
+do padrão que se inverte entre as duas vias, e inverte por um motivo: no
+PPTX cada peso precisa ser uma família própria porque o PowerPoint
+sintetiza negrito; no navegador a fonte é variável e o peso é real.
+
+| Papel | Família | `font-weight` |
+|---|---|---|
+| Título de página, capítulo | EB Garamond | 400 · 600 no nome do capítulo |
+| Corpo | DM Sans | 300 |
+| Rótulo, destaque, numeração | DM Sans | 600 |
+| Assinatura do logotipo | Outfit | 400, caixa alta, `letter-spacing: 4px` |
+
+### A grade, em pixels
+
+```css
+:root{
+  --escuro:#4A534E; --escuro2:#5A635E; --claro:#F6F4EF; --areia:#CEC3B5;
+  --tinta:#2C322E;  --corpo:#5F6661;   --suave:#9AA09A; --fio:#DCD8CE;
+  --acento:#AE8C4E; --acento-escuro:#E3C88B;
+  --sobre-escuro:#F2F0E9; --corpo-escuro:#D6DAD3;
+}
+section{
+  padding:182px 173px 110px 110px;     /* y título 182 · pé útil 970 */
+  display:flex; gap:211px;             /* 110 + 720 + 211 = 1041 */
+  background:var(--claro); color:var(--corpo);
+  font:300 28px/1.45 "DM Sans";
+}
+.esq{width:720px}                       /* título e resumo */
+.dir{width:706px; margin-top:15px}      /* y corpo 197 */
+```
+
+| | Polegada | Pixel |
+|---|---|---|
+| Margem esquerda | 1,15" | **110** |
+| Margem direita | 18,20" | **1747** (173 da borda) |
+| Coluna da esquerda | 1,15" · 7,50" | 110 · **720** |
+| Coluna da direita | 10,85" · 7,35" | 1041 · **706** |
+| Primeira linha do título | 1,90" | **182** |
+| Primeira linha da coluna direita | 2,05" | **197** |
+| Trilho vertical | 19,25" | **1848** |
+| **Pé útil** | 10,10" | **970** |
+
+Altura útil abaixo do título: **788 px**. O tipo Slides sugere nada abaixo
+de y 920 porque supõe uma faixa de rodapé; o brand book não tem rodapé — a
+paginação vive no trilho da direita — então o piso é 970, o mesmo do
+impresso.
+
+### O trilho
+
+```css
+.trilho{
+  position:absolute; left:1848px; bottom:110px;
+  writing-mode:vertical-rl; transform:rotate(180deg);
+  font:500 24px/1 "DM Sans"; letter-spacing:3.5px; color:var(--suave);
+}
+```
+
+Lê de baixo para cima. **Nas páginas escuras o trilho não existe** — nem
+nome, nem número.
+
+### O piso de 24 px
+
+O tipo Slides não aceita texto abaixo de 24 px, e a escala impressa tem três
+tamanhos menores que isso. Não é limitação: é a diferença entre os meios. Um
+manual se lê a um palmo; um artefato, a um metro. Então o miúdo sobe para o
+piso, e **só o miúdo**:
+
+| Elemento | pt no PPTX | px direto | **px na tela** |
+|---|---|---|---|
+| Nome do capítulo | 70 | 93 | 93 |
+| Numeral do capítulo | 58 | 77 | 77 |
+| Frase da página de silêncio | 52 | 69 | 69 |
+| Título de página | 45 | 60 | 60 |
+| Numeral de pilar | 44 | 59 | 59 |
+| Nome de coluna, de versão | 26 | 35 | 35 |
+| Linha de abertura | 22 | 29 | 29 |
+| **Corpo** | 21 | 28 | **28** |
+| Nota miúda | 16,5 | 22 | **24** ← piso |
+| Eyebrow | 12,5 | 17 | **24** ← piso |
+| Trilho e paginação | 11,5 | 15 | **24** ← piso |
+
+Nenhum outro tamanho muda. Mexer no corpo ou no título para "caber melhor"
+quebra a relação com a via A, e aí os dois documentos deixam de ser o mesmo
+documento.
+
+### Imagens
+
+Logo, fotos, mockups e grafismos entram como **asset** (`publish` com
+`asset: true`) e o `<img src>` recebe a `url` que o upload devolveu, tal e
+qual. Nunca `data:` URI, nunca caminho local, nunca link de fora.
+
+Foto de virada de capítulo: `object-fit: cover`, metade direita da página,
+e o **rosto nunca cortado** — conferir olhando, que aqui não há
+`conferir_rostos.py`.
+
+### Ritmo da montagem
+
+`project/deck.json`, `project/deck.css` e a capa primeiro, numa publicação
+só. Depois **três páginas por mensagem**, na ordem do `order`. São 32
+páginas: onze mensagens. Não tentar mandar tudo de uma vez.
+
+### Conferir
+
+Não há `conferir.sh` aqui. O que substitui:
+
+1. **Pré-visualizar** as páginas de risco — as de muito texto (02, 05, 09,
+   12, 21, 30) e as de montagem fina (20, 23, 26, 31).
+2. **Medir a altura à mão** antes de escrever: título ≈ tamanho × linhas ×
+   1,1; parágrafo = linhas × 28 × 1,45. Passou de 788 px abaixo do título?
+   **Cortar texto**, nunca diminuir o corpo.
+3. **O texto quebra só em espaço**: dimensionar a caixa pela palavra mais
+   longa (≈ 0,6 × tamanho por caractere). É o mesmo erro que no PPTX
+   cortava `responsabilid/ade`.
+
+---
+
+## 3. O roteiro: 5 capítulos, 32 páginas
 
 É este o modelo. A ordem é a tese do Método Marca com Essência ©: a marca
 antes do público, o público antes da voz, a voz antes do visual, e o
@@ -97,7 +279,10 @@ peças impressas perde a 25. **Tirar capítulo inteiro, não.** São cinco.
 
 ---
 
-## 3. A grade
+## 4. A grade
+
+Em polegadas, que é a medida da via A. Em pixel, na via B — a tabela de
+conversão está em **§2**.
 
 | | Medida |
 |---|---|
@@ -132,7 +317,7 @@ Escala tipográfica fechada — não inventar tamanho fora dela:
 
 ---
 
-## 4. A paleta é parâmetro
+## 5. A paleta é parâmetro
 
 Entra como dicionário no `brandbook.py` do cliente. As doze chaves:
 
@@ -161,7 +346,7 @@ porque a leitura não fechava na projeção.
 
 ---
 
-## 5. A tipografia é do cliente
+## 6. A tipografia é do cliente
 
 Três camadas, e a divisão nunca muda:
 
@@ -180,9 +365,11 @@ grade. Depois, sempre:
 padrao-ka/instalar-fontes.sh
 ```
 
-Duas regras:
+Duas regras — a primeira **só na via A**:
 
-- **O peso vem do nome da fonte**, nunca de negrito sintético. Por isso cada
+- **No PPTX o peso vem do nome da fonte**, nunca de negrito sintético. No
+  artefato é o contrário: `font-weight`, porque a fonte do navegador é
+  variável e o peso é real (§2). Por isso cada
   peso é uma família própria (`DM Sans Light`, `DM Sans SemiBold`). Se o
   nome não existe no sistema, o LibreOffice cai numa fonte qualquer e a
   prévia mente — conferir com `pdffonts` depois de gerar.
@@ -204,7 +391,7 @@ Duas regras:
 
 ---
 
-## 6. Os dezoito arquétipos
+## 7. Os dezoito arquétipos
 
 Todos aceitam `olho` (o rótulo de acento acima do título) e `tom`.
 
@@ -245,7 +432,7 @@ por página, não um parágrafo inteiro.
 
 ---
 
-## 7. Fotografia e marca d'água
+## 8. Fotografia e marca d'água
 
 - **O rosto nunca é cortado.** Depois de trocar qualquer foto:
   ```bash
@@ -260,7 +447,7 @@ por página, não um parágrafo inteiro.
 
 ---
 
-## 8. A voz: terceira pessoa
+## 9. A voz: terceira pessoa
 
 Vale a regra do CLAUDE.md, inteira. Nada de "nossa origem", "nossos
 valores", "assumimos responsabilidade". O mesmo arquivo precisa servir para
@@ -275,7 +462,7 @@ novembro/2026: em caixa alta não lê, e manifesto é para ler.
 
 ---
 
-## 9. O que já custou rodada
+## 10. O que já custou rodada
 
 Erros reais, cada um de uma entrega. Conferir antes de repetir.
 
@@ -306,10 +493,14 @@ Erros reais, cada um de uma entrega. Conferir antes de repetir.
 
 ---
 
-## 10. A entrega
+## 11. A entrega
 
 Em poucas linhas: o que foi feito, o que mudou desde a última versão e o que
-a Kelly precisa conferir ou decidir. Sempre `.pptx` **e** `.pdf`.
+a Kelly precisa conferir ou decidir.
+
+- **Via A**: sempre `.pptx` **e** `.pdf`, por `SendUserFile`.
+- **Via B**: dizer o que a página mostra e o que falta. Nunca colar a `url`
+  crua no texto.
 
 Se alguma fonte oficial ficou de fora por licença, dizer **nessa mesma
 mensagem** — qual é, por quê, o que entrou no lugar e quanto custa trocar.
