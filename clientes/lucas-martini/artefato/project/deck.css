@@ -1,0 +1,231 @@
+/* BRAND BOOK — Lucas Martini | Proteção & Sucessão
+   A grade do brand book KA, traduzida para a tela: 1" = 96 px, 1pt = 4/3 px.
+   Margem 110 · colunas 720 e 706 · título em 182 · corpo em 197 · pé 970. */
+
+:root{
+  --escuro:#4A534E; --escuro2:#5A635E; --claro:#F6F4EF; --areia:#CEC3B5;
+  --tinta:#2C322E;  --corpo:#5F6661;  --suave:#9AA09A; --fio:#DCD8CE;
+  --acento:#AE8C4E; --acento-escuro:#E3C88B;
+  --sobre-escuro:#F2F0E9; --corpo-escuro:#D6DAD3;
+  --serifa:'EB Garamond', Georgia, serif;
+  --sans:'DM Sans', Arial, sans-serif;
+}
+
+section{
+  padding:182px 173px 110px 110px;
+  display:flex; flex-direction:column;
+  background:var(--claro); color:var(--corpo);
+  font:300 28px/1.45 var(--sans);
+}
+
+/* ------------------------------------------------- o trilho da margem */
+.trilho{
+  position:absolute; left:1824px; top:946px; width:560px; margin:0;
+  transform-origin:left top; transform:rotate(-90deg);
+  font:500 24px/1 var(--sans); letter-spacing:3px; color:var(--suave);
+}
+.folio{color:var(--acento)}
+.barra{color:var(--acento)}
+
+/* ------------------------------------------------- olho, título, fio */
+.olho{
+  position:absolute; left:110px; top:130px; width:1200px; margin:0;
+  font:600 24px/1 var(--sans); letter-spacing:4px; text-transform:uppercase;
+  color:var(--acento);
+}
+.cab{display:flex; align-items:flex-end; gap:36px}
+.cab.curto{width:744px}
+.cab.longo{width:1637px}
+.titulo{
+  margin:0; font:400 60px/1.16 var(--serifa); letter-spacing:1px;
+  text-transform:uppercase; color:var(--tinta);
+}
+.fio{flex:1; border:none; border-top:1.5px solid var(--acento); margin:0 0 20px 0}
+.fio.frio{border-top-color:var(--fio)}
+
+/* --------------------------------------------------------- as colunas */
+.dir{position:absolute; left:1042px; top:197px; width:706px}
+/* a coluna da direita sobe quando a lista e longa — o y_direita do motor */
+.dir.alto{top:155px}
+.esq{width:720px; margin-top:44px}
+.resumo{margin:0 0 34px; font:300 29px/1.45 var(--sans); color:var(--corpo)}
+.marcado{
+  margin:0; font:600 24px/1.45 var(--sans); letter-spacing:1px;
+  text-transform:uppercase; color:var(--tinta);
+}
+.par{margin:0 0 27px; font-size:28px}
+.par:last-child{margin-bottom:0}
+b{font-weight:600; color:var(--tinta)}
+s{text-decoration:line-through}
+
+.rotulo{
+  margin:0 0 14px; font:600 24px/1 var(--sans); letter-spacing:3px;
+  text-transform:uppercase; color:var(--acento);
+}
+.regua{border:none; border-top:1px solid var(--fio); margin:0 0 24px}
+
+/* ------------------------------------------------------------- listas */
+.lista{display:flex; flex-direction:column}
+.item{display:flex; gap:20px; padding:22px 0; border-top:1px solid var(--fio)}
+.item:first-child{border-top:none; padding-top:0}
+.seta{flex:none; width:24px; margin:4px 0 0; font-size:24px; color:var(--acento)}
+.item p{margin:0; font-size:28px}
+/* lista de sete linhas: o passo aperta para caber na altura util */
+.lista.apertada .item{padding:17px 0}
+.fecho{margin:30px 0 0; padding-top:26px; border-top:1px solid var(--fio); font-size:28px}
+.fecho.solto{border-top:none; padding-top:0}
+
+/* ------------------------------------------------------------ colunas */
+.grade{display:flex; gap:48px; width:1637px; margin-top:52px}
+.col{flex:1}
+.col-rot{
+  margin:0 0 12px; font:600 24px/1 var(--sans); letter-spacing:3px;
+  text-transform:uppercase; color:var(--acento);
+}
+.col-nome{
+  margin:0 0 14px; font:300 35px/1.2 var(--sans); text-transform:uppercase;
+  letter-spacing:1px; color:var(--tinta);
+}
+.col-fio{border:none; border-top:1.5px solid var(--acento); margin:0 0 20px}
+.col-txt{margin:0; font-size:26px; line-height:1.45}
+.largo{width:1637px; margin-top:40px; font-size:28px}
+
+/* ----------------------------------------------------------- numerais */
+.num{margin:0 0 10px; font:400 59px/1.1 var(--serifa); color:var(--acento)}
+
+/* -------------------------------------------------------------- pares */
+.par-bloco{padding:26px 0; border-top:1px solid var(--fio)}
+.par-bloco:first-child{border-top:none; padding-top:0}
+.par-rot{
+  margin:0 0 8px; font:600 24px/1 var(--sans); letter-spacing:3px;
+  text-transform:uppercase; color:var(--suave);
+}
+.par-rot.sim{color:var(--acento)}
+.par-evitar{margin:0 0 18px; font-size:26px; color:var(--suave); text-decoration:line-through}
+.par-preferir{margin:0; font-size:26px; color:var(--tinta)}
+
+/* ------------------------------------------------------------- paleta */
+.cores{display:flex; gap:40px; width:1637px; margin-top:56px}
+.cor{flex:1}
+.amostra{width:100%; height:278px; border-radius:4px; box-sizing:border-box}
+.cor-nome{
+  margin:18px 0 4px; font:600 24px/1 var(--sans); letter-spacing:3px;
+  text-transform:uppercase; color:var(--tinta);
+}
+.cor-hex{margin:0 0 12px; font:300 24px/1 var(--sans); letter-spacing:2px; color:var(--acento)}
+.cor-uso{margin:0; font-size:24px; line-height:1.4}
+
+/* ------------------------------------------------- versões da logo */
+.versoes{display:flex; gap:28px; width:1637px; margin-top:48px}
+.versao{flex:1}
+.quadro{
+  width:100%; height:235px; border-radius:4px; box-sizing:border-box;
+  display:flex; align-items:center; justify-content:center;
+}
+.quadro img{object-fit:contain}
+.versao-nome{
+  margin:18px 0 10px; font:600 24px/1 var(--sans); letter-spacing:2px;
+  text-transform:uppercase; color:var(--tinta);
+}
+.versao-txt{margin:0; font-size:24px; line-height:1.4}
+
+/* --------------------------------------------------------- tipografia */
+.tipo{display:flex; align-items:flex-start; gap:48px; width:1637px; padding:26px 0;
+      border-top:1px solid var(--fio)}
+.tipo:first-of-type{border-top:none}
+.tipo-col{width:1060px}
+.tipo-rot{
+  margin:0 0 10px; font:600 24px/1 var(--sans); letter-spacing:3px;
+  text-transform:uppercase; color:var(--acento);
+}
+.esp-serifa{margin:0; font:400 59px/1.1 var(--serifa); color:var(--tinta)}
+.esp-sans{margin:0; font:300 59px/1.1 var(--sans); color:var(--tinta)}
+.esp-assin{margin:0; font:400 46px/1.1 'Outfit', Arial, sans-serif;
+           letter-spacing:6px; color:var(--tinta)}
+.tipo-uso{width:529px; margin:6px 0 0; font-size:24px; line-height:1.45}
+.nota{margin:30px 0 0; width:1180px; font-size:24px; line-height:1.45; color:var(--suave)}
+
+/* -------------------------------------------------------- aplicações */
+.aplic{display:flex; gap:44px; width:1637px; margin-top:46px}
+.aplic img{border-radius:4px; object-fit:cover}
+.legenda{
+  margin:16px 0 0; font:600 24px/1.3 var(--sans); letter-spacing:2px;
+  text-transform:uppercase; color:var(--tinta);
+}
+.legenda.fina{font-weight:300; letter-spacing:0; text-transform:none; color:var(--corpo)}
+
+/* --------------------------------------------------------- instagram */
+.insta{display:flex; gap:52px; width:1637px; margin-top:40px}
+.icones{display:flex; gap:30px; margin-top:34px}
+.icone{text-align:center; width:112px}
+.icone img{border-radius:56px; background:var(--escuro)}
+.icone p{margin:10px 0 0; font:600 24px/1 var(--sans); letter-spacing:1px; color:var(--corpo)}
+.feed{display:flex; flex-wrap:wrap; gap:16px; width:470px}
+.feed img{object-fit:cover; border-radius:3px}
+
+/* ---------------------------------------------------- páginas escuras */
+.escuro{background:var(--escuro); color:var(--corpo-escuro)}
+.escuro .titulo{color:var(--sobre-escuro)}
+.escuro .olho{color:var(--acento-escuro)}
+.escuro b{color:var(--acento-escuro)}
+.trama{position:absolute; left:0; top:0; width:1920px; height:1080px;
+       object-fit:cover; opacity:0.5}
+.agua{position:absolute; right:-150px; top:170px; width:820px; height:740px;
+      object-fit:contain; opacity:0.13}
+
+/* ------------------------------------------------------------- divisor */
+.divisor{padding:0; display:block; background:var(--escuro)}
+.div-foto{position:absolute; left:999px; top:0; width:921px; height:1080px;
+          object-fit:cover}
+.div-num{position:absolute; left:110px; top:437px; width:400px; margin:0;
+         font:400 77px/1.1 var(--serifa); color:var(--acento-escuro)}
+.div-nome{position:absolute; left:110px; top:566px; width:800px; margin:0;
+          font:600 93px/1.05 var(--serifa); letter-spacing:1px;
+          text-transform:uppercase; color:var(--sobre-escuro)}
+.div-fio{position:absolute; left:110px; top:810px; width:125px; border:none;
+         border-top:2px solid var(--acento-escuro); margin:0}
+.div-legenda{position:absolute; left:110px; top:838px; width:800px; margin:0;
+             font:600 24px/1.4 var(--sans); letter-spacing:2px;
+             text-transform:uppercase; color:var(--corpo-escuro)}
+
+/* ------------------------------------------------------------ declaração */
+.decl{padding:110px 173px; display:block; background:var(--escuro)}
+.decl-linha{margin:0; font:300 69px/1.3 var(--sans); letter-spacing:1px;
+            text-transform:uppercase; color:var(--sobre-escuro)}
+.decl-apoio{margin:48px 0 0; width:1180px; font-size:28px; color:var(--corpo-escuro)}
+.manif{margin:0; font:300 38px/1.5 var(--sans); color:var(--sobre-escuro)}
+
+/* ------------------------------------------------------------- índice */
+.indice{width:1637px; margin-top:52px}
+.ind-item{display:flex; align-items:baseline; gap:40px; padding:26px 0;
+          border-top:1px solid var(--fio)}
+.ind-item:first-child{border-top:none}
+.ind-num{flex:none; width:70px; margin:0; font:600 24px/1 var(--sans);
+         letter-spacing:2px; color:var(--acento)}
+.ind-nome{flex:none; width:560px; margin:0; font:300 35px/1.1 var(--sans);
+          text-transform:uppercase; letter-spacing:2px; color:var(--tinta)}
+.ind-leg{margin:0; font-size:26px}
+
+/* --------------------------------------------------------------- capa */
+.capa{padding:0; display:block}
+.capa-arte{position:absolute; left:0; top:0; width:1920px; height:1080px;
+           object-fit:cover}
+.capa-titulo{position:absolute; left:110px; top:763px; width:900px; margin:0;
+             font:400 28px/1 var(--sans); letter-spacing:12px;
+             text-transform:uppercase; color:var(--acento-escuro)}
+.capa-ano{position:absolute; left:110px; top:818px; width:400px; margin:0;
+          font:300 24px/1 var(--sans); letter-spacing:6px; color:var(--corpo-escuro)}
+
+/* ----------------------------------------------------------- créditos */
+.cred{padding:110px 173px; display:block; background:var(--escuro)}
+.cred-olho{position:absolute; left:0; top:379px; width:1920px; margin:0;
+           font:600 24px/1.6 var(--sans); letter-spacing:5px; text-align:center;
+           text-transform:uppercase; color:var(--corpo-escuro)}
+.cred-logos{position:absolute; left:360px; top:540px; width:1200px;
+            display:flex; align-items:flex-start; justify-content:center; gap:67px}
+.cred-bloco{text-align:center}
+.cred-bloco img{object-fit:contain}
+.cred-leg{margin:22px 0 0; font:300 24px/1.4 var(--sans); color:var(--corpo-escuro)}
+.cred-mais{margin:0; font:300 44px/1 var(--sans); color:var(--acento-escuro); padding-top:26px}
+.cred-marca{position:absolute; left:663px; top:418px; width:595px; height:244px;
+            object-fit:contain}

@@ -162,16 +162,25 @@ impresso.
 
 ### O trilho
 
+**`writing-mode` não sobrevive** no tipo Slides. O trilho é um `<p>` fixado
+e girado, com a origem no canto superior esquerdo — assim o texto cresce
+para cima a partir do pé, e a caixa fica onde se manda:
+
 ```css
 .trilho{
-  position:absolute; left:1848px; bottom:110px;
-  writing-mode:vertical-rl; transform:rotate(180deg);
-  font:500 24px/1 "DM Sans"; letter-spacing:3.5px; color:var(--suave);
+  position:absolute; left:1824px; top:946px; width:560px; margin:0;
+  transform-origin:left top; transform:rotate(-90deg);
+  font:500 24px/1 var(--sans); letter-spacing:3px; color:var(--suave);
 }
 ```
 
-Lê de baixo para cima. **Nas páginas escuras o trilho não existe** — nem
-nome, nem número.
+```html
+<p class="trilho"><span class="folio">12</span>&#160;&#160;&#160;&#160;BRANDBOOK <span class="barra">|</span> LUCAS MARTINI</p>
+```
+
+Uma linha só. Girada, o primeiro caractere cai embaixo — é por isso que o
+número vem primeiro na marcação. **Nas páginas escuras o trilho não
+existe**: nem nome, nem número.
 
 ### O piso de 24 px
 
@@ -214,9 +223,30 @@ e o **rosto nunca cortado** — conferir olhando, que aqui não há
 só. Depois **três páginas por mensagem**, na ordem do `order`. São 32
 páginas: onze mensagens. Não tentar mandar tudo de uma vez.
 
+Referência viva: **`clientes/lucas-martini/artefato/`** — as 32 páginas do
+Lucas nesta via, com o `deck.css` inteiro e o conferidor.
+
+### Quando não couber
+
+Os mesmos dois ajustes do motor, agora em CSS:
+
+```css
+.dir.alto{top:155px}                     /* o y_direita: a coluna sobe quando a lista e longa */
+.lista.apertada .item{padding:17px 0}    /* o passo aperta numa lista de sete linhas */
+```
+
+Primeiro sobe a coluna, depois aperta o passo. **Cortar texto** só depois
+dos dois, e **nunca** diminuir o corpo.
+
+Numa caixa com borda e largura fixa, `box-sizing:border-box` — sem ele a
+borda soma 1 px e a última coluna estoura a margem.
+
 ### Conferir
 
-Não há `conferir.sh` aqui. O que substitui:
+Não há `conferir.sh` aqui. O que substitui — e
+`clientes/lucas-martini/artefato/ver.js` já traz pronto: abre cada página
+no Chromium com as fontes de verdade, tira o PNG e acusa o que passa de
+970 ou sai da margem:
 
 1. **Pré-visualizar** as páginas de risco — as de muito texto (02, 05, 09,
    12, 21, 30) e as de montagem fina (20, 23, 26, 31).
