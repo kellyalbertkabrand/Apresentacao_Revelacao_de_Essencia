@@ -1,0 +1,441 @@
+
+=== SLIDE 01 ====================================================
+  (1.12,3.01 17.75x2.38) 82.5pt Outfit Light #152535 :: PLANO DE ⏎ CONTEÚDO
+  (1.12,5.61 17.75x0.75) 45.0pt Outfit #152535 :: Lucas Martini Proteção & Sucessão
+  (9.08,7.37 2.33x0.85) 24.0pt Outfit Light #152535 :: Método Marca ⏎ com Essência©
+  (12.27,7.61 2.92x0.35) 18.0pt Outfit Medium #152535 :: OUTUBRO/2026
+
+=== SLIDE 02 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit #152535 :: SUMÁRIO
+  (1.12,4.25 0.75x0.5) 28.5pt Outfit Bold #D86F2A :: 01
+  (2.17,4.25 7.29x0.5) 28.5pt Outfit Light #152535 :: Objetivo do conteúdo
+  (10.42,4.25 0.75x0.5) 28.5pt Outfit Bold #D86F2A :: 05
+  (11.46,4.25 7.29x0.5) 28.5pt Outfit Light #152535 :: Cronograma de publicações
+  (1.12,5.23 0.75x0.5) 28.5pt Outfit Bold #D86F2A :: 02
+  (2.17,5.23 7.29x0.5) 28.5pt Outfit Light #152535 :: Linha editorial
+  (10.42,5.23 0.75x0.5) 28.5pt Outfit Bold #D86F2A :: 06
+  (11.46,5.23 7.29x0.5) 28.5pt Outfit Light #152535 :: Ciclo mensal
+  (1.12,6.21 0.75x0.5) 28.5pt Outfit Bold #D86F2A :: 03
+  (2.17,6.21 7.29x0.5) 28.5pt Outfit Light #152535 :: Distribuição do conteúdo
+  (10.42,6.21 0.75x0.5) 28.5pt Outfit Bold #D86F2A :: 07
+  (11.46,6.21 7.29x0.5) 28.5pt Outfit Light #152535 :: Regra central e direção
+  (1.12,7.2 0.75x0.5) 28.5pt Outfit Bold #D86F2A :: 04
+  (2.17,7.2 7.29x0.5) 28.5pt Outfit Light #152535 :: Formatos
+  (10.42,7.2 0.75x0.5) 28.5pt Outfit Bold #D86F2A :: 08
+  (11.46,7.2 7.29x0.5) 28.5pt Outfit Light #152535 :: Publicações no Instagram
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 03 ====================================================
+  (1.12,3.68 0.76x0.39) 22.5pt Outfit Semi-Bold #D86F2A :: | 01
+  (1.12,4.51 8.68x1.32) 90.0pt Outfit Semi-Bold #F8F7F2 :: OBJETIVO
+  (1.12,5.8 7.92x1.17) 33.0pt Outfit Light #EEECE4 :: O que o conteúdo precisa ⏎ construir para Lucas Martini.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #F8F7F2 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 04 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: OBJETIVO DO CONTEÚDO
+  (7.38,4.23 11.5x1.25) 36.0pt Outfit Light #152535 :: Transformar a experiência e o conhecimento ⏎ que já existem em autoridade percebida.
+  (7.38,6.06 11.5x1.63) 28.5pt Outfit Light #152535 :: A lógica não é produzir conteúdo para volume de leads, ⏎ mas fortalecer uma atuação que hoje já
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 05 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: O QUE O CONTEÚDO PRECISA FAZER
+  (5.71,3.57 13.17x0.47) 27.0pt Outfit Light #152535 :: Antes de vender.
+  (1.12,3.69 4.17x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: EDUCAR
+  (5.71,4.65 13.17x0.47) 27.0pt Outfit Light #152535 :: Necessidades que muitas vezes não são percebidas.
+  (1.12,4.77 4.17x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: DESPERTAR
+  (5.71,5.73 13.17x0.47) 27.0pt Outfit Light #152535 :: Confiança.
+  (1.12,5.85 4.17x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: REFORÇAR
+  (5.71,6.82 13.17x0.47) 27.0pt Outfit Light #152535 :: Presente na memória de clientes e indicações.
+  (1.12,6.93 4.17x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: PERMANECER
+  (5.71,7.9 13.17x0.47) 27.0pt Outfit Light #152535 :: Conversas qualificadas.
+  (1.12,8.01 4.17x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: GERAR
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 06 ====================================================
+  (1.12,3.05 0.82x0.39) 22.5pt Outfit Semi-Bold #D86F2A :: | 02
+  (1.12,3.88 8.68x2.57) 90.0pt Outfit Semi-Bold #F8F7F2 :: LINHA ⏎ EDITORIAL
+  (1.12,6.43 7.92x1.17) 33.0pt Outfit Light #EEECE4 :: Os cinco eixos do conteúdo ⏎ e um exemplo de cada um.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #F8F7F2 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 07 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: LINHA EDITORIAL
+  (1.12,3.42 0.83x0.5) 28.5pt Outfit Bold #D86F2A :: 01
+  (6.75,3.42 12.12x0.5) 28.5pt Outfit Light #152535 :: Proteção antes do imprevisto.
+  (2.38,3.53 3.96x0.38) 21.0pt Outfit Semi-Bold #152535 :: DESPERTAR
+  (1.12,4.57 0.83x0.5) 28.5pt Outfit Bold #D86F2A :: 02
+  (6.75,4.57 12.12x0.5) 28.5pt Outfit Light #152535 :: Sucessão e continuidade.
+  (2.38,4.68 3.96x0.38) 21.0pt Outfit Semi-Bold #152535 :: AMPLIAR
+  (1.12,5.72 0.83x0.5) 28.5pt Outfit Bold #D86F2A :: 03
+  (6.75,5.72 12.12x0.5) 28.5pt Outfit Light #152535 :: Planejamento na prática.
+  (2.38,5.83 3.96x0.38) 21.0pt Outfit Semi-Bold #152535 :: DEMONSTRAR
+  (1.12,6.87 0.83x0.5) 28.5pt Outfit Bold #D86F2A :: 04
+  (6.75,6.87 12.12x0.5) 28.5pt Outfit Light #152535 :: Proteção em vida.
+  (2.38,6.97 3.96x0.38) 21.0pt Outfit Semi-Bold #152535 :: EDUCAR
+  (1.12,8.02 0.83x0.5) 28.5pt Outfit Bold #D86F2A :: 05
+  (6.75,8.02 12.12x0.5) 28.5pt Outfit Light #152535 :: Prova e autoridade.
+  (2.38,8.12 3.96x0.38) 21.0pt Outfit Semi-Bold #152535 :: PROVAR
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 08 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: 01 | PROTEÇÃO ANTES DO IMPREVISTO
+  (6.96,3.86 11.92x1.77) 33.0pt Outfit Light #152535 :: Conteúdos que façam a pessoa perceber vulnerabilidades ⏎ que normalmente só seriam consideradas
+  (6.96,6.23 11.92x0.99) 25.5pt Outfit #152535 :: Temas: renda, incapacidade, doenças, acidentes, dependência ⏎ financeira e proteção familiar.
+  (6.96,7.55 11.92x0.48) 25.5pt Outfit Light #152535 :: O papel deste eixo é despertar.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 09 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: EXEMPLO | EIXO 01
+  (1.96,3.2 16.08x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | REEL OU CARD
+  (1.96,3.91 16.08x1.28) 39.0pt Outfit Semi-Bold #152535 :: SE VOCÊ PARASSE DE TRABALHAR AMANHÃ, ⏎ POR QUANTO TEMPO SUA VIDA CONTINUARIA IGUAL?
+  (1.96,5.84 16.08x1.51) 25.5pt Outfit Light #152535 :: Quando a renda depende diretamente da sua capacidade de trabalhar, ⏎ um acidente ou uma doença 
+  (1.96,7.71 16.08x0.99) 25.5pt Outfit Light #152535 :: Planejamento não evita o imprevisto. ⏎ Mas evita que você fique sem saída quando ele acontece.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 10 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: 02 | SUCESSÃO E CONTINUIDADE
+  (6.96,3.9 11.92x1.17) 33.0pt Outfit Light #152535 :: Mostrar que patrimônio e empresa precisam de ⏎ estratégia para continuar.
+  (6.96,5.68 11.92x0.99) 25.5pt Outfit #152535 :: Temas: sucessão familiar, sucessão empresarial, liquidez, ⏎ inventário, cotas, pessoa-chave e c
+  (6.96,7.0 11.92x0.99) 25.5pt Outfit Light #152535 :: O papel deste eixo é ampliar a percepção sobre o trabalho ⏎ de Lucas.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 11 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: EXEMPLO | EIXO 02
+  (1.96,3.33 16.08x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | CARROSSEL OU REEL
+  (1.96,4.04 16.08x0.7) 42.0pt Outfit Semi-Bold #152535 :: TER PATRIMÔNIO NÃO SIGNIFICA TER LIQUIDEZ.
+  (1.96,5.37 16.08x0.99) 25.5pt Outfit Light #152535 :: Uma família pode ter imóveis, empresas, terras e investimentos e, ainda assim, ⏎ enfrentar difi
+  (1.96,6.73 16.08x0.48) 25.5pt Outfit Light #152535 :: Porque patrimônio imobilizado não paga despesas imediatas sozinho.
+  (1.96,7.58 16.08x0.99) 25.5pt Outfit #152535 :: Planejar a sucessão também é pensar em como preservar o patrimônio ⏎ sem precisar vendê-lo às p
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 12 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: 03 | PLANEJAMENTO NA PRÁTICA
+  (6.96,4.16 11.92x1.17) 33.0pt Outfit Light #152535 :: Traduzir situações complexas para ⏎ decisões simples e compreensíveis.
+  (6.96,5.93 11.92x0.99) 25.5pt Outfit #152535 :: Temas: como avaliar uma proteção, perguntas que precisam ⏎ ser feitas, erros de planejamento, c
+  (6.96,7.25 11.92x0.48) 25.5pt Outfit Light #152535 :: O papel deste eixo é demonstrar conhecimento consultivo.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 13 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: EXEMPLO | EIXO 03
+  (1.96,3.04 16.08x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | CARROSSEL
+  (1.96,3.71 16.08x0.64) 39.0pt Outfit Semi-Bold #152535 :: NÃO EXISTE UMA PROTEÇÃO CERTA PARA TODO MUNDO.
+  (1.96,4.58 16.08x0.48) 25.5pt Outfit Light #152535 :: Antes de pensar em uma solução, eu preciso entender:
+  (1.96,5.41 7.71x0.44) 24.0pt Outfit Light #D86F2A :: | Quem depende financeiramente de você?
+  (10.33,5.41 7.71x0.44) 24.0pt Outfit Light #D86F2A :: | Existe empresa?
+  (1.96,6.0 7.71x0.44) 24.0pt Outfit Light #D86F2A :: | Sua renda depende do seu trabalho?
+  (10.33,6.0 7.71x0.44) 24.0pt Outfit Light #D86F2A :: | Quem são as pessoas essenciais?
+  (1.96,6.6 7.71x0.44) 24.0pt Outfit Light #D86F2A :: | Existe patrimônio?
+  (10.33,6.6 7.71x0.89) 24.0pt Outfit Light #D86F2A :: | O que você não gostaria que mudasse diante de um imprevisto?
+  (1.96,8.09 16.08x0.99) 25.5pt Outfit #152535 :: Primeiro vem a realidade do cliente. Depois, a solução. ⏎ Essa é a lógica do atendimento consul
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 14 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: 04 | PROTEÇÃO EM VIDA
+  (6.96,3.28 11.92x0.58) 33.0pt Outfit Light #152535 :: Romper a associação de seguro apenas com morte.
+  (6.96,4.46 11.92x1.51) 25.5pt Outfit Light #152535 :: O próprio Lucas destaca que o seguro de vida também é ⏎ proteção em vida, e que essa dimensão a
+  (6.96,6.3 11.92x1.51) 25.5pt Outfit #152535 :: Temas: acidentes, invalidez, doença, perda temporária ⏎ da capacidade de trabalho, manutenção d
+  (6.96,8.13 11.92x0.48) 25.5pt Outfit Light #152535 :: O papel deste eixo é educar e mudar percepção.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 15 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: EXEMPLO | EIXO 04
+  (1.96,3.08 16.08x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | REEL
+  (1.96,3.77 16.08x0.7) 42.0pt Outfit Semi-Bold #152535 :: SEGURO DE VIDA NÃO É SÓ SOBRE MORTE.
+  (1.96,4.72 16.08x1.51) 25.5pt Outfit Light #152535 :: Essa ainda é uma das maiores associações feitas quando se fala em seguro ⏎ de vida. Mas proteçã
+  (1.96,6.59 5.08x0.41) 22.5pt Outfit Light #D86F2A :: | acidente
+  (7.46,6.59 5.08x0.41) 22.5pt Outfit Light #D86F2A :: | afastamento temporário
+  (12.96,6.59 5.08x0.41) 22.5pt Outfit Light #D86F2A :: | redução de renda
+  (1.96,7.14 5.08x0.41) 22.5pt Outfit Light #D86F2A :: | doença grave
+  (7.46,7.14 5.08x0.83) 22.5pt Outfit Light #D86F2A :: | perda temporária da capacidade de trabalhar
+  (12.96,7.14 5.08x0.83) 22.5pt Outfit Light #D86F2A :: | necessidade de adaptação a uma nova realidade
+  (1.96,7.68 5.08x0.41) 22.5pt Outfit Light #D86F2A :: | invalidez
+  (1.96,8.74 16.08x0.48) 25.5pt Outfit #152535 :: Porque, muitas vezes, o impacto financeiro começa muito antes da morte.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 16 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: 05 | PROVA E AUTORIDADE
+  (6.96,3.9 11.92x1.17) 33.0pt Outfit Light #152535 :: Mostrar aquilo que já foi construído sem transformar ⏎ a comunicação em autopromoção.
+  (6.96,5.68 11.92x1.51) 25.5pt Outfit #152535 :: Temas: reconhecimentos, eventos, estudos, bastidores, ⏎ aprendizados, casos possíveis de serem 
+  (6.96,7.51 11.92x0.48) 25.5pt Outfit Light #152535 :: O papel deste eixo é provar, não proclamar.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 17 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: EXEMPLO | EIXO 05
+  (1.96,3.12 16.08x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | BASTIDORES, STORIES E CARDS
+  (1.96,3.78 16.08x1.14) 33.0pt Outfit Light #152535 :: Conteúdos que tornam visíveis a experiência, a consistência ⏎ e a atuação do Lucas. Podem entra
+  (1.96,5.22 5.08x0.41) 22.5pt Outfit Light #D86F2A :: | prêmios e reconhecimentos
+  (7.46,5.22 5.08x0.41) 22.5pt Outfit Light #D86F2A :: | entrega de apólices e pós-venda
+  (12.96,5.22 5.08x0.41) 22.5pt Outfit Light #D86F2A :: | depoimentos de clientes
+  (1.96,5.77 5.08x0.41) 22.5pt Outfit Light #D86F2A :: | eventos e congressos
+  (7.46,5.77 5.08x0.41) 22.5pt Outfit Light #D86F2A :: | viagens profissionais
+  (12.96,5.77 5.08x0.83) 22.5pt Outfit Light #D86F2A :: | casos e resultados que possam ser compartilhados
+  (1.96,6.31 5.08x0.83) 22.5pt Outfit Light #D86F2A :: | reuniões e bastidores de atendimento
+  (7.46,6.31 5.08x0.41) 22.5pt Outfit Light #D86F2A :: | estudos e atualizações
+  (12.96,6.73 5.08x0.41) 22.5pt Outfit Light #D86F2A :: | rotina com empresas e parceiros
+  (1.96,7.79 16.08x0.99) 25.5pt Outfit Light #152535 :: O objetivo não é autopromoção. É mostrar, na prática, a autoridade ⏎ que já foi construída.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 18 ====================================================
+  (1.12,3.22 0.82x0.39) 22.5pt Outfit Semi-Bold #D86F2A :: | 03
+  (1.12,4.04 8.68x2.22) 78.0pt Outfit Semi-Bold #F8F7F2 :: DISTRIBUIÇÃO ⏎ E FORMATOS
+  (1.12,6.26 7.92x1.17) 33.0pt Outfit Light #EEECE4 :: Como o conteúdo se divide ⏎ e em que formatos ele vai ao ar.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #F8F7F2 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 19 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: DISTRIBUIÇÃO DO CONTEÚDO
+  (1.12,3.9 1.46x0.58) 33.0pt Outfit Bold #D86F2A :: 40%
+  (3.0,3.99 15.88x0.46) 25.5pt Outfit #152535 :: Educação e planejamento: proteção, riscos, escolhas e tomada de decisão.
+  (1.12,5.0 1.46x0.58) 33.0pt Outfit Bold #D86F2A :: 25%
+  (3.0,5.09 15.88x0.46) 25.5pt Outfit #152535 :: Sucessão e continuidade: família, patrimônio e empresa.
+  (1.12,6.11 1.46x0.58) 33.0pt Outfit Bold #D86F2A :: 15%
+  (3.0,6.2 15.88x0.46) 25.5pt Outfit #152535 :: Proteção em vida: acidente, doença, invalidez e renda.
+  (1.12,7.21 1.46x0.58) 33.0pt Outfit Bold #D86F2A :: 10%
+  (3.0,7.31 15.88x0.46) 25.5pt Outfit #152535 :: Autoridade: reconhecimentos, eventos e conhecimento adquirido.
+  (1.12,8.32 1.46x0.58) 33.0pt Outfit Bold #D86F2A :: 10%
+  (3.0,8.41 15.88x0.46) 25.5pt Outfit #152535 :: Bastidores e relacionamento: rotina, atendimento, estudos e visão pessoal sobre o trabalho.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 20 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit #152535 :: FORMATOS
+  (1.54,4.31 3.39x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | REELS
+  (6.05,4.31 3.39x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | CARROSSEL
+  (10.56,4.31 3.39x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | CARD ÚNICO
+  (15.07,4.31 3.39x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | STORIES
+  (1.54,4.84 3.39x2.74) 24.0pt Outfit #152535 :: O principal formato. Vídeos curtos e diretos, com uma pergunta ou uma situação real como ponto 
+  (6.05,4.84 3.39x2.74) 24.0pt Outfit Light #152535 :: Para organizar raciocínio: sucessão, planejamento, erros, checklists, comparações e passo a pas
+  (10.56,4.84 3.39x0.9) 24.0pt Outfit Light #152535 :: Para uma ideia forte, sozinha na página.
+  (15.07,4.84 3.39x2.74) 24.0pt Outfit Light #152535 :: A parte espontânea: bastidores, agenda, eventos, perguntas de clientes, estudos e reuniões, sem
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 21 ====================================================
+  (4.88,5.22 10.24x2.57) 48.0pt Outfit Light #152535 :: SE VOCÊ FICASSE SEIS MESES SEM TRABALHAR, SUA RENDA CONTINUARIA EXISTINDO?
+  (5.23,8.12 9.55x1.08) 28.5pt Outfit Light #223A52 :: O ponto de partida de um reel é sempre uma pergunta ou uma situação real, nunca um produto.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 22 ====================================================
+  (1.12,3.76 0.84x0.39) 22.5pt Outfit Semi-Bold #D86F2A :: | 04
+  (1.12,4.58 8.68x1.13) 78.0pt Outfit Semi-Bold #F8F7F2 :: CRONOGRAMA
+  (1.12,5.72 7.92x1.17) 33.0pt Outfit Light #EEECE4 :: O ritmo semanal e o ciclo ⏎ mensal de publicações.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #F8F7F2 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 23 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: CRONOGRAMA DE PUBLICAÇÕES
+  (4.67,3.75 14.21x0.51) 28.5pt Outfit Light #152535 :: Reel educativo, para despertar.
+  (1.12,3.87 3.12x0.38) 21.0pt Outfit Semi-Bold #D86F2A :: SEGUNDA
+  (4.67,4.92 14.21x0.51) 28.5pt Outfit Light #152535 :: Carrossel ou card, para aprofundar.
+  (1.12,5.04 3.12x0.38) 21.0pt Outfit Semi-Bold #D86F2A :: QUARTA
+  (4.67,6.09 14.21x0.51) 28.5pt Outfit Light #152535 :: Reel, caso ou autoridade, para construir confiança.
+  (1.12,6.21 3.12x0.38) 21.0pt Outfit Semi-Bold #D86F2A :: SEXTA
+  (4.67,7.25 14.21x0.9) 24.0pt Outfit Light #223A52 :: Três conteúdos por semana, suficiente para construir presença sem criar uma rotina impossível. 
+  (1.12,7.33 3.12x0.38) 21.0pt Outfit Semi-Bold #D86F2A :: O RITMO
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 24 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: CICLO MENSAL | SEMANAS 1 E 2
+  (1.62,3.95 7.67x0.38) 21.0pt Outfit Semi-Bold #D86F2A :: | SEMANA 1
+  (10.71,3.95 7.67x0.38) 21.0pt Outfit Semi-Bold #D86F2A :: | SEMANA 2
+  (1.62,4.6 7.67x0.9) 24.0pt Outfit #152535 :: Reel: você sabe quanto tempo sua família manteria o padrão de vida sem a sua renda?
+  (10.71,4.6 7.67x0.9) 24.0pt Outfit #152535 :: Reel: sua empresa continuaria funcionando sem você?
+  (1.62,5.83 7.67x0.9) 24.0pt Outfit #152535 :: Carrossel: cinco riscos financeiros que uma família normalmente não calcula.
+  (10.71,5.83 7.67x0.9) 24.0pt Outfit #152535 :: Carrossel: o que acontece com uma empresa quando uma pessoa-chave sai da operação?
+  (1.62,7.05 7.67x0.44) 24.0pt Outfit #152535 :: Reel: seguro de vida não é só sobre morte.
+  (10.71,7.05 7.67x0.9) 24.0pt Outfit #152535 :: Autoridade: bastidor, reunião, estudo ou experiência profissional.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 25 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: CICLO MENSAL | SEMANAS 3 E 4
+  (1.62,4.18 7.67x0.38) 21.0pt Outfit Semi-Bold #D86F2A :: | SEMANA 3
+  (10.71,4.18 7.67x0.38) 21.0pt Outfit Semi-Bold #D86F2A :: | SEMANA 4
+  (1.62,4.83 7.67x0.44) 24.0pt Outfit #152535 :: Reel: ter patrimônio não significa ter liquidez.
+  (10.71,4.83 7.67x0.44) 24.0pt Outfit #152535 :: Reel: o imprevisto pode ser um problema, ou não.
+  (1.62,5.59 7.67x0.44) 24.0pt Outfit #152535 :: Carrossel: holding resolve toda a sucessão?
+  (10.71,5.59 7.67x0.9) 24.0pt Outfit #152535 :: Carrossel: o que analisar antes de contratar uma proteção.
+  (1.62,6.35 7.67x0.9) 24.0pt Outfit #152535 :: Reel: o que precisa ser pensado antes de um inventário.
+  (10.71,6.82 7.67x0.9) 24.0pt Outfit #152535 :: Prova: caso, aprendizado, reconhecimento ou depoimento.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 26 ====================================================
+  (1.12,3.68 0.82x0.39) 22.5pt Outfit Semi-Bold #D86F2A :: | 05
+  (1.12,4.51 8.68x1.32) 90.0pt Outfit Semi-Bold #F8F7F2 :: DIREÇÃO
+  (1.12,5.8 7.92x1.17) 33.0pt Outfit Light #EEECE4 :: A regra central do conteúdo ⏎ e para onde ele caminha.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #F8F7F2 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 27 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: A REGRA CENTRAL
+  (1.62,4.09 7.29x0.38) 21.0pt Outfit Semi-Bold #FF5757 :: | EM VEZ DE
+  (10.33,4.09 8.04x0.38) 21.0pt Outfit Semi-Bold #DF8A53 :: | PREFIRA
+  (1.62,4.71 7.29x0.54) 30.0pt Outfit Light #223A52 :: “Conheça este seguro.”
+  (10.33,4.71 8.04x1.62) 30.0pt Outfit Light #F8F7F2 :: “Se você não pudesse trabalhar amanhã, por quanto tempo sua estrutura financeira continuaria fu
+  (1.62,5.49 7.62x0.92) 24.5pt Outfit Light #152535 :: O conteúdo não anuncia produto. Ele abre uma conversa que o cliente ainda não teve.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 28 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: DIREÇÃO FINAL
+  (1.54,4.43 3.39x0.47) 28.5pt Outfit Bold #D86F2A :: 01
+  (6.05,4.43 3.39x0.47) 28.5pt Outfit Bold #D86F2A :: 02
+  (10.56,4.43 3.39x0.47) 28.5pt Outfit Bold #D86F2A :: 03
+  (15.07,4.43 3.39x0.47) 28.5pt Outfit Bold #D86F2A :: 04
+  (1.54,5.08 3.39x0.41) 22.5pt Outfit Semi-Bold #152535 :: DESPERTAR
+  (6.05,5.08 3.39x0.41) 22.5pt Outfit Semi-Bold #152535 :: EXPLICAR
+  (10.56,5.08 3.39x0.41) 22.5pt Outfit Semi-Bold #152535 :: PROVAR
+  (15.07,5.08 3.39x0.41) 22.5pt Outfit Semi-Bold #152535 :: PERMANECER
+  (1.54,5.67 3.39x0.9) 24.0pt Outfit Light #152535 :: Para aquilo que ainda não foi pensado.
+  (6.05,5.67 3.39x0.9) 24.0pt Outfit Light #152535 :: O que parece complexo.
+  (10.56,5.67 3.39x0.9) 24.0pt Outfit Light #152535 :: A autoridade construída.
+  (15.07,5.67 3.39x1.82) 24.0pt Outfit Light #152535 :: Presente, para que, quando surgir a necessidade, Lucas seja lembrado.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 29 ====================================================
+  (1.12,3.76 0.83x0.39) 22.5pt Outfit Semi-Bold #D86F2A :: | 06
+  (1.12,4.58 8.68x1.13) 78.0pt Outfit Semi-Bold #F8F7F2 :: PUBLICAÇÕES
+  (1.12,5.72 7.92x1.17) 33.0pt Outfit Light #EEECE4 :: O perfil, os três primeiros ⏎ carrosséis e as legendas.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #F8F7F2 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 30 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: O PERFIL SUGERIDO
+  (2.71,9.46 14.58x0.43) 22.5pt Outfit Light #223A52 :: As três primeiras publicações ficarão fixas no perfil.
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 31 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: O PERFIL HOJE
+  (3.16,4.01 9.38x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | PONTO DE PARTIDA
+  (3.16,4.68 9.38x1.17) 33.0pt Outfit Light #152535 :: O perfil como ele está hoje, antes da ⏎ reorganização do conteúdo.
+  (3.16,6.54 9.38x1.42) 24.0pt Outfit Light #223A52 :: A mudança começa pelo nome, pela bio e pelas três publicações que ficam fixas no topo. O restan
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 32 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: A SIMULAÇÃO DO PERFIL
+  (1.12,2.85 13.44x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | FOTOS DE PERFIL
+  (6.38,3.78 7.77x0.33) 18.0pt Outfit Semi-Bold #D86F2A :: | TEXTO DO PERFIL
+  (6.38,4.25 7.77x0.41) 22.5pt Outfit Semi-Bold #152535 :: Lucas Martini | Proteção & Sucessão
+  (6.38,4.79 7.77x0.74) 19.5pt Outfit Light #152535 :: Planejamento para preservar renda, patrimônio e continuidade. ⏎ Famílias • Empresas • Sucessão 
+  (1.12,6.32 13.44x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | ÍCONES DOS DESTAQUES
+  (1.12,8.87 2.6x0.3) 18.0pt Outfit Medium #152535 :: SOBRE
+  (3.83,8.87 2.6x0.3) 18.0pt Outfit Medium #152535 :: PROTEÇÃO
+  (6.54,8.87 2.6x0.3) 18.0pt Outfit Medium #152535 :: SUCESSÃO
+  (9.25,8.87 2.6x0.3) 18.0pt Outfit Medium #152535 :: EMPRESAS
+  (11.96,8.87 2.6x0.3) 18.0pt Outfit Medium #152535 :: RECONHECIMENTO
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 33 ====================================================
+  (1.12,1.16 6.46x0.61) 39.0pt Outfit Light #152535 :: CARROSSEL 01
+  (1.12,2.14 6.46x0.38) 21.0pt Outfit Light #223A52 :: Quem é Lucas Martini
+  (1.12,2.77 6.46x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | LEGENDA
+  (1.12,3.3 6.46x1.53) 19.5pt Outfit Light #152535 :: Confiança não se constrói em uma apresentação. Ela se constrói ao longo do tempo, nas decisões,
+  (10.48,4.92 3.0x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: A
+  (13.73,4.92 3.0x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: B
+  (1.12,5.07 6.46x0.37) 19.5pt Outfit Light #152535 :: É assim que enxergo minha trajetória profissional.
+  (1.12,5.68 6.46x1.53) 19.5pt Outfit Light #152535 :: Mais do que os anos de experiência ou os reconhecimentos, o que mais valorizo é saber que muita
+  (1.12,7.45 6.46x0.37) 19.5pt Outfit #152535 :: É isso que continuo construindo todos os dias.
+  (1.12,8.04 6.46x0.71) 18.0pt Outfit Light #D86F2A :: #Proteção #Sucessão #Confiança #Planejamento #Continuidade
+  (8.85,9.3 3.0x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: C
+  (12.1,9.3 3.0x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: D
+  (15.35,9.3 3.0x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: E
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 34 ====================================================
+  (1.12,1.16 17.75x0.61) 39.0pt Outfit Light #152535 :: CARROSSEL 01
+  (1.67,8.35 3.92x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: F
+  (5.92,8.35 3.92x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: G
+  (10.17,8.35 3.92x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: H
+  (14.42,8.35 3.92x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: I
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 35 ====================================================
+  (1.12,1.1 17.75x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | CARROSSEL 01 QUEM É LUCAS MARTINI
+  (1.13,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: A
+  (7.18,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: B
+  (13.23,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: C
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 36 ====================================================
+  (1.12,1.1 17.75x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | CARROSSEL 01 QUEM É LUCAS MARTINI
+  (1.13,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: D
+  (7.18,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: E
+  (13.23,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: F
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 37 ====================================================
+  (1.12,1.1 17.75x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | CARROSSEL 01 QUEM É LUCAS MARTINI
+  (1.13,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: G
+  (7.18,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: H
+  (13.23,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: I
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 38 ====================================================
+  (1.12,1.16 6.46x0.61) 39.0pt Outfit Light #152535 :: CARROSSEL 02
+  (1.12,2.14 6.46x0.38) 21.0pt Outfit Light #223A52 :: O que Proteção & Sucessão resolve
+  (1.12,2.77 6.46x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | LEGENDA
+  (1.12,3.3 6.46x1.14) 19.5pt Outfit Light #152535 :: O verdadeiro valor de um planejamento aparece quando a vida exige decisões que ninguém gostaria
+  (1.12,4.68 6.46x1.14) 19.5pt Outfit Light #152535 :: Ter recursos disponíveis, alternativas e uma estrutura preparada muda completamente a forma de 
+  (8.85,5.24 3.0x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: A
+  (12.1,5.24 3.0x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: B
+  (15.35,5.24 3.0x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: C
+  (1.12,6.07 6.46x0.37) 19.5pt Outfit Light #152535 :: Por isso, proteção não é pensar no pior.
+  (1.12,6.67 6.46x0.76) 19.5pt Outfit #152535 :: É cuidar, hoje, daquilo que você não gostaria de ver comprometido amanhã.
+  (1.12,7.65 6.46x0.71) 18.0pt Outfit Light #D86F2A :: #Proteção #Sucessão #Patrimônio #Planejamento #Continuidade
+  (8.36,8.98 2.48x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: D
+  (11.03,8.98 2.48x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: E
+  (13.7,8.98 2.48x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: F
+  (16.36,8.98 2.48x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: G
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 39 ====================================================
+  (1.12,1.1 17.75x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | CARROSSEL 02 O QUE PROTEÇÃO & SUCESSÃO RESOLVE
+  (1.13,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: A
+  (7.18,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: B
+  (13.23,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: C
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 40 ====================================================
+  (1.12,1.1 17.75x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | CARROSSEL 02 O QUE PROTEÇÃO & SUCESSÃO RESOLVE
+  (1.13,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: D
+  (7.18,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: E
+  (13.23,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: F
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 41 ====================================================
+  (1.12,1.1 17.75x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | CARROSSEL 02 O QUE PROTEÇÃO & SUCESSÃO RESOLVE
+  (7.18,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: G
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 42 ====================================================
+  (1.12,1.16 6.46x0.61) 39.0pt Outfit Light #152535 :: CARROSSEL 03
+  (1.12,2.14 6.46x0.38) 21.0pt Outfit Light #223A52 :: Como o planejamento é construído
+  (1.12,2.77 6.46x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | LEGENDA
+  (1.12,3.3 6.46x0.76) 19.5pt Outfit Light #152535 :: Um planejamento só faz sentido quando consegue acompanhar a vida real.
+  (1.12,4.29 6.46x0.76) 19.5pt Outfit Light #152535 :: Famílias mudam. Empresas crescem. Patrimônios evoluem. Responsabilidades também.
+  (8.36,4.92 2.48x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: A
+  (11.03,4.92 2.48x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: B
+  (13.7,4.92 2.48x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: C
+  (16.36,4.92 2.48x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: D
+  (1.12,5.28 6.46x1.53) 19.5pt Outfit Light #152535 :: Por isso, não acredito em uma decisão tomada hoje e esquecida por anos. Planejar também signifi
+  (1.12,7.06 6.46x1.14) 19.5pt Outfit #152535 :: Porque a melhor estratégia não é a mais complexa. É aquela que continua fazendo sentido para vo
+  (1.12,8.44 6.46x0.71) 18.0pt Outfit Light #D86F2A :: #Planejamento #Proteção #Sucessão #Estratégia #Patrimônio
+  (8.36,8.66 2.48x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: E
+  (11.03,8.66 2.48x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: F
+  (13.7,8.66 2.48x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: G
+  (16.36,8.66 2.48x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: H
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 43 ====================================================
+  (1.12,1.1 17.75x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | CARROSSEL 03 COMO O PLANEJAMENTO É CONSTRUÍDO
+  (1.13,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: A
+  (7.18,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: B
+  (13.23,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: C
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 44 ====================================================
+  (1.12,1.1 17.75x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | CARROSSEL 03 COMO O PLANEJAMENTO É CONSTRUÍDO
+  (1.13,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: D
+  (7.18,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: E
+  (13.23,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: F
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 45 ====================================================
+  (1.12,1.1 17.75x0.34) 19.5pt Outfit Semi-Bold #D86F2A :: | CARROSSEL 03 COMO O PLANEJAMENTO É CONSTRUÍDO
+  (4.16,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: G
+  (10.21,9.12 5.64x0.3) 18.0pt Outfit Semi-Bold #D86F2A :: H
+  (1.54,10.44 10.42x0.3) 18.0pt Outfit Medium #152535 :: PLANO DE CONTEÚDO | LUCAS MARTINI
+
+=== SLIDE 46 ====================================================
+  (1.12,4.2 11.67x1.32) 90.0pt Outfit Semi-Bold #152535 :: MUITO OBRIGADA!

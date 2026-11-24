@@ -167,6 +167,19 @@ que "Buscamos aprender…" e cabe em qualquer leitor.
 Para conferir antes de entregar, a varredura está em
 `padrao-ka/conferir_voz.py`.
 
+## Gatilho: "plano de conteúdo" / "plano de comunicação"
+
+**Plano de Comunicação e Conteúdo** — a entrega que vem depois da Base
+Estratégica. Seis capítulos, 46 páginas, no Padrão de apresentações KA
+(1920 × 1080, margem de 108 px, Outfit, papel com marinho só nas viradas).
+
+O roteiro, a grade, a escala e os arquétipos estão na skill
+`.claude/skills/plano-comunicacao-conteudo/SKILL.md`. O modelo medido é
+`clientes/lucas-martini/plano-comunicacao/`.
+
+**O título é `Plano de Comunicação e Conteúdo`** — na capa, no rodapé e no
+nome do arquivo. "Plano de Conteúdo" é o nome antigo.
+
 ## Gatilho: "brand book" / "manual de marca"
 
 Um brand book **não** é apresentação: é manual. Outra diagramação — cabeçalho
